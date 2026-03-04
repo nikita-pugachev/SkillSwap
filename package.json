@@ -1,0 +1,52 @@
+{
+  "name": "skillswap_46_4",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "lint": "eslint src/**/*.{ts,tsx}",
+    "lint:fix": "eslint src/**/*.{ts,tsx} --fix",
+    "format": "prettier --write src/**/*.{ts,tsx,css,scss}",
+    "format:check": "prettier --check src/**/*.{ts,tsx,css,scss}",
+    "stylelint": "stylelint src/**/*.{css,scss}",
+    "stylelint:fix": "stylelint src/**/*.{css,scss} --fix",
+    "check": "npm run lint && npm run stylelint && npm run format:check"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PM-YandexPracticum/SkillSwap_46_4.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/PM-YandexPracticum/SkillSwap_46_4/issues"
+  },
+  "homepage": "https://github.com/PM-YandexPracticum/SkillSwap_46_4#readme",
+  "devDependencies": {
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@typescript-eslint/eslint-plugin": "^8.56.1",
+    "@typescript-eslint/parser": "^8.56.1",
+    "@vitejs/plugin-react": "^5.1.4",
+    "eslint": "^9.39.3",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.5",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^7.0.1",
+    "prettier": "^3.8.1",
+    "stylelint": "^17.4.0",
+    "stylelint-config-prettier-scss": "^1.0.0",
+    "stylelint-config-standard-scss": "^17.0.0",
+    "typescript": "^5.9.3",
+    "vite": "^7.3.1"
+  },
+  "dependencies": {
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4"
+  }
+}
