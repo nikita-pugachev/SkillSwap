@@ -7,8 +7,12 @@
 ## Стек
 
 - **React 19** + **TypeScript**
+- **Redux Toolkit** + **React-Redux** — управление состоянием
 - **SCSS** — стили
 - **ESLint 9** + **Prettier** + **Stylelint** — качество кода
+- **Jest 30** + **React Testing Library** — unit-тесты
+- **Husky** + **commitlint** — git-хуки, Conventional Commits
+- **GitHub Actions** — CI (lint + тесты на каждый PR/push)
 
 ---
 
@@ -44,7 +48,24 @@ npm run dev
 
 ---
 
-## Команды линтинга
+## Команды
+
+### Разработка
+
+| Команда          | Описание               |
+| ---------------- | ---------------------- |
+| `npm run dev`    | Запуск dev-сервера     |
+| `npm run build`  | Production-сборка      |
+| `npm run preview`| Предпросмотр сборки    |
+
+### Тесты
+
+| Команда                   | Описание                          |
+| ------------------------- | --------------------------------- |
+| `npm test`                | Запуск тестов (Jest)              |
+| `npm run test:coverage`   | Тесты с отчётом о покрытии        |
+
+### Линтинг и форматирование
 
 | Команда                 | Описание                                          |
 | ----------------------- | ------------------------------------------------- |
@@ -90,3 +111,43 @@ main
 - Общие компоненты без бизнес-логики — в `widgets/`
 - Типы и интерфейсы моделей — в `entities/`
 - Все API-запросы — только через `api/`
+
+---
+
+## Тестирование
+
+Тесты пишутся рядом с тестируемым модулем в файлах `*.test.tsx` / `*.test.ts`.
+
+```bash
+npm test                 # запустить все тесты
+npm run test:coverage    # с отчётом о покрытии
+```
+
+Цель — покрытие **≥ 70%**.
+
+---
+
+## CI
+
+GitHub Actions запускает два job-а на каждый push/PR в `main`:
+
+1. **lint** — `npm run check`
+2. **test** — `npm test -- --coverage`
+
+Статус пайплайна виден в PR перед мержем.
+
+---
+
+## Conventional Commits
+
+Формат сообщений коммитов проверяется автоматически (Husky + commitlint):
+
+```
+<type>(<scope>): <описание>
+
+feat: add skill card component
+fix: correct avatar upload validation
+chore: update dependencies
+```
+
+Допустимые типы: `feat`, `fix`, `refactor`, `chore`, `docs`, `test`, `style`, `ci`.
