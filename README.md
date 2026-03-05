@@ -18,18 +18,38 @@
 
 ## Структура проекта
 
-```
+```text
 src/
-├── api/          # Методы работы с мок-данными (axios/fetch)
-├── app/          # Инициализация, провайдеры, глобальные стили
-├── entities/     # Модели домена: Skill, User, Request
-├── features/
-│   ├── auth/         # Авторизация
-│   ├── skills/       # Навыки
-│   ├── favorites/    # Избранное
-│   └── requests/     # Заявки на обмен
-├── widgets/      # Переиспользуемые блоки: SkillCard, FiltersBar
-└── pages/        # Страницы: Home, Profile, Skill, Favorites
+ ├── api/           # Методы работы с мок-данными (axios/fetch)
+ ├── app/           # Инициализация, провайдеры, глобальные стили
+ ├── assets/
+ │  ├── icons/                    #Иконки
+ │  │      ├── logo/
+ │  │      ├── auth/
+ │  │      └── skills-category/
+ │  ├── fonts/                    # Шрифты
+ │  ├── illustrations/            # Иллюстрации
+ │  └── user-avatars/             # Аватары пользователей
+ ├── entities/      # Модели домена (Skill, User, Request)
+ ├── features/
+ │    ├── auth/           # Авторизация
+ │    ├── skills/         # Навыки
+ │    ├── favorites/      # Избранное
+ │    └── requests/       # Заявки на обмен
+ ├── widgets/       # Переиспользуемые блоки: SkillCard, FiltersBar
+ ├── pages/         # Страницы: Home, Profile, Skill, Favorites
+ ├── shared/
+ │    ├── ui/       # Атомы/молекулы
+ │    ├── hooks/    # useDebounce, useLocalStorage ...
+ │    └── lib/      # helpers, constants
+ └── main.tsx
+
+public/
+├──favicon/
+└──db/
+    ├── skills.json
+    ├── users.json
+    └── cities.json
 ```
 
 ---
@@ -81,7 +101,7 @@ npm run dev
 
 ## Git-воркфлоу
 
-```
+```text
 main
  └── dev         <- вся разработка ведётся здесь
       ├── feature/auth
@@ -95,11 +115,13 @@ main
 - **`main`** — стабильная версия. Прямые коммиты запрещены.
 - **`dev`** — основная ветка для разработки. Все PR открываются в `dev`.
 - Для каждой задачи создаётся отдельная ветка от `dev`:
+
   ```bash
   git checkout dev
   git pull origin dev
   git checkout -b feature/название-задачи
   ```
+
 - После завершения — открыть PR в `dev`, пройти код-ревью тимлида.
 - Называть ветки по шаблону: `feature/`, `fix/`, `refactor/`
 
@@ -142,7 +164,7 @@ GitHub Actions запускает два job-а на каждый push/PR в `ma
 
 Формат сообщений коммитов проверяется автоматически (Husky + commitlint):
 
-```
+```bash
 <type>(<scope>): <описание>
 
 feat: add skill card component
