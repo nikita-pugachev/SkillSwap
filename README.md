@@ -23,9 +23,8 @@ src/
  ├── api/           # Методы работы с мок-данными (axios/fetch)
  ├── app/           # Инициализация, провайдеры, глобальные стили
  ├── assets/
- │  ├── icons/                    #Иконки
+ │  ├── icons/                    # Иконки
  │  │      ├── logo/
- │  │      ├── auth/
  │  │      └── skills-category/
  │  ├── fonts/                    # Шрифты
  │  ├── illustrations/            # Иллюстрации
