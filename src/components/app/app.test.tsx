@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import Root from './index';
+import Root from './app';
 
 describe('App', () => {
   it('renders the SkillSwap heading', () => {
