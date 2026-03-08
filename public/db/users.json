@@ -3,7 +3,7 @@
     {
       "id": 1,
       "name": "Иван",
-      "userAvatar": "/images/user-avatars/avatar-1.png",
+      "userAvatar": "/src/assets/user-avatars/avatar-1.png",
       "cityId": "2",
       "gender": "male",
       "birthday": "1992-03-29",
@@ -15,7 +15,7 @@
     {
       "id": 2,
       "name": "Анна",
-      "userAvatar": "/images/user-avatars/avatar-2.png",
+      "userAvatar": "/src/assets/user-avatars/avatar-2.png",
       "cityId": "14",
       "gender": "female",
       "birthday": "2000-07-15",
@@ -27,7 +27,7 @@
     {
       "id": 3,
       "name": "Михаил",
-      "userAvatar": "/images/user-avatars/avatar-3.png",
+      "userAvatar": "/src/assets/user-avatars/avatar-3.png",
       "cityId": "45",
       "gender": "male",
       "birthday": "1997-11-02",
@@ -39,7 +39,7 @@
     {
       "id": 4,
       "name": "Екатерина",
-      "userAvatar": "/images/user-avatars/avatar-4.png",
+      "userAvatar": "/src/assets/user-avatars/avatar-4.png",
       "cityId": "61",
       "gender": "female",
       "birthday": "1993-05-20",
@@ -51,7 +51,7 @@
     {
       "id": 5,
       "name": "Алексей",
-      "userAvatar": "/images/user-avatars/avatar-5.png",
+      "userAvatar": "/src/assets/user-avatars/avatar-5.png",
       "cityId": "1",
       "gender": "male",
       "birthday": "1995-09-10",
@@ -63,7 +63,7 @@
     {
       "id": 6,
       "name": "Мария",
-      "userAvatar": "/images/user-avatars/avatar-6.png",
+      "userAvatar": "/src/assets/user-avatars/avatar-6.png",
       "cityId": "33",
       "gender": "female",
       "birthday": "2001-01-30",
@@ -75,7 +75,7 @@
     {
       "id": 7,
       "name": "Дмитрий",
-      "userAvatar": "/images/user-avatars/avatar-7.png",
+      "userAvatar": "/src/assets/user-avatars/avatar-7.png",
       "cityId": "2",
       "gender": "male",
       "birthday": "1988-12-05",
@@ -87,7 +87,7 @@
     {
       "id": 8,
       "name": "Ольга",
-      "userAvatar": "/images/user-avatars/avatar-8.png",
+      "userAvatar": "/src/assets/user-avatars/avatar-8.png",
       "cityId": "19",
       "gender": "female",
       "birthday": "1994-08-22",
@@ -99,7 +99,7 @@
     {
       "id": 9,
       "name": "Сергей",
-      "userAvatar": "/images/user-avatars/avatar-9.png",
+      "userAvatar": "/src/assets/user-avatars/avatar-9.png",
       "cityId": "50",
       "gender": "male",
       "birthday": "1990-04-14",
@@ -111,7 +111,7 @@
     {
       "id": 10,
       "name": "Елена",
-      "userAvatar": "/images/user-avatars/avatar-10.png",
+      "userAvatar": "/src/assets/user-avatars/avatar-10.png",
       "cityId": "5",
       "gender": "female",
       "birthday": "1998-02-18",
@@ -123,7 +123,7 @@
     {
       "id": 11,
       "name": "Андрей",
-      "userAvatar": "/images/user-avatars/avatar-11.png",
+      "userAvatar": "/src/assets/user-avatars/avatar-11.png",
       "cityId": "1",
       "gender": "male",
       "birthday": "2002-11-11",
@@ -135,7 +135,7 @@
     {
       "id": 12,
       "name": "Наталья",
-      "userAvatar": "/images/user-avatars/avatar-12.png",
+      "userAvatar": "/src/assets/user-avatars/avatar-12.png",
       "cityId": "27",
       "gender": "female",
       "birthday": "1985-06-30",
@@ -147,7 +147,7 @@
     {
       "id": 13,
       "name": "Максим",
-      "userAvatar": "/images/user-avatars/avatar-13.png",
+      "userAvatar": "/src/assets/user-avatars/avatar-13.png",
       "cityId": "11",
       "gender": "male",
       "birthday": "1996-03-08",
@@ -159,7 +159,7 @@
     {
       "id": 14,
       "name": "Юлия",
-      "userAvatar": "/images/user-avatars/avatar-14.png",
+      "userAvatar": "/src/assets/user-avatars/avatar-14.png",
       "cityId": "4",
       "gender": "female",
       "birthday": "1999-10-12",
@@ -171,7 +171,7 @@
     {
       "id": 15,
       "name": "Роман",
-      "userAvatar": "/images/user-avatars/avatar-15.png",
+      "userAvatar": "/src/assets/user-avatars/avatar-15.png",
       "cityId": "38",
       "gender": "male",
       "birthday": "1991-07-25",
@@ -183,7 +183,7 @@
     {
       "id": 16,
       "name": "Татьяна",
-      "userAvatar": "/images/user-avatars/avatar-16.png",
+      "userAvatar": "/src/assets/user-avatars/avatar-16.png",
       "cityId": "1",
       "gender": "female",
       "birthday": "1987-09-04",
@@ -195,7 +195,7 @@
     {
       "id": 17,
       "name": "Игорь",
-      "userAvatar": "/images/user-avatars/avatar-17.png",
+      "userAvatar": "/src/assets/user-avatars/avatar-17.png",
       "cityId": "2",
       "gender": "male",
       "birthday": "2003-04-19",
@@ -207,7 +207,7 @@
     {
       "id": 18,
       "name": "Анастасия",
-      "userAvatar": "/images/user-avatars/avatar-18.png",
+      "userAvatar": "/src/assets/user-avatars/avatar-18.png",
       "cityId": "55",
       "gender": "female",
       "birthday": "1994-12-14",
@@ -219,7 +219,7 @@
     {
       "id": 19,
       "name": "Владимир",
-      "userAvatar": "/images/user-avatars/avatar-19.png",
+      "userAvatar": "/src/assets/user-avatars/avatar-19.png",
       "cityId": "4",
       "gender": "male",
       "birthday": "1989-01-22",
@@ -231,7 +231,7 @@
     {
       "id": 20,
       "name": "Виктория",
-      "userAvatar": "/images/user-avatars/avatar-20.png",
+      "userAvatar": "/src/assets/user-avatars/avatar-20.png",
       "cityId": "5",
       "gender": "female",
       "birthday": "1995-11-28",
@@ -243,7 +243,7 @@
     {
       "id": 21,
       "name": "Антон",
-      "userAvatar": "/images/user-avatars/avatar-21.png",
+      "userAvatar": "/src/assets/user-avatars/avatar-21.png",
       "cityId": "60",
       "gender": "male",
       "birthday": "1998-05-17",
@@ -255,7 +255,7 @@
     {
       "id": 22,
       "name": "Дарья",
-      "userAvatar": "/images/user-avatars/avatar-22.png",
+      "userAvatar": "/src/assets/user-avatars/avatar-22.png",
       "cityId": "2",
       "gender": "female",
       "birthday": "2000-08-09",
@@ -267,7 +267,7 @@
     {
       "id": 23,
       "name": "Илья",
-      "userAvatar": "/images/user-avatars/avatar-23.png",
+      "userAvatar": "/src/assets/user-avatars/avatar-23.png",
       "cityId": "3",
       "gender": "male",
       "birthday": "1993-02-11",
@@ -279,7 +279,7 @@
     {
       "id": 24,
       "name": "Светлана",
-      "userAvatar": "/images/user-avatars/avatar-24.png",
+      "userAvatar": "/src/assets/user-avatars/avatar-24.png",
       "cityId": "16",
       "gender": "female",
       "birthday": "1986-10-03",
@@ -291,7 +291,7 @@
     {
       "id": 25,
       "name": "Виктор",
-      "userAvatar": "/images/user-avatars/avatar-25.png",
+      "userAvatar": "/src/assets/user-avatars/avatar-25.png",
       "cityId": "29",
       "gender": "male",
       "birthday": "1997-06-21",
@@ -303,7 +303,7 @@
     {
       "id": 26,
       "name": "Ксения",
-      "userAvatar": "/images/user-avatars/avatar-26.png",
+      "userAvatar": "/src/assets/user-avatars/avatar-26.png",
       "cityId": "1",
       "gender": "female",
       "birthday": "2001-09-15",
@@ -315,7 +315,7 @@
     {
       "id": 27,
       "name": "Евгений",
-      "userAvatar": "/images/user-avatars/avatar-27.png",
+      "userAvatar": "/src/assets/user-avatars/avatar-27.png",
       "cityId": "48",
       "gender": "male",
       "birthday": "1992-12-28",
@@ -327,7 +327,7 @@
     {
       "id": 28,
       "name": "Полина",
-      "userAvatar": "/images/user-avatars/avatar-28.png",
+      "userAvatar": "/src/assets/user-avatars/avatar-28.png",
       "cityId": "3",
       "gender": "female",
       "birthday": "1999-03-05",
@@ -339,7 +339,7 @@
     {
       "id": 29,
       "name": "Денис",
-      "userAvatar": "/images/user-avatars/avatar-29.png",
+      "userAvatar": "/src/assets/user-avatars/avatar-29.png",
       "cityId": "9",
       "gender": "male",
       "birthday": "1994-07-07",
@@ -351,7 +351,7 @@
     {
       "id": 30,
       "name": "Алина",
-      "userAvatar": "/images/user-avatars/avatar-30.png",
+      "userAvatar": "/src/assets/user-avatars/avatar-30.png",
       "cityId": "58",
       "gender": "female",
       "birthday": "2000-11-20",
@@ -363,7 +363,7 @@
     {
       "id": 31,
       "name": "Олег",
-      "userAvatar": "/images/user-avatars/avatar-31.png",
+      "userAvatar": "/src/assets/user-avatars/avatar-31.png",
       "cityId": "1",
       "gender": "male",
       "birthday": "1993-02-14",
@@ -375,7 +375,7 @@
     {
       "id": 32,
       "name": "Алиса",
-      "userAvatar": "/images/user-avatars/avatar-32.png",
+      "userAvatar": "/src/assets/user-avatars/avatar-32.png",
       "cityId": "41",
       "gender": "female",
       "birthday": "2001-07-08",
@@ -387,7 +387,7 @@
     {
       "id": 33,
       "name": "Глеб",
-      "userAvatar": "/images/user-avatars/avatar-33.png",
+      "userAvatar": "/src/assets/user-avatars/avatar-33.png",
       "cityId": "3",
       "gender": "male",
       "birthday": "1998-11-23",
@@ -399,7 +399,7 @@
     {
       "id": 34,
       "name": "Надежда",
-      "userAvatar": "/images/user-avatars/avatar-34.png",
+      "userAvatar": "/src/assets/user-avatars/avatar-34.png",
       "cityId": "22",
       "gender": "female",
       "birthday": "1987-05-19",
@@ -411,7 +411,7 @@
     {
       "id": 35,
       "name": "Тимур",
-      "userAvatar": "/images/user-avatars/avatar-35.png",
+      "userAvatar": "/src/assets/user-avatars/avatar-35.png",
       "cityId": "59",
       "gender": "male",
       "birthday": "2002-09-30",
@@ -423,7 +423,7 @@
     {
       "id": 36,
       "name": "Валерия",
-      "userAvatar": "/images/user-avatars/avatar-36.png",
+      "userAvatar": "/src/assets/user-avatars/avatar-36.png",
       "cityId": "1",
       "gender": "female",
       "birthday": "1996-04-12",
@@ -435,7 +435,7 @@
     {
       "id": 37,
       "name": "Кирилл",
-      "userAvatar": "/images/user-avatars/avatar-37.png",
+      "userAvatar": "/src/assets/user-avatars/avatar-37.png",
       "cityId": "2",
       "gender": "male",
       "birthday": "1990-08-27",
@@ -447,7 +447,7 @@
     {
       "id": 38,
       "name": "София",
-      "userAvatar": "/images/user-avatars/avatar-38.png",
+      "userAvatar": "/src/assets/user-avatars/avatar-38.png",
       "cityId": "3",
       "gender": "female",
       "birthday": "2003-01-16",
@@ -459,7 +459,7 @@
     {
       "id": 39,
       "name": "Артем",
-      "userAvatar": "/images/user-avatars/avatar-39.png",
+      "userAvatar": "/src/assets/user-avatars/avatar-39.png",
       "cityId": "17",
       "gender": "male",
       "birthday": "1995-10-09",
@@ -471,7 +471,7 @@
     {
       "id": 40,
       "name": "Маргарита",
-      "userAvatar": "/images/user-avatars/avatar-40.png",
+      "userAvatar": "/src/assets/user-avatars/avatar-40.png",
       "cityId": "61",
       "gender": "female",
       "birthday": "1999-12-04",
