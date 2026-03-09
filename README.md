@@ -52,11 +52,11 @@ src/
 ├── assets/
 │   ├── icons/
 │   │   ├── logo/
-│   │   ├── auth/
 │   │   └── skills-category/
 │   ├── fonts/
 │   ├── illustrations/
-│   └── user-avatars/
+│   ├── user-avatars/
+│   └── styles/
 └── main.tsx
 
 public/
