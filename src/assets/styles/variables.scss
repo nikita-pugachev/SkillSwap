@@ -1,0 +1,67 @@
+:root {
+  /* Цветовая палитра */
+
+  /* Основной текст */
+  --color-text-primary: #253017;
+  --color-text-secondary: #69735d;
+  --color-text-disabled: #9ca197;
+
+  /* UI */
+  --color-toggle: #b2b9a9;
+  --color-disabled: #e4e8df;
+  --color-surface: #fff;
+  --color-overlay: #8e8e8e99;
+  --color-accent: #abd27a;
+  --color-accent-pressed: #508826;
+  --color-button-hover: #deebc5;
+
+  /* Фон */
+  --color-bg: #f9faf7;
+
+  /* Системные */
+  --color-alarm: #e0796e;
+  --color-error: #bf3920;
+
+  /* Цвет тэгов */
+  --color-tag-business: #eeeff7;
+  --color-tag-art: #f7eff2;
+  --color-tag-languages: #ebebc5;
+  --color-tag-education: #e7f2f6;
+  --color-tag-home: #f7ebe5;
+  --color-tag-health: #e9f7e7;
+  --color-tag-other: #e8ecf7;
+
+  /* Типографика */
+
+  /* Шрифты */
+  --font-family-base: 'Roboto', sans-serif;
+  --font-family-heading: 'Jost', sans-serif;
+  --font-family-other: 'Open Sans', sans-serif;
+
+  /* Размеры шрифтов */
+  --font-size-caption: 12px;
+  --font-size-body: 16px;
+  --font-size-h4: 16px;
+  --font-size-h3: 20px;
+  --font-size-h2: 24px;
+  --font-size-h1: 32px;
+
+  /* Межстрочные интервалы */
+  --line-height-caption: 16px;
+  --line-height-body: 24px;
+  --line-height-h4: 24px;
+  --line-height-h3: 24px;
+  --line-height-h2: 32px;
+  --line-height-h1: 40px;
+
+  /* Начертания */
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+
+  /* Радиусы */
+  --radius-primary: 12px;
+  --radius-secondary: 24px;
+  --radius-tag: 20px;
+  --radius-circle: 100px;
+}
