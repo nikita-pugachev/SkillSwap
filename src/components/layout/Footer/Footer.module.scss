@@ -1,0 +1,36 @@
+.footer {
+  background-color: var(--color-surface);
+  width: 100%;
+  display: flex;
+  padding: 32px 36px;
+  height: 232px;
+  justify-content: space-between;
+}
+
+.logoSection {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.copyright {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-caption);
+  line-height: var(--line-height-caption);
+  font-weight: var(--font-weight-regular);
+  color: var(--color-text-secondary);
+}
+
+.linkSection {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 24px;
+  margin-top: 60px;
+}
+
+.linkList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 324px;
+}
