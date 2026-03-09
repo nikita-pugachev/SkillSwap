@@ -17,7 +17,7 @@
           "images": ["/src/assets/skill-images/drum-1.jpg", "/src/assets/skill-images/drum-2.jpg"]
         }
       ],
-      "skillsLearn": [106, 601],
+      "skillsLearn": [106, 601, 201, 501],
       "likes": 50,
       "createdAt": "2026-01-01"
     },
@@ -80,7 +80,7 @@
           "images": ["/src/assets/skill-images/eng-3.jpg"]
         }
       ],
-      "skillsLearn": [106, 601],
+      "skillsLearn": [106, 601, 301, 302],
       "likes": 88,
       "createdAt": "2026-01-12"
     },
@@ -122,7 +122,7 @@
           "images": ["/src/assets/skill-images/eng-5.jpg"]
         }
       ],
-      "skillsLearn": [106, 601],
+      "skillsLearn": [106, 601, 301, 302],
       "likes": 112,
       "createdAt": "2026-01-15"
     },
@@ -143,7 +143,7 @@
           "images": ["/src/assets/skill-images/eng-6.jpg"]
         }
       ],
-      "skillsLearn": [106, 601],
+      "skillsLearn": [106, 601, 408],
       "likes": 34,
       "createdAt": "2026-01-18"
     },
@@ -185,7 +185,7 @@
           "images": ["/src/assets/skill-images/eng-8.jpg"]
         }
       ],
-      "skillsLearn": [106, 601],
+      "skillsLearn": [404, 204, 101],
       "likes": 21,
       "createdAt": "2026-01-22"
     },
@@ -227,7 +227,7 @@
           "images": ["/src/assets/skill-images/biz-1.jpg"]
         }
       ],
-      "skillsLearn": [106, 601],
+      "skillsLearn": [106, 603],
       "likes": 113,
       "createdAt": "2026-01-27"
     },
@@ -269,7 +269,7 @@
           "images": ["/src/assets/skill-images/eng-11.jpg"]
         }
       ],
-      "skillsLearn": [106, 601],
+      "skillsLearn": [305, 306, 101],
       "likes": 76,
       "createdAt": "2026-01-29"
     },
@@ -311,7 +311,7 @@
           "images": ["/src/assets/skill-images/eng-13.jpg"]
         }
       ],
-      "skillsLearn": [106, 601],
+      "skillsLearn": [102, 103, 206, 207],
       "likes": 81,
       "createdAt": "2026-02-03"
     },
@@ -416,7 +416,7 @@
           "images": ["/src/assets/skill-images/cook-1.jpg"]
         }
       ],
-      "skillsLearn": [102, 103],
+      "skillsLearn": [401, 501, 601],
       "likes": 310,
       "createdAt": "2026-02-08"
     },
@@ -479,7 +479,7 @@
           "images": ["/src/assets/skill-images/yoga-1.jpg"]
         }
       ],
-      "skillsLearn": [203, 108],
+      "skillsLearn": [102, 104, 106],
       "likes": 204,
       "createdAt": "2026-02-11"
     },
@@ -563,7 +563,7 @@
           "images": ["/src/assets/skill-images/act-1.jpg"]
         }
       ],
-      "skillsLearn": [201, 104],
+      "skillsLearn": [502, 503, 601, 602],
       "likes": 37,
       "createdAt": "2026-02-15"
     },
@@ -689,7 +689,7 @@
           "images": ["/src/assets/skill-images/chi-1.jpg"]
         }
       ],
-      "skillsLearn": [404, 604],
+      "skillsLearn": [405, 408, 501],
       "likes": 140,
       "createdAt": "2026-02-21"
     },
@@ -731,7 +731,7 @@
           "images": ["/src/assets/skill-images/art-1.jpg"]
         }
       ],
-      "skillsLearn": [603, 101],
+      "skillsLearn": [405, 408, 501],
       "likes": 182,
       "createdAt": "2026-02-23"
     },
