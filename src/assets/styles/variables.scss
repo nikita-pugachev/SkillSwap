@@ -1,5 +1,6 @@
 :root {
   /* Цветовая палитра */
+
   /* Основной текст */
   --color-text-primary: #253017;
   --color-text-secondary: #69735d;
@@ -8,9 +9,8 @@
   /* UI */
   --color-toggle: #b2b9a9;
   --color-disabled: #e4e8df;
-  --color-surface: #ffffff;
+  --color-surface: #fff;
   --color-overlay: #8e8e8e99;
-
   --color-accent: #abd27a;
   --color-accent-pressed: #508826;
   --color-button-hover: #deebc5;
@@ -32,11 +32,12 @@
   --color-tag-other: #e8ecf7;
 
   /* Типографика */
+
   /* Шрифты */
   --font-family-base: 'Roboto', sans-serif;
   --font-family-heading: 'Jost', sans-serif;
   --font-family-other: 'Open Sans', sans-serif;
-  
+
   /* Размеры шрифтов */
   --font-size-caption: 12px;
   --font-size-body: 16px;
