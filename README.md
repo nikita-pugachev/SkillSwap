@@ -20,33 +20,48 @@
 
 ```text
 src/
- ├── api/           # Методы работы с мок-данными (axios/fetch)
- ├── app/           # Инициализация, провайдеры, глобальные стили
- ├── assets/
- │  ├── icons/                    #Иконки
- │  │      ├── logo/
- │  │      ├── auth/
- │  │      └── skills-category/
- │  ├── fonts/                    # Шрифты
- │  ├── illustrations/            # Иллюстрации
- │  └── user-avatars/             # Аватары пользователей
- ├── entities/      # Модели домена (Skill, User, Request)
- ├── features/
- │    ├── auth/           # Авторизация
- │    ├── skills/         # Навыки
- │    ├── favorites/      # Избранное
- │    └── requests/       # Заявки на обмен
- ├── widgets/       # Переиспользуемые блоки: SkillCard, FiltersBar
- ├── pages/         # Страницы: Home, Profile, Skill, Favorites
- ├── shared/
- │    ├── ui/       # Атомы/молекулы
- │    ├── hooks/    # useDebounce, useLocalStorage ...
- │    └── lib/      # helpers, constants
- └── main.tsx
+├── components/                 # Переиспользуемые UI-компоненты
+│   ├── app/                    # Корневой компонент приложения
+│   │   ├── app.tsx
+│   │   ├── app.test.tsx
+│   │   └── index.ts
+│   ├── ui/                     # Атомарные компоненты (Button, Input, ...)
+│   │   ├── button/
+│   │   │   ├── button.tsx
+│   │   │   └── index.ts
+│   │   └── index.ts
+│   └── index.ts
+├── pages/                      # Страницы приложения
+│   ├── home-page/
+│   │   ├── home-page.tsx
+│   │   └── index.ts
+│   └── index.ts
+├── services/                   # Redux: store, слайсы, селекторы, хуки
+│   ├── slices/
+│   │   ├── authSlice.ts
+│   │   ├── skillsSlice.ts
+│   │   ├── favoritesSlice.ts
+│   │   └── requestsSlice.ts
+│   ├── selectors/
+│   │   └── index.ts
+│   ├── store.ts
+│   └── hooks.ts
+├── utils/                      # Утилиты, типы, API-методы
+│   ├── api.ts
+│   └── types.ts
+├── assets/
+│   ├── icons/
+│   │   ├── logo/
+│   │   ├── auth/
+│   │   └── skills-category/
+│   ├── fonts/
+│   ├── illustrations/
+│   └── user-avatars/
+└── main.tsx
 
 public/
-├──favicon/
-└──db/
+├── favicon/
+└── db/
     ├── skills.json
     ├── users.json
     └── cities.json
@@ -72,18 +87,18 @@ npm run dev
 
 ### Разработка
 
-| Команда          | Описание               |
-| ---------------- | ---------------------- |
-| `npm run dev`    | Запуск dev-сервера     |
-| `npm run build`  | Production-сборка      |
-| `npm run preview`| Предпросмотр сборки    |
+| Команда           | Описание            |
+| ----------------- | ------------------- |
+| `npm run dev`     | Запуск dev-сервера  |
+| `npm run build`   | Production-сборка   |
+| `npm run preview` | Предпросмотр сборки |
 
 ### Тесты
 
-| Команда                   | Описание                          |
-| ------------------------- | --------------------------------- |
-| `npm test`                | Запуск тестов (Jest)              |
-| `npm run test:coverage`   | Тесты с отчётом о покрытии        |
+| Команда                 | Описание                   |
+| ----------------------- | -------------------------- |
+| `npm test`              | Запуск тестов (Jest)       |
+| `npm run test:coverage` | Тесты с отчётом о покрытии |
 
 ### Линтинг и форматирование
 
@@ -107,6 +122,7 @@ main
       ├── feature/auth
       ├── feature/skills
       ├── fix/some-bug
+      ├── refactor/task-name
       └── ...
 ```
 
@@ -129,16 +145,15 @@ main
 
 ## Соглашения
 
-- Каждая фича — изолированный модуль в `features/`
-- Общие компоненты без бизнес-логики — в `widgets/`
-- Типы и интерфейсы моделей — в `entities/`
-- Все API-запросы — только через `api/`
+- Каждый компонент — изолированная папка в `components/` с `index.ts`-баррелем
+- Общие атомарные компоненты (Button, Input, ...) — в `components/ui/`
+- Redux-логика (store, слайсы, селекторы) — только в `services/`
+- Все API-запросы и типы данных — в `utils/`
+- Тесты пишутся рядом с тестируемым файлом (`*.test.tsx` / `*.test.ts`)
 
 ---
 
 ## Тестирование
-
-Тесты пишутся рядом с тестируемым модулем в файлах `*.test.tsx` / `*.test.ts`.
 
 ```bash
 npm test                 # запустить все тесты
