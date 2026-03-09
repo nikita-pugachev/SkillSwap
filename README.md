@@ -20,28 +20,44 @@
 
 ```text
 src/
- ├── api/           # Методы работы с мок-данными (axios/fetch)
- ├── app/           # Инициализация, провайдеры, глобальные стили
- ├── assets/
- │  ├── icons/                    #Иконки
- │  │      ├── logo/
- │  │      └── skills-category/
- │  ├── fonts/                    # Шрифты
- │  ├── illustrations/            # Иллюстрации
- │  └── user-avatars/             # Аватары пользователей
- ├── entities/      # Модели домена (Skill, User, Request)
- ├── features/
- │    ├── auth/           # Авторизация
- │    ├── skills/         # Навыки
- │    ├── favorites/      # Избранное
- │    └── requests/       # Заявки на обмен
- ├── widgets/       # Переиспользуемые блоки: SkillCard, FiltersBar
- ├── pages/         # Страницы: Home, Profile, Skill, Favorites
- ├── shared/
- │    ├── ui/       # Атомы/молекулы
- │    ├── hooks/    # useDebounce, useLocalStorage ...
- │    └── lib/      # helpers, constants
- └── main.tsx
+├── components/                 # Переиспользуемые UI-компоненты
+│   ├── app/                    # Корневой компонент приложения
+│   │   ├── app.tsx
+│   │   ├── app.test.tsx
+│   │   └── index.ts
+│   ├── ui/                     # Атомарные компоненты (Button, Input, ...)
+│   │   ├── button/
+│   │   │   ├── button.tsx
+│   │   │   └── index.ts
+│   │   └── index.ts
+│   └── index.ts
+├── pages/                      # Страницы приложения
+│   ├── home-page/
+│   │   ├── home-page.tsx
+│   │   └── index.ts
+│   └── index.ts
+├── services/                   # Redux: store, слайсы, селекторы, хуки
+│   ├── slices/
+│   │   ├── authSlice.ts
+│   │   ├── skillsSlice.ts
+│   │   ├── favoritesSlice.ts
+│   │   └── requestsSlice.ts
+│   ├── selectors/
+│   │   └── index.ts
+│   ├── store.ts
+│   └── hooks.ts
+├── utils/                      # Утилиты, типы, API-методы
+│   ├── api.ts
+│   └── types.ts
+├── assets/
+│   ├── icons/
+│   │   ├── logo/
+│   │   ├── auth/
+│   │   └── skills-category/
+│   ├── fonts/
+│   ├── illustrations/
+│   └── user-avatars/
+└── main.tsx
 
 public/
 ├── favicon/
