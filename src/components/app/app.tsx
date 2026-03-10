@@ -19,7 +19,7 @@ export default function Root() {
       >
         Click me
       </Button>
-      <Avatar src="src\assets\user-avatars\michael.png" name="Михаил" size="sm"></Avatar>
+      <Avatar src="src\assets\user-avatars\michael.png" name="Михаил" size="md"></Avatar>
     </Provider>
   );
 }

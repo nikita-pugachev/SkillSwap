@@ -4,7 +4,7 @@ import styles from './Avatar.module.scss';
 interface AvatarProps {
   src?: string;
   name: string;
-  size: 'sm' | 'lg';
+  size: 'sm' | 'md' | 'lg';
 }
 
 export const Avatar: FC<AvatarProps> = ({ src, name, size }) => {
