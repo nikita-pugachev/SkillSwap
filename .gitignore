@@ -31,3 +31,6 @@ Thumbs.db
 .eslintcache
 .stylelintcache
 .prettiercache
+
+*storybook.log
+storybook-static
