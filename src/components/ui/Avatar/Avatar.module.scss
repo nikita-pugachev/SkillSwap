@@ -4,21 +4,6 @@
   object-fit: cover;
 }
 
-.sm {
-  width: 48px;
-  height: 48px;
-}
-
-.md {
-  width: 100px;
-  height: 100px;
-}
-
-.lg {
-  width: 244px;
-  height: 244px;
-}
-
 .fallback {
   background-color: var(--color-accent);
   display: flex;
@@ -28,4 +13,21 @@
   font-size: var(--font-size-body);
   font-weight: 600;
   font-family: var(--font-family-base);
+}
+
+.sm {
+  width: 48px;
+  height: 48px;
+}
+
+.md {
+  width: 100px;
+  height: 100px;
+  font-size: 34px;
+}
+
+.lg {
+  width: 244px;
+  height: 244px;
+  font-size: 112px;
 }
