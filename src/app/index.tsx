@@ -1,6 +1,6 @@
 import { Provider } from 'react-redux';
-import { store } from './store';
-import { Button } from '@/shared/ui/Button';
+import { store } from '@/services/store';
+import { Button } from '@/components/ui/button';
 
 function App() {
   return (

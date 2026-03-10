@@ -1,5 +1,3 @@
-@use '../../../styles/variables' as *;
-
 .button {
   display: inline-flex;
   align-items: center;
@@ -29,44 +27,63 @@
 }
 
 .primary {
-  background-color: $primary-bg;
-  color: $primary-text;
+  background-color: var(--color-accent);
+  color: #fff;
 
   &:hover:not(:disabled) {
-    background-color: $primary-hover-bg;
+    background-color: var(--color-button-hover);
   }
 
   &:active:not(:disabled) {
-    background-color: $primary-active-bg;
-    color: $primary-text;
+    background-color: var(--color-accent-pressed);
+    color: #fff;
   }
 
   &:disabled {
-    background-color: $primary-disabled-bg;
-    color: $primary-disabled-text;
+    background-color: var(--color-disabled);
+    color: var(--color-text-disabled);
   }
 }
 
 .outlined {
-  background-color: $outlined-bg;
-  border: 1px solid $outlined-border;
-  color: $outlined-text;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-accent);
+  color: var(--color-text-primary);
 
   &:hover:not(:disabled) {
-    background-color: $outlined-bg;
-    border-color: $outlined-hover-border;
-    color: $outlined-hover-text;
+    background-color: var(--color-surface);
+    border-color: var(--outlined-hover-border);
+    color: var(--outlined-hover-text);
   }
 
   &:active:not(:disabled) {
-    background-color: $outlined-bg;
-    border-color: $outlined-active-border;
-    color: $outlined-active-text;
+    background-color: var(--color-surface);
+    border-color: var(--outlined-active-border);
+    color: var(--outlined-active-text);
   }
 
   &:disabled {
-    background-color: $outlined-bg;
-    border-color: $outlined-disabled-border;
-    color: $outlined-disabled-text;
+    background-color: var(--color-surface);
+    border-color: var(--outlined-disabled-border);
+    color: var(--outlined-disabled-text);
+  }
+}
+
+.tertiary {
+  background-color: transparent;
+  border: none;
+  color: var(--tertiary-text);
+
+  &:hover:not(:disabled) {
+    background-color: var(--tertiary-hover-bg);
+  }
+
+  &:active:not(:disabled) {
+    background-color: var(--tertiary-active-bg);
+  }
+
+  &:disabled {
+    opacity: var(--tertiary-disabled-opacity);
+    cursor: not-allowed;
   }
 }

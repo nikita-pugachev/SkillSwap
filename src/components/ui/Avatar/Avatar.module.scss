@@ -1,0 +1,33 @@
+.avatar {
+  border-radius: 50%;
+  overflow: hidden;
+  object-fit: cover;
+}
+
+.fallback {
+  background-color: var(--color-accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: var(--font-size-body);
+  font-weight: 600;
+  font-family: var(--font-family-base);
+}
+
+.sm {
+  width: 48px;
+  height: 48px;
+}
+
+.md {
+  width: 100px;
+  height: 100px;
+  font-size: 34px;
+}
+
+.lg {
+  width: 244px;
+  height: 244px;
+  font-size: 112px;
+}
