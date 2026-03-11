@@ -19,7 +19,7 @@ export const SearchInputUI: React.FC<SearchInputUIProps> = ({
   const hasValue = value.length > 0;
 
   return (
-    <div className={styles.searchInput}>
+    <div className={styles.searchInput} id="search-input">
       <SearchIcon className={styles.searchInput__icon} aria-hidden="true" />
 
       <input
