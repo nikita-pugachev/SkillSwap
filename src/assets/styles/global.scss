@@ -158,7 +158,7 @@ button {
   (за исключением тех, у которых уже указан
   атрибут fill со значением 'none' или начинается с 'url')
  */
-:where([fill]:not([fill='none'], [fill^='url'])) {
+:where(svg:not(.illustration-svg) [fill]:not([fill='none'], [fill^='url'])) {
   fill: currentcolor;
 }
 
