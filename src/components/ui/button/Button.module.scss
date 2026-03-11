@@ -12,6 +12,11 @@
   box-sizing: border-box;
   user-select: none;
 
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-body);
+
   &:focus-visible {
     outline: 2px solid var(--color-focus);
     outline-offset: 2px;
@@ -37,7 +42,7 @@
 
   &:disabled {
     background-color: var(--color-disabled);
-    color: var(--color-text-disabled);
+    color: var(--color-text-secondary);
   }
 }
 
@@ -47,21 +52,18 @@
   color: var(--color-text-primary);
 
   &:hover:not(:disabled) {
-    background-color: var(--color-surface);
     border-color: var(--color-button-hover);
-    color: var(--color-text-primary);
+    color: var(--color-text-secondary);
   }
 
   &:active:not(:disabled) {
-    background-color: var(--color-surface);
     border-color: var(--color-accent-pressed);
-    color: var(--color-text-primary);
+    color: var(--color-text-secondary);
   }
 
   &:disabled {
-    background-color: var(--color-surface);
     border-color: var(--color-disabled);
-    color: var(--color-text-disabled);
+    color: var(--color-text-disabled);    
   }
 }
 
@@ -69,17 +71,4 @@
   background-color: transparent;
   border: none;
   color: var(--color-text-primary);
-
-  &:hover:not(:disabled) {
-    background-color: rgb(var(--color-accent-rgb), 0.1);
-  }
-
-  &:active:not(:disabled) {
-    background-color: rgb(var(--color-accent-rgb), 0.2);
-  }
-
-  &:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
 }

@@ -24,7 +24,7 @@ const meta: Meta<typeof Button> = {
 };
 
 export default meta;
-type Story = StoryObj<typeof Button>;
+type Story = StoryObj<typeof meta>;
 
 export const Primary: Story = {
   args: {
@@ -47,15 +47,31 @@ export const Tertiary: Story = {
   },
 };
 
-export const Disabled: Story = {
+export const PrimaryDisabled: Story = {
   args: {
+    variant: 'primary',
     disabled: true,
-    children: 'Disabled',
+    children: 'Primary disabled',
   },
   parameters: {
     docs: {
       description: {
-        story: 'Кнопка в состоянии disabled (применяется к любому варианту)',
+        story: 'Первичная кнопка в состоянии disabled.',
+      },
+    },
+  },
+};
+
+export const OutlinedDisabled: Story = {
+  args: {
+    variant: 'outlined',
+    disabled: true,
+    children: 'Outlined disabled',
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Вторичная кнопка в состоянии disabled.',
       },
     },
   },
