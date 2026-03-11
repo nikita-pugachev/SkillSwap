@@ -15,9 +15,6 @@
   --color-accent-pressed: #508826;
   --color-button-hover: #deebc5;
 
-  /* Для прозрачных вариантов (RGB-представление accent) */
-  --color-accent-rgb: 171, 210, 122;
-
   /* Фокус */
   --color-focus: #05c;
 
@@ -53,6 +50,32 @@
   --line-height-h3: 24px;
   --line-height-h2: 32px;
   --line-height-h1: 40px;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+
+  /* Шрифты */
+  --font-family-base: 'Roboto', sans-serif;
+  --font-family-heading: 'Jost', sans-serif;
+  --font-family-other: 'Open Sans', sans-serif;
+
+  /* Размеры шрифтов */
+  --font-size-caption: 12px;
+  --font-size-body: 16px;
+  --font-size-h4: 16px;
+  --font-size-h3: 20px;
+  --font-size-h2: 24px;
+  --font-size-h1: 32px;
+
+  /* Межстрочные интервалы */
+  --line-height-caption: 16px;
+  --line-height-body: 24px;
+  --line-height-h4: 24px;
+  --line-height-h3: 24px;
+  --line-height-h2: 32px;
+  --line-height-h1: 40px;
+
+  /* Начертания */
   --font-weight-regular: 400;
   --font-weight-medium: 500;
   --font-weight-semibold: 600;
