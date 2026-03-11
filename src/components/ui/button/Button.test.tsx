@@ -42,4 +42,10 @@ describe('Button', () => {
     expect(button).toHaveAttribute('type', 'submit');
     expect(button).toHaveAttribute('aria-label', 'submit');
   });
+
+  it('applies tertiary variant', () => {
+    render(<Button variant="tertiary">Tertiary</Button>);
+    const button = screen.getByRole('button');
+    expect(button).toHaveClass('tertiary');
+  });
 });
