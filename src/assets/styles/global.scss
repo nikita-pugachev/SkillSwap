@@ -94,6 +94,11 @@ button {
   font: inherit;
 }
 
+// отключение встроенной кнопки очистки
+input[type='search']::-webkit-search-cancel-button {
+  appearance: none;
+}
+
 html {
   /**
     Пригодится в большинстве ситуаций
