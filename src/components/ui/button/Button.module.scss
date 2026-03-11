@@ -48,38 +48,38 @@
 
   &:hover:not(:disabled) {
     background-color: var(--color-surface);
-    border-color: var(--outlined-hover-border);
-    color: var(--outlined-hover-text);
+    border-color: var(--color-button-hover);
+    color: var(--color-text-primary);
   }
 
   &:active:not(:disabled) {
     background-color: var(--color-surface);
-    border-color: var(--outlined-active-border);
-    color: var(--outlined-active-text);
+    border-color: var(--color-accent-pressed);
+    color: var(--color-text-primary);
   }
 
   &:disabled {
     background-color: var(--color-surface);
-    border-color: var(--outlined-disabled-border);
-    color: var(--outlined-disabled-text);
+    border-color: var(--color-disabled);
+    color: var(--color-text-disabled);
   }
 }
 
 .tertiary {
   background-color: transparent;
   border: none;
-  color: var(--tertiary-text);
+  color: var(--color-text-primary);
 
   &:hover:not(:disabled) {
-    background-color: var(--tertiary-hover-bg);
+    background-color: rgb(var(--color-accent-rgb), 0.1);
   }
 
   &:active:not(:disabled) {
-    background-color: var(--tertiary-active-bg);
+    background-color: rgb(var(--color-accent-rgb), 0.2);
   }
 
   &:disabled {
-    opacity: var(--tertiary-disabled-opacity);
+    opacity: 0.5;
     cursor: not-allowed;
   }
 }

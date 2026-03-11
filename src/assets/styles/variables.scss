@@ -15,22 +15,11 @@
   --color-accent-pressed: #508826;
   --color-button-hover: #deebc5;
 
-  /* Outlined button states */
-  --outlined-hover-border: #deebc5;
-  --outlined-hover-text: #253017;
-  --outlined-active-border: #508826;
-  --outlined-active-text: #253017;
-  --outlined-disabled-border: #e4e8df;
-  --outlined-disabled-text: #9ca197;
+  /* Для прозрачных вариантов (RGB-представление accent) */
+  --color-accent-rgb: 171, 210, 122;
 
-  /* Tertiary button */
-  --tertiary-text: #253017;
-  --tertiary-hover-bg: rgb(171 210 122 / 10%);
-  --tertiary-active-bg: rgb(171 210 122 / 20%);
-  --tertiary-disabled-opacity: 0.5;
-
-  /* Focus outline */
-  --color-focus: #0055cc;
+  /* Фокус */
+  --color-focus: #05c;
 
   /* Фон */
   --color-bg: #f9faf7;
@@ -49,29 +38,21 @@
   --color-tag-other: #e8ecf7;
 
   /* Типографика */
-
-  /* Шрифты */
   --font-family-base: 'Roboto', sans-serif;
   --font-family-heading: 'Jost', sans-serif;
   --font-family-other: 'Open Sans', sans-serif;
-
-  /* Размеры шрифтов */
   --font-size-caption: 12px;
   --font-size-body: 16px;
   --font-size-h4: 16px;
   --font-size-h3: 20px;
   --font-size-h2: 24px;
   --font-size-h1: 32px;
-
-  /* Межстрочные интервалы */
   --line-height-caption: 16px;
   --line-height-body: 24px;
   --line-height-h4: 24px;
   --line-height-h3: 24px;
   --line-height-h2: 32px;
   --line-height-h1: 40px;
-
-  /* Начертания */
   --font-weight-regular: 400;
   --font-weight-medium: 500;
   --font-weight-semibold: 600;
