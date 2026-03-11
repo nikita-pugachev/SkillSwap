@@ -1,0 +1,46 @@
+.tag {
+  display: inline-flex;
+  width: fit-content;
+  height: 32px;
+  align-items: center;
+  padding: 8px 12px;
+  border-radius: var(--radius-tag);
+  gap: 4px;
+}
+
+.label {
+  font-family: var(--font-family-base);
+  font-weight: var(--font-weight-regular);
+  font-size: var(--font-size-caption);
+  line-height: var(--line-height-caption);
+  letter-spacing: 0.02em;
+  color: var(--color-text-primary);
+}
+
+.learn {
+  background-color: var(--color-tag-education);
+}
+
+.teach-business {
+  background-color: var(--color-tag-business);
+}
+
+.teach-art {
+  background-color: var(--color-tag-art);
+}
+
+.teach-languages {
+  background-color: var(--color-tag-languages);
+}
+
+.teach-home {
+  background-color: var(--color-tag-home);
+}
+
+.teach-health {
+  background-color: var(--color-tag-health);
+}
+
+.teach-other {
+  background-color: var(--color-tag-other);
+}
