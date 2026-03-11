@@ -30,7 +30,14 @@
   height: 24px;
   flex-shrink: 0;
   display: block;
+}
+
+.searchInput__icon {
   color: var(--color-text-secondary);
+}
+
+.searchInput__clearIcon {
+  color: var(--color-text-primary);
 }
 
 .searchInput__field {
@@ -42,6 +49,7 @@
   font-family: var(--font-family-base);
   line-height: var(--line-height-body);
   color: var(--color-text-primary);
+  caret-color: var(--color-accent-pressed);
 
   &::placeholder {
     color: var(--color-text-secondary);

@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './SearchInputUI.module.scss';
-import searchIcon from '../../../assets/icons/search.svg';
-import closeIcon from '../../../assets/icons/cross.svg';
+import SearchIcon from '../../../assets/icons/search.svg?react';
+import CloseIcon from '../../../assets/icons/cross.svg?react';
 
 export interface SearchInputUIProps {
   placeholder?: string;
@@ -20,9 +20,7 @@ export const SearchInputUI: React.FC<SearchInputUIProps> = ({
 
   return (
     <div className={styles.searchInput}>
-      {!hasValue && (
-        <img src={searchIcon} alt="" className={styles.searchInput__icon} aria-hidden="true" />
-      )}
+      <SearchIcon className={styles.searchInput__icon} aria-hidden="true" />
 
       <input
         type="search"
@@ -40,12 +38,7 @@ export const SearchInputUI: React.FC<SearchInputUIProps> = ({
           onClick={onClear}
           aria-label="Очистить"
         >
-          <img
-            src={closeIcon}
-            alt=""
-            className={styles.searchInput__clearIcon}
-            aria-hidden="true"
-          />
+          <CloseIcon className={styles.searchInput__clearIcon} aria-hidden="true" />
         </button>
       )}
     </div>
