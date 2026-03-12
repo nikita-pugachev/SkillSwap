@@ -1,92 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import styles from './CategoryDropdown.module.scss';
-
-const CATEGORIES = [
-  {
-    title: 'Бизнес и карьера',
-    iconSrc: 'src/assets/icons/skills-category/icon-business-career.svg',
-    subs: [
-      'Управление командой',
-      'Маркетинг и реклама',
-      'Продажи и переговоры',
-      'Личный бренд',
-      'Резюме и собеседование',
-      'Тайм-менеджмент',
-      'Проектное управление',
-      'Предпренимательство',
-    ],
-    color: 'var(--color-tag-business)',
-  },
-  {
-    title: 'Иностранные языки',
-    iconSrc: 'src/assets/icons/skills-category/icon-languages.svg',
-    subs: [
-      'Английский',
-      'Французский',
-      'Испанский',
-      'Немецкий',
-      'Китайский',
-      'Японский',
-      'Подготовка к экзаменам (IELTS, TOEFL)',
-    ],
-    color: 'var(--color-tag-languages)',
-  },
-  {
-    title: 'Дом и уют',
-    iconSrc: 'src/assets/icons/skills-category/icon-home.svg',
-    subs: [
-      'Уборка и организация',
-      'Домашние финансы',
-      'Приготовление еды',
-      'Домашние растения',
-      'Ремонт',
-      'Хранение вещей',
-    ],
-    color: 'var(--color-tag-home)',
-  },
-  {
-    title: 'Творчество и искусство',
-    iconSrc: 'src/assets/icons/skills-category/icon-art.svg',
-    subs: [
-      'Рисование и иллюстрация',
-      'Фотография',
-      'Видеомонтаж',
-      'Музыка и звук',
-      'Актёрское мастерство',
-      'Креативное письмо',
-      'Арт-терапия',
-      'Декор и DIY',
-    ],
-    color: 'var(--color-tag-art)',
-  },
-  {
-    title: 'Образование и развитие',
-    iconSrc: 'src/assets/icons/skills-category/icon-education.svg',
-    subs: [
-      'Личностное развитие',
-      'Навыки обучения',
-      'Когнитивные техники',
-      'Скорочтение',
-      'Навыки преподавания',
-      'Коучинг',
-    ],
-    color: 'var(--color-tag-education)',
-  },
-  {
-    title: 'Здоровье и лайфстайл',
-    iconSrc: 'src/assets/icons/skills-category/icon-health.svg',
-    subs: [
-      'Йога и медитация',
-      'Питание и ЗОЖ',
-      'Ментальное здоровье',
-      'Осознанность',
-      'Физические тренировки',
-      'Сон и восстановление',
-      'Баланс жизни и работы',
-    ],
-    color: 'var(--color-tag-health)',
-  },
-];
+import { ChevronIcon } from '../ui/Icons/ChevronIcon';
+import { CATEGORIES } from '../../data/categories';
+import { CategoryRow } from './components/CategoryRow';
 
 interface CategoryDropdownProps {
   onCategorySelect?: (value: string) => void;
@@ -142,6 +58,10 @@ export const CategoryDropdown: React.FC<CategoryDropdownProps> = ({
     setIsOpen(false);
   };
 
+  const midIndex = Math.ceil(CATEGORIES.length / 2);
+  const leftColumn = CATEGORIES.slice(0, midIndex);
+  const rightColumn = CATEGORIES.slice(midIndex);
+
   return (
     <>
       <button
@@ -150,109 +70,28 @@ export const CategoryDropdown: React.FC<CategoryDropdownProps> = ({
         className={`${styles.dropdownButton} ${className}`}
         onClick={handleToggle}
         aria-expanded={isOpen}
-        aria-haspopup="true"
+        aria-haspopup="menu"
         aria-label="Все навыки"
       >
         <span>Все навыки</span>
-
-        <img
-          src="src/assets/icons/chevron-down.svg"
-          alt=""
-          className={`${styles.chevron} ${isOpen ? styles.chevronOpen : ''}`}
-          width={24}
-          height={24}
-        />
+        <ChevronIcon className={styles.chevron} isOpen={isOpen} />
       </button>
 
       {isOpen && (
         <div ref={menuRef} className={styles.menuPanel}>
           <div className={styles.container}>
             <div className={styles.grid}>
+              {/* Левая колонка */}
               <div className={styles.column}>
-                {CATEGORIES.slice(0, 3).map((cat) => (
-                  <div key={cat.title} className={styles.categoryRow}>
-                    <button
-                      className={styles.iconButton}
-                      onClick={() => handleSelect(cat.title)}
-                      aria-label={cat.title}
-                    >
-                      <div className={styles.categoryIcon} style={{ backgroundColor: cat.color }}>
-                        <img
-                          src={cat.iconSrc}
-                          alt={cat.title}
-                          className={styles.categoryIconImage}
-                          width={24}
-                          height={24}
-                        />
-                      </div>
-                    </button>
-
-                    <div className={styles.contentColumn}>
-                      <button
-                        className={styles.categoryButton}
-                        onClick={() => handleSelect(cat.title)}
-                      >
-                        <span className={styles.categoryName}>{cat.title}</span>
-                      </button>
-
-                      <ul className={styles.subcategoryList}>
-                        {cat.subs.map((sub) => (
-                          <li key={sub}>
-                            <button
-                              className={styles.subcategoryButton}
-                              onClick={() => handleSelect(sub)}
-                            >
-                              {sub}
-                            </button>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
+                {leftColumn.map((cat) => (
+                  <CategoryRow key={cat.title} category={cat} onSelect={handleSelect} />
                 ))}
               </div>
 
+              {/* Правая колонка */}
               <div className={styles.column}>
-                {CATEGORIES.slice(3).map((cat) => (
-                  <div key={cat.title} className={styles.categoryRow}>
-                    <button
-                      className={styles.iconButton}
-                      onClick={() => handleSelect(cat.title)}
-                      aria-label={cat.title}
-                    >
-                      <div className={styles.categoryIcon} style={{ backgroundColor: cat.color }}>
-                        <img
-                          src={cat.iconSrc}
-                          alt={cat.title}
-                          className={styles.categoryIconImage}
-                          width={24}
-                          height={24}
-                        />
-                      </div>
-                    </button>
-
-                    <div className={styles.contentColumn}>
-                      <button
-                        className={styles.categoryButton}
-                        onClick={() => handleSelect(cat.title)}
-                      >
-                        <span className={styles.categoryName}>{cat.title}</span>
-                      </button>
-
-                      <ul className={styles.subcategoryList}>
-                        {cat.subs.map((sub) => (
-                          <li key={sub}>
-                            <button
-                              className={styles.subcategoryButton}
-                              onClick={() => handleSelect(sub)}
-                            >
-                              {sub}
-                            </button>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
+                {rightColumn.map((cat) => (
+                  <CategoryRow key={cat.title} category={cat} onSelect={handleSelect} />
                 ))}
               </div>
             </div>

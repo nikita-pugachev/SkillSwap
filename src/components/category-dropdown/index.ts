@@ -1,1 +1,1 @@
-export * from './CategoryDropdown';
+export { CategoryDropdown } from './CategoryDropdown';
