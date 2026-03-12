@@ -19,7 +19,7 @@ export const IconButton: FC<IconButtonProps> = ({
   return (
     <button
       type={type}
-      className={`${styles.button} ${className}`.trim()}
+      className={`${styles.iconButton} ${className}`}
       onClick={onClick}
       aria-label={ariaLabel}
     >
