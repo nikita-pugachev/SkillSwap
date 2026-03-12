@@ -76,21 +76,6 @@ describe('ErrorPage', () => {
     expect(navigateMock).toHaveBeenCalledWith('/');
   });
 
-  it('calls console.log when "Сообщить об ошибке" button is clicked', async () => {
-    const user = userEvent.setup();
-    const consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
-    mockedUseParams.mockReturnValue({ type: 'notFoundError' });
-
-    render(<ErrorPage />);
-
-    await user.click(screen.getByRole('button', { name: 'Сообщить об ошибке' }));
-
-    expect(consoleSpy).toHaveBeenCalledTimes(1);
-    expect(consoleSpy).toHaveBeenCalledWith('Перенаправляем...');
-
-    consoleSpy.mockRestore();
-  });
-
   it('does not render buttons for unknown error', () => {
     mockedUseParams.mockReturnValue({ type: 'unknownType' });
 

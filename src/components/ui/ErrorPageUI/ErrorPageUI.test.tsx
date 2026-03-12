@@ -1,8 +1,9 @@
 import { render, screen } from '@testing-library/react';
-import { ErrorPageUI } from './ErrorPageUI';
-import React from 'react';
+import type { SVGProps } from 'react';
 
-const MockIllustration = (props: React.SVGProps<SVGSVGElement>) => (
+import { ErrorPageUI } from './ErrorPageUI';
+
+const MockIllustration = (props: SVGProps<SVGSVGElement>) => (
   <svg data-testid="error-illustration" {...props}>
     <title>Mock Illustration</title>
   </svg>
