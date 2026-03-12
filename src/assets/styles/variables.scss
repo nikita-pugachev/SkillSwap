@@ -15,6 +15,9 @@
   --color-accent-pressed: #508826;
   --color-button-hover: #deebc5;
 
+  /* Фокус */
+  --color-focus: var(--color-accent);
+
   /* Фон */
   --color-bg: #f9faf7;
 
@@ -30,8 +33,6 @@
   --color-tag-home: #f7ebe5;
   --color-tag-health: #e9f7e7;
   --color-tag-other: #e8ecf7;
-
-  /* Типографика */
 
   /* Шрифты */
   --font-family-base: 'Roboto', sans-serif;
