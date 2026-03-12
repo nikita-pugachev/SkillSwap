@@ -1,4 +1,4 @@
-import { ErrorPageUI } from '@/components/ui/ErrorPageUI/ErrorPageUI';
+import { ErrorPageUI } from '@/components/ui/ErrorPageUI';
 import { useNavigate, useParams } from 'react-router-dom';
 import { errorConfig, type ErrorType } from '@/pages/ErrorPage/model/errorConfig';
 import styles from './ErrorPage.module.scss';
@@ -18,9 +18,7 @@ export const ErrorPage = () => {
   };
 
   //   TODO: доделать куда переправляется пользователь
-  const handleReportProblemClick = () => {
-    console.log('Перенаправляем...');
-  };
+  const handleReportProblemClick = () => {};
   return (
     <div className={styles.errorPage}>
       <ErrorPageUI {...errorData} />
