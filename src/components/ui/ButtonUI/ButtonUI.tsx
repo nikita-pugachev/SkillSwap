@@ -14,21 +14,10 @@ export const Button: React.FC<ButtonProps> = ({
   type = 'button',
   ...rest
 }) => {
-  const buttonClasses = [
-    styles.button,
-    styles[variant],
-    className,
-  ]
-    .filter(Boolean)
-    .join(' ');
+  const buttonClasses = [styles.button, styles[variant], className].filter(Boolean).join(' ');
 
   return (
-    <button
-      className={buttonClasses}
-      disabled={disabled}
-      type={type}
-      {...rest}
-    >
+    <button className={buttonClasses} disabled={disabled} type={type} {...rest}>
       {children}
     </button>
   );

@@ -1,25 +1,22 @@
 .button {
   display: inline-flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   gap: 8px;
-  padding: 12px 24px;
-  border-radius: 12px;
-  border: 1px solid transparent;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  height: 48px;
   box-sizing: border-box;
-  user-select: none;
-
+  height: 48px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-primary);
+  padding: 12px 24px;
   font-family: var(--font-family-base);
-  font-size: var(--font-size-body);
   font-weight: var(--font-weight-regular);
+  font-size: var(--font-size-body);
   line-height: var(--line-height-body);
+  transition: all 0.2s ease;
+  user-select: none;
 
   &:focus-visible {
     outline: 1px solid var(--color-focus);
-    outline-offset: 2px;
   }
 
   &:disabled {
@@ -28,29 +25,28 @@
 }
 
 .primary {
-  background-color: var(--color-accent);
   color: var(--color-text-primary);
+  background-color: var(--color-accent);
 
   &:hover:not(:disabled) {
     background-color: var(--color-button-hover);
-    color: var(--color-text-primary);
   }
 
   &:active:not(:disabled) {
+    color: var(--color-surface);
     background-color: var(--color-accent-pressed);
-    color: var(--color-text-primary);
   }
 
   &:disabled {
-    background-color: var(--color-disabled);
     color: var(--color-text-secondary);
+    background-color: var(--color-disabled);
   }
 }
 
 .outlined {
-  background-color: var(--color-surface);
   border: 1px solid var(--color-accent);
   color: var(--color-text-primary);
+  background-color: var(--color-surface);
 
   &:hover:not(:disabled) {
     border-color: var(--color-button-hover);
@@ -59,17 +55,17 @@
 
   &:active:not(:disabled) {
     border-color: var(--color-accent-pressed);
-    color: var(--color-text-secondary);
+    color: var(--color-text-primary);
   }
 
   &:disabled {
     border-color: var(--color-disabled);
-    color: var(--color-text-disabled);    
+    color: var(--color-text-disabled);
   }
 }
 
 .tertiary {
-  background-color: var(--color-surface);
   border: none;
   color: var(--color-text-primary);
+  background-color: var(--color-surface);
 }

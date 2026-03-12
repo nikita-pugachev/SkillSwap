@@ -1,2 +1,1 @@
 export { Button } from './ButtonUI';
-export { Avatar } from './Avatar';
