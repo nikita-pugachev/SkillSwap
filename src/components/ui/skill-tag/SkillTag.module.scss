@@ -1,4 +1,5 @@
-.tag {
+.tag,
+.count {
   display: inline-flex;
   width: fit-content;
   height: 32px;
@@ -6,9 +7,6 @@
   padding: 8px 12px;
   border-radius: var(--radius-tag);
   gap: 4px;
-}
-
-.label {
   font-family: var(--font-family-base);
   font-weight: var(--font-weight-regular);
   font-size: var(--font-size-caption);
@@ -17,30 +15,34 @@
   color: var(--color-text-primary);
 }
 
-.learn {
+.count {
+  background-color: var(--color-tag-other);
+}
+
+.education {
   background-color: var(--color-tag-education);
 }
 
-.teach-business {
+.business {
   background-color: var(--color-tag-business);
 }
 
-.teach-art {
+.art {
   background-color: var(--color-tag-art);
 }
 
-.teach-languages {
+.languages {
   background-color: var(--color-tag-languages);
 }
 
-.teach-home {
+.home {
   background-color: var(--color-tag-home);
 }
 
-.teach-health {
+.health {
   background-color: var(--color-tag-health);
 }
 
-.teach-other {
+.other {
   background-color: var(--color-tag-other);
 }
