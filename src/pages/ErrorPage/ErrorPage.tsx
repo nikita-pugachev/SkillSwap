@@ -2,6 +2,7 @@ import { ErrorPageUI } from '@/components/ui/ErrorPageUI';
 import { useNavigate, useParams } from 'react-router-dom';
 import { errorConfig, type ErrorType } from '@/pages/ErrorPage/model/errorConfig';
 import styles from './ErrorPage.module.scss';
+import { Button } from '@/components/ui';
 
 export const ErrorPage = () => {
   const { type } = useParams<{ type: string }>();
@@ -23,10 +24,13 @@ export const ErrorPage = () => {
     <div className={styles.errorPage}>
       <ErrorPageUI {...errorData} />
 
-      {/* Fix: заменить на компоненты кнопки */}
       <div className={styles.buttonContainer}>
-        <button onClick={handleReportProblemClick}>Сообщить об ошибке</button>
-        <button onClick={handleGoHomeClick}>На главную</button>
+        <Button onClick={handleReportProblemClick} variant="outlined" className="buttonErrorPage">
+          Сообщить об ошибке
+        </Button>
+        <Button onClick={handleGoHomeClick} variant="primary" className="buttonErrorPage">
+          На главную
+        </Button>
       </div>
     </div>
   );
