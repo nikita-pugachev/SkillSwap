@@ -2,8 +2,8 @@ import React from 'react';
 import styles from './FormInputUI.module.scss';
 import { InputUI } from '../InputUI/InputUI';
 import { IconButton } from '../IconButton';
-import eyeIcon from '@/assets/icons/eye.svg';
-import eyeSlashIcon from '@/assets/icons/eye-slash.svg';
+import eyeIcon from '/src/assets/icons/eye.svg';
+import eyeSlashIcon from '/src/assets/icons/eye-slach.svg';
 
 export interface FormInputUIProps {
   type: string;
