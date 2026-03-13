@@ -3,6 +3,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { ErrorPage } from './ErrorPage';
 import { useNavigate, useParams } from 'react-router-dom';
+import type { ErrorType } from '@/pages/ErrorPage/model/errorConfig';
 
 const navigateMock = jest.fn();
 
@@ -46,9 +47,9 @@ const mockedUseNavigate = jest.mocked(useNavigate);
 const mockedUseParams = jest.mocked(useParams);
 
 describe('ErrorPage', () => {
-  const renderPage = (type?: string) => {
+  const renderPage = (type?: string, defaultType?: ErrorType) => {
     mockedUseParams.mockReturnValue(type ? ({ type } as never) : ({} as never));
-    return render(<ErrorPage />);
+    return render(<ErrorPage defaultType={defaultType} />);
   };
 
   beforeEach(() => {
@@ -56,18 +57,45 @@ describe('ErrorPage', () => {
     mockedUseNavigate.mockReturnValue(navigateMock);
   });
 
-  it('renders unknown error message when param type is missing', () => {
+  it('renders unknown error message when param type is missing and defaultType is not provided', () => {
     renderPage();
 
     expect(screen.getByText('Неизвестная ошибка')).toBeInTheDocument();
     expect(screen.queryByTestId('error-page-ui')).not.toBeInTheDocument();
   });
 
-  it('renders unknown error message when param type is invalid', () => {
+  it('renders unknown error message when param type is invalid and defaultType is not provided', () => {
     renderPage('randomError');
 
     expect(screen.getByText('Неизвестная ошибка')).toBeInTheDocument();
     expect(screen.queryByTestId('error-page-ui')).not.toBeInTheDocument();
+  });
+
+  it('renders defaultType when param type is missing', () => {
+    renderPage(undefined, 'notFoundError');
+
+    expect(screen.getByRole('heading', { name: 'Страница не найдена' })).toBeInTheDocument();
+
+    expect(
+      screen.getByText(
+        'К сожалению, эта страница недоступна. Вернитесь на главную страницу или попробуйте позже'
+      )
+    ).toBeInTheDocument();
+
+    expect(screen.getByRole('button', { name: 'Сообщить об ошибке' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'На главную' })).toBeInTheDocument();
+  });
+
+  it('renders defaultType when param type is invalid', () => {
+    renderPage('randomError', 'notFoundError');
+
+    expect(screen.getByRole('heading', { name: 'Страница не найдена' })).toBeInTheDocument();
+
+    expect(
+      screen.getByText(
+        'К сожалению, эта страница недоступна. Вернитесь на главную страницу или попробуйте позже'
+      )
+    ).toBeInTheDocument();
   });
 
   it('renders notFoundError page content with action buttons', () => {
@@ -82,7 +110,6 @@ describe('ErrorPage', () => {
     ).toBeInTheDocument();
 
     expect(screen.getByRole('button', { name: 'Сообщить об ошибке' })).toBeInTheDocument();
-
     expect(screen.getByRole('button', { name: 'На главную' })).toBeInTheDocument();
   });
 
@@ -119,11 +146,10 @@ describe('ErrorPage', () => {
     expect(navigateMock).not.toHaveBeenCalled();
   });
 
-  it('does not render action buttons for unknown error', () => {
+  it('does not render action buttons for unknown error without defaultType', () => {
     renderPage('unknownType');
 
     expect(screen.queryByRole('button', { name: 'Сообщить об ошибке' })).not.toBeInTheDocument();
-
     expect(screen.queryByRole('button', { name: 'На главную' })).not.toBeInTheDocument();
   });
 });

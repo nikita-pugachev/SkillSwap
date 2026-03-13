@@ -4,22 +4,28 @@ import { errorConfig, type ErrorType } from '@/pages/ErrorPage/model/errorConfig
 import styles from './ErrorPage.module.scss';
 import { Button } from '@/components/ui';
 
-export const ErrorPage = () => {
-  const { type } = useParams<{ type: string }>();
+type ErrorPageProps = {
+  defaultType?: ErrorType;
+};
+
+export const ErrorPage = ({ defaultType }: ErrorPageProps) => {
+  const { type } = useParams<{ type?: string }>();
   const navigate = useNavigate();
 
-  if (!type || !(type in errorConfig)) {
+  const errorType = (type && type in errorConfig ? type : defaultType) as ErrorType | undefined;
+
+  if (!errorType) {
     return <div>Неизвестная ошибка</div>;
   }
 
-  const errorData = errorConfig[type as ErrorType];
+  const errorData = errorConfig[errorType];
 
   const handleGoHomeClick = () => {
     navigate('/');
   };
 
-  //   TODO: доделать куда переправляется пользователь
   const handleReportProblemClick = () => {};
+
   return (
     <div className={styles.errorPage}>
       <ErrorPageUI {...errorData} />
@@ -32,6 +38,7 @@ export const ErrorPage = () => {
         >
           Сообщить об ошибке
         </Button>
+
         <Button onClick={handleGoHomeClick} variant="primary" className={styles.buttonErrorPage}>
           На главную
         </Button>
