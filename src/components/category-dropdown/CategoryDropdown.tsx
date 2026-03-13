@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import styles from './CategoryDropdown.module.scss';
 import { ChevronIcon } from '../ui/Icons/ChevronIcon';
-import { CATEGORIES } from '../../data/categories';
+import { getCategoriesColumns } from '../../data/categories';
 import { CategoryRow } from './components/CategoryRow';
 
 interface CategoryDropdownProps {
@@ -58,18 +58,16 @@ export const CategoryDropdown: React.FC<CategoryDropdownProps> = ({
     setIsOpen(false);
   };
 
-  const midIndex = Math.ceil(CATEGORIES.length / 2);
-  const leftColumn = CATEGORIES.slice(0, midIndex);
-  const rightColumn = CATEGORIES.slice(midIndex);
+  const { leftColumn, rightColumn } = getCategoriesColumns();
 
   return (
-    <>
+    <div className={styles.wrapper}>
       <button
         ref={triggerRef}
         type="button"
         className={`${styles.dropdownButton} ${className}`}
         onClick={handleToggle}
-        aria-expanded={isOpen}
+        aria-expanded={isOpen ? 'true' : 'false'}
         aria-haspopup="menu"
         aria-label="Все навыки"
       >
@@ -98,6 +96,6 @@ export const CategoryDropdown: React.FC<CategoryDropdownProps> = ({
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 };

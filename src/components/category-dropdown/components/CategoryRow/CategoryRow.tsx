@@ -16,6 +16,7 @@ export const CategoryRow: React.FC<CategoryRowProps> = ({ category, onSelect }) 
         type="button"
         onClick={() => onSelect(category.title)}
         aria-label={category.title}
+        data-testid={`category-icon-${category.title}`}
       >
         <CategoryIcon categoryTitle={category.title} />
       </button>
@@ -25,6 +26,7 @@ export const CategoryRow: React.FC<CategoryRowProps> = ({ category, onSelect }) 
           className={styles.categoryButton}
           type="button"
           onClick={() => onSelect(category.title)}
+          data-testid={`category-title-${category.title}`}
         >
           <span className={styles.categoryName}>{category.title}</span>
         </button>
@@ -32,7 +34,11 @@ export const CategoryRow: React.FC<CategoryRowProps> = ({ category, onSelect }) 
         <ul className={styles.subcategoryList}>
           {category.subs.map((sub) => (
             <li key={sub}>
-              <button className={styles.subcategoryButton} onClick={() => onSelect(sub)}>
+              <button
+                className={styles.subcategoryButton}
+                type="button"
+                onClick={() => onSelect(sub)}
+              >
                 {sub}
               </button>
             </li>
