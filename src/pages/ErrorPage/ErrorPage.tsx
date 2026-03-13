@@ -25,10 +25,14 @@ export const ErrorPage = () => {
       <ErrorPageUI {...errorData} />
 
       <div className={styles.buttonContainer}>
-        <Button onClick={handleReportProblemClick} variant="outlined" className="buttonErrorPage">
+        <Button
+          onClick={handleReportProblemClick}
+          variant="outlined"
+          className={styles.buttonErrorPage}
+        >
           Сообщить об ошибке
         </Button>
-        <Button onClick={handleGoHomeClick} variant="primary" className="buttonErrorPage">
+        <Button onClick={handleGoHomeClick} variant="primary" className={styles.buttonErrorPage}>
           На главную
         </Button>
       </div>
