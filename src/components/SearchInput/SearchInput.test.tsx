@@ -39,4 +39,31 @@ describe('SearchInput', () => {
     expect(input.value).toBe('');
     expect(screen.queryByRole('button', { name: 'Очистить' })).not.toBeInTheDocument();
   });
+
+  it('вызывает onSearch при нажатии Enter', () => {
+    const onSearch = jest.fn();
+
+    render(<SearchInput onSearch={onSearch} />);
+
+    const input = screen.getByRole('searchbox', { name: 'Искать навык' });
+
+    fireEvent.change(input, { target: { value: 'React' } });
+    fireEvent.keyDown(input, { key: 'Enter', code: 'Enter' });
+
+    expect(onSearch).toHaveBeenCalledTimes(1);
+    expect(onSearch).toHaveBeenCalledWith('React');
+  });
+
+  it('не вызывает onSearch при нажатии не Enter', () => {
+    const onSearch = jest.fn();
+
+    render(<SearchInput onSearch={onSearch} />);
+
+    const input = screen.getByRole('searchbox', { name: 'Искать навык' });
+
+    fireEvent.change(input, { target: { value: 'React' } });
+    fireEvent.keyDown(input, { key: 'Escape', code: 'Escape' });
+
+    expect(onSearch).not.toHaveBeenCalled();
+  });
 });
