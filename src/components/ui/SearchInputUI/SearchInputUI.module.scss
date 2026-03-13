@@ -1,12 +1,10 @@
 .searchInput {
-  border: none;
   display: flex;
   align-items: center;
   gap: 11px;
 }
 
-.searchInput__icon,
-.searchInput__clearIcon {
+.searchInput__icon {
   width: 24px;
   height: 24px;
   flex-shrink: 0;
@@ -15,26 +13,6 @@
 
 .searchInput__icon {
   color: var(--color-text-secondary);
-}
-
-.searchInput__clearIcon {
-  color: var(--color-text-primary);
-}
-
-.searchInput__field {
-  flex: 1 1 auto;
-  border: none;
-  outline: none;
-  background: transparent;
-  font-size: var(--font-size-body);
-  font-family: var(--font-family-base);
-  line-height: var(--line-height-body);
-  color: var(--color-text-primary);
-  caret-color: var(--color-accent-pressed);
-
-  &::placeholder {
-    color: var(--color-text-secondary);
-  }
 }
 
 .searchInput__clear {

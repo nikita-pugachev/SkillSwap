@@ -1,7 +1,12 @@
 import React, { FC, useState } from 'react';
 import { SearchInputUI } from '../ui/SearchInputUI';
+import { InputBaseContainerUI } from '../ui/InputBaseContainerUI';
 
-export const SearchInput: FC = () => {
+interface SearchInputProp {
+  onSearch?: (value: string) => void;
+}
+
+export const SearchInput: FC<SearchInputProp> = ({ onSearch }) => {
   const [value, setValue] = useState('');
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -12,5 +17,9 @@ export const SearchInput: FC = () => {
     setValue('');
   };
 
-  return <SearchInputUI value={value} onChange={onChange} onClear={onClear} />;
+  return (
+    <InputBaseContainerUI isSearch={true}>
+      <SearchInputUI value={value} onChange={onChange} onClear={onClear} onSearch={onSearch} />
+    </InputBaseContainerUI>
+  );
 };
