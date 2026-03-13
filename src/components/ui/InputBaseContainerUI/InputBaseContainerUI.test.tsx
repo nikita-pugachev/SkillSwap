@@ -10,6 +10,8 @@ jest.mock('./InputBaseContainerUI.module.scss', () => ({
     labelInput: 'labelInput',
     inputBase: 'inputBase',
     inputBaseSearch: 'inputBaseSearch',
+    errorInput: 'errorInput',
+    hintInput: 'hintInput',
   },
 }));
 
@@ -77,7 +79,9 @@ describe('InputBaseContainerUI', () => {
       </InputBaseContainerUI>
     );
 
-    expect(screen.getByText('Hint text')).toBeInTheDocument();
+    const hint = screen.getByText('Hint text');
+    expect(hint).toBeInTheDocument();
+    expect(hint).toHaveClass('hintInput');
   });
 
   it('renders error only', () => {
@@ -87,17 +91,22 @@ describe('InputBaseContainerUI', () => {
       </InputBaseContainerUI>
     );
 
-    expect(screen.getByText('Error text')).toBeInTheDocument();
+    const error = screen.getByText('Error text');
+    expect(error).toBeInTheDocument();
+    expect(error).toHaveClass('errorInput');
   });
 
-  it('renders hint and error in one paragraph', () => {
+  it('renders error instead of hint when both are passed', () => {
     render(
       <InputBaseContainerUI hint="Hint text" error="Error text">
         <input aria-label="hint-error-input" />
       </InputBaseContainerUI>
     );
 
-    expect(screen.getByText('Hint text Error text')).toBeInTheDocument();
+    const error = screen.getByText('Error text');
+    expect(error).toBeInTheDocument();
+    expect(error).toHaveClass('errorInput');
+    expect(screen.queryByText('Hint text')).not.toBeInTheDocument();
   });
 
   it('does not render message paragraph when hint and error are absent', () => {
