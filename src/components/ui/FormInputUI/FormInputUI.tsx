@@ -2,6 +2,8 @@ import React from 'react';
 import styles from './FormInputUI.module.scss';
 import { InputUI } from '../InputUI/InputUI';
 import { IconButton } from '../IconButton';
+import eyeIcon from '@/assets/icons/eye.svg';
+import eyeSlashIcon from '@/assets/icons/eye-slash.svg';
 
 export interface FormInputUIProps {
   type: string;
@@ -24,7 +26,7 @@ export const FormInputUI: React.FC<FormInputUIProps> = ({
   isVisible = false,
   isPassword = false,
 }) => {
-  const iconSrc = isVisible ? '/src/assets/icons/eye-slach.svg' : '/src/assets/icons/eye.svg';
+  const iconSrc = isVisible ? eyeSlashIcon : eyeIcon;
 
   return (
     <div className={styles.formInput}>
