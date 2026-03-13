@@ -9,13 +9,14 @@ export interface SkillTagProps {
 }
 
 export const SkillTag: React.FC<SkillTagProps> = ({ label, variant, category, count }) => {
-  const variantClass = styles[variant];
   const bgColorClass = category ? styles[category] : styles.other;
 
   return (
-    <div className={`${styles.tag} ${variantClass} ${bgColorClass} `}>
-      <span className={styles.label}>{label}</span>
-      {count !== undefined && count > 0 && <span className={styles.count}>+{count}</span>}
-    </div>
+    <>
+      <div className={`${styles.tag} ${bgColorClass}`} data-variant={variant}>
+        <span>{label}</span>
+      </div>
+      {count !== undefined && count > 0 && <div className={styles.count}>+{count}</div>}
+    </>
   );
 };
