@@ -30,7 +30,11 @@ export const InputBaseContainerUI: React.FC<TInputBaseProps> = ({
         </label>
       )}
       <div className={inputBaseClassName}>{children}</div>
-      {(hint || error) && <p>{[hint, error].filter(Boolean).join(' ')}</p>}
+      {error ? (
+        <p className={styles.errorInput}>{error}</p>
+      ) : hint ? (
+        <p className={styles.hintInput}>{hint}</p>
+      ) : null}
     </div>
   );
 };

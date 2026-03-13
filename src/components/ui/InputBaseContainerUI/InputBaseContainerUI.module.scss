@@ -37,8 +37,12 @@
   color: var(--color-text-primary);
 }
 
-.errorInput {
+.errorInput,
+.hintInput {
   font-size: var(--font-size-caption);
   line-height: var(--line-height-caption);
+}
+
+.errorInput {
   color: var(--color-error);
 }
