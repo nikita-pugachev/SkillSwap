@@ -10,9 +10,12 @@ import { InputBaseContainerUI } from '@/components/ui/InputBaseContainerUI';
 import { IconButton } from '@/components/ui/IconButton';
 import eyeIcon from '@/assets/icons/eye.svg';
 import eyeSlashIcon from '@/assets/icons/eye-slash.svg';
+import lightBulb from '@/assets/illustrations/light-bulb.svg';
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
+  const passwordError: string | undefined = undefined;
+  // const passwordError = 'Email или пароль введён неверно. Пожалуйста, проверьте правильность введённых данных';
   const togglePassword = () => {
     setShowPassword((prev) => !prev);
   };
@@ -31,9 +34,7 @@ export default function LoginPage() {
           <img src={cross} alt="" className={styles.closeIcon} aria-hidden="true" />
         </button>
       </header>
-
       <h1 className={styles.title}>Вход</h1>
-
       <main className={styles.content}>
         {/* FORM */}
         <section className={styles.form}>
@@ -60,7 +61,7 @@ export default function LoginPage() {
                 <InputUI id="email" type="email" placeholder="Введите email" />
               </InputBaseContainerUI>
 
-              <InputBaseContainerUI label="Пароль" id="password">
+              <InputBaseContainerUI label="Пароль" id="password" error={passwordError}>
                 <div className={styles.passwordField}>
                   <InputUI
                     id="password"
@@ -90,9 +91,18 @@ export default function LoginPage() {
             </a>
           </div>
         </section>
+        {/* ONBOARDING */}
+        <section className={styles.onboarding}>
+          <img src={lightBulb} alt="" className={styles.onboardingImage} />
 
-        {/* ONBORDING */}
-        <section className={styles.onboarding}>onboarding</section>
+          <div className={styles.onboardingText}>
+            <h2 className={styles.onboardingTitle}>С возвращением в SkillSwap!</h2>
+
+            <p className={styles.onboardingSubtitle}>
+              Обменивайтесь знаниями и навыками с другими людьми
+            </p>
+          </div>
+        </section>
       </main>
     </div>
   );
