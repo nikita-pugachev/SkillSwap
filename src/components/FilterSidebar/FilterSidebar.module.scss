@@ -1,0 +1,50 @@
+.sidebar {
+  width: 324px;
+  border-radius: var(--radius-primary);
+  padding: 20px;
+  background-color: var(--color-surface);
+}
+
+.title {
+  padding-bottom: 40px;
+}
+
+.filterGroup {
+  padding-top: 32px;
+}
+
+.groupTitle {
+  padding-bottom: 20px;
+  color: var(--color-text-primary);
+  font-family: var(--font-family-heading);
+  font-weight: var(--font-weight-medium);
+  font-size: var(--font-size-h3);
+}
+
+.checkboxList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-bottom: 12px;
+}
+
+.allCategoriesButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border: none;
+  padding: 0;
+  padding-top: 12px;
+  color: var(--color-accent);
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-body);
+  background: none;
+
+  &:hover {
+    color: var(--color-accent-pressed);
+  }
+}
+
+.categoryTree {
+  padding-bottom: 12px;
+}
