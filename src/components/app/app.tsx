@@ -15,10 +15,15 @@ const CreatePage = lazy(() => import('@/pages/create-page'));
 const NotFoundPage = lazy(() => import('@/pages/not-found-page'));
 
 export default function Root() {
+  const user = {
+    name: 'Михаил',
+    avatar: 'src/assets/user-avatars/michael.png',
+  };
+
   return (
     <Provider store={store}>
       <BrowserRouter>
-        <Header isLogin={false} />
+        <Header isLogin={false} user={user} />
         <Suspense fallback={null}>
           <Routes>
             <Route path="/" element={<CatalogPage />} />
