@@ -129,7 +129,6 @@ body {
     Унифицированный интерлиньяж
    */
   line-height: 1.5;
-  background-color: var(--color-bg);
 }
 
 /**
@@ -170,10 +169,6 @@ button {
  */
 :where([stroke]:not([stroke='none'], [stroke^='url'])) {
   stroke: currentcolor;
-}
-
-svg {
-  color: var(--color-icon);
 }
 
 /**
