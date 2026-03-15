@@ -1,8 +1,8 @@
-import type { SkillCategory, SkillType, Skill, User } from './types';
+import type { SkillCategorySlug, SkillType, Skill, User } from './types';
 
 describe('types', () => {
-  it('SkillCategory: тестовый объект соответствует типу', () => {
-    const category: SkillCategory = 'education';
+  it('SkillCategorySlug: тестовый объект соответствует типу', () => {
+    const category: SkillCategorySlug = 'education';
     expect(category).toBe('education');
   });
 

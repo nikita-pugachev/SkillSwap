@@ -1,4 +1,4 @@
-export type SkillCategory =
+export type SkillCategorySlug =
   | 'education'
   | 'business'
   | 'art'
@@ -19,7 +19,7 @@ export interface Skill {
   id: number;
   title: string;
   description: string;
-  category: SkillCategory;
+  category: SkillCategorySlug;
   type: SkillType;
   tags: string[];
   author: SkillAuthor;
@@ -43,7 +43,7 @@ export interface Subcategory {
   title: string;
 }
 
-export interface Category {
+export interface SkillCategory {
   id: number;
   title: string;
   icon: string;
