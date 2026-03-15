@@ -14,7 +14,13 @@
           "customTitle": "Игра на барабанах",
           "subcategoryId": 404,
           "description": "Привет! Я играю на барабанах уже больше 10 лет — от репетиций в гараже до выступлений на сцене с живыми группами. Научу основам техники (и как не отбить себе пальцы), играть любимые ритмы и разбирать песни, импровизировать и звучать уверенно даже без партитуры.",
-          "images": ["/src/assets/skill-images/drum-1.jpg", "/src/assets/skill-images/drum-2.jpg"]
+          "images": [
+            "https://images.unsplash.com/photo-1689290018444-c30277dfd6e0?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1653671834099-bab36d35fb7f?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1707690671228-ab51660646fa?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", 
+            "https://images.unsplash.com/photo-1626407303197-7443a59896be?q=80&w=1632&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1721179389414-8c3f507e2bc2?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          ]
         }
       ],
       "skillsLearn": [106, 601, 201, 501],
@@ -35,7 +41,13 @@
           "customTitle": "Английский язык",
           "subcategoryId": 201,
           "description": "Помогу преодолеть языковой барьер. Обсуждаем сериалы, мемы и реальные жизненные ситуации на английском.",
-          "images": ["/src/assets/skill-images/eng-1.jpg"]
+          "images": [
+            "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=1122&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1518082593638-b6e73b35d39a?q=80&w=1168&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1529203915787-cc54fa70a428?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1503551723145-6c040742065b-v2?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1517849325426-6eac321919a0?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          ]
         }
       ],
       "skillsLearn": [106, 601],
@@ -56,7 +68,13 @@
           "customTitle": "Английский язык",
           "subcategoryId": 201,
           "description": "Технический английский для IT-специалистов. Подготовка к собеседованиям в зарубежные компании.",
-          "images": ["/src/assets/skill-images/eng-2.jpg"]
+          "images": [
+            "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=1122&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1518082593638-b6e73b35d39a?q=80&w=1168&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1529203915787-cc54fa70a428?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1503551723145-6c040742065b-v2?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1517849325426-6eac321919a0?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          ]
         }
       ],
       "skillsLearn": [106, 601],
@@ -77,7 +95,13 @@
           "customTitle": "Английский язык",
           "subcategoryId": 201,
           "description": "Грамматика по полочкам. Объясню времена так, что вы их больше никогда не перепутаете.",
-          "images": ["/src/assets/skill-images/eng-3.jpg"]
+          "images": [
+            "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=1122&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1518082593638-b6e73b35d39a?q=80&w=1168&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1529203915787-cc54fa70a428?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1503551723145-6c040742065b-v2?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1517849325426-6eac321919a0?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          ]
         }
       ],
       "skillsLearn": [106, 601, 301, 302],
@@ -98,7 +122,13 @@
           "customTitle": "Английский язык",
           "subcategoryId": 201,
           "description": "Разговорный клуб: практика речи, постановка произношения, избавление от акцента.",
-          "images": ["/src/assets/skill-images/eng-4.jpg"]
+          "images": [
+            "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=1122&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1518082593638-b6e73b35d39a?q=80&w=1168&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1529203915787-cc54fa70a428?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1503551723145-6c040742065b-v2?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1517849325426-6eac321919a0?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          ]
         }
       ],
       "skillsLearn": [106, 601],
@@ -119,7 +149,13 @@
           "customTitle": "Английский язык",
           "subcategoryId": 201,
           "description": "Современный английский. Учимся понимать носителей, подкасты и YouTube без субтитров.",
-          "images": ["/src/assets/skill-images/eng-5.jpg"]
+          "images": [
+            "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=1122&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1518082593638-b6e73b35d39a?q=80&w=1168&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1529203915787-cc54fa70a428?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1503551723145-6c040742065b-v2?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1517849325426-6eac321919a0?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          ]
         }
       ],
       "skillsLearn": [106, 601, 301, 302],
@@ -140,7 +176,13 @@
           "customTitle": "Английский язык",
           "subcategoryId": 201,
           "description": "Бизнес-английский. Как вести переписку, составлять отчеты и не краснеть на созвонах с партнерами.",
-          "images": ["/src/assets/skill-images/eng-6.jpg"]
+          "images": [
+            "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=1122&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1518082593638-b6e73b35d39a?q=80&w=1168&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1529203915787-cc54fa70a428?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1503551723145-6c040742065b-v2?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1517849325426-6eac321919a0?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          ]
         }
       ],
       "skillsLearn": [106, 601, 408],
@@ -161,7 +203,13 @@
           "customTitle": "Английский язык",
           "subcategoryId": 201,
           "description": "Английский для путешествий: аэропорт, отель, ресторан. Выживем в любой стране!",
-          "images": ["/src/assets/skill-images/eng-7.jpg"]
+          "images": [
+            "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=1122&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1518082593638-b6e73b35d39a?q=80&w=1168&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1529203915787-cc54fa70a428?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1503551723145-6c040742065b-v2?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1517849325426-6eac321919a0?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          ]
         }
       ],
       "skillsLearn": [106, 601],
@@ -182,7 +230,13 @@
           "customTitle": "Английский язык",
           "subcategoryId": 201,
           "description": "Подтягиваем уровень с нуля до уверенного B1. Только полезная лексика и никакой скуки.",
-          "images": ["/src/assets/skill-images/eng-8.jpg"]
+          "images": [
+            "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=1122&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1518082593638-b6e73b35d39a?q=80&w=1168&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1529203915787-cc54fa70a428?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1503551723145-6c040742065b-v2?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1517849325426-6eac321919a0?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          ]
         }
       ],
       "skillsLearn": [404, 204, 101],
@@ -203,7 +257,13 @@
           "customTitle": "Английский язык",
           "subcategoryId": 201,
           "description": "Учим язык по любимым песням и фильмам. Разбираем идиомы и скрытые смыслы текстов.",
-          "images": ["/src/assets/skill-images/eng-9.jpg"]
+          "images": [
+            "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=1122&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1518082593638-b6e73b35d39a?q=80&w=1168&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1529203915787-cc54fa70a428?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1503551723145-6c040742065b-v2?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1517849325426-6eac321919a0?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          ]
         }
       ],
       "skillsLearn": [106, 601],
@@ -224,7 +284,13 @@
           "customTitle": "Бизнес-план",
           "subcategoryId": 108,
           "description": "Помогу превратить идею в пошаговый бизнес-план. Разберем юнит-экономику, целевую аудиторию и стратегию выхода на рынок.",
-          "images": ["/src/assets/skill-images/biz-1.jpg"]
+          "images": [
+            "https://images.unsplash.com/photo-1743385779347-1549dabf1320?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1664575602276-acd073f104c1?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1529119368496-2dfda6ec2804?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1620325867502-221cfb5faa5f?q=80&w=1157&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          ]
         }
       ],
       "skillsLearn": [106, 603],
@@ -245,7 +311,13 @@
           "customTitle": "Английский язык",
           "subcategoryId": 201,
           "description": "Помогаю взрослым начать говорить. Моя методика снимает страх сделать ошибку.",
-          "images": ["/src/assets/skill-images/eng-10.jpg"]
+          "images": [
+            "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=1122&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1518082593638-b6e73b35d39a?q=80&w=1168&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1529203915787-cc54fa70a428?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1503551723145-6c040742065b-v2?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1517849325426-6eac321919a0?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          ]
         }
       ],
       "skillsLearn": [106, 601],
@@ -266,7 +338,13 @@
           "customTitle": "Английский язык",
           "subcategoryId": 201,
           "description": "Письменный английский. Учимся писать эссе, красивые письма и посты в соцсетях как нейтивы.",
-          "images": ["/src/assets/skill-images/eng-11.jpg"]
+          "images": [
+            "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=1122&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1518082593638-b6e73b35d39a?q=80&w=1168&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1529203915787-cc54fa70a428?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1503551723145-6c040742065b-v2?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1517849325426-6eac321919a0?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          ]
         }
       ],
       "skillsLearn": [305, 306, 101],
@@ -287,7 +365,13 @@
           "customTitle": "Английский язык",
           "subcategoryId": 201,
           "description": "Интенсивная практика разговорной речи. Созвоны по 30 минут, где мы обсуждаем заданную тему полностью на английском.",
-          "images": ["/src/assets/skill-images/eng-12.jpg"]
+          "images": [
+            "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=1122&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1518082593638-b6e73b35d39a?q=80&w=1168&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1529203915787-cc54fa70a428?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1503551723145-6c040742065b-v2?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1517849325426-6eac321919a0?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          ]
         }
       ],
       "skillsLearn": [106, 601],
@@ -308,7 +392,13 @@
           "customTitle": "Английский язык",
           "subcategoryId": 201,
           "description": "Английский по карточкам и ассоциациям. Помогу расширить словарный запас на 1000 слов за месяц.",
-          "images": ["/src/assets/skill-images/eng-13.jpg"]
+          "images": [
+            "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=1122&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1518082593638-b6e73b35d39a?q=80&w=1168&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1529203915787-cc54fa70a428?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1503551723145-6c040742065b-v2?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1517849325426-6eac321919a0?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          ]
         }
       ],
       "skillsLearn": [102, 103, 206, 207],
@@ -329,7 +419,13 @@
           "customTitle": "Основы фотографии",
           "subcategoryId": 402,
           "description": "Расскажу про экспозицию, композицию и свет. Научу выжимать максимум из вашей камеры или телефона.",
-          "images": ["/src/assets/skill-images/photo-1.jpg"]
+          "images": [
+            "https://images.unsplash.com/photo-1644150781380-ea91ba2f5a03?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1619456145949-5a8c612d1af2?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1523698120758-030a38a90d16?q=80&w=872&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1555529240-d2ab39b74716?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1590618865394-e2bd3fdc5094?q=80&w=1025&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          ]
         }
       ],
       "skillsLearn": [104, 102],
@@ -350,7 +446,13 @@
           "customTitle": "Декор и DIY",
           "subcategoryId": 408,
           "description": "Мастер-класс по созданию декора для дома своими руками. Обновляем старую мебель и создаем уют без больших затрат.",
-          "images": ["/src/assets/skill-images/decor-1.jpg"]
+          "images": [
+            "https://images.unsplash.com/photo-1572048572872-2394404cf1f3?q=80&w=871&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1595814433015-e6f5ce69614e?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1522065893269-6fd20f6d7438?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1657664066011-ed54a1be81d2?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1605642634357-80a58f89af26?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          ]
         }
       ],
       "skillsLearn": [203, 204],
@@ -371,7 +473,13 @@
           "customTitle": "Тайм-менеджмент",
           "subcategoryId": 106,
           "description": "Методики планирования GTD и Pomodoro. Как перестать прокрастинировать и начать делать.",
-          "images": ["/src/assets/skill-images/time-1.jpg"]
+          "images": [
+            "https://i.pinimg.com/736x/ce/f1/78/cef178184495c190c2024fef8009e73e.jpg",
+            "https://i.pinimg.com/1200x/fb/e8/c0/fbe8c02478bbb2f6a54e29559ddde478.jpg",
+            "https://i.pinimg.com/736x/1a/37/6e/1a376e92a57539d27f1222ee349049d8.jpg",
+            "https://i.pinimg.com/736x/47/88/cd/4788cdc2901b89dd7d97ce2d0785b900.jpg",
+            "https://i.pinimg.com/1200x/d9/f0/33/d9f03319f07dab9b05517c66792f8032.jpg"
+          ]
         }
       ],
       "skillsLearn": [404, 401],
@@ -392,7 +500,10 @@
           "customTitle": "Когнитивные техники",
           "subcategoryId": 503,
           "description": "Научу техникам быстрого запоминания, мнемонике и построению дворцов памяти.",
-          "images": ["/src/assets/skill-images/brain-1.jpg"]
+          "images": [
+            "https://i.pinimg.com/736x/21/d0/9e/21d09e140f3989612451dd9d58840ae0.jpg",
+            "https://i.pinimg.com/736x/17/f3/fd/17f3fd5ca1c6d5a39052e899308539db.jpg"
+          ]
         }
       ],
       "skillsLearn": [206, 207],
@@ -413,7 +524,13 @@
           "customTitle": "Приготовление еды",
           "subcategoryId": 303,
           "description": "Базовые кулинарные техники. Как готовить ресторанные блюда дома за 30 минут из обычных продуктов.",
-          "images": ["/src/assets/skill-images/cook-1.jpg"]
+          "images": [
+            "https://images.unsplash.com/photo-1653233797467-1a528819fd4f?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1514986888952-8cd320577b68?q=80&w=876&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/vector-1761568686393-1a9692481c61?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/vector-1759054083969-2ea8a51a4910?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1599297915019-39c62af59ea1?q=80&w=1032&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          ]
         }
       ],
       "skillsLearn": [401, 501, 601],
@@ -434,7 +551,13 @@
           "customTitle": "Резюме и собеседование",
           "subcategoryId": 105,
           "description": "Проведу мок-интервью, помогу составить продающее резюме и расскажу, на что реально смотрят рекрутеры.",
-          "images": ["/src/assets/skill-images/cv-1.jpg"]
+          "images": [
+            "https://images.unsplash.com/photo-1602407294553-6ac9170b3ed0?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1698047681452-08eba22d0c64?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1698047681452-08eba22d0c64?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1542435503-956c469947f6?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1501504905252-473c47e087f8?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          ]
         }
       ],
       "skillsLearn": [602, 603],
@@ -455,7 +578,13 @@
           "customTitle": "Видеомонтаж",
           "subcategoryId": 403,
           "description": "Основы Premiere Pro и After Effects. Базовый монтаж, цветокоррекция, работа со звуком и простые анимации.",
-          "images": ["/src/assets/skill-images/video-1.jpg"]
+          "images": [
+            "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1490810194309-344b3661ba39?q=80&w=1148&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1614963326505-843868e1d83a?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1551302175-952301267d19?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1618329027137-a520b57c6606?q=80&w=1032&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          ]
         }
       ],
       "skillsLearn": [201, 104],
@@ -476,7 +605,13 @@
           "customTitle": "Йога и медитация",
           "subcategoryId": 601,
           "description": "Хатха-йога для начинающих. Помогу избавиться от болей в спине, научу правильно дышать и расслабляться.",
-          "images": ["/src/assets/skill-images/yoga-1.jpg"]
+          "images": [
+            "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=920&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1552196563-55cd4e45efb3?q=80&w=1026&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1575052814086-f385e2e2ad1b?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1559595500-e15296bdbb48?q=80&w=1031&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          ]
         }
       ],
       "skillsLearn": [102, 104, 106],
@@ -497,7 +632,13 @@
           "customTitle": "Личный бренд",
           "subcategoryId": 104,
           "description": "Стратегия продвижения личного бренда. Как упаковать профиль, писать тексты и привлекать лояльную аудиторию.",
-          "images": ["/src/assets/skill-images/brand-1.jpg"]
+          "images": [
+            "https://images.unsplash.com/photo-1505330622279-bf7d7fc918f4?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1484981138541-3d074aa97716?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1533750349088-cd871a92f312?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1711097383282-28097ae16b1d?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          ]
         }
       ],
       "skillsLearn": [402, 403],
@@ -518,7 +659,13 @@
           "customTitle": "Рисование на планшете",
           "subcategoryId": 401,
           "description": "Основы работы в Procreate. Изучаем кисти, слои, режимы наложения и рисуем первую крутую иллюстрацию.",
-          "images": ["/src/assets/skill-images/draw-1.jpg"]
+          "images": [
+            "https://images.unsplash.com/photo-1506585345028-d9d1525ecb21?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1628130235364-9e412ffaae5a?q=80&w=1041&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1604332195101-ecb8de472d39?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1599252441131-5aafffcf7740?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1605556243386-38e29059c9ab?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          ]
         }
       ],
       "skillsLearn": [202, 204],
@@ -539,7 +686,13 @@
           "customTitle": "Домашние финансы",
           "subcategoryId": 302,
           "description": "Основы финансовой грамотности. Как вести бюджет, копить, инвестировать и закрывать кредиты быстрее.",
-          "images": ["/src/assets/skill-images/money-1.jpg"]
+          "images": [
+            "https://images.unsplash.com/photo-1553729459-efe14ef6055d?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1434626881859-194d67b2b86f?q=80&w=874&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1656049471577-1c10b7359c7d?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1768839720586-71b7ff8b5c59?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1768839724098-d2541fe1311d?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          ]
         }
       ],
       "skillsLearn": [404, 601],
@@ -560,7 +713,13 @@
           "customTitle": "Актёрское мастерство",
           "subcategoryId": 405,
           "description": "Снятие телесных зажимов, постановка голоса, базовые упражнения на внимание и фантазию.",
-          "images": ["/src/assets/skill-images/act-1.jpg"]
+          "images": [
+            "https://images.unsplash.com/photo-1503095396549-807759245b35?q=80&w=871&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1594909122845-11baa439b7bf?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1606674975206-53aa497dc2f5?q=80&w=869&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1550026593-cb89847b168d?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1643651388080-7bebbe4f2f51?q=80&w=871&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          ]
         }
       ],
       "skillsLearn": [502, 503, 601, 602],
@@ -581,7 +740,13 @@
           "customTitle": "Управление проектами",
           "subcategoryId": 107,
           "description": "Agile, Scrum, Kanban простыми словами. Как запустить проект с нуля и довести его до конца, не сорвав дедлайны.",
-          "images": ["/src/assets/skill-images/pm-1.jpg"]
+          "images": [
+            "https://images.unsplash.com/photo-1611224923853-80b023f02d71?q=80&w=1039&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1746729798021-129315426424?q=80&w=1111&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1631203928493-a4e4eb2b8da1?q=80&w=869&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/flagged/photo-1550946107-8842ae9426db?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1627850604058-52e40de1b847?q=80&w=873&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          ]
         }
       ],
       "skillsLearn": [203, 604],
@@ -602,7 +767,13 @@
           "customTitle": "Креативное письмо",
           "subcategoryId": 406,
           "description": "Как избавиться от страха чистого листа. Пишем сторителлинг, придумываем сюжеты и прорабатываем персонажей.",
-          "images": ["/src/assets/skill-images/write-1.jpg"]
+          "images": [
+            "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1455390582262-044cdead277a?q=80&w=1073&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1462642109801-4ac2971a3a51?q=80&w=1073&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1488190211105-8b0e65b80b4e?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1460518451285-97b6aa326961?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          ]
         }
       ],
       "skillsLearn": [402, 303],
@@ -623,7 +794,13 @@
           "customTitle": "Питание и ЗОЖ",
           "subcategoryId": 602,
           "description": "Разберем КБЖУ, научимся читать этикетки в магазине и составим индивидуальный план питания без строгих диет.",
-          "images": ["/src/assets/skill-images/food-1.jpg"]
+          "images": [
+            "https://images.unsplash.com/photo-1670164747019-3b4d77128a71?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1654084982335-d404ccf9c6f5?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1672959202028-51e3b71255bd?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1642588420290-058839d71554?q=80&w=1169&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1692194741580-b8b99eefb40b?q=80&w=1155&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+            ]
         }
       ],
       "skillsLearn": [108, 102],
@@ -644,7 +821,13 @@
           "customTitle": "Домашние растения",
           "subcategoryId": 304,
           "description": "Как спасти засыхающий фикус. Основы ухода, пересадки, подбора грунта и освещения для джунглей дома.",
-          "images": ["/src/assets/skill-images/plant-1.jpg"]
+          "images": [
+            "https://images.unsplash.com/photo-1592150621744-aca64f48394a?q=80&w=1191&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1604762524889-3e2fcc145683?q=80&w=1171&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1619423089884-bc5b70bc4e2c?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1614959541555-4550895d4b2d?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1566836610593-62a64888a216?q=80&w=1077&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          ]
         }
       ],
       "skillsLearn": [402, 408],
@@ -665,7 +848,13 @@
           "customTitle": "Ремонт",
           "subcategoryId": 305,
           "description": "Базовые навыки мелкого ремонта: как повесить полку, заменить смеситель и работать с дрелью без травм.",
-          "images": ["/src/assets/skill-images/fix-1.jpg"]
+          "images": [
+            "https://images.unsplash.com/photo-1562259929-b4e1fd3aef09?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1567507145544-da3fe1b4f8f9?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1534398079543-7ae6d016b86a?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1613384944189-36c9977e607a?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1769356814886-abdadde25ea7?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          ]
         }
       ],
       "skillsLearn": [201, 106],
@@ -686,7 +875,13 @@
           "customTitle": "Китайский язык",
           "subcategoryId": 205,
           "description": "Основы пиньинь и тонов. Учим базовые иероглифы и фразы для поездки в Поднебесную или заказа на Taobao.",
-          "images": ["/src/assets/skill-images/chi-1.jpg"]
+          "images": [
+            "https://images.unsplash.com/photo-1519181245277-cffeb31da2e3?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1550450339-e7a4787a2074?q=80&w=952&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1583389409210-0234eee7cdce?q=80&w=1031&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1542695807939-063af86fa22f?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1583466478015-2dce6bf2f551?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          ]
         }
       ],
       "skillsLearn": [405, 408, 501],
@@ -707,7 +902,13 @@
           "customTitle": "Продажи и переговоры",
           "subcategoryId": 103,
           "description": "Экологичные продажи без впаривания. Отработка возражений, техника спин-продаж и уверенность на встречах.",
-          "images": ["/src/assets/skill-images/sell-1.jpg"]
+          "images": [
+            "https://images.unsplash.com/photo-1681505531034-8d67054e07f6?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1681505526188-b05e68c77582?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1638262052640-82e94d64664a?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1740818575777-89c9bdd7e7f5?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1642543348745-03b1219733d9?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          ]
         }
       ],
       "skillsLearn": [201, 203],
@@ -728,7 +929,13 @@
           "customTitle": "Арт-терапия",
           "subcategoryId": 407,
           "description": "Сессии спонтанного рисования. Работаем с эмоциями, выплескиваем негатив на бумагу красками и мелками.",
-          "images": ["/src/assets/skill-images/art-1.jpg"]
+          "images": [
+            "https://images.unsplash.com/photo-1650848200302-22e62d26a75a?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1590853566724-83bc9da30d15?q=80&w=873&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1590853566724-83bc9da30d15?q=80&w=873&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1560421683-6856ea585c78?q=80&w=874&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1589460626671-5f033018f87a?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          ]
         }
       ],
       "skillsLearn": [405, 408, 501],
@@ -749,7 +956,13 @@
           "customTitle": "Маркетинг и реклама",
           "subcategoryId": 102,
           "description": "Базовая настройка таргета и контекста. Разберем метрики CTR, CPC, CPA и научимся не сливать бюджет.",
-          "images": ["/src/assets/skill-images/marketing-1.jpg"]
+          "images": [
+            "https://images.unsplash.com/photo-1562577308-9e66f0c65ce5?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1675119713402-e4e295197e72?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1709281847981-73a69aa6f770?q=80&w=1032&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1709281847780-2b34c28853c0?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1686061593213-98dad7c599b9?q=80&w=1032&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          ]
         }
       ],
       "skillsLearn": [403, 401],
@@ -770,7 +983,13 @@
           "customTitle": "Уборка и организация",
           "subcategoryId": 301,
           "description": "Метод КонМари на практике. Помогу разобрать гардероб, организовать хранение на кухне и избавиться от хлама.",
-          "images": ["/src/assets/skill-images/clean-1.jpg"]
+          "images": [
+            "https://images.unsplash.com/photo-1567113463300-102a7eb3cb26?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1604176354204-9268737828e4?q=80&w=880&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1772475385491-f3cf64d4131a?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1757087997434-9e07ce7cf9f2?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1676906853781-bdfd8f2e360d?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          ]
         }
       ],
       "skillsLearn": [106, 302],
@@ -791,7 +1010,11 @@
           "customTitle": "Скорочтение",
           "subcategoryId": 504,
           "description": "Избавляемся от субвокализации (проговаривания в голове). Тренировки на расширение угла зрения.",
-          "images": ["/src/assets/skill-images/read-1.jpg"]
+          "images": [
+            "https://i.pinimg.com/736x/78/80/23/7880237fd549b61c63d030cde321310c.jpg",
+            "https://i.pinimg.com/736x/2d/f8/d0/2df8d0bc9191c25a0466e8adb5b11731.jpg",
+            "https://i.pinimg.com/736x/bf/14/f4/bf14f49d5d6ecd8bb7dc8e4cb0253aff.jpg"
+          ]
         }
       ],
       "skillsLearn": [202, 601],
@@ -812,7 +1035,12 @@
           "customTitle": "Сон и восстановление",
           "subcategoryId": 606,
           "description": "Налаживаем режим. Расскажу про фазы сна, гигиену спальни и привычки, которые помогут высыпаться за 7 часов.",
-          "images": ["/src/assets/skill-images/sleep-1.jpg"]
+          "images": [
+            "https://images.unsplash.com/photo-1758273239813-cecda76c6c19?q=80&w=1631&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1758874573514-92d42374d9a2?q=80&w=1032&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1623495488621-3ad36a7d9475?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1640348307767-b8e8bc765ff5?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          ]
         }
       ],
       "skillsLearn": [402, 104],
@@ -833,7 +1061,13 @@
           "customTitle": "Физические тренировки",
           "subcategoryId": 605,
           "description": "Программа тренировок для дома без инвентаря. Ставим технику базовых упражнений (отжимания, приседания, планка).",
-          "images": ["/src/assets/skill-images/sport-1.jpg"]
+          "images": [
+            "https://images.unsplash.com/photo-1683758575782-a632dbbe9eed?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1760084081757-6f918c08403b?q=80&w=1025&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1757478558171-e8266d1c9d70?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://plus.unsplash.com/premium_photo-1661925478441-b82e6b015f0b?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+            "https://images.unsplash.com/photo-1731325632688-e6e7c8c8cb68?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          ]
         }
       ],
       "skillsLearn": [201, 102],
