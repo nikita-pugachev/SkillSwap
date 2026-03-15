@@ -3,12 +3,12 @@
   display: flex;
   flex-direction: column;
   gap: 4px;
+  width: 100%;
 }
 
 .inputBase {
   position: relative;
   padding: 12px;
-  width: 100%;
   height: 48px;
   border-radius: var(--radius-primary);
   background-color: var(--color-surface);

@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { store } from '@/services/store';
 import { ProtectedRoute } from '@/components/protected-route';
+import { Header } from '@/components/Header';
 
 const CatalogPage = lazy(() => import('@/pages/catalog-page'));
 const SkillPage = lazy(() => import('@/pages/skill-page'));
@@ -17,6 +18,7 @@ export default function Root() {
   return (
     <Provider store={store}>
       <BrowserRouter>
+        <Header isLogin={false} />
         <Suspense fallback={null}>
           <Routes>
             <Route path="/" element={<CatalogPage />} />

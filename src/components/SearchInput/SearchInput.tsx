@@ -4,9 +4,10 @@ import { InputBaseContainerUI } from '../ui/InputBaseContainerUI';
 
 interface SearchInputProp {
   onSearch?: (value: string) => void;
+  className?: string;
 }
 
-export const SearchInput: FC<SearchInputProp> = ({ onSearch }) => {
+export const SearchInput: FC<SearchInputProp> = ({ onSearch, className }) => {
   const [value, setValue] = useState('');
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -18,7 +19,7 @@ export const SearchInput: FC<SearchInputProp> = ({ onSearch }) => {
   };
 
   return (
-    <InputBaseContainerUI isSearch={true}>
+    <InputBaseContainerUI isSearch={true} className={className}>
       <SearchInputUI value={value} onChange={onChange} onClear={onClear} onSearch={onSearch} />
     </InputBaseContainerUI>
   );
