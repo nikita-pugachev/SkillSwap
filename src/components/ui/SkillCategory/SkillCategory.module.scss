@@ -1,0 +1,52 @@
+.category {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 284px;
+
+  &:not(:last-child) {
+    padding-bottom: 12px;
+  }
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+
+  &:hover .chevronButton:not(.expanded) {
+    visibility: visible;
+    opacity: 1;
+  }
+}
+
+.chevronButton {
+  visibility: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  opacity: 0;
+  color: var(--color-icon);
+  background: none;
+  transition:
+    opacity 0.2s,
+    visibility 0.2s;
+
+  &.expanded {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  &:hover {
+    color: var(--color-accent-pressed);
+  }
+}
+
+.subcategories {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-left: 20px;
+}
