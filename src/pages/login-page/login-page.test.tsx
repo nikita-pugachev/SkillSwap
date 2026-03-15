@@ -3,16 +3,6 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import LoginPage from './login-page';
 
-jest.mock('./login-page.module.scss', () => new Proxy({}, { get: (_, prop) => String(prop) }));
-
-jest.mock('@/assets/icons/logo/logo.png', () => 'logo.png');
-jest.mock('@/assets/icons/cross.svg', () => 'cross.svg');
-jest.mock('@/assets/icons/logo/google.svg', () => 'google.svg');
-jest.mock('@/assets/icons/logo/apple.svg', () => 'apple.svg');
-jest.mock('@/assets/icons/eye.svg', () => 'eye.svg');
-jest.mock('@/assets/icons/eye-slash.svg', () => 'eye-slash.svg');
-jest.mock('@/assets/illustrations/light-bulb.svg', () => 'light-bulb.svg');
-
 jest.mock('@/components/ui/ButtonUI', () => ({
   Button: ({
     children,
@@ -68,10 +58,6 @@ jest.mock('@/components/ui/IconButton', () => ({
 describe('LoginPage', () => {
   const renderPage = () => render(<LoginPage />);
 
-  beforeEach(() => {
-    jest.clearAllMocks();
-  });
-
   it('renders page title, header and onboarding text', () => {
     renderPage();
 
@@ -92,7 +78,6 @@ describe('LoginPage', () => {
     renderPage();
 
     expect(screen.getByRole('button', { name: 'Продолжить с Google' })).toBeInTheDocument();
-
     expect(screen.getByRole('button', { name: 'Продолжить с Apple' })).toBeInTheDocument();
 
     expect(screen.getByText('или')).toBeInTheDocument();
@@ -101,13 +86,10 @@ describe('LoginPage', () => {
     expect(screen.getByLabelText('Пароль')).toBeInTheDocument();
 
     expect(screen.getByPlaceholderText('Введите email')).toBeInTheDocument();
-
     expect(screen.getByPlaceholderText('Введите ваш пароль')).toBeInTheDocument();
 
     expect(screen.getByRole('button', { name: 'Войти' })).toBeInTheDocument();
-
     expect(screen.getByRole('link', { name: 'Зарегистрироваться' })).toBeInTheDocument();
-
     expect(screen.getByRole('link', { name: 'Зарегистрироваться' })).toHaveAttribute(
       'href',
       '/register'
@@ -137,9 +119,7 @@ describe('LoginPage', () => {
 
     renderPage();
 
-    const toggleButton = screen.getByRole('button', { name: 'Показать пароль' });
-
-    await user.click(toggleButton);
+    await user.click(screen.getByRole('button', { name: 'Показать пароль' }));
     expect(screen.getByLabelText('Пароль')).toHaveAttribute('type', 'text');
 
     await user.click(screen.getByRole('button', { name: 'Скрыть пароль' }));
