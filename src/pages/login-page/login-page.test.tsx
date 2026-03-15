@@ -2,6 +2,7 @@ import type { ButtonHTMLAttributes, InputHTMLAttributes, ReactNode } from 'react
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import LoginPage from './login-page';
+import { MemoryRouter } from 'react-router-dom';
 
 jest.mock('@/components/ui/ButtonUI', () => ({
   Button: ({
@@ -56,8 +57,12 @@ jest.mock('@/components/ui/IconButton', () => ({
 }));
 
 describe('LoginPage', () => {
-  const renderPage = () => render(<LoginPage />);
-
+  const renderPage = () =>
+    render(
+      <MemoryRouter>
+        <LoginPage />
+      </MemoryRouter>
+    );
   it('renders page title, header and onboarding text', () => {
     renderPage();
 
