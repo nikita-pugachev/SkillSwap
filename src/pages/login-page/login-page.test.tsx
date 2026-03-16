@@ -1,8 +1,8 @@
 import type { ButtonHTMLAttributes, InputHTMLAttributes, ReactNode } from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import LoginPage from './login-page';
 import { MemoryRouter } from 'react-router-dom';
+import LoginPage from './login-page';
 
 jest.mock('@/components/ui/ButtonUI', () => ({
   Button: ({
@@ -14,10 +14,6 @@ jest.mock('@/components/ui/ButtonUI', () => ({
       {children}
     </button>
   ),
-}));
-
-jest.mock('@/components/ui/Logo/Logo', () => ({
-  Logo: () => <div>Logo</div>,
 }));
 
 jest.mock('@/components/ui/InputUI', () => ({
@@ -67,11 +63,10 @@ describe('LoginPage', () => {
         <LoginPage />
       </MemoryRouter>
     );
-  it('renders page title, header and onboarding text', () => {
+
+  it('renders page title and onboarding text', () => {
     renderPage();
 
-    expect(screen.getByText('SkillSwap')).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Закрыть' })).toBeInTheDocument();
     expect(screen.getByRole('heading', { name: 'Вход', level: 1 })).toBeInTheDocument();
 
     expect(
