@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import styles from './login-page.module.scss';
 
@@ -7,9 +7,7 @@ import { Button } from '@/components/ui/ButtonUI';
 import { IconButton } from '@/components/ui/IconButton';
 import { InputBaseContainerUI } from '@/components/ui/InputBaseContainerUI';
 import { InputUI } from '@/components/ui/InputUI';
-import { Logo } from '@/components/ui/Logo/Logo';
 
-import cross from '@/assets/icons/cross.svg';
 import eyeIcon from '@/assets/icons/eye.svg';
 import eyeSlashIcon from '@/assets/icons/eye-slash.svg';
 import appleIcon from '@/assets/icons/logo/apple.svg';
@@ -24,24 +22,8 @@ export default function LoginPage() {
     setShowPassword((prev) => !prev);
   };
 
-  const navigate = useNavigate();
-
   return (
     <div className={styles.page}>
-      <header className={styles.header}>
-        <Logo />
-
-        <Button
-          variant="tertiary"
-          className={styles.closeButton}
-          type="button"
-          onClick={() => navigate('/')}
-        >
-          <span className={styles.closeText}>Закрыть</span>
-          <img src={cross} alt="" className={styles.closeIcon} aria-hidden="true" />
-        </Button>
-      </header>
-
       <main className={styles.main}>
         <h1 className={styles.title}>Вход</h1>
         <div className={styles.content}>
