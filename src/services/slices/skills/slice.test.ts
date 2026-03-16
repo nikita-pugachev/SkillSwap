@@ -5,7 +5,7 @@ import {
   selectSearchQuery,
   selectSelectedCategory,
   selectFilteredSkills,
-} from './slice';
+} from '../../selectors';
 
 describe('skills selectors', () => {
   const mockState: RootState = {
