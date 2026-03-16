@@ -23,14 +23,21 @@ export const Header: FC<HeaderProps> = ({ isLogin, user }) => {
   const handleClickLogin = () => navigate('/login');
   const handleClickRegister = () => navigate('/register');
   const handleClickProfile = () => navigate('/profile');
+  const handleBackSpace = () => navigate(-1);
 
   const isAuthPage = location.pathname === '/login' || location.pathname === '/register';
 
   if (isAuthPage) {
     return (
-      <header className={styles.header}>
+      <header className={`${styles.header} ${styles.headerLogin}`}>
         <div className={styles.left}>
           <Logo />
+        </div>
+        <div className={styles.right}>
+          <Button variant="tertiary" onClick={handleBackSpace}>
+            Закрыть
+            <img src="src/assets/icons/cross.svg" alt="" className={styles.icon} />
+          </Button>
         </div>
       </header>
     );
