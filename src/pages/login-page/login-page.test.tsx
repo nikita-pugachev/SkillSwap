@@ -16,6 +16,10 @@ jest.mock('@/components/ui/ButtonUI', () => ({
   ),
 }));
 
+jest.mock('@/components/ui/Logo/Logo', () => ({
+  Logo: () => <div>Logo</div>,
+}));
+
 jest.mock('@/components/ui/InputUI', () => ({
   InputUI: (props: InputHTMLAttributes<HTMLInputElement>) => <input {...props} />,
 }));
