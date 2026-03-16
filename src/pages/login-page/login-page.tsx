@@ -1,16 +1,19 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+
 import styles from './login-page.module.scss';
-import logo from '@/assets/icons/logo/logo.png';
-import cross from '@/assets/icons/cross.svg';
-import googleIcon from '@/assets/icons/logo/google.svg';
-import appleIcon from '@/assets/icons/logo/apple.svg';
+
 import { Button } from '@/components/ui/ButtonUI';
-import { InputUI } from '@/components/ui/InputUI';
-import { InputBaseContainerUI } from '@/components/ui/InputBaseContainerUI';
 import { IconButton } from '@/components/ui/IconButton';
+import { InputBaseContainerUI } from '@/components/ui/InputBaseContainerUI';
+import { InputUI } from '@/components/ui/InputUI';
+import { Logo } from '@/components/ui/Logo/Logo';
+
+import cross from '@/assets/icons/cross.svg';
 import eyeIcon from '@/assets/icons/eye.svg';
 import eyeSlashIcon from '@/assets/icons/eye-slash.svg';
+import appleIcon from '@/assets/icons/logo/apple.svg';
+import googleIcon from '@/assets/icons/logo/google.svg';
 import lightBulb from '@/assets/illustrations/light-bulb.svg';
 
 export default function LoginPage() {
@@ -21,18 +24,22 @@ export default function LoginPage() {
     setShowPassword((prev) => !prev);
   };
 
+  const navigate = useNavigate();
+
   return (
     <div className={styles.page}>
       <header className={styles.header}>
-        <div className={styles.logo}>
-          <img src={logo} alt="SkillSwap" className={styles.logoIcon} />
-          <span className={styles.logoText}>SkillSwap</span>
-        </div>
+        <Logo />
 
-        <button className={styles.closeButton} type="button">
+        <Button
+          variant="tertiary"
+          className={styles.closeButton}
+          type="button"
+          onClick={() => navigate('/')}
+        >
           <span className={styles.closeText}>Закрыть</span>
           <img src={cross} alt="" className={styles.closeIcon} aria-hidden="true" />
-        </button>
+        </Button>
       </header>
 
       <main className={styles.main}>
