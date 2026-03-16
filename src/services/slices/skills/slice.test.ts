@@ -1,11 +1,11 @@
 // skillsSelectors.test.ts
-import type { RootState } from '../store';
+import type { RootState } from '../../store';
 import {
   selectAllSkills,
   selectSearchQuery,
   selectSelectedCategory,
   selectFilteredSkills,
-} from './skillsSelectors';
+} from './slice';
 
 describe('skills selectors', () => {
   const mockState: RootState = {
