@@ -5,7 +5,7 @@ import { Button } from '../ui/ButtonUI/ButtonUI';
 import { Avatar } from '../ui';
 import { CategoryDropdown } from '../category-dropdown';
 import { IconButton } from '../ui/IconButton';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import styles from './Header.module.scss';
 
 export interface HeaderProps {
@@ -18,10 +18,23 @@ export interface HeaderProps {
 
 export const Header: FC<HeaderProps> = ({ isLogin, user }) => {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleClickLogin = () => navigate('/login');
   const handleClickRegister = () => navigate('/register');
   const handleClickProfile = () => navigate('/profile');
+
+  const isAuthPage = location.pathname === '/login' || location.pathname === '/register';
+
+  if (isAuthPage) {
+    return (
+      <header className={styles.header}>
+        <div className={styles.left}>
+          <Logo />
+        </div>
+      </header>
+    );
+  }
 
   return (
     <header className={styles.header}>
