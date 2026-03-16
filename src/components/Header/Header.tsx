@@ -42,10 +42,10 @@ export const Header: FC<HeaderProps> = ({ isLogin, user }) => {
         <Logo />
         <nav>
           <ul className={styles.navigation}>
-            <li className={styles.navigation_list}>
+            <li className={styles.navigationList}>
               <a className={styles.link}>О проекте</a>
             </li>
-            <li className={styles.navigation_list}>
+            <li className={styles.navigationList}>
               <CategoryDropdown />
             </li>
           </ul>
@@ -53,12 +53,12 @@ export const Header: FC<HeaderProps> = ({ isLogin, user }) => {
       </div>
 
       <div className={styles.center}>
-        <SearchInput className={styles.search_input} />
+        <SearchInput className={styles.searchInput} />
       </div>
 
       <div className={styles.right}>
         {isLogin ? (
-          <div className={styles.icon_container}>
+          <div className={styles.iconContainer}>
             <IconButton
               iconSrc="src/assets/icons/moon.svg"
               ariaLabel="Смена темы"
@@ -76,7 +76,7 @@ export const Header: FC<HeaderProps> = ({ isLogin, user }) => {
             />
           </div>
         ) : (
-          <div className={styles.icon_container}>
+          <div className={styles.iconContainer}>
             <IconButton
               iconSrc="src/assets/icons/moon.svg"
               ariaLabel="Смена темы"
@@ -86,12 +86,12 @@ export const Header: FC<HeaderProps> = ({ isLogin, user }) => {
         )}
 
         {isLogin && user ? (
-          <div onClick={handleClickProfile} className={styles.profile_container}>
+          <div onClick={handleClickProfile} className={styles.profileContainer}>
             <a className={styles.link}>{user.name}</a>
             <Avatar src={user.avatar} name={user.name} size="sm" />
           </div>
         ) : (
-          <div className={styles.button_container}>
+          <div className={styles.buttonContainer}>
             <Button variant="outlined" onClick={handleClickLogin}>
               Войти
             </Button>
