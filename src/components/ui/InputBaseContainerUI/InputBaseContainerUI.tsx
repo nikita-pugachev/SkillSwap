@@ -8,6 +8,7 @@ type TInputBaseProps = {
   hint?: string;
   children: React.ReactNode;
   isSearch?: boolean;
+  className?: string;
 };
 
 export const InputBaseContainerUI: React.FC<TInputBaseProps> = ({
@@ -17,13 +18,14 @@ export const InputBaseContainerUI: React.FC<TInputBaseProps> = ({
   hint,
   children,
   isSearch = false,
+  className,
 }: TInputBaseProps) => {
   const inputBaseClassName = [styles.inputBase, isSearch ? styles.inputBaseSearch : '']
     .filter(Boolean)
     .join(' ');
 
   return (
-    <div className={styles.inputBaseContainer}>
+    <div className={`${styles.inputBaseContainer} ${className || ''}`}>
       {label && (
         <label htmlFor={id} className={styles.labelInput}>
           {label}
