@@ -19,7 +19,7 @@ import chevronDownIcon from '@/assets/icons/chevron-down.svg';
 import chevronUpIcon from '@/assets/icons/chevron-up.svg';
 import crossIcon from '@/assets/icons/cross.svg';
 import SchoolBoard from '@/assets/illustrations/school-board.svg';
-import GalleryAddIcon from '@/assets/icons/gallery-add.svg?react';
+import galleryAddIcon from '@/assets/icons/gallery-add.svg';
 
 export default function RegisterPage() {
   const [step, setStep] = useState(1);
@@ -398,7 +398,12 @@ export default function RegisterPage() {
                       className={styles.uploadButton}
                       // TODO: открыть выбор изображений
                     >
-                      <GalleryAddIcon className={styles.uploadIcon} aria-hidden="true" />
+                      <img
+                        src={galleryAddIcon}
+                        alt=""
+                        aria-hidden="true"
+                        className={styles.uploadIcon}
+                      />
                       <span className={styles.uploadButtonText}>Выбрать изображения</span>
                     </button>
                   </div>
