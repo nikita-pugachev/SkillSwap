@@ -1,0 +1,323 @@
+// Общий layout страницы регистрации
+.main {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.steps {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  width: 212px;
+  margin: 0 auto;
+}
+
+.title {
+  margin: 0;
+  text-align: center;
+  font-family: var(--font-family-heading);
+  font-size: var(--font-size-h2);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-h2);
+  color: var(--color-text-primary);
+}
+
+.progressBar {
+  display: flex;
+  gap: 16px;
+}
+
+.segment {
+  display: block;
+  width: 60px;
+  height: 4px;
+  border-radius: 8px;
+  background: var(--color-disabled);
+}
+
+.segmentActive {
+  background: var(--color-accent);
+}
+
+.content {
+  display: grid;
+  grid-template-columns: 556px 556px;
+  gap: 24px;
+  width: 1136px;
+  margin: 0 auto;
+}
+
+// Общие карточки формы и onboarding
+.formSection {
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--radius-primary);
+  background: var(--color-surface);
+}
+
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.fields {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.actions {
+  display: flex;
+  gap: 20px;
+
+  > * {
+    flex: 1;
+  }
+}
+
+.onboarding {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  padding: 132px 60px;
+  border-radius: var(--radius-primary);
+  background: var(--color-surface);
+}
+
+.onboardingImage {
+  width: 300px;
+  height: 300px;
+}
+
+.onboardingText {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  text-align: center;
+}
+
+.onboardingTitle {
+  margin: 0;
+  font-family: var(--font-family-heading);
+  font-weight: var(--font-weight-medium);
+  font-size: var(--font-size-h2);
+  line-height: var(--line-height-h2);
+  letter-spacing: -0.011em;
+  color: var(--color-text-primary);
+}
+
+.onboardingSubtitle {
+  margin: 0;
+  font-family: var(--font-family-base);
+  font-weight: var(--font-weight-regular);
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-h4);
+  letter-spacing: 0.02em;
+  color: var(--color-text-primary);
+}
+
+// Шаг 1
+.formSectionStepOne {
+  padding: 121px 60px;
+  gap: 24px;
+}
+
+.socialButtons {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--font-family-base);
+  font-weight: var(--font-weight-regular);
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-body);
+  letter-spacing: 0.02em;
+  color: var(--color-text-primary);
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--color-disabled);
+}
+
+.passwordField {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.submitButton {
+  width: 100%;
+}
+
+// Шаг 2
+.formSectionStepTwo {
+  padding: 40px 60px;
+  gap: 16px;
+}
+
+.avatarBlock {
+  display: flex;
+  justify-content: center;
+}
+
+.avatarButton {
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.avatarAddIcon {
+  display: block;
+  width: 72px;
+  height: 72px;
+}
+
+.row {
+  display: flex;
+  gap: 24px;
+}
+
+.rowItem {
+  flex: 1;
+}
+
+.selectField {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0;
+  border: none;
+  background: transparent;
+  appearance: none;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+}
+
+.selectText {
+  font-family: var(--font-family-base);
+  font-weight: var(--font-weight-regular);
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-body);
+  letter-spacing: 0.02em;
+  color: var(--color-text-secondary);
+}
+
+// Шаг 3
+.formSectionStepThree {
+  padding: 50px 60px;
+  gap: 32px;
+}
+
+.textareaBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+}
+
+.textareaLabel {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-body);
+  color: var(--color-text-primary);
+}
+
+.textarea {
+  width: 100%;
+  min-height: 96px;
+  padding: 12px;
+  box-sizing: border-box;
+  resize: none;
+  border: 1px solid var(--color-input-border);
+  border-radius: var(--radius-primary);
+  background-color: var(--color-surface);
+  font-family: var(--font-family-base);
+  font-weight: var(--font-weight-regular);
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-body);
+  letter-spacing: 0.02em;
+  color: var(--color-text-primary);
+  outline: none;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease,
+    background-color 0.15s ease;
+}
+
+.textarea:hover {
+  background-color: var(--color-input-hover);
+}
+
+.textarea:focus {
+  border: 1px solid var(--color-focus);
+}
+
+.textarea::placeholder {
+  color: var(--color-text-secondary);
+}
+
+.uploadBlock {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 96px;
+  padding: 20px;
+  gap: 4px;
+  border: 1px dashed var(--color-input-border);
+  border-radius: var(--radius-primary);
+  opacity: 0.8;
+}
+
+.uploadText {
+  margin: 0;
+  color: var(--color-text-secondary);
+  text-align: center;
+  font-family: var(--font-family-base);
+  font-weight: var(--font-weight-regular);
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-body);
+  letter-spacing: 0.02em;
+}
+
+.uploadButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.uploadButtonText {
+  color: var(--color-accent-pressed);
+  font-family: var(--font-family-base);
+  font-weight: var(--font-weight-regular);
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-body);
+  letter-spacing: 0.02em;
+}
+
+.uploadIcon {
+  color: var(--color-accent-pressed);
+}
