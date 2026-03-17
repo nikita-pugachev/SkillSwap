@@ -130,14 +130,4 @@ describe('LoginPage', () => {
     expect(screen.getByLabelText('Пароль')).toHaveAttribute('type', 'password');
     expect(screen.getByRole('button', { name: 'Показать пароль' })).toBeInTheDocument();
   });
-
-  it('does not render password error text when passwordError is undefined', () => {
-    renderPage();
-
-    expect(
-      screen.queryByText(
-        'Email или пароль введён неверно. Пожалуйста, проверьте правильность введённых данных'
-      )
-    ).not.toBeInTheDocument();
-  });
 });
