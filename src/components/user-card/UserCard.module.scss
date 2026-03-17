@@ -72,25 +72,21 @@
 }
 
 .skillsSection {
-  width: 100%;
-  margin-bottom: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .skillsTitle {
   font-family: var(--font-family-base);
-  font-size: var(--font-size-caption);
+  font-size: var(--font-size-h4);
   font-weight: var(--font-weight-medium);
-  color: var(--color-text-secondary);
-  margin: 0 0 8px;
+  color: var(--color-text-primary);
 }
 
 .skillsList {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
-}
-
-.detailsButton {
-  width: 100%;
-  margin-top: 8px;
+  align-items: center;
+  gap: 4px;
 }
