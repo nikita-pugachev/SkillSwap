@@ -13,11 +13,9 @@ export const SkillTag: React.FC<SkillTagProps> = ({ label, category, count }) =>
 
   return (
     <>
-      {label && (
-        <div className={`${styles.tag} ${bgColorClass}`}>
-          <span>{label}</span>
-        </div>
-      )}
+      <div className={`${styles.tag} ${bgColorClass}`}>
+        <span>{label}</span>
+      </div>
       {count !== undefined && count > 0 && <div className={styles.count}>+{count}</div>}
     </>
   );
