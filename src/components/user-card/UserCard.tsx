@@ -7,6 +7,7 @@ import likeOutline from '@/assets/icons/like-outline.svg';
 import likeFilled from '@/assets/icons/like-filled.svg';
 import styles from './UserCard.module.scss';
 
+// TODO: заменить на общий тип SkillCategorySlug из @/types после рефакторинга
 export type SkillCategory =
   | 'education'
   | 'business'
@@ -46,7 +47,6 @@ export const UserCard: React.FC<UserCardProps> = ({
   onFavoriteToggle,
   onDetailsClick,
 }) => {
-  // Вычисляем возраст из даты рождения
   const calculateAge = (birthDate: string): number => {
     const today = new Date();
     const birth = new Date(birthDate);
@@ -60,14 +60,12 @@ export const UserCard: React.FC<UserCardProps> = ({
 
   const age = calculateAge(birthday);
 
-  // Форматирование склонения возраста
   const formatAge = (age: number) => {
     if (age % 10 === 1 && age % 100 !== 11) return 'год';
     if (age % 10 >= 2 && age % 10 <= 4 && (age % 100 < 10 || age % 100 >= 20)) return 'года';
     return 'лет';
   };
 
-  // Отображаем не больше двух тегов + счётчик остальных
   const renderSkillTags = (skills: UserSkill[]) => {
     const visibleSkills = skills.slice(0, 2);
     const remainingCount = skills.length - visibleSkills.length;
@@ -90,26 +88,25 @@ export const UserCard: React.FC<UserCardProps> = ({
 
   return (
     <article className={styles.card}>
-      {/* Иконка избранного */}
-      <IconButton
-        iconSrc={isFavorite ? likeFilled : likeOutline}
-        ariaLabel={isFavorite ? 'Удалить из избранного' : 'Добавить в избранное'}
-        onClick={handleFavoriteClick}
-        className={styles.favoriteButton}
-      />
+      {/* Верхняя часть: аватар + имя/город + кнопка избранного */}
+      <div className={styles.header}>
+        <div className={styles.profileBlock}>
+          <Avatar src={avatar} name={name} size="md" />
+          <div className={styles.userMeta}>
+            <h3 className={styles.name}>{name}</h3>
+            <p className={styles.location}>
+              {city}, {age} {formatAge(age)}
+            </p>
+          </div>
+        </div>
 
-      {/* Аватар */}
-      <div className={styles.avatarWrapper}>
-        <Avatar src={avatar} name={name} size="md" />
+        <IconButton
+          iconSrc={isFavorite ? likeFilled : likeOutline}
+          ariaLabel={isFavorite ? 'Удалить из избранного' : 'Добавить в избранное'}
+          onClick={handleFavoriteClick}
+          className={styles.favoriteButton}
+        />
       </div>
-
-      {/* Имя */}
-      <h3 className={styles.name}>{name}</h3>
-
-      {/* Город и возраст */}
-      <p className={styles.location}>
-        {city}, {age} {formatAge(age)}
-      </p>
 
       {/* Блок «Может научить» */}
       <div className={styles.skillsSection}>
