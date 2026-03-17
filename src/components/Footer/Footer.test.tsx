@@ -8,7 +8,7 @@ jest.mock('react-router-dom', () => ({
   ),
 }));
 
-jest.mock('@/assets/icons/logo/logo.png', () => 'logo.png');
+jest.mock('@/assets/icons/logo/logo.svg', () => 'logo.svg');
 jest.mock('@/components/ui/Logo', () => ({
   Logo: () => <div>SkillSwap</div>,
 }));
