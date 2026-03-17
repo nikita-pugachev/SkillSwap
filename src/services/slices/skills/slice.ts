@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import type { Skill } from '@/utils/types';
+import type { SkillCategoryData } from '@/utils/types';
 export interface SkillsState {
-  items: Skill[];
+  items: SkillCategoryData[];
   searchQuery: string;
   selectedCategory: string;
 }
@@ -10,7 +10,7 @@ export const skillsSlice = createSlice({
   name: 'skills',
   initialState,
   reducers: {
-    setSkills(state, action: PayloadAction<Skill[]>) {
+    setSkills(state, action: PayloadAction<SkillCategoryData[]>) {
       state.items = action.payload;
     },
     setSearchQuery(state, action: PayloadAction<string>) {

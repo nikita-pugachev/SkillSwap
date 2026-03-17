@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
-import skillsReducer from './slices/skills/slice';
+import skillsReducer from './slices/skills';
 
 export const store = configureStore({
   reducer: {

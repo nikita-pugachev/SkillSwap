@@ -43,7 +43,7 @@ export interface Subcategory {
   title: string;
 }
 
-export interface SkillCategory {
+export interface SkillCategoryData {
   id: number;
   title: string;
   icon: string;
