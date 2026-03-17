@@ -1,7 +1,8 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { FilterSidebar, type SkillCategoryData } from './FilterSidebar';
+import { FilterSidebar } from './FilterSidebar';
+import type { SkillCategoryData } from '@/utils/types';
 
 jest.mock('./FilterSidebar.module.scss', () => ({
   __esModule: true,
