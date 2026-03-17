@@ -2,9 +2,19 @@ import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { UserCard, UserCardProps, UserSkill } from './UserCard';
 
-// Моки для UI-компонентов
+// Мок для RadioButton, чтобы избежать ошибок с импортом иконок
+jest.mock('@/components/ui/RadioButton', () => ({
+  RadioButton: () => null,
+}));
+
+// Мок для CheckboxButton, чтобы избежать ошибок с импортом иконок
+jest.mock('@/components/ui/CheckboxButton', () => ({
+  CheckboxButton: () => null,
+}));
+
+// Мок для Avatar – теперь без текста, только data-testid
 jest.mock('@/components/ui/Avatar', () => ({
-  Avatar: ({ name }: { name: string }) => <div data-testid="avatar">{name}</div>,
+  Avatar: () => <div data-testid="avatar" />,
 }));
 
 jest.mock('@/components/ui/IconButton', () => ({
@@ -29,7 +39,6 @@ jest.mock('@/components/ui/ButtonUI', () => ({
   ),
 }));
 
-// Тестовые данные
 const mockTeachSkills: UserSkill[] = [
   { name: 'React', category: 'education' },
   { name: 'TypeScript', category: 'education' },
@@ -61,34 +70,29 @@ describe('UserCard', () => {
 
   it('renders user name and location with age', () => {
     render(<UserCard {...mockProps} />);
+    // Теперь имя встречается только один раз (в h3)
     expect(screen.getByText('Иван Петров')).toBeInTheDocument();
     expect(screen.getByText(/Москва, \d+ (год|года|лет)/)).toBeInTheDocument();
   });
 
   it('displays correct age', () => {
     jest.useFakeTimers();
-    jest.setSystemTime(new Date(2026, 2, 15)); // 15 марта 2026
-
+    jest.setSystemTime(new Date(2026, 2, 15));
     render(<UserCard {...mockProps} />);
     expect(screen.getByText(/Москва, 35 лет/)).toBeInTheDocument();
-
     jest.useRealTimers();
   });
 
   it('shows correct skill tags with categories', () => {
     render(<UserCard {...mockProps} />);
     const tags = screen.getAllByTestId('skill-tag');
-
     expect(tags).toHaveLength(5);
-
     expect(tags[0]).toHaveTextContent('React');
     expect(tags[0]).toHaveAttribute('data-category', 'education');
     expect(tags[1]).toHaveTextContent('TypeScript');
     expect(tags[1]).toHaveAttribute('data-category', 'education');
-
     expect(tags[2]).toHaveTextContent('+1');
     expect(tags[2]).toHaveAttribute('data-category', 'other');
-
     expect(tags[3]).toHaveTextContent('Python');
     expect(tags[3]).toHaveAttribute('data-category', 'languages');
     expect(tags[4]).toHaveTextContent('Django');
