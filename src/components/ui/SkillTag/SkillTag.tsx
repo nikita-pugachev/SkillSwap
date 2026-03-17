@@ -1,9 +1,10 @@
 import React from 'react';
+import type { SkillCategorySlug } from '@/utils/types';
 import styles from './SkillTag.module.scss';
 
 export interface SkillTagProps {
   label: string;
-  category?: 'education' | 'business' | 'art' | 'languages' | 'home' | 'health' | 'other';
+  category?: SkillCategorySlug;
   count?: number;
 }
 
@@ -12,9 +13,11 @@ export const SkillTag: React.FC<SkillTagProps> = ({ label, category, count }) =>
 
   return (
     <>
-      <div className={`${styles.tag} ${bgColorClass}`}>
-        <span>{label}</span>
-      </div>
+      {label && (
+        <div className={`${styles.tag} ${bgColorClass}`}>
+          <span>{label}</span>
+        </div>
+      )}
       {count !== undefined && count > 0 && <div className={styles.count}>+{count}</div>}
     </>
   );
