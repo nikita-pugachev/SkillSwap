@@ -2,17 +2,7 @@ import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { UserCard, UserCardProps, UserSkill } from './UserCard';
 
-// Мок для RadioButton, чтобы избежать ошибок с импортом иконок
-jest.mock('@/components/ui/RadioButton', () => ({
-  RadioButton: () => null,
-}));
-
-// Мок для CheckboxButton, чтобы избежать ошибок с импортом иконок
-jest.mock('@/components/ui/CheckboxButton', () => ({
-  CheckboxButton: () => null,
-}));
-
-// Мок для Avatar – теперь без текста, только data-testid
+// Мок для Avatar
 jest.mock('@/components/ui/Avatar', () => ({
   Avatar: () => <div data-testid="avatar" />,
 }));
@@ -70,7 +60,6 @@ describe('UserCard', () => {
 
   it('renders user name and location with age', () => {
     render(<UserCard {...mockProps} />);
-    // Теперь имя встречается только один раз (в h3)
     expect(screen.getByText('Иван Петров')).toBeInTheDocument();
     expect(screen.getByText(/Москва, \d+ (год|года|лет)/)).toBeInTheDocument();
   });

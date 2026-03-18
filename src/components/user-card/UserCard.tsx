@@ -1,25 +1,16 @@
 import React from 'react';
 import { SkillTag } from '@/components/ui/SkillTag';
 import { Button } from '@/components/ui/ButtonUI';
-import { Avatar } from '@/components/ui';
+import { Avatar } from '@/components/ui/Avatar';
 import { IconButton } from '@/components/ui/IconButton';
 import likeOutline from '@/assets/icons/like-outline.svg';
 import likeFilled from '@/assets/icons/like-filled.svg';
+import { SkillCategorySlug } from '@/utils/types';
 import styles from './UserCard.module.scss';
-
-// TODO: заменить на общий тип SkillCategorySlug из @/types после рефакторинга
-export type SkillCategory =
-  | 'education'
-  | 'business'
-  | 'art'
-  | 'languages'
-  | 'home'
-  | 'health'
-  | 'other';
 
 export type UserSkill = {
   name: string;
-  category?: SkillCategory;
+  category?: SkillCategorySlug;
 };
 
 export interface UserCardProps {
@@ -88,7 +79,6 @@ export const UserCard: React.FC<UserCardProps> = ({
 
   return (
     <article className={styles.card}>
-      {/* Верхняя часть: аватар + имя/город + кнопка избранного */}
       <div className={styles.header}>
         <div className={styles.profileBlock}>
           <Avatar src={avatar} name={name} size="md" />
@@ -108,19 +98,16 @@ export const UserCard: React.FC<UserCardProps> = ({
         />
       </div>
 
-      {/* Блок «Может научить» */}
       <div className={styles.skillsSection}>
         <h4 className={styles.skillsTitle}>Может научить:</h4>
         <div className={styles.skillsList}>{renderSkillTags(skillsTeach)}</div>
       </div>
 
-      {/* Блок «Хочет научиться» */}
       <div className={styles.skillsSection}>
         <h4 className={styles.skillsTitle}>Хочет научиться:</h4>
         <div className={styles.skillsList}>{renderSkillTags(skillsLearn)}</div>
       </div>
 
-      {/* Кнопка «Подробнее» */}
       <Button variant="primary" onClick={handleDetailsClick}>
         Подробнее
       </Button>
