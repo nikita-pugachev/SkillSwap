@@ -10,6 +10,7 @@ const config = {
     '^@/.*\\.svg\\?react$': '<rootDir>/src/__mocks__/svgReactMock.tsx',
     '^@/.*\\.svg$': '<rootDir>/src/__mocks__/fileMock.ts',
     '^@/.*\\.(png|jpg|jpeg|gif|webp)$': '<rootDir>/src/__mocks__/fileMock.ts',
+    '^@/.*\\.(css|scss|sass)$': '<rootDir>/src/__mocks__/styleMock.ts',
 
     '^@/(.*)$': '<rootDir>/src/$1',
 
