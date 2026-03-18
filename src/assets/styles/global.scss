@@ -131,8 +131,8 @@ body {
   line-height: 1.5;
 
   /**
-  Фоновый цвет страницы
- */
+    Фоновый цвет страницы
+   */
   background: var(--color-bg);
 }
 
@@ -181,6 +181,10 @@ button {
  */
 svg * {
   transition-property: fill, stroke;
+}
+
+svg {
+  color: var(--color-icon);
 }
 
 /**
