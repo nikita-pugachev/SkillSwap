@@ -1,7 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import clearIconSrc from '../../assets/icons/cross.svg';
-import arrowUpIconSrc from '../../assets/icons/chevron-up.svg';
-import arrowDownIconSrc from '../../assets/icons/chevron-down.svg';
 import { SelectInputUI } from '../ui/SelectInputUI';
 
 export type TSelectOption = {
@@ -145,6 +143,8 @@ export const SelectInput: React.FC<TSelectInputProps> = ({
     };
   }, [closeDropdown, restoreSelectedValue]);
 
+  const shouldShowClear = (isOpen && inputValue.length > 0) || (!isOpen && !!selectedOption);
+
   return (
     <SelectInputUI
       id={id}
@@ -160,22 +160,15 @@ export const SelectInput: React.FC<TSelectInputProps> = ({
       inputValue={inputValue}
       selectedOption={selectedOption}
       filteredOptions={filteredOptions}
-      actionIconSrc={
-        isOpen
-          ? inputValue
-            ? clearIconSrc
-            : arrowUpIconSrc
-          : selectedOption
-            ? clearIconSrc
-            : arrowDownIconSrc
-      }
+      clearIconSrc={clearIconSrc}
+      shouldShowClear={shouldShowClear}
       actionAriaLabel={
-        isOpen
-          ? inputValue
+        shouldShowClear
+          ? isOpen
             ? 'Очистить поиск'
-            : 'Закрыть список'
-          : selectedOption
-            ? 'Очистить выбранное значение'
+            : 'Очистить выбранное значение'
+          : isOpen
+            ? 'Закрыть список'
             : 'Открыть список'
       }
       handleInputChange={handleInputChange}

@@ -1,7 +1,7 @@
 import React from 'react';
-import { InputBaseContainerUI } from '../InputBaseContainerUI/InputBaseContainerUI';
 import { InputUI } from '../InputUI/InputUI';
 import { IconButton } from '../IconButton/IconButton';
+import { ChevronIcon } from '../Icons/ChevronIcon';
 import styles from './SelectInputUI.module.scss';
 import type { TSelectOption } from '@/components/SelectInput/SelectInput';
 
@@ -21,7 +21,8 @@ type TSelectInputUIProps = {
   selectedOption: TSelectOption | null;
   filteredOptions: TSelectOption[];
 
-  actionIconSrc: string;
+  clearIconSrc: string;
+  shouldShowClear: boolean;
   actionAriaLabel: string;
 
   handleInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -44,7 +45,8 @@ export const SelectInputUI: React.FC<TSelectInputUIProps> = ({
   inputValue,
   selectedOption,
   filteredOptions,
-  actionIconSrc,
+  clearIconSrc,
+  shouldShowClear,
   actionAriaLabel,
   handleInputChange,
   handleInputFocus,
@@ -52,9 +54,28 @@ export const SelectInputUI: React.FC<TSelectInputUIProps> = ({
   handleSelectOption,
 }) => {
   return (
-    <InputBaseContainerUI id={id} label={label} error={error} hint={hint}>
-      <div ref={rootRef} className={styles.selectRoot}>
-        <div className={styles.controlRow}>
+    <div className={styles.selectBox}>
+      {label && (
+        <label htmlFor={id} className={styles.labelInput}>
+          {label}
+        </label>
+      )}
+
+      <div
+        ref={rootRef}
+        className={[
+          styles.selectFrame,
+          isOpen ? styles.selectFrameOpen : '',
+          error ? styles.isError : '',
+        ]
+          .filter(Boolean)
+          .join(' ')}
+      >
+        <div
+          className={[styles.inputArea, isOpen ? styles.inputAreaOpen : '']
+            .filter(Boolean)
+            .join(' ')}
+        >
           <InputUI
             ref={inputRef}
             id={id}
@@ -64,22 +85,31 @@ export const SelectInputUI: React.FC<TSelectInputUIProps> = ({
             onChange={handleInputChange}
             onFocus={handleInputFocus}
             disabled={disabled}
-            className={[styles.selectInput, isOpen ? styles.selectInputOpen : '']
-              .filter(Boolean)
-              .join(' ')}
             autoComplete="off"
             aria-expanded={isOpen}
             aria-haspopup="listbox"
             role="combobox"
           />
 
-          <IconButton
-            iconSrc={actionIconSrc}
-            ariaLabel={actionAriaLabel}
-            onClick={handleActionClick}
-            className={styles.actionButton}
-            type="button"
-          />
+          {shouldShowClear ? (
+            <IconButton
+              iconSrc={clearIconSrc}
+              ariaLabel={actionAriaLabel}
+              onClick={handleActionClick}
+              className={styles.actionButton}
+              type="button"
+            />
+          ) : (
+            <button
+              type="button"
+              aria-label={actionAriaLabel}
+              onClick={handleActionClick}
+              className={styles.chevronButton}
+              disabled={disabled}
+            >
+              <ChevronIcon isOpen={isOpen} />
+            </button>
+          )}
         </div>
 
         {isOpen && (
@@ -109,6 +139,12 @@ export const SelectInputUI: React.FC<TSelectInputUIProps> = ({
           </div>
         )}
       </div>
-    </InputBaseContainerUI>
+
+      {error ? (
+        <p className={styles.errorInput}>{error}</p>
+      ) : hint ? (
+        <p className={styles.hintInput}>{hint}</p>
+      ) : null}
+    </div>
   );
 };
