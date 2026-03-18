@@ -1,0 +1,81 @@
+.cardSection {
+  max-width: 1020px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  background-color: var(--color-bg);
+}
+
+.textContainer {
+  width: 100%;
+  max-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--color-bg);
+}
+
+.title {
+  color: var(--color-text-primary);
+  font-size: var(--font-size-h1);
+  font-family: var(--font-family-heading);
+  line-height: var(--line-height-h1);
+}
+
+.showAll {
+  max-width: 187px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  box-sizing: border-box;
+  height: 48px;
+  border-radius: var(--radius-primary);
+  padding: 12px 24px;
+  font-family: var(--font-family-base);
+  font-weight: var(--font-weight-regular);
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-body);
+  transition: all 0.2s ease;
+  user-select: none;
+  border: none;
+  color: var(--color-text-primary);
+  background-color: var(--color-surface);
+
+  &:focus-visible {
+    outline: 1px solid var(--color-focus);
+  }
+}
+
+.buttonContent {
+  display: flex;
+  gap: 8px;
+}
+
+.icon {
+  width: 24px;
+  height: 24px;
+  color: var(--color-text-primary);
+}
+
+.cardContainer {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  background-color: var(--color-bg);
+}
+
+@media (width <= 767px) {
+  .cardContainer {
+    display: flex;
+    gap: 24px;
+    overflow: auto hidden;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+  }
+
+  .cardContainer > * {
+    flex: 0 0 324px;
+    scroll-snap-align: start;
+  }
+}
