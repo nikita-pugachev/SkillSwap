@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 import { FilterSidebar } from '@/components/FilterSidebar';
-import type { SkillCategoryData } from '@/utils/types';
+import type { SkillCategoryData } from '@/components/FilterSidebar';
 
 type User = {
   id: number;

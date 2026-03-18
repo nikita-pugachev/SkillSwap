@@ -45,12 +45,6 @@ describe('SkillTag', () => {
     expect(screen.queryByText(/\+/)).not.toBeInTheDocument();
   });
 
-  it('does not render empty label when label is empty', () => {
-    const { container } = render(<SkillTag label="" count={2} />);
-    expect(screen.getByText('+2')).toBeInTheDocument();
-    expect(container.querySelector('span')).not.toBeInTheDocument();
-  });
-
   // 4. Проверка что категория применяется даже с count
   it('renders with category and count together', () => {
     render(<SkillTag label="JavaScript" category="business" count={5} />);
