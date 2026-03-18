@@ -63,7 +63,7 @@ export default function LoginPage() {
                     />
 
                     <IconButton
-                      iconSrc={showPassword ? eyeIcon : eyeSlashIcon}
+                      iconSrc={showPassword ? eyeSlashIcon : eyeIcon}
                       ariaLabel={showPassword ? 'Скрыть пароль' : 'Показать пароль'}
                       onClick={togglePassword}
                     />

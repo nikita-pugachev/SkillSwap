@@ -26,6 +26,7 @@ export default function RegisterPage() {
   const [showPassword, setShowPassword] = useState(false);
   // TODO: получать из состояния формы (Redux)
   const passwordError: string | undefined = undefined;
+
   const togglePassword = () => {
     setShowPassword((prev) => !prev);
   };
@@ -42,35 +43,20 @@ export default function RegisterPage() {
     }
   };
 
-  const [isGenderOpen, setIsGenderOpen] = useState(false);
-  const [isCityOpen, setIsCityOpen] = useState(false);
-  const [isLearnCategoryOpen, setIsLearnCategoryOpen] = useState(false);
-  const [isLearnSubcategoryOpen, setIsLearnSubcategoryOpen] = useState(false);
-  const [isSkillCategoryOpen, setIsSkillCategoryOpen] = useState(false);
-  const [isSkillSubcategoryOpen, setIsSkillSubcategoryOpen] = useState(false);
+  const [openSelects, setOpenSelects] = useState({
+    gender: false,
+    city: false,
+    learnCategory: false,
+    learnSubcategory: false,
+    skillCategory: false,
+    skillSubcategory: false,
+  });
 
-  const toggleGender = () => {
-    setIsGenderOpen((prev) => !prev);
-  };
-
-  const toggleCity = () => {
-    setIsCityOpen((prev) => !prev);
-  };
-
-  const toggleLearnCategory = () => {
-    setIsLearnCategoryOpen((prev) => !prev);
-  };
-
-  const toggleLearnSubcategory = () => {
-    setIsLearnSubcategoryOpen((prev) => !prev);
-  };
-
-  const toggleSkillCategory = () => {
-    setIsSkillCategoryOpen((prev) => !prev);
-  };
-
-  const toggleSkillSubcategory = () => {
-    setIsSkillSubcategoryOpen((prev) => !prev);
+  const toggleSelect = (selectName: keyof typeof openSelects) => {
+    setOpenSelects((prev) => ({
+      ...prev,
+      [selectName]: !prev[selectName],
+    }));
   };
 
   return (
@@ -132,7 +118,7 @@ export default function RegisterPage() {
                       />
 
                       <IconButton
-                        iconSrc={showPassword ? eyeIcon : eyeSlashIcon}
+                        iconSrc={showPassword ? eyeSlashIcon : eyeIcon}
                         ariaLabel={showPassword ? 'Скрыть пароль' : 'Показать пароль'}
                         onClick={togglePassword}
                       />
@@ -217,12 +203,12 @@ export default function RegisterPage() {
                           id="gender"
                           type="button"
                           className={styles.selectField}
-                          onClick={toggleGender}
+                          onClick={() => toggleSelect('gender')}
                         >
                           <span className={styles.selectText}>Не указан</span>
 
                           <img
-                            src={isGenderOpen ? chevronUpIcon : chevronDownIcon}
+                            src={openSelects.gender ? chevronUpIcon : chevronDownIcon}
                             alt=""
                             aria-hidden="true"
                           />
@@ -236,13 +222,13 @@ export default function RegisterPage() {
                       id="city"
                       type="button"
                       className={styles.selectField}
-                      onClick={toggleCity}
+                      onClick={() => toggleSelect('city')}
                       // TODO: открыть поиск и список городов
                     >
                       <span className={styles.selectText}>Не указан</span>
 
                       <img
-                        src={isCityOpen ? crossIcon : chevronDownIcon}
+                        src={openSelects.city ? crossIcon : chevronDownIcon}
                         alt=""
                         aria-hidden="true"
                       />
@@ -257,13 +243,13 @@ export default function RegisterPage() {
                       id="learnCategory"
                       type="button"
                       className={styles.selectField}
-                      onClick={toggleLearnCategory}
+                      onClick={() => toggleSelect('learnCategory')}
                       // TODO: открыть список категорий
                     >
                       <span className={styles.selectText}>Выберите категорию</span>
 
                       <img
-                        src={isLearnCategoryOpen ? chevronUpIcon : chevronDownIcon}
+                        src={openSelects.learnCategory ? chevronUpIcon : chevronDownIcon}
                         alt=""
                         aria-hidden="true"
                       />
@@ -278,13 +264,13 @@ export default function RegisterPage() {
                       id="learnSubcategory"
                       type="button"
                       className={styles.selectField}
-                      onClick={toggleLearnSubcategory}
+                      onClick={() => toggleSelect('learnSubcategory')}
                       // TODO: открыть список подкатегорий
                     >
                       <span className={styles.selectText}>Выберите подкатегорию</span>
 
                       <img
-                        src={isLearnSubcategoryOpen ? chevronUpIcon : chevronDownIcon}
+                        src={openSelects.learnSubcategory ? chevronUpIcon : chevronDownIcon}
                         alt=""
                         aria-hidden="true"
                       />
@@ -311,9 +297,7 @@ export default function RegisterPage() {
                 <h2 className={styles.onboardingTitle}>Расскажите немного о себе</h2>
 
                 <p className={styles.onboardingSubtitle}>
-                  Это поможет другим людям лучше вас узнать,
-                  <br />
-                  чтобы выбрать для обмена
+                  Это поможет другим людям лучше вас узнать, чтобы выбрать для обмена
                 </p>
               </div>
             </section>
@@ -347,13 +331,13 @@ export default function RegisterPage() {
                       id="skillCategory"
                       type="button"
                       className={styles.selectField}
-                      onClick={toggleSkillCategory}
+                      onClick={() => toggleSelect('skillCategory')}
                       // TODO: открыть список категорий навыков
                     >
                       <span className={styles.selectText}>Выберите категорию навыка</span>
 
                       <img
-                        src={isSkillCategoryOpen ? chevronUpIcon : chevronDownIcon}
+                        src={openSelects.skillCategory ? chevronUpIcon : chevronDownIcon}
                         alt=""
                         aria-hidden="true"
                       />
@@ -365,13 +349,13 @@ export default function RegisterPage() {
                       id="skillSubcategory"
                       type="button"
                       className={styles.selectField}
-                      onClick={toggleSkillSubcategory}
+                      onClick={() => toggleSelect('skillSubcategory')}
                       // TODO: открыть список подкатегорий навыков
                     >
                       <span className={styles.selectText}>Выберите подкатегорию навыка</span>
 
                       <img
-                        src={isSkillSubcategoryOpen ? chevronUpIcon : chevronDownIcon}
+                        src={openSelects.skillSubcategory ? chevronUpIcon : chevronDownIcon}
                         alt=""
                         aria-hidden="true"
                       />
@@ -427,8 +411,7 @@ export default function RegisterPage() {
                 <h2 className={styles.onboardingTitle}>Укажите, чем вы готовы поделиться</h2>
 
                 <p className={styles.onboardingSubtitle}>
-                  Так другие люди смогут увидеть ваши предложения
-                  <br />и предложить вам обмен!
+                  Так другие люди смогут увидеть ваши предложения и предложить вам обмен!
                 </p>
               </div>
             </section>

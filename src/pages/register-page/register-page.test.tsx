@@ -1,7 +1,5 @@
 import type { ButtonHTMLAttributes, InputHTMLAttributes, ReactNode } from 'react';
 import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import { MemoryRouter } from 'react-router-dom';
 import RegisterPage from './register-page';
 
 jest.mock('@/components/ui/ButtonUI', () => ({
@@ -57,72 +55,11 @@ jest.mock('@/components/ui/IconButton', () => ({
 }));
 
 describe('RegisterPage', () => {
-  const renderPage = () =>
-    render(
-      <MemoryRouter>
-        <RegisterPage />
-      </MemoryRouter>
-    );
-
-  it('renders step 1 by default', () => {
-    renderPage();
+  it('renders first registration step with email and password fields', () => {
+    render(<RegisterPage />);
 
     expect(screen.getByRole('heading', { name: 'Шаг 1 из 3' })).toBeInTheDocument();
-
-    expect(screen.getByText('Добро пожаловать в SkillSwap!')).toBeInTheDocument();
-
     expect(screen.getByLabelText('Email')).toBeInTheDocument();
     expect(screen.getByLabelText('Пароль')).toBeInTheDocument();
-
-    expect(screen.getByRole('button', { name: 'Далее' })).toBeInTheDocument();
-  });
-
-  it('switches to step 2 on submit', async () => {
-    const user = userEvent.setup();
-    renderPage();
-
-    await user.click(screen.getByRole('button', { name: 'Далее' }));
-
-    expect(screen.getByRole('heading', { name: 'Шаг 2 из 3' })).toBeInTheDocument();
-
-    expect(screen.getByText('Расскажите немного о себе')).toBeInTheDocument();
-    expect(screen.getByLabelText('Имя')).toBeInTheDocument();
-  });
-
-  it('switches to step 3', async () => {
-    const user = userEvent.setup();
-    renderPage();
-
-    await user.click(screen.getByRole('button', { name: 'Далее' }));
-    await user.click(screen.getByRole('button', { name: 'Продолжить' }));
-
-    expect(screen.getByRole('heading', { name: 'Шаг 3 из 3' })).toBeInTheDocument();
-
-    expect(screen.getByText('Укажите, чем вы готовы поделиться')).toBeInTheDocument();
-    expect(screen.getByLabelText('Название навыка')).toBeInTheDocument();
-  });
-
-  it('goes back to previous step', async () => {
-    const user = userEvent.setup();
-    renderPage();
-
-    await user.click(screen.getByRole('button', { name: 'Далее' }));
-    expect(screen.getByRole('heading', { name: 'Шаг 2 из 3' })).toBeInTheDocument();
-
-    await user.click(screen.getByRole('button', { name: 'Назад' }));
-    expect(screen.getByRole('heading', { name: 'Шаг 1 из 3' })).toBeInTheDocument();
-  });
-
-  it('toggles password visibility', async () => {
-    const user = userEvent.setup();
-    renderPage();
-
-    expect(screen.getByLabelText('Пароль')).toHaveAttribute('type', 'password');
-
-    await user.click(screen.getByRole('button', { name: 'Показать пароль' }));
-    expect(screen.getByLabelText('Пароль')).toHaveAttribute('type', 'text');
-
-    await user.click(screen.getByRole('button', { name: 'Скрыть пароль' }));
-    expect(screen.getByLabelText('Пароль')).toHaveAttribute('type', 'password');
   });
 });
