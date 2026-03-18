@@ -1,7 +1,13 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { act, fireEvent, render, screen } from '@testing-library/react';
 import { SearchInput } from './SearchInput';
 
+jest.useFakeTimers();
+
 describe('SearchInput', () => {
+  afterEach(() => {
+    jest.clearAllTimers();
+  });
+
   it('рендерит компонент', () => {
     render(<SearchInput />);
 
@@ -40,30 +46,50 @@ describe('SearchInput', () => {
     expect(screen.queryByRole('button', { name: 'Очистить' })).not.toBeInTheDocument();
   });
 
-  it('вызывает onSearch при нажатии Enter', () => {
+  it('вызывает onSearch только после паузы во вводе', () => {
     const onSearch = jest.fn();
 
     render(<SearchInput onSearch={onSearch} />);
 
     const input = screen.getByRole('searchbox', { name: 'Искать навык' });
 
+    onSearch.mockClear();
+
+    fireEvent.change(input, { target: { value: 'R' } });
+    fireEvent.change(input, { target: { value: 'Re' } });
     fireEvent.change(input, { target: { value: 'React' } });
-    fireEvent.keyDown(input, { key: 'Enter', code: 'Enter' });
+
+    expect(onSearch).not.toHaveBeenCalled();
+
+    act(() => {
+      jest.advanceTimersByTime(300);
+    });
 
     expect(onSearch).toHaveBeenCalledTimes(1);
     expect(onSearch).toHaveBeenCalledWith('React');
   });
 
-  it('не вызывает onSearch при нажатии не Enter', () => {
+  it('при очистке input корректно сбрасывает значение поиска', () => {
     const onSearch = jest.fn();
 
     render(<SearchInput onSearch={onSearch} />);
 
     const input = screen.getByRole('searchbox', { name: 'Искать навык' });
 
-    fireEvent.change(input, { target: { value: 'React' } });
-    fireEvent.keyDown(input, { key: 'Escape', code: 'Escape' });
+    onSearch.mockClear();
 
-    expect(onSearch).not.toHaveBeenCalled();
+    fireEvent.change(input, { target: { value: 'React' } });
+
+    act(() => {
+      jest.advanceTimersByTime(300);
+    });
+
+    fireEvent.click(screen.getByRole('button', { name: 'Очистить' }));
+
+    act(() => {
+      jest.advanceTimersByTime(300);
+    });
+
+    expect(onSearch).toHaveBeenLastCalledWith('');
   });
 });
