@@ -1,5 +1,6 @@
 import { useState } from 'react';
 
+import authStyles from '@/assets/styles/auth.module.scss';
 import styles from './register-page.module.scss';
 
 import { Button } from '@/components/ui/ButtonUI';
@@ -60,9 +61,9 @@ export default function RegisterPage() {
   };
 
   return (
-    <main className={styles.main}>
+    <main className={authStyles.main}>
       <div className={styles.steps}>
-        <h1 className={styles.title}>Шаг {step} из 3</h1>
+        <h1 className={authStyles.title}>Шаг {step} из 3</h1>
         <div className={styles.progressBar} aria-hidden="true">
           <span className={`${styles.segment} ${step >= 1 ? styles.segmentActive : ''}`} />
           <span className={`${styles.segment} ${step >= 2 ? styles.segmentActive : ''}`} />
@@ -70,14 +71,14 @@ export default function RegisterPage() {
         </div>
       </div>
 
-      <div className={styles.content}>
+      <div className={authStyles.content}>
         {step === 1 && (
           <>
             <section
-              className={`${styles.formSection} ${styles.formSectionStepOne}`}
+              className={`${authStyles.formSection} ${styles.formSectionStepOne}`}
               aria-label="Форма регистрации: шаг 1"
             >
-              <div className={styles.socialButtons}>
+              <div className={authStyles.socialButtons}>
                 <Button variant="outlined" type="button">
                   <img src={googleIcon} alt="" aria-hidden="true" />
                   <span>Продолжить с Google</span>
@@ -89,17 +90,17 @@ export default function RegisterPage() {
                 </Button>
               </div>
 
-              <div className={styles.divider}>или</div>
+              <div className={authStyles.divider}>или</div>
 
               <form
-                className={styles.formContainer}
+                className={authStyles.formContainer}
                 onSubmit={(e) => {
                   e.preventDefault();
                   handleNextStep();
                   // TODO: сохранить данные первого шага и перейти дальше
                 }}
               >
-                <div className={styles.fields}>
+                <div className={authStyles.fields}>
                   <InputBaseContainerUI label="Email" id="email">
                     <InputUI id="email" type="email" placeholder="Введите email" />
                   </InputBaseContainerUI>
@@ -110,7 +111,7 @@ export default function RegisterPage() {
                     error={passwordError}
                     hint="Пароль должен содержать не менее 8 знаков"
                   >
-                    <div className={styles.passwordField}>
+                    <div className={authStyles.passwordField}>
                       <InputUI
                         id="password"
                         type={showPassword ? 'text' : 'password'}
@@ -126,19 +127,19 @@ export default function RegisterPage() {
                   </InputBaseContainerUI>
                 </div>
 
-                <Button variant="primary" type="submit" className={styles.submitButton}>
+                <Button variant="primary" type="submit" className={authStyles.submitButton}>
                   Далее
                 </Button>
               </form>
             </section>
 
-            <section className={styles.onboarding} aria-label="О платформе">
-              <img src={lightBulb} alt="" className={styles.onboardingImage} />
+            <section className={authStyles.onboarding} aria-label="О платформе">
+              <img src={lightBulb} alt="" className={authStyles.onboardingImage} />
 
-              <div className={styles.onboardingText}>
-                <h2 className={styles.onboardingTitle}>Добро пожаловать в SkillSwap!</h2>
+              <div className={authStyles.onboardingText}>
+                <h2 className={authStyles.onboardingTitle}>Добро пожаловать в SkillSwap!</h2>
 
-                <p className={styles.onboardingSubtitle}>
+                <p className={authStyles.onboardingSubtitle}>
                   Присоединяйтесь к SkillSwap и обменивайтесь знаниями и навыками с другими людьми
                 </p>
               </div>
@@ -149,7 +150,7 @@ export default function RegisterPage() {
         {step === 2 && (
           <>
             <section
-              className={`${styles.formSection} ${styles.formSectionStepTwo}`}
+              className={`${authStyles.formSection} ${styles.formSectionStepTwo}`}
               aria-label="Форма регистрации: шаг 2"
             >
               <div className={styles.avatarBlock}>
@@ -169,14 +170,14 @@ export default function RegisterPage() {
               </div>
 
               <form
-                className={styles.formContainer}
+                className={authStyles.formContainer}
                 onSubmit={(e) => {
                   e.preventDefault();
                   handleNextStep();
                   // TODO: сохранить данные второго шага регистрации и перейти дальше
                 }}
               >
-                <div className={styles.fields}>
+                <div className={authStyles.fields}>
                   <InputBaseContainerUI label="Имя" id="name">
                     <InputUI id="name" type="text" placeholder="Введите ваше имя" />
                   </InputBaseContainerUI>
@@ -290,13 +291,13 @@ export default function RegisterPage() {
               </form>
             </section>
 
-            <section className={styles.onboarding} aria-label="О платформе">
-              <img src={UserInfo} alt="" className={styles.onboardingImage} />
+            <section className={authStyles.onboarding} aria-label="О платформе">
+              <img src={UserInfo} alt="" className={authStyles.onboardingImage} />
 
-              <div className={styles.onboardingText}>
-                <h2 className={styles.onboardingTitle}>Расскажите немного о себе</h2>
+              <div className={authStyles.onboardingText}>
+                <h2 className={authStyles.onboardingTitle}>Расскажите немного о себе</h2>
 
-                <p className={styles.onboardingSubtitle}>
+                <p className={authStyles.onboardingSubtitle}>
                   Это поможет другим людям лучше вас узнать, чтобы выбрать для обмена
                 </p>
               </div>
@@ -307,17 +308,17 @@ export default function RegisterPage() {
         {step === 3 && (
           <>
             <section
-              className={`${styles.formSection} ${styles.formSectionStepThree}`}
+              className={`${authStyles.formSection} ${styles.formSectionStepThree}`}
               aria-label="Форма регистрации: шаг 3"
             >
               <form
-                className={styles.formContainer}
+                className={authStyles.formContainer}
                 onSubmit={(e) => {
                   e.preventDefault();
                   // TODO: показать модальное окно подтверждения профиля
                 }}
               >
-                <div className={styles.fields}>
+                <div className={authStyles.fields}>
                   <InputBaseContainerUI label="Название навыка" id="skillName">
                     <InputUI
                       id="skillName"
@@ -404,13 +405,13 @@ export default function RegisterPage() {
               </form>
             </section>
 
-            <section className={styles.onboarding} aria-label="О платформе">
-              <img src={SchoolBoard} alt="" className={styles.onboardingImage} />
+            <section className={authStyles.onboarding} aria-label="О платформе">
+              <img src={SchoolBoard} alt="" className={authStyles.onboardingImage} />
 
-              <div className={styles.onboardingText}>
-                <h2 className={styles.onboardingTitle}>Укажите, чем вы готовы поделиться</h2>
+              <div className={authStyles.onboardingText}>
+                <h2 className={authStyles.onboardingTitle}>Укажите, чем вы готовы поделиться</h2>
 
-                <p className={styles.onboardingSubtitle}>
+                <p className={authStyles.onboardingSubtitle}>
                   Так другие люди смогут увидеть ваши предложения и предложить вам обмен!
                 </p>
               </div>
