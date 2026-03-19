@@ -5,9 +5,13 @@ const config = {
   setupFilesAfterEnv: ['<rootDir>/src/setupTests.ts'],
   transform: {
     '^.+\\.tsx?$': ['ts-jest', { tsconfig: 'tsconfig.test.json' }],
-    '\\.svg$': 'jest-transform-stub',
   },
   moduleNameMapper: {
+    '^@/.*\\.svg\\?react$': '<rootDir>/src/__mocks__/svgReactMock.tsx',
+    '^@/.*\\.svg$': '<rootDir>/src/__mocks__/fileMock.ts',
+    '^@/.*\\.(png|jpg|jpeg|gif|webp)$': '<rootDir>/src/__mocks__/fileMock.ts',
+    '^@/.*\\.(css|scss|sass)$': '<rootDir>/src/__mocks__/styleMock.ts',
+
     '^@/(.*)$': '<rootDir>/src/$1',
 
     '\\.(css|scss|sass)$': '<rootDir>/src/__mocks__/styleMock.ts',

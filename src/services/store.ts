@@ -1,10 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
-import skillsReducer from './slices/skills';
 
 export const store = configureStore({
-  reducer: {
-    skills: skillsReducer,
-  },
+  reducer: {},
 });
 
 export type RootState = ReturnType<typeof store.getState>;

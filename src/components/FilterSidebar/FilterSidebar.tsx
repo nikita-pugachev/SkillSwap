@@ -3,10 +3,21 @@ import { RadioGroup } from '@/components/ui/RadioGroup';
 import { CheckboxButton } from '@/components/ui/CheckboxButton';
 import { SkillCategory } from '@/components/ui';
 import styles from './FilterSidebar.module.scss';
-import { SkillCategoryData } from '@/utils/types';
 
 import ChevronDown from '@/assets/icons/chevron-down.svg?react';
 import ChevronUp from '@/assets/icons/chevron-up.svg?react';
+
+type SkillSubcategory = {
+  id: number;
+  title: string;
+};
+
+export type SkillCategoryData = {
+  id: number;
+  title: string;
+  icon: string;
+  subcategories: SkillSubcategory[];
+};
 
 export interface FilterSidebarProps {
   filters: {

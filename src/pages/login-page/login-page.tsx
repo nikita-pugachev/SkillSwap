@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
+import authStyles from '@/assets/styles/auth.module.scss';
 import styles from './login-page.module.scss';
 
 import { Button } from '@/components/ui/ButtonUI';
@@ -18,16 +19,21 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   // TODO: получать из состояния формы (Redux)
   const passwordError: string | undefined = undefined;
+
   const togglePassword = () => {
     setShowPassword((prev) => !prev);
   };
 
   return (
-    <main className={styles.main}>
-      <h1 className={styles.title}>Вход</h1>
-      <div className={styles.content}>
-        <section className={styles.formSection} aria-label="Форма входа">
-          <div className={styles.socialButtons}>
+    <main className={authStyles.main}>
+      <h1 className={authStyles.title}>Вход</h1>
+
+      <div className={authStyles.content}>
+        <section
+          className={`${authStyles.formSection} ${styles.formSectionLogin}`}
+          aria-label="Форма входа"
+        >
+          <div className={authStyles.socialButtons}>
             <Button variant="outlined" type="button">
               <img src={googleIcon} alt="" aria-hidden="true" />
               <span>Продолжить с Google</span>
@@ -39,23 +45,23 @@ export default function LoginPage() {
             </Button>
           </div>
 
-          <div className={styles.divider}>или</div>
+          <div className={authStyles.divider}>или</div>
 
           <div className={styles.authBlock}>
             <form
-              className={styles.formContainer}
+              className={authStyles.formContainer}
               onSubmit={(e) => {
                 e.preventDefault();
                 // TODO: dispatch login action
               }}
             >
-              <div className={styles.fields}>
+              <div className={authStyles.fields}>
                 <InputBaseContainerUI label="Email" id="email">
                   <InputUI id="email" type="email" placeholder="Введите email" />
                 </InputBaseContainerUI>
 
                 <InputBaseContainerUI label="Пароль" id="password" error={passwordError}>
-                  <div className={styles.passwordField}>
+                  <div className={authStyles.passwordField}>
                     <InputUI
                       id="password"
                       type={showPassword ? 'text' : 'password'}
@@ -63,7 +69,7 @@ export default function LoginPage() {
                     />
 
                     <IconButton
-                      iconSrc={showPassword ? eyeIcon : eyeSlashIcon}
+                      iconSrc={showPassword ? eyeSlashIcon : eyeIcon}
                       ariaLabel={showPassword ? 'Скрыть пароль' : 'Показать пароль'}
                       onClick={togglePassword}
                     />
@@ -71,7 +77,7 @@ export default function LoginPage() {
                 </InputBaseContainerUI>
               </div>
 
-              <Button variant="primary" type="submit" className={styles.submitButton}>
+              <Button variant="primary" type="submit" className={authStyles.submitButton}>
                 Войти
               </Button>
             </form>
@@ -81,13 +87,14 @@ export default function LoginPage() {
             </Link>
           </div>
         </section>
-        <section className={styles.onboarding} aria-label="О платформе">
-          <img src={lightBulb} alt="" className={styles.onboardingImage} />
 
-          <div className={styles.onboardingText}>
-            <h2 className={styles.onboardingTitle}>С возвращением в SkillSwap!</h2>
+        <section className={authStyles.onboarding} aria-label="О платформе">
+          <img src={lightBulb} alt="" className={authStyles.onboardingImage} />
 
-            <p className={styles.onboardingSubtitle}>
+          <div className={authStyles.onboardingText}>
+            <h2 className={authStyles.onboardingTitle}>С возвращением в SkillSwap!</h2>
+
+            <p className={authStyles.onboardingSubtitle}>
               Обменивайтесь знаниями и навыками с другими людьми
             </p>
           </div>

@@ -1,9 +1,20 @@
 import { CheckboxButton } from '@/components/ui/CheckboxButton';
 import styles from './SkillCategory.module.scss';
-import { SkillCategoryData } from '@/utils/types';
 
 import ChevronDown from '@/assets/icons/chevron-down.svg?react';
 import ChevronUp from '@/assets/icons/chevron-up.svg?react';
+
+type SkillSubcategory = {
+  id: number;
+  title: string;
+};
+
+type SkillCategoryData = {
+  id: number;
+  title: string;
+  icon: string;
+  subcategories: SkillSubcategory[];
+};
 
 interface SkillCategoryProps {
   category: SkillCategoryData;
