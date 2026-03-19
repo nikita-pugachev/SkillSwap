@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import styles from './CategoryDropdown.module.scss';
-import { ChevronIcon } from '../ui/Icons/ChevronIcon';
+import { ChevronIcon } from '@/components/ui';
 import { getCategoriesColumns } from '../../data/categories';
 import { CategoryRow } from './components/CategoryRow';
 

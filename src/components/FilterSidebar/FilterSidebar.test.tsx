@@ -3,31 +3,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { FilterSidebar, type SkillCategoryData } from './FilterSidebar';
 
-jest.mock('./FilterSidebar.module.scss', () => ({
-  __esModule: true,
-  default: {
-    sidebar: 'sidebar',
-    title: 'title',
-    filterGroup: 'filterGroup',
-    groupTitle: 'groupTitle',
-    categoryTree: 'categoryTree',
-    allCategoriesButton: 'allCategoriesButton',
-    checkboxList: 'checkboxList',
-  },
-}));
-
-jest.mock('@/assets/icons/chevron-down.svg?react', () => ({
-  __esModule: true,
-  default: () => <span>down</span>,
-}));
-
-jest.mock('@/assets/icons/chevron-up.svg?react', () => ({
-  __esModule: true,
-  default: () => <span>up</span>,
-}));
-
-// Мокаем RadioGroup как набор обычных кнопок
-jest.mock('@/components/ui/RadioGroup', () => ({
+jest.mock('@/components/ui', () => ({
   RadioGroup: ({
     name,
     items,
@@ -48,10 +24,7 @@ jest.mock('@/components/ui/RadioGroup', () => ({
       ))}
     </div>
   ),
-}));
 
-// Мокаем CheckboxButton как кнопку
-jest.mock('@/components/ui/CheckboxButton', () => ({
   CheckboxButton: ({
     label,
     onChange,
@@ -64,10 +37,7 @@ jest.mock('@/components/ui/CheckboxButton', () => ({
       {label}
     </button>
   ),
-}));
 
-// Мокаем SkillCategory так, чтобы можно было отдельно дергать все его коллбеки
-jest.mock('@/components/ui', () => ({
   SkillCategory: ({
     category,
     expanded,

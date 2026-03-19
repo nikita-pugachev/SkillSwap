@@ -1,7 +1,6 @@
 import { useState } from 'react';
-import { RadioGroup } from '@/components/ui/RadioGroup';
-import { CheckboxButton } from '@/components/ui/CheckboxButton';
-import { SkillCategory } from '@/components/ui';
+import { RadioGroup } from '@/components/ui';
+import { CheckboxButton, SkillCategory } from '@/components/ui';
 import styles from './FilterSidebar.module.scss';
 
 import ChevronDown from '@/assets/icons/chevron-down.svg?react';

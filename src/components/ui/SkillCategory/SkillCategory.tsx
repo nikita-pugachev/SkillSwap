@@ -1,4 +1,4 @@
-import { CheckboxButton } from '@/components/ui/CheckboxButton';
+import { CheckboxButton } from '@/components/ui';
 import styles from './SkillCategory.module.scss';
 
 import ChevronDown from '@/assets/icons/chevron-down.svg?react';

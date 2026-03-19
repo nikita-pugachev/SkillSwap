@@ -8,7 +8,7 @@ type MockRadioButtonProps = {
   onChange: () => void;
 };
 
-jest.mock('@/components/ui/RadioButton', () => ({
+jest.mock('@/components/ui', () => ({
   RadioButton: ({ label, name, value, checked, onChange }: MockRadioButtonProps) => (
     <label>
       <input type="radio" name={name} value={value} checked={checked} onChange={onChange} />

@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './CategoryRow.module.scss';
-import { CategoryIcon } from '@/components/ui/Icons/CategoryIcon';
+import { CategoryIcon } from '@/components/ui';
 import type { Category } from '@/data/categories';
 
 interface CategoryRowProps {

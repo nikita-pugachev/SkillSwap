@@ -1,10 +1,7 @@
 import { FC } from 'react';
-import { Logo } from '../ui/Logo/Logo';
-import { SearchInput } from '../SearchInput/SearchInput';
-import { Button } from '../ui/ButtonUI/ButtonUI';
-import { Avatar } from '../ui';
-import { CategoryDropdown } from '../category-dropdown';
-import { IconButton } from '../ui/IconButton';
+import { Avatar, Logo, Button, IconButton } from '@/components/ui';
+import { SearchInput } from '../SearchInput';
+import { CategoryDropdown } from '../CategoryDropdown';
 import { useNavigate, useLocation } from 'react-router-dom';
 import styles from './Header.module.scss';
 

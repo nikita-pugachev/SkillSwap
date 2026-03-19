@@ -1,8 +1,7 @@
 import React from 'react';
 import styles from './SearchInputUI.module.scss';
 import SearchIcon from '../../../assets/icons/search.svg?react';
-import { InputUI } from '../InputUI/InputUI';
-import { IconButton } from '../IconButton';
+import { InputUI, IconButton } from '@/components/ui';
 
 export interface SearchInputUIProps {
   placeholder?: string;

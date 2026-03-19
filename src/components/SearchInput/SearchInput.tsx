@@ -1,6 +1,5 @@
 import React, { FC, useState } from 'react';
-import { SearchInputUI } from '../ui/SearchInputUI';
-import { InputBaseContainerUI } from '../ui/InputBaseContainerUI';
+import { SearchInputUI, InputBaseContainerUI } from '@/components/ui';
 
 interface SearchInputProp {
   onSearch?: (value: string) => void;
