@@ -1,9 +1,7 @@
 import { FC } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
-// @ts-expect-error: Swiper styles may not have types
 import 'swiper/css';
-// @ts-expect-error: Swiper styles may not have types
 import 'swiper/css/navigation';
 import styles from './SkillCard.module.scss';
 import { Button } from '@/components/ui/ButtonUI';
