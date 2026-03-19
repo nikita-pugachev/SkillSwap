@@ -1,10 +1,9 @@
 .link {
-  text-decoration: none;
   color: var(--color-text-primary);
+  text-decoration: none;
   transition: color 0.2s ease;
 }
 
 .link:hover {
-  cursor: pointer;
   color: var(--color-accent);
 }

@@ -1,17 +1,18 @@
 .iconWrapper {
   display: flex;
-  align-items: center;
+  flex-shrink: 0;
   justify-content: center;
+  align-items: center;
   width: 40px;
   height: 40px;
   border-radius: var(--radius-circle);
-  flex-shrink: 0;
 }
 
 .icon {
   width: 24px;
   height: 24px;
   object-fit: contain;
+  color: var(--color-icon);
 }
 
 .business {

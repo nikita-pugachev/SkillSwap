@@ -39,8 +39,8 @@ body,
 }
 
 :where(fieldset[class]) {
-  padding: 0;
   border: none;
+  padding: 0;
 }
 
 /**
@@ -107,15 +107,15 @@ html {
   height: 100%;
 
   /**
+    Плавный скролл
+   */
+  scroll-behavior: smooth;
+
+  /**
     Убираем скачок интерфейса по горизонтали
     при появлении / исчезновении скроллбара
    */
   scrollbar-gutter: stable;
-
-  /**
-    Плавный скролл
-   */
-  scroll-behavior: smooth;
 }
 
 body {
@@ -132,7 +132,7 @@ body {
 
   /**
   Фоновый цвет страницы
- */
+   */
   background: var(--color-bg);
 }
 
@@ -147,7 +147,8 @@ a:where([class]) {
   Курсор-рука при наведении на элемент
  */
 button,
-label {
+label,
+a {
   cursor: pointer;
 }
 
@@ -163,7 +164,7 @@ button {
   (за исключением тех, у которых уже указан
   атрибут fill со значением 'none' или начинается с 'url')
  */
-:where(svg:not(.illustration-svg) [fill]:not([fill='none'], [fill^='url'])) {
+:where([fill]:not([fill='none'], [fill^='url'])) {
   fill: currentcolor;
 }
 
@@ -187,8 +188,8 @@ svg * {
   Приведение рамок таблиц в классический 'collapse' вид
  */
 :where(table) {
-  border-collapse: collapse;
   border-color: currentcolor;
+  border-collapse: collapse;
 }
 
 /**
@@ -199,9 +200,9 @@ svg * {
   *,
   ::before,
   ::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
     scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
   }
 }
