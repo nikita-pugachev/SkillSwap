@@ -1,6 +1,7 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useCallback } from 'react';
 import { FilterSidebar } from '@/components/FilterSidebar';
 import type { SkillCategoryData } from '@/components/FilterSidebar';
+import { CatalogLoading, CatalogError, CatalogEmpty } from './components';
 
 type User = {
   id: number;
@@ -40,52 +41,52 @@ export const CatalogPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    fetch('/db/skills.json')
-      .then((res) => {
-        if (!res.ok) throw new Error('Ошибка загрузки навыков');
-        return res.json();
-      })
-      .then((data: SkillCategoryData[]) => {
-        setSkills(data);
-      })
-      .catch((err: Error) => {
-        console.error('Ошибка загрузки категорий:', err);
-        setError(err.message);
-      });
+  const fetchSkills = useCallback(async () => {
+    try {
+      const res = await fetch('/db/skills.json');
+      if (!res.ok) throw new Error('Ошибка загрузки навыков');
+      const data: SkillCategoryData[] = await res.json();
+      setSkills(data);
+    } catch (err) {
+      if (err instanceof Error) setError(err.message);
+    }
   }, []);
 
-  useEffect(() => {
-    fetch('/db/cities.json')
-      .then((res) => {
-        if (!res.ok) throw new Error('Ошибка загрузки городов');
-        return res.json();
-      })
-      .then((data: City[]) => {
-        setCities(data);
-      })
-      .catch((err: Error) => {
-        console.error('Ошибка загрузки городов:', err);
-        setError(err.message);
-      });
+  const fetchCities = useCallback(async () => {
+    try {
+      const res = await fetch('/db/cities.json');
+      if (!res.ok) throw new Error('Ошибка загрузки городов');
+      const data: City[] = await res.json();
+      setCities(data);
+    } catch (err) {
+      if (err instanceof Error) setError(err.message);
+    }
   }, []);
 
-  useEffect(() => {
-    fetch('/db/users.json')
-      .then((res) => {
-        if (!res.ok) throw new Error('Ошибка загрузки пользователей');
-        return res.json();
-      })
-      .then((data: { users: User[] }) => {
-        setUsers(data.users);
-        setLoading(false);
-      })
-      .catch((err: Error) => {
-        console.error('Ошибка загрузки пользователей:', err);
-        setError(err.message);
-        setLoading(false);
-      });
+  const fetchUsers = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const res = await fetch('/db/users.json');
+      if (!res.ok) throw new Error('Ошибка загрузки пользователей');
+      const data: { users: User[] } = await res.json();
+      setUsers(data.users);
+    } catch (err) {
+      if (err instanceof Error) setError(err.message);
+    } finally {
+      setLoading(false);
+    }
   }, []);
+
+  const fetchAllData = useCallback(() => {
+    fetchSkills();
+    fetchCities();
+    fetchUsers();
+  }, [fetchSkills, fetchCities, fetchUsers]);
+
+  useEffect(() => {
+    fetchAllData();
+  }, [fetchAllData]);
 
   const filteredUsers = useMemo(() => {
     return users.filter((user) => {
@@ -94,18 +95,12 @@ export const CatalogPage = () => {
           Мужской: 'male',
           Женский: 'female',
         } as const;
-
-        if (user.gender !== genderMap[filters.gender]) {
-          return false;
-        }
+        if (user.gender !== genderMap[filters.gender]) return false;
       }
 
       if (filters.city.length > 0) {
         const userCityName = cities.find((city) => city.id === user.cityId)?.name;
-
-        if (!userCityName || !filters.city.includes(userCityName)) {
-          return false;
-        }
+        if (!userCityName || !filters.city.includes(userCityName)) return false;
       }
 
       if (filters.mode === 'wantToLearn') {
@@ -126,8 +121,33 @@ export const CatalogPage = () => {
     });
   }, [users, filters, cities]);
 
-  if (loading) return <div>Загрузка...</div>;
-  if (error) return <div>Ошибка: {error}</div>;
+  const handleResetFilters = () => {
+    setFilters({
+      mode: 'all',
+      skills: [],
+      gender: null,
+      city: [],
+    });
+  };
+
+  const renderContent = () => {
+    if (loading) return <CatalogLoading />;
+    if (error) return <CatalogError message={error} onRetry={fetchAllData} />;
+    if (filteredUsers.length === 0) return <CatalogEmpty onResetFilters={handleResetFilters} />;
+    return (
+      <div>
+        {filteredUsers.map((user) => {
+          const cityName =
+            cities.find((city) => city.id === user.cityId)?.name ?? 'Неизвестный город';
+          return (
+            <div key={user.id}>
+              {user.name} — {cityName}
+            </div>
+          );
+        })}
+      </div>
+    );
+  };
 
   return (
     <div style={{ display: 'flex', gap: '20px' }}>
@@ -137,19 +157,7 @@ export const CatalogPage = () => {
         cities={cities.map((city) => city.name)}
         categories={skills}
       />
-
-      <div>
-        {filteredUsers.map((user) => {
-          const cityName =
-            cities.find((city) => city.id === user.cityId)?.name ?? 'Неизвестный город';
-
-          return (
-            <div key={user.id}>
-              {user.name} — {cityName}
-            </div>
-          );
-        })}
-      </div>
+      {renderContent()}
     </div>
   );
 };
