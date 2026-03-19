@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect, useRef, useState } from 'react';
 import { SearchInputUI } from '../ui/SearchInputUI';
 import { InputBaseContainerUI } from '../ui/InputBaseContainerUI';
 import { useDebounce } from '@/hooks/useDebounce';
@@ -11,8 +11,14 @@ interface SearchInputProp {
 export const SearchInput: FC<SearchInputProp> = ({ onSearch, className }) => {
   const [value, setValue] = useState('');
   const debouncedValue = useDebounce(value, 300);
+  const isFirstRender = useRef(true);
 
   useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+
     onSearch?.(debouncedValue);
   }, [debouncedValue, onSearch]);
 

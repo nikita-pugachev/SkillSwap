@@ -53,8 +53,6 @@ describe('SearchInput', () => {
 
     const input = screen.getByRole('searchbox', { name: 'Искать навык' });
 
-    onSearch.mockClear();
-
     fireEvent.change(input, { target: { value: 'R' } });
     fireEvent.change(input, { target: { value: 'Re' } });
     fireEvent.change(input, { target: { value: 'React' } });
@@ -76,8 +74,6 @@ describe('SearchInput', () => {
 
     const input = screen.getByRole('searchbox', { name: 'Искать навык' });
 
-    onSearch.mockClear();
-
     fireEvent.change(input, { target: { value: 'React' } });
 
     act(() => {
@@ -91,5 +87,17 @@ describe('SearchInput', () => {
     });
 
     expect(onSearch).toHaveBeenLastCalledWith('');
+  });
+
+  it('не вызывает onSearch при первом рендере', () => {
+    const onSearch = jest.fn();
+
+    render(<SearchInput onSearch={onSearch} />);
+
+    act(() => {
+      jest.advanceTimersByTime(300);
+    });
+
+    expect(onSearch).not.toHaveBeenCalled();
   });
 });
