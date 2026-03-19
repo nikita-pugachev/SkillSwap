@@ -1,4 +1,5 @@
 import React from 'react';
+import { Button } from '@/components/ui/ButtonUI';
 import styles from './CatalogError.module.scss';
 
 interface CatalogErrorProps {
@@ -11,9 +12,9 @@ export const CatalogError: React.FC<CatalogErrorProps> = ({ message, onRetry }) 
     <div className={styles.errorContainer}>
       <p className={styles.errorMessage}>Произошла ошибка: {message}</p>
       {onRetry && (
-        <button className={styles.retryButton} onClick={onRetry}>
+        <Button variant="primary" onClick={onRetry}>
           Попробовать снова
-        </button>
+        </Button>
       )}
     </div>
   );

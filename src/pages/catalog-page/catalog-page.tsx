@@ -41,47 +41,39 @@ export const CatalogPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  // Функции загрузки отдельных данных
   const fetchSkills = useCallback(async () => {
-    try {
-      const res = await fetch('/db/skills.json');
-      if (!res.ok) throw new Error('Ошибка загрузки навыков');
-      const data: SkillCategoryData[] = await res.json();
-      setSkills(data);
-    } catch (err) {
-      if (err instanceof Error) setError(err.message);
-    }
+    const res = await fetch('/db/skills.json');
+    if (!res.ok) throw new Error('Ошибка загрузки навыков');
+    const data: SkillCategoryData[] = await res.json();
+    setSkills(data);
   }, []);
 
   const fetchCities = useCallback(async () => {
-    try {
-      const res = await fetch('/db/cities.json');
-      if (!res.ok) throw new Error('Ошибка загрузки городов');
-      const data: City[] = await res.json();
-      setCities(data);
-    } catch (err) {
-      if (err instanceof Error) setError(err.message);
-    }
+    const res = await fetch('/db/cities.json');
+    if (!res.ok) throw new Error('Ошибка загрузки городов');
+    const data: City[] = await res.json();
+    setCities(data);
   }, []);
 
   const fetchUsers = useCallback(async () => {
+    const res = await fetch('/db/users.json');
+    if (!res.ok) throw new Error('Ошибка загрузки пользователей');
+    const data: { users: User[] } = await res.json();
+    setUsers(data.users);
+  }, []);
+
+  // Общая функция загрузки всех данных
+  const fetchAllData = useCallback(async () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch('/db/users.json');
-      if (!res.ok) throw new Error('Ошибка загрузки пользователей');
-      const data: { users: User[] } = await res.json();
-      setUsers(data.users);
+      await Promise.all([fetchSkills(), fetchCities(), fetchUsers()]);
     } catch (err) {
-      if (err instanceof Error) setError(err.message);
+      setError(err instanceof Error ? err.message : 'Неизвестная ошибка');
     } finally {
       setLoading(false);
     }
-  }, []);
-
-  const fetchAllData = useCallback(() => {
-    fetchSkills();
-    fetchCities();
-    fetchUsers();
   }, [fetchSkills, fetchCities, fetchUsers]);
 
   useEffect(() => {

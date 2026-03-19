@@ -1,4 +1,5 @@
 import React from 'react';
+import { Button } from '@/components/ui/ButtonUI';
 import styles from './CatalogEmpty.module.scss';
 
 interface CatalogEmptyProps {
@@ -10,9 +11,9 @@ export const CatalogEmpty: React.FC<CatalogEmptyProps> = ({ onResetFilters }) =>
     <div className={styles.emptyContainer}>
       <p className={styles.emptyMessage}>Ничего не найдено</p>
       {onResetFilters && (
-        <button className={styles.resetButton} onClick={onResetFilters}>
+        <Button variant="primary" onClick={onResetFilters}>
           Сбросить фильтры
-        </button>
+        </Button>
       )}
     </div>
   );
