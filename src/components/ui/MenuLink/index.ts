@@ -1,1 +1,2 @@
-export { MenuLink } from './MenuLink.tsx';
+export { MenuLink } from './MenuLink';
+export type { MenuLinkProps } from './type';

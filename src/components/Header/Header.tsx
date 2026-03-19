@@ -5,6 +5,11 @@ import { CategoryDropdown } from '../CategoryDropdown';
 import { useNavigate, useLocation } from 'react-router-dom';
 import styles from './Header.module.scss';
 
+import CrossIcon from '@/assets/icons/cross.svg';
+import MoonIcon from '@/assets/icons/moon.svg';
+import NotificationIcon from '@/assets/icons/notification.svg';
+import LikeOutlineIcon from '@/assets/icons/like-outline.svg';
+
 export interface HeaderProps {
   isLogin: boolean;
   user?: {
@@ -33,7 +38,7 @@ export const Header: FC<HeaderProps> = ({ isLogin, user }) => {
         <div className={styles.right}>
           <Button variant="tertiary" onClick={handleBackSpace}>
             Закрыть
-            <img src="src/assets/icons/cross.svg" alt="" className={styles.icon} />
+            <img src={CrossIcon} alt="" className={styles.icon} />
           </Button>
         </div>
       </header>
@@ -63,29 +68,17 @@ export const Header: FC<HeaderProps> = ({ isLogin, user }) => {
       <div className={styles.right}>
         {isLogin ? (
           <div className={styles.iconContainer}>
+            <IconButton iconSrc={MoonIcon} ariaLabel="Смена темы" className={styles.icon} />
             <IconButton
-              iconSrc="src/assets/icons/moon.svg"
-              ariaLabel="Смена темы"
-              className={styles.icon}
-            />
-            <IconButton
-              iconSrc="src/assets/icons/notification.svg"
+              iconSrc={NotificationIcon}
               ariaLabel="Уведомления"
               className={styles.icon}
             />
-            <IconButton
-              iconSrc="src/assets/icons/like-outline.svg"
-              ariaLabel="Избранное"
-              className={styles.icon}
-            />
+            <IconButton iconSrc={LikeOutlineIcon} ariaLabel="Избранное" className={styles.icon} />
           </div>
         ) : (
           <div className={styles.iconContainer}>
-            <IconButton
-              iconSrc="src/assets/icons/moon.svg"
-              ariaLabel="Смена темы"
-              className={styles.icon}
-            />
+            <IconButton iconSrc={MoonIcon} ariaLabel="Смена темы" className={styles.icon} />
           </div>
         )}
 
