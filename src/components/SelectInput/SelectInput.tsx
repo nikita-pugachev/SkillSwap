@@ -4,7 +4,7 @@ import { SelectInputUI } from '../ui/SelectInputUI';
 
 export type TSelectOption = {
   id: number;
-  value: string;
+  name: string;
 };
 
 export type TSelectInputProps = {
