@@ -1,0 +1,149 @@
+.card {
+  display: flex;
+  gap: 24px;
+  width: 1368px;
+  margin: 0 auto;
+  align-items: flex-start;
+}
+
+.leftColumn {
+  width: 324px;
+  flex-shrink: 0;
+}
+
+.rightContent {
+  position: relative;
+  display: flex;
+  box-sizing: border-box;
+  width: 1020px;
+  min-width: 1020px;
+  max-width: 1020px;
+  min-height: 444px;
+  padding: 80px 52px 40px;
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 4px 20px rgb(0 0 0 / 5%);
+  gap: 77px;
+  flex-shrink: 0;
+}
+
+.actions {
+  position: absolute;
+  top: 32px;
+  right: 52px;
+  display: flex;
+  gap: 16px;
+  z-index: 10;
+}
+
+.middleColumn {
+  display: flex;
+  flex-direction: column;
+  width: 399px;
+  min-width: 399px;
+  flex-shrink: 0;
+
+  .title {
+    font-family: Jost, sans-serif;
+    font-weight: 500;
+    font-size: 32px;
+    line-height: 40px;
+    letter-spacing: -0.011em;
+    margin-bottom: 8px;
+    color: #1a1a1a;
+  }
+
+  .category {
+    font-family: Roboto, sans-serif;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 16px;
+    letter-spacing: 0.02em;
+    color: #8c8c8c;
+    margin-bottom: 24px;
+  }
+
+  .description {
+    font-family: Roboto, sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: 0.02em;
+    color: #4a4a4a;
+    margin-bottom: 24px;
+    flex-grow: 1;
+  }
+
+  .exchangeButton {
+    width: 399px;
+    height: 48px;
+    flex-shrink: 0;
+  }
+}
+
+.rightColumn {
+  display: flex;
+  width: 440px;
+  min-width: 440px;
+  flex-shrink: 0;
+}
+
+.gallery {
+  display: flex;
+  gap: 24px;
+}
+
+.mainImageWrapper {
+  width: 324px;
+  height: 324px;
+  border-radius: 16px;
+  overflow: hidden;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.thumbnails {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 92px;
+  flex-shrink: 0;
+
+  .thumbnailWrapper {
+    width: 92px;
+    height: 92px;
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+    flex-shrink: 0;
+  }
+}
+
+.gallery {
+  display: flex;
+  gap: 24px;
+  height: 324px;
+}
+
+.mainImageWrapper {
+  width: 324px;
+  height: 324px;
+  border-radius: 16px;
+  overflow: hidden;
+  position: relative;
+  flex-shrink: 0;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .mainImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+}
