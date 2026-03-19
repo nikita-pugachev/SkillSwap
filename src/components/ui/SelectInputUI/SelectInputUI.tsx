@@ -129,7 +129,7 @@ export const SelectInputUI: React.FC<TSelectInputUIProps> = ({
                     role="option"
                     aria-selected={isSelected}
                   >
-                    {option.value}
+                    {option.name}
                   </button>
                 );
               })

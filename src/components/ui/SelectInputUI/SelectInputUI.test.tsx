@@ -57,8 +57,8 @@ jest.mock('../Icons/ChevronIcon', () => ({
 
 describe('SelectInputUI', () => {
   const options: TSelectOption[] = [
-    { id: 1, value: 'Москва' },
-    { id: 2, value: 'Санкт-Петербург' },
+    { id: 1, name: 'Москва' },
+    { id: 2, name: 'Санкт-Петербург' },
   ];
 
   const createProps = () => ({
