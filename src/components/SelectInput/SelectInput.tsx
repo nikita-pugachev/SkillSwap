@@ -36,13 +36,13 @@ export const SelectInput: React.FC<TSelectInputProps> = ({
   const inputRef = useRef<HTMLInputElement>(null);
 
   const defaultSelectedOption = useMemo(
-    () => options.find((option) => option.value === defaultValue) ?? null,
+    () => options.find((option) => option.name === defaultValue) ?? null,
     [options, defaultValue]
   );
 
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState<TSelectOption | null>(defaultSelectedOption);
-  const [inputValue, setInputValue] = useState(defaultSelectedOption?.value ?? '');
+  const [inputValue, setInputValue] = useState(defaultSelectedOption?.name ?? '');
 
   const filteredOptions = useMemo(() => {
     const normalized = inputValue.trim().toLowerCase();
@@ -51,7 +51,7 @@ export const SelectInput: React.FC<TSelectInputProps> = ({
       return options;
     }
 
-    return options.filter((option) => option.value.toLowerCase().includes(normalized));
+    return options.filter((option) => option.name.toLowerCase().includes(normalized));
   }, [inputValue, options]);
 
   const openDropdown = useCallback(() => {
@@ -64,7 +64,7 @@ export const SelectInput: React.FC<TSelectInputProps> = ({
   }, []);
 
   const restoreSelectedValue = useCallback(() => {
-    setInputValue(selectedOption?.value ?? '');
+    setInputValue(selectedOption?.name ?? '');
   }, [selectedOption]);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -77,7 +77,7 @@ export const SelectInput: React.FC<TSelectInputProps> = ({
 
   const handleSelectOption = (option: TSelectOption) => {
     setSelectedOption(option);
-    setInputValue(option.value);
+    setInputValue(option.name);
     setIsOpen(false);
     onChange?.(option);
   };
