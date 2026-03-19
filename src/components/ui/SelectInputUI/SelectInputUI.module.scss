@@ -111,7 +111,7 @@
   }
 
   &::-webkit-scrollbar-thumb {
-    background: transparent;
+    background: var(--color-scroll);
     border-radius: 8px;
   }
 }

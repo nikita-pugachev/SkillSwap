@@ -4,8 +4,6 @@
   flex-direction: column;
   gap: 4px;
   width: 100%;
-  position: relative;
-  z-index: 1;
 }
 
 .inputBase {
@@ -23,6 +21,10 @@
   &:hover {
     background-color: var(--color-input-hover);
     border: 1px solid var(--color-input-border);
+  }
+
+  &:focus-within {
+    border: 1px solid var(--color-focus);
   }
 }
 

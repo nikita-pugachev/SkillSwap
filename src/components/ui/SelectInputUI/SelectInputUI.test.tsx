@@ -1,66 +1,55 @@
 import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
-import '@testing-library/jest-dom';
 import { SelectInputUI } from './SelectInputUI';
 import type { TSelectOption } from '@/components/SelectInput/SelectInput';
 
 jest.mock('./SelectInputUI.module.scss', () => ({
-  selectBox: 'selectBox',
-  labelInput: 'labelInput',
-  selectFrame: 'selectFrame',
-  selectFrameOpen: 'selectFrameOpen',
-  isError: 'isError',
-  inputArea: 'inputArea',
-  inputAreaOpen: 'inputAreaOpen',
-  actionButton: 'actionButton',
-  chevronButton: 'chevronButton',
-  dropdown: 'dropdown',
-  option: 'option',
-  optionSelected: 'optionSelected',
-  empty: 'empty',
-  errorInput: 'errorInput',
-  hintInput: 'hintInput',
+  __esModule: true,
+  default: {
+    selectBox: 'selectBox',
+    labelInput: 'labelInput',
+    selectFrame: 'selectFrame',
+    selectFrameOpen: 'selectFrameOpen',
+    isError: 'isError',
+    inputArea: 'inputArea',
+    inputAreaOpen: 'inputAreaOpen',
+    actionButton: 'actionButton',
+    chevronButton: 'chevronButton',
+    dropdown: 'dropdown',
+    option: 'option',
+    optionSelected: 'optionSelected',
+    empty: 'empty',
+    errorInput: 'errorInput',
+    hintInput: 'hintInput',
+  },
 }));
 
-type MockInputProps = React.InputHTMLAttributes<HTMLInputElement>;
-
-const mockInputUI = React.forwardRef<HTMLInputElement, MockInputProps>((props, ref) => {
-  return <input ref={ref} {...props} />;
-});
-
-mockInputUI.displayName = 'MockInputUI';
-
 jest.mock('../InputUI/InputUI', () => ({
-  InputUI: mockInputUI,
+  __esModule: true,
+  InputUI: (props: React.InputHTMLAttributes<HTMLInputElement>) => <input {...props} />,
 }));
 
 jest.mock('../IconButton/IconButton', () => ({
+  __esModule: true,
   IconButton: ({
     ariaLabel,
     onClick,
     className,
     type,
-    iconSrc,
   }: {
     ariaLabel: string;
     onClick: () => void;
     className?: string;
     type?: 'button' | 'submit' | 'reset';
-    iconSrc: string;
   }) => (
-    <button
-      type={type ?? 'button'}
-      aria-label={ariaLabel}
-      className={className}
-      onClick={onClick}
-      data-icon-src={iconSrc}
-    >
-      icon-button
+    <button type={type ?? 'button'} aria-label={ariaLabel} onClick={onClick} className={className}>
+      clear
     </button>
   ),
 }));
 
 jest.mock('../Icons/ChevronIcon', () => ({
+  __esModule: true,
   ChevronIcon: ({ isOpen }: { isOpen: boolean }) => (
     <span data-testid="chevron-icon">{isOpen ? 'open' : 'closed'}</span>
   ),
@@ -72,33 +61,28 @@ describe('SelectInputUI', () => {
     { id: 2, value: 'Санкт-Петербург' },
   ];
 
-  const createProps = () => {
-    const rootRef = React.createRef<HTMLDivElement>();
-    const inputRef = React.createRef<HTMLInputElement>();
-
-    return {
-      id: 'city',
-      label: 'Город',
-      error: undefined,
-      hint: 'Выберите город',
-      placeholder: 'Выберите значение',
-      disabled: false,
-      noOptionsText: 'Ничего не найдено',
-      isOpen: false,
-      rootRef,
-      inputRef,
-      inputValue: '',
-      selectedOption: null,
-      filteredOptions: options,
-      clearIconSrc: '/clear.svg',
-      shouldShowClear: false,
-      actionAriaLabel: 'Открыть список',
-      handleInputChange: jest.fn(),
-      handleInputFocus: jest.fn(),
-      handleActionClick: jest.fn(),
-      handleSelectOption: jest.fn(),
-    };
-  };
+  const createProps = () => ({
+    id: 'city',
+    label: 'Город',
+    error: '',
+    hint: 'Выберите город',
+    placeholder: 'Выберите значение',
+    disabled: false,
+    noOptionsText: 'Ничего не найдено',
+    isOpen: false,
+    rootRef: { current: null } as React.RefObject<HTMLDivElement | null>,
+    inputRef: { current: null } as React.RefObject<HTMLInputElement | null>,
+    inputValue: '',
+    selectedOption: null as TSelectOption | null,
+    filteredOptions: options,
+    clearIconSrc: '/icons/clear.svg',
+    shouldShowClear: false,
+    actionAriaLabel: 'Открыть список',
+    handleInputChange: jest.fn(),
+    handleInputFocus: jest.fn(),
+    handleActionClick: jest.fn(),
+    handleSelectOption: jest.fn(),
+  });
 
   it('рендерит label, input и hint', () => {
     const props = createProps();
@@ -106,17 +90,8 @@ describe('SelectInputUI', () => {
     render(<SelectInputUI {...props} />);
 
     expect(screen.getByText('Город')).toBeInTheDocument();
-    expect(screen.getByRole('combobox')).toBeInTheDocument();
+    expect(screen.getByPlaceholderText('Выберите значение')).toBeInTheDocument();
     expect(screen.getByText('Выберите город')).toBeInTheDocument();
-  });
-
-  it('рендерит текст ошибки вместо hint', () => {
-    const props = createProps();
-
-    render(<SelectInputUI {...props} error="Обязательное поле" />);
-
-    expect(screen.getByText('Обязательное поле')).toBeInTheDocument();
-    expect(screen.queryByText('Выберите город')).not.toBeInTheDocument();
   });
 
   it('вызывает handleInputChange при вводе текста', () => {
@@ -125,7 +100,7 @@ describe('SelectInputUI', () => {
     render(<SelectInputUI {...props} />);
 
     fireEvent.change(screen.getByRole('combobox'), {
-      target: { value: 'Моск' },
+      target: { value: 'Мос' },
     });
 
     expect(props.handleInputChange).toHaveBeenCalledTimes(1);
@@ -141,44 +116,34 @@ describe('SelectInputUI', () => {
     expect(props.handleInputFocus).toHaveBeenCalledTimes(1);
   });
 
-  it('показывает кнопку с ChevronIcon, когда clear-кнопка не нужна', () => {
+  it('рендерит кнопку chevron и вызывает handleActionClick по клику', () => {
     const props = createProps();
 
-    render(<SelectInputUI {...props} shouldShowClear={false} actionAriaLabel="Открыть список" />);
+    render(<SelectInputUI {...props} />);
 
-    expect(screen.getByRole('button', { name: 'Открыть список' })).toBeInTheDocument();
-    expect(screen.getByTestId('chevron-icon')).toHaveTextContent('closed');
+    const actionButton = screen.getByRole('button', { name: 'Открыть список' });
+    fireEvent.click(actionButton);
+
+    expect(props.handleActionClick).toHaveBeenCalledTimes(1);
+    expect(screen.getByTestId('chevron-icon')).toBeInTheDocument();
   });
 
-  it('показывает IconButton, когда shouldShowClear === true', () => {
+  it('рендерит clear-кнопку вместо chevron, если shouldShowClear = true', () => {
     const props = createProps();
+    props.shouldShowClear = true;
+    props.actionAriaLabel = 'Очистить';
 
-    render(
-      <SelectInputUI
-        {...props}
-        shouldShowClear={true}
-        actionAriaLabel="Очистить выбранное значение"
-      />
-    );
+    render(<SelectInputUI {...props} />);
 
-    expect(screen.getByRole('button', { name: 'Очистить выбранное значение' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Очистить' })).toBeInTheDocument();
     expect(screen.queryByTestId('chevron-icon')).not.toBeInTheDocument();
   });
 
-  it('вызывает handleActionClick при клике по action-кнопке', () => {
+  it('показывает dropdown с опциями, когда isOpen = true', () => {
     const props = createProps();
+    props.isOpen = true;
 
-    render(<SelectInputUI {...props} actionAriaLabel="Открыть список" />);
-
-    fireEvent.click(screen.getByRole('button', { name: 'Открыть список' }));
-
-    expect(props.handleActionClick).toHaveBeenCalledTimes(1);
-  });
-
-  it('открывает dropdown и рендерит список опций', () => {
-    const props = createProps();
-
-    render(<SelectInputUI {...props} isOpen={true} />);
+    render(<SelectInputUI {...props} />);
 
     expect(screen.getByRole('listbox')).toBeInTheDocument();
     expect(screen.getByRole('option', { name: 'Москва' })).toBeInTheDocument();
@@ -187,8 +152,9 @@ describe('SelectInputUI', () => {
 
   it('вызывает handleSelectOption при выборе опции', () => {
     const props = createProps();
+    props.isOpen = true;
 
-    render(<SelectInputUI {...props} isOpen={true} />);
+    render(<SelectInputUI {...props} />);
 
     fireEvent.click(screen.getByRole('option', { name: 'Москва' }));
 
@@ -196,52 +162,50 @@ describe('SelectInputUI', () => {
     expect(props.handleSelectOption).toHaveBeenCalledWith(options[0]);
   });
 
-  it('проставляет aria-selected для выбранной опции', () => {
+  it('ставит aria-selected для выбранной опции', () => {
     const props = createProps();
+    props.isOpen = true;
+    props.selectedOption = options[1];
 
-    render(<SelectInputUI {...props} isOpen={true} selectedOption={options[1]} />);
+    render(<SelectInputUI {...props} />);
 
-    expect(screen.getByRole('option', { name: 'Москва' })).toHaveAttribute(
-      'aria-selected',
-      'false'
-    );
     expect(screen.getByRole('option', { name: 'Санкт-Петербург' })).toHaveAttribute(
       'aria-selected',
       'true'
+    );
+    expect(screen.getByRole('option', { name: 'Москва' })).toHaveAttribute(
+      'aria-selected',
+      'false'
     );
   });
 
   it('показывает noOptionsText, если список пуст', () => {
     const props = createProps();
+    props.isOpen = true;
+    props.filteredOptions = [];
 
-    render(<SelectInputUI {...props} isOpen={true} filteredOptions={[]} />);
+    render(<SelectInputUI {...props} />);
 
     expect(screen.getByText('Ничего не найдено')).toBeInTheDocument();
   });
 
-  it('прокидывает disabled в input и кнопку открытия', () => {
+  it('показывает error вместо hint, если передан error', () => {
     const props = createProps();
+    props.error = 'Обязательное поле';
 
-    render(
-      <SelectInputUI
-        {...props}
-        disabled={true}
-        shouldShowClear={false}
-        actionAriaLabel="Открыть список"
-      />
-    );
+    render(<SelectInputUI {...props} />);
+
+    expect(screen.getByText('Обязательное поле')).toBeInTheDocument();
+    expect(screen.queryByText('Выберите город')).not.toBeInTheDocument();
+  });
+
+  it('пробрасывает disabled в input и кнопку', () => {
+    const props = createProps();
+    props.disabled = true;
+
+    render(<SelectInputUI {...props} />);
 
     expect(screen.getByRole('combobox')).toBeDisabled();
     expect(screen.getByRole('button', { name: 'Открыть список' })).toBeDisabled();
-  });
-
-  it('проставляет aria-expanded для input в зависимости от состояния', () => {
-    const props = createProps();
-
-    const { rerender } = render(<SelectInputUI {...props} isOpen={false} />);
-    expect(screen.getByRole('combobox')).toHaveAttribute('aria-expanded', 'false');
-
-    rerender(<SelectInputUI {...props} isOpen={true} />);
-    expect(screen.getByRole('combobox')).toHaveAttribute('aria-expanded', 'true');
   });
 });

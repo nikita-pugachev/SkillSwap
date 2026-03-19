@@ -67,10 +67,6 @@ export const SelectInput: React.FC<TSelectInputProps> = ({
     setInputValue(selectedOption?.value ?? '');
   }, [selectedOption]);
 
-  const handleInputFocus = () => {
-    openDropdown();
-  };
-
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (!isOpen) {
       setIsOpen(true);
@@ -144,6 +140,13 @@ export const SelectInput: React.FC<TSelectInputProps> = ({
   }, [closeDropdown, restoreSelectedValue]);
 
   const shouldShowClear = (isOpen && inputValue.length > 0) || (!isOpen && !!selectedOption);
+  const actionAriaLabel = shouldShowClear
+    ? isOpen
+      ? 'Очистить поиск'
+      : 'Очистить выбранное значение'
+    : isOpen
+      ? 'Закрыть список'
+      : 'Открыть список';
 
   return (
     <SelectInputUI
@@ -162,17 +165,9 @@ export const SelectInput: React.FC<TSelectInputProps> = ({
       filteredOptions={filteredOptions}
       clearIconSrc={clearIconSrc}
       shouldShowClear={shouldShowClear}
-      actionAriaLabel={
-        shouldShowClear
-          ? isOpen
-            ? 'Очистить поиск'
-            : 'Очистить выбранное значение'
-          : isOpen
-            ? 'Закрыть список'
-            : 'Открыть список'
-      }
+      actionAriaLabel={actionAriaLabel}
       handleInputChange={handleInputChange}
-      handleInputFocus={handleInputFocus}
+      handleInputFocus={openDropdown}
       handleActionClick={handleActionClick}
       handleSelectOption={handleSelectOption}
     />
