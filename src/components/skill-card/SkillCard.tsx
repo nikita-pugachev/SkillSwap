@@ -1,22 +1,20 @@
 import { FC } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
+// @ts-expect-error: Swiper styles may not have types
 import 'swiper/css';
+// @ts-expect-error: Swiper styles may not have types
 import 'swiper/css/navigation';
-
 import styles from './SkillCard.module.scss';
 import { Button } from '@/components/ui/ButtonUI';
 import { IconButton } from '@/components/ui/IconButton';
 import { NavigationButton } from '@/components/ui/NavigationButton';
+import { UserCard, UserCardProps } from '../user-card';
 
 import heartOutlineSrc from '@/assets/icons/like-outline.svg';
 import heartFilledSrc from '@/assets/icons/like-filled.svg';
 import shareSrc from '@/assets/icons/share.svg';
 import moreSrc from '@/assets/icons/more-square.svg';
-
-interface UserPlaceholder {
-  name?: string;
-}
 
 export type SkillCardProps = {
   id: string;
@@ -26,7 +24,7 @@ export type SkillCardProps = {
   description: string;
   images: string[];
   isLiked?: boolean;
-  user: UserPlaceholder;
+  user: UserCardProps;
   onLikeToggle?: () => void;
   onShare?: () => void;
   onMoreClick?: () => void;
@@ -47,27 +45,12 @@ export const SkillCard: FC<SkillCardProps> = ({
   onExchangeClick,
 }) => {
   const thumbnails = images.slice(1, 4);
-  const remainingPhotos = images.length - 4;
+  const remainingPhotos = Math.max(0, images.length - 4);
 
   return (
     <article className={styles.card}>
       <div className={styles.leftColumn}>
-        <div
-          style={{
-            width: '324px',
-            height: '444px',
-            border: '1px dashed #ccc',
-            borderRadius: '20px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            textAlign: 'center',
-            padding: '20px',
-            boxSizing: 'border-box',
-          }}
-        >
-          UserCard: {user?.name || 'Александр Афанасьев'}
-        </div>
+        <UserCard {...user} />
       </div>
 
       <div className={styles.rightContent}>
@@ -98,20 +81,22 @@ export const SkillCard: FC<SkillCardProps> = ({
               <Swiper
                 modules={[Navigation]}
                 navigation={{
-                  prevEl: '.gallery-prev',
-                  nextEl: '.gallery-next',
+                  prevEl: `.${styles.galleryPrev}`,
+                  nextEl: `.${styles.galleryNext}`,
                 }}
-                style={{ width: '100%', height: '324px' }}
+                observer={true}
+                observeParents={true}
+                className={styles.mainSwiper}
               >
-                {images.map((img) => (
-                  <SwiperSlide key={img}>
+                {images.map((img, index) => (
+                  <SwiperSlide key={`${img}-${index}`}>
                     <img src={img} alt={title} className={styles.mainImage} />
                   </SwiperSlide>
                 ))}
                 {images.length > 1 && (
                   <div className={styles.navContainer}>
-                    <NavigationButton direction="left" className="gallery-prev" />
-                    <NavigationButton direction="right" className="gallery-next" />
+                    <NavigationButton direction="left" className={styles.galleryPrev} />
+                    <NavigationButton direction="right" className={styles.galleryNext} />
                   </div>
                 )}
               </Swiper>
@@ -119,7 +104,7 @@ export const SkillCard: FC<SkillCardProps> = ({
 
             <div className={styles.thumbnails}>
               {thumbnails.map((img, idx) => (
-                <div key={img} className={styles.thumbnailWrapper}>
+                <div key={`${img}-${idx}`} className={styles.thumbnailWrapper}>
                   <img src={img} alt="Thumbnail" className={styles.thumbnail} />
                   {idx === 2 && remainingPhotos > 0 && (
                     <div className={styles.overlay}>+{remainingPhotos}</div>

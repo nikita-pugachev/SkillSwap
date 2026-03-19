@@ -3,12 +3,24 @@
   gap: 24px;
   width: 1368px;
   margin: 0 auto;
-  align-items: flex-start;
+  align-items: stretch;
 }
 
 .leftColumn {
   width: 324px;
   flex-shrink: 0;
+  display: flex;
+
+  & > article {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+
+    & > button {
+      margin-top: auto;
+    }
+  }
 }
 
 .rightContent {
@@ -44,17 +56,17 @@
   flex-shrink: 0;
 
   .title {
-    font-family: Jost, sans-serif;
+    font-family: var(--font-family-other, 'Jost', sans-serif);
     font-weight: 500;
     font-size: 32px;
     line-height: 40px;
     letter-spacing: -0.011em;
     margin-bottom: 8px;
-    color: #1a1a1a;
+    color: var(--color-text-primary, #1a1a1a);
   }
 
   .category {
-    font-family: Roboto, sans-serif;
+    font-family: var(--font-family-base, 'Roboto', sans-serif);
     font-weight: 400;
     font-size: 12px;
     line-height: 16px;
@@ -64,7 +76,7 @@
   }
 
   .description {
-    font-family: Roboto, sans-serif;
+    font-family: var(--font-family-base, 'Roboto', sans-serif);
     font-weight: 400;
     font-size: 16px;
     line-height: 24px;
@@ -91,6 +103,7 @@
 .gallery {
   display: flex;
   gap: 24px;
+  height: 324px;
 }
 
 .mainImageWrapper {
@@ -100,6 +113,36 @@
   overflow: hidden;
   position: relative;
   flex-shrink: 0;
+}
+
+.mainSwiper {
+  width: 100%;
+  height: 100%;
+}
+
+.mainImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.navContainer {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  transform: translateY(-50%);
+  display: flex;
+  justify-content: space-between;
+  padding: 0 12px;
+  pointer-events: none;
+  z-index: 20;
+
+  & > * {
+    pointer-events: auto;
+    cursor: pointer;
+  }
 }
 
 .thumbnails {
@@ -115,35 +158,32 @@
     border-radius: 12px;
     overflow: hidden;
     position: relative;
-    flex-shrink: 0;
+    cursor: pointer;
+
+    .thumbnail {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      font-weight: 500;
+    }
   }
 }
 
-.gallery {
+.galleryPrev,
+.galleryNext {
+  pointer-events: auto !important;
+  z-index: 30;
+  cursor: pointer;
   display: flex;
-  gap: 24px;
-  height: 324px;
-}
-
-.mainImageWrapper {
-  width: 324px;
-  height: 324px;
-  border-radius: 16px;
-  overflow: hidden;
-  position: relative;
-  flex-shrink: 0;
-
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-  }
-
-  .mainImage {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-  }
 }
