@@ -34,8 +34,11 @@ describe('types', () => {
       avatar: '/avatars/1.png',
       city: 'Москва',
       birthday: '1992-03-29',
-      skillsTeach: [1001],
-      skillsLearn: [106, 601],
+      skillsTeach: [{ name: 'JavaScript', category: 'education' }],
+      skillsLearn: [
+        { name: 'English', category: 'languages' },
+        { name: 'Negotiation', category: 'business' },
+      ],
       isFavorite: false,
     };
     expect(user.id).toBe(1);

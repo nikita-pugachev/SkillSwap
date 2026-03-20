@@ -3,7 +3,6 @@
   flex-direction: column;
   gap: 20px;
   box-sizing: border-box;
-  width: 100%;
   max-width: 324px;
   border-radius: var(--radius-primary);
   padding: 20px;
@@ -57,11 +56,16 @@
   font-size: var(--font-size-caption);
 }
 
+.skillsBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
 .skillsSection {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  margin-top: 12px;
 }
 
 .skillsTitle {
@@ -76,4 +80,8 @@
   flex-wrap: wrap;
   align-items: center;
   gap: 4px;
+}
+
+.detailsButton {
+  margin-top: auto;
 }
