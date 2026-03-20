@@ -24,10 +24,21 @@ jest.mock('./SelectInputUI.module.scss', () => ({
   },
 }));
 
-jest.mock('../InputUI/InputUI', () => ({
-  __esModule: true,
-  InputUI: (props: React.InputHTMLAttributes<HTMLInputElement>) => <input {...props} />,
-}));
+jest.mock('../InputUI/InputUI', () => {
+  const ReactActual = jest.requireActual('react') as typeof React;
+
+  const MockInputUI = ReactActual.forwardRef<
+    HTMLInputElement,
+    React.InputHTMLAttributes<HTMLInputElement>
+  >((props, ref) => <input ref={ref} {...props} />);
+
+  MockInputUI.displayName = 'MockInputUI';
+
+  return {
+    __esModule: true,
+    InputUI: MockInputUI,
+  };
+});
 
 jest.mock('../IconButton/IconButton', () => ({
   __esModule: true,
@@ -75,11 +86,13 @@ describe('SelectInputUI', () => {
     inputValue: '',
     selectedOption: null as TSelectOption | null,
     filteredOptions: options,
+    activeOptionIndex: -1,
     clearIconSrc: '/icons/clear.svg',
     shouldShowClear: false,
     actionAriaLabel: 'Открыть список',
     handleInputChange: jest.fn(),
     handleInputFocus: jest.fn(),
+    handleInputKeyDown: jest.fn(),
     handleActionClick: jest.fn(),
     handleSelectOption: jest.fn(),
   });
@@ -116,6 +129,16 @@ describe('SelectInputUI', () => {
     expect(props.handleInputFocus).toHaveBeenCalledTimes(1);
   });
 
+  it('вызывает handleInputKeyDown при нажатии клавиши', () => {
+    const props = createProps();
+
+    render(<SelectInputUI {...props} />);
+
+    fireEvent.keyDown(screen.getByRole('combobox'), { key: 'ArrowDown' });
+
+    expect(props.handleInputKeyDown).toHaveBeenCalledTimes(1);
+  });
+
   it('рендерит кнопку chevron и вызывает handleActionClick по клику', () => {
     const props = createProps();
 
@@ -137,6 +160,18 @@ describe('SelectInputUI', () => {
 
     expect(screen.getByRole('button', { name: 'Очистить' })).toBeInTheDocument();
     expect(screen.queryByTestId('chevron-icon')).not.toBeInTheDocument();
+  });
+
+  it('вызывает handleActionClick по клику на clear-кнопку', () => {
+    const props = createProps();
+    props.shouldShowClear = true;
+    props.actionAriaLabel = 'Очистить';
+
+    render(<SelectInputUI {...props} />);
+
+    fireEvent.click(screen.getByRole('button', { name: 'Очистить' }));
+
+    expect(props.handleActionClick).toHaveBeenCalledTimes(1);
   });
 
   it('показывает dropdown с опциями, когда isOpen = true', () => {
@@ -162,10 +197,11 @@ describe('SelectInputUI', () => {
     expect(props.handleSelectOption).toHaveBeenCalledWith(options[0]);
   });
 
-  it('ставит aria-selected для выбранной опции', () => {
+  it('ставит aria-selected для активной опции', () => {
     const props = createProps();
     props.isOpen = true;
     props.selectedOption = options[1];
+    props.activeOptionIndex = 1;
 
     render(<SelectInputUI {...props} />);
 
@@ -177,6 +213,26 @@ describe('SelectInputUI', () => {
       'aria-selected',
       'false'
     );
+  });
+
+  it('проставляет aria-activedescendant для активной опции, когда список открыт', () => {
+    const props = createProps();
+    props.isOpen = true;
+    props.activeOptionIndex = 0;
+
+    render(<SelectInputUI {...props} />);
+
+    expect(screen.getByRole('combobox')).toHaveAttribute('aria-activedescendant', 'city-option-1');
+  });
+
+  it('не проставляет aria-activedescendant, когда активной опции нет', () => {
+    const props = createProps();
+    props.isOpen = true;
+    props.activeOptionIndex = -1;
+
+    render(<SelectInputUI {...props} />);
+
+    expect(screen.getByRole('combobox')).not.toHaveAttribute('aria-activedescendant');
   });
 
   it('показывает noOptionsText, если список пуст', () => {
@@ -199,7 +255,24 @@ describe('SelectInputUI', () => {
     expect(screen.queryByText('Выберите город')).not.toBeInTheDocument();
   });
 
-  it('пробрасывает disabled в input и кнопку', () => {
+  it('пробрасывает aria-describedby на hint, если ошибки нет', () => {
+    const props = createProps();
+
+    render(<SelectInputUI {...props} />);
+
+    expect(screen.getByRole('combobox')).toHaveAttribute('aria-describedby', 'city-hint');
+  });
+
+  it('пробрасывает aria-describedby на error, если есть ошибка', () => {
+    const props = createProps();
+    props.error = 'Обязательное поле';
+
+    render(<SelectInputUI {...props} />);
+
+    expect(screen.getByRole('combobox')).toHaveAttribute('aria-describedby', 'city-error');
+  });
+
+  it('пробрасывает disabled в input и chevron-кнопку', () => {
     const props = createProps();
     props.disabled = true;
 

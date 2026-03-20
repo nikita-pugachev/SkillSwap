@@ -8,7 +8,7 @@ export type TSelectOption = {
 };
 
 export type TSelectInputProps = {
-  id?: string;
+  id: string;
   label?: string;
   error?: string;
   hint?: string;
@@ -18,6 +18,16 @@ export type TSelectInputProps = {
   onChange?: (option: TSelectOption | null) => void;
   disabled?: boolean;
   noOptionsText?: string;
+};
+
+const getFilteredOptions = (options: TSelectOption[], value: string) => {
+  const normalized = value.trim().toLowerCase();
+
+  if (!normalized) {
+    return options;
+  }
+
+  return options.filter((option) => option.name.toLowerCase().includes(normalized));
 };
 
 export const SelectInput: React.FC<TSelectInputProps> = ({
@@ -34,58 +44,101 @@ export const SelectInput: React.FC<TSelectInputProps> = ({
 }) => {
   const rootRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const selectedOptionRef = useRef<TSelectOption | null>(null);
 
-  const defaultSelectedOption = useMemo(
+  const initialSelectedOption = useMemo(
     () => options.find((option) => option.name === defaultValue) ?? null,
     [options, defaultValue]
   );
 
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState<TSelectOption | null>(defaultSelectedOption);
-  const [inputValue, setInputValue] = useState(defaultSelectedOption?.name ?? '');
+  const [selectedOption, setSelectedOption] = useState<TSelectOption | null>(initialSelectedOption);
+  const [inputValue, setInputValue] = useState(initialSelectedOption?.name ?? '');
+  const [activeOptionIndex, setActiveOptionIndex] = useState<number>(-1);
 
-  const filteredOptions = useMemo(() => {
-    const normalized = inputValue.trim().toLowerCase();
+  useEffect(() => {
+    selectedOptionRef.current = selectedOption;
+  }, [selectedOption]);
 
-    if (!normalized) {
-      return options;
-    }
+  useEffect(() => {
+    const frameId = requestAnimationFrame(() => {
+      setSelectedOption(initialSelectedOption);
+      setInputValue(initialSelectedOption?.name ?? '');
+      setActiveOptionIndex(-1);
+    });
 
-    return options.filter((option) => option.name.toLowerCase().includes(normalized));
-  }, [inputValue, options]);
+    return () => {
+      cancelAnimationFrame(frameId);
+    };
+  }, [initialSelectedOption]);
+
+  const filteredOptions = useMemo(
+    () => getFilteredOptions(options, inputValue),
+    [options, inputValue]
+  );
+
+  const getInitialActiveIndex = useCallback(
+    (list: TSelectOption[], option: TSelectOption | null) => {
+      if (list.length === 0) {
+        return -1;
+      }
+
+      if (!option) {
+        return 0;
+      }
+
+      const selectedIndex = list.findIndex((item) => item.id === option.id);
+
+      return selectedIndex >= 0 ? selectedIndex : 0;
+    },
+    []
+  );
 
   const openDropdown = useCallback(() => {
     if (disabled) return;
+
     setIsOpen(true);
-  }, [disabled]);
+    setActiveOptionIndex(getInitialActiveIndex(filteredOptions, selectedOptionRef.current));
+  }, [disabled, filteredOptions, getInitialActiveIndex]);
 
   const closeDropdown = useCallback(() => {
     setIsOpen(false);
+    setActiveOptionIndex(-1);
   }, []);
 
-  const restoreSelectedValue = useCallback(() => {
-    setInputValue(selectedOption?.name ?? '');
-  }, [selectedOption]);
+  const restoreSelectedValue = useCallback((option?: TSelectOption | null) => {
+    setInputValue(option?.name ?? '');
+  }, []);
+
+  const handleSelectOption = useCallback(
+    (option: TSelectOption) => {
+      setSelectedOption(option);
+      setInputValue(option.name);
+      setIsOpen(false);
+      setActiveOptionIndex(-1);
+      onChange?.(option);
+    },
+    [onChange]
+  );
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const nextValue = event.target.value;
+    const nextFilteredOptions = getFilteredOptions(options, nextValue);
+
     if (!isOpen) {
       setIsOpen(true);
     }
 
-    setInputValue(event.target.value);
-  };
-
-  const handleSelectOption = (option: TSelectOption) => {
-    setSelectedOption(option);
-    setInputValue(option.name);
-    setIsOpen(false);
-    onChange?.(option);
+    setInputValue(nextValue);
+    setSelectedOption(null);
+    setActiveOptionIndex(nextFilteredOptions.length > 0 ? 0 : -1);
   };
 
   const handleClear = () => {
     setSelectedOption(null);
     setInputValue('');
     setIsOpen(false);
+    setActiveOptionIndex(-1);
     onChange?.(null);
 
     requestAnimationFrame(() => {
@@ -98,6 +151,7 @@ export const SelectInput: React.FC<TSelectInputProps> = ({
 
     if (isOpen && inputValue) {
       setInputValue('');
+      setActiveOptionIndex(options.length > 0 ? 0 : -1);
       inputRef.current?.focus();
       return;
     }
@@ -109,7 +163,7 @@ export const SelectInput: React.FC<TSelectInputProps> = ({
 
     if (isOpen) {
       closeDropdown();
-      restoreSelectedValue();
+      restoreSelectedValue(selectedOptionRef.current);
       return;
     }
 
@@ -120,7 +174,77 @@ export const SelectInput: React.FC<TSelectInputProps> = ({
     });
   };
 
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (disabled) return;
+
+    switch (event.key) {
+      case 'Escape': {
+        if (!isOpen) return;
+
+        event.preventDefault();
+        closeDropdown();
+        restoreSelectedValue(selectedOptionRef.current);
+        break;
+      }
+
+      case 'ArrowDown': {
+        event.preventDefault();
+
+        if (!isOpen) {
+          openDropdown();
+          return;
+        }
+
+        if (filteredOptions.length === 0) return;
+
+        setActiveOptionIndex((prevIndex) => {
+          if (prevIndex < 0) return 0;
+          return Math.min(prevIndex + 1, filteredOptions.length - 1);
+        });
+
+        break;
+      }
+
+      case 'ArrowUp': {
+        event.preventDefault();
+
+        if (!isOpen) {
+          openDropdown();
+          return;
+        }
+
+        if (filteredOptions.length === 0) return;
+
+        setActiveOptionIndex((prevIndex) => {
+          if (prevIndex < 0) return filteredOptions.length - 1;
+          return Math.max(prevIndex - 1, 0);
+        });
+
+        break;
+      }
+
+      case 'Enter': {
+        if (!isOpen) return;
+
+        event.preventDefault();
+
+        const option = filteredOptions[activeOptionIndex];
+
+        if (option) {
+          handleSelectOption(option);
+        }
+
+        break;
+      }
+
+      default:
+        break;
+    }
+  };
+
   useEffect(() => {
+    if (!isOpen) return;
+
     const handleClickOutside = (event: MouseEvent) => {
       const target = event.target as Node | null;
 
@@ -128,7 +252,7 @@ export const SelectInput: React.FC<TSelectInputProps> = ({
 
       if (!rootRef.current.contains(target)) {
         closeDropdown();
-        restoreSelectedValue();
+        restoreSelectedValue(selectedOptionRef.current);
       }
     };
 
@@ -137,7 +261,7 @@ export const SelectInput: React.FC<TSelectInputProps> = ({
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [closeDropdown, restoreSelectedValue]);
+  }, [isOpen, closeDropdown, restoreSelectedValue]);
 
   const shouldShowClear = (isOpen && inputValue.length > 0) || (!isOpen && !!selectedOption);
   const actionAriaLabel = shouldShowClear
@@ -163,11 +287,13 @@ export const SelectInput: React.FC<TSelectInputProps> = ({
       inputValue={inputValue}
       selectedOption={selectedOption}
       filteredOptions={filteredOptions}
+      activeOptionIndex={activeOptionIndex}
       clearIconSrc={clearIconSrc}
       shouldShowClear={shouldShowClear}
       actionAriaLabel={actionAriaLabel}
       handleInputChange={handleInputChange}
       handleInputFocus={openDropdown}
+      handleInputKeyDown={handleKeyDown}
       handleActionClick={handleActionClick}
       handleSelectOption={handleSelectOption}
     />

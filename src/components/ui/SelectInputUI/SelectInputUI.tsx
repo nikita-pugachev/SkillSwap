@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { InputUI } from '../InputUI/InputUI';
 import { IconButton } from '../IconButton/IconButton';
 import { ChevronIcon } from '../Icons/ChevronIcon';
@@ -6,7 +6,7 @@ import styles from './SelectInputUI.module.scss';
 import type { TSelectOption } from '@/components/SelectInput/SelectInput';
 
 type TSelectInputUIProps = {
-  id?: string;
+  id: string;
   label?: string;
   error?: string;
   hint?: string;
@@ -20,6 +20,7 @@ type TSelectInputUIProps = {
   inputValue: string;
   selectedOption: TSelectOption | null;
   filteredOptions: TSelectOption[];
+  activeOptionIndex: number;
 
   clearIconSrc: string;
   shouldShowClear: boolean;
@@ -27,6 +28,7 @@ type TSelectInputUIProps = {
 
   handleInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleInputFocus: () => void;
+  handleInputKeyDown: (event: React.KeyboardEvent<HTMLInputElement>) => void;
   handleActionClick: () => void;
   handleSelectOption: (option: TSelectOption) => void;
 };
@@ -45,14 +47,38 @@ export const SelectInputUI: React.FC<TSelectInputUIProps> = ({
   inputValue,
   selectedOption,
   filteredOptions,
+  activeOptionIndex,
   clearIconSrc,
   shouldShowClear,
   actionAriaLabel,
   handleInputChange,
   handleInputFocus,
+  handleInputKeyDown,
   handleActionClick,
   handleSelectOption,
 }) => {
+  const listboxId = `${id}-listbox`;
+  const hintId = `${id}-hint`;
+  const errorId = `${id}-error`;
+
+  const activeOption = activeOptionIndex >= 0 ? filteredOptions[activeOptionIndex] : null;
+
+  const activeDescendant = isOpen && activeOption ? `${id}-option-${activeOption.id}` : undefined;
+
+  const describedBy = useMemo(() => {
+    const ids: string[] = [];
+
+    if (hint && !error) {
+      ids.push(hintId);
+    }
+
+    if (error) {
+      ids.push(errorId);
+    }
+
+    return ids.length > 0 ? ids.join(' ') : undefined;
+  }, [hint, error, hintId, errorId]);
+
   return (
     <div className={styles.selectBox}>
       {label && (
@@ -84,11 +110,16 @@ export const SelectInputUI: React.FC<TSelectInputUIProps> = ({
             placeholder={placeholder}
             onChange={handleInputChange}
             onFocus={handleInputFocus}
+            onKeyDown={handleInputKeyDown}
             disabled={disabled}
             autoComplete="off"
-            aria-expanded={isOpen}
-            aria-haspopup="listbox"
             role="combobox"
+            aria-autocomplete="list"
+            aria-expanded={isOpen}
+            aria-controls={listboxId}
+            aria-activedescendant={activeDescendant}
+            aria-invalid={Boolean(error)}
+            aria-describedby={describedBy}
           />
 
           {shouldShowClear ? (
@@ -113,37 +144,50 @@ export const SelectInputUI: React.FC<TSelectInputUIProps> = ({
         </div>
 
         {isOpen && (
-          <div className={styles.dropdown} role="listbox">
+          <div
+            id={listboxId}
+            className={styles.dropdown}
+            role="listbox"
+            aria-label={label || placeholder}
+          >
             {filteredOptions.length > 0 ? (
-              filteredOptions.map((option) => {
+              filteredOptions.map((option, index) => {
                 const isSelected = option.id === selectedOption?.id;
+                const isActive = index === activeOptionIndex;
 
                 return (
                   <button
                     key={option.id}
+                    id={`${id}-option-${option.id}`}
                     type="button"
                     className={[styles.option, isSelected ? styles.optionSelected : '']
                       .filter(Boolean)
                       .join(' ')}
                     onClick={() => handleSelectOption(option)}
                     role="option"
-                    aria-selected={isSelected}
+                    aria-selected={isActive}
                   >
                     {option.name}
                   </button>
                 );
               })
             ) : (
-              <div className={styles.empty}>{noOptionsText}</div>
+              <div className={styles.empty} aria-live="polite">
+                {noOptionsText}
+              </div>
             )}
           </div>
         )}
       </div>
 
       {error ? (
-        <p className={styles.errorInput}>{error}</p>
+        <p id={errorId} className={styles.errorInput} aria-live="polite">
+          {error}
+        </p>
       ) : hint ? (
-        <p className={styles.hintInput}>{hint}</p>
+        <p id={hintId} className={styles.hintInput}>
+          {hint}
+        </p>
       ) : null}
     </div>
   );
