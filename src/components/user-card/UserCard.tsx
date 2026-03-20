@@ -6,16 +6,13 @@ import { Avatar } from '@/components/ui/Avatar';
 import { IconButton } from '@/components/ui/IconButton';
 import likeOutline from '@/assets/icons/like-outline.svg';
 import likeFilled from '@/assets/icons/like-filled.svg';
-import { SkillCategorySlug } from '@/utils/types';
+import type { UserSkill } from '@/utils/types';
 import styles from './UserCard.module.scss';
 import { toggleFavorite } from '@/services/slices/favoritesSlice';
 import { selectIsFavorite } from '@/services/selectors';
 import { RootState } from '@/services/store';
 
-export type UserSkill = {
-  name: string;
-  category?: SkillCategorySlug;
-};
+export type { UserSkill } from '@/utils/types';
 
 export interface UserCardProps {
   id: string | number;
@@ -101,17 +98,18 @@ export const UserCard: React.FC<UserCardProps> = ({
         />
       </div>
 
-      <div className={styles.skillsSection}>
-        <h4 className={styles.skillsTitle}>Может научить:</h4>
-        <div className={styles.skillsList}>{renderSkillTags(skillsTeach)}</div>
+      <div className={styles.skillsBlock}>
+        <div className={styles.skillsSection}>
+          <h4 className={styles.skillsTitle}>Может научить:</h4>
+          <div className={styles.skillsList}>{renderSkillTags(skillsTeach)}</div>
+        </div>
+        <div className={styles.skillsSection}>
+          <h4 className={styles.skillsTitle}>Хочет научиться:</h4>
+          <div className={styles.skillsList}>{renderSkillTags(skillsLearn)}</div>
+        </div>
       </div>
 
-      <div className={styles.skillsSection}>
-        <h4 className={styles.skillsTitle}>Хочет научиться:</h4>
-        <div className={styles.skillsList}>{renderSkillTags(skillsLearn)}</div>
-      </div>
-
-      <Button variant="primary" onClick={handleDetailsClick}>
+      <Button variant="primary" onClick={handleDetailsClick} className={styles.detailsButton}>
         Подробнее
       </Button>
     </article>
