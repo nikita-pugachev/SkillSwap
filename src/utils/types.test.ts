@@ -1,6 +1,14 @@
 import type { SkillCategorySlug, SkillType, Skill, User } from './types';
 
 describe('types', () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  afterAll(() => {
+    jest.restoreAllMocks();
+  });
+
   it('SkillCategorySlug: тестовый объект соответствует типу', () => {
     const category: SkillCategorySlug = 'education';
     expect(category).toBe('education');
