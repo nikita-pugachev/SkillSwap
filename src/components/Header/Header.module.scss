@@ -1,9 +1,9 @@
 .header {
-  background-color: var(--color-bg);
-  padding: 36px;
   display: flex;
   align-items: center;
   gap: 32px;
+  padding: 36px;
+  background-color: var(--color-bg);
 }
 
 .left {
@@ -36,10 +36,9 @@
 }
 
 .link {
-  text-decoration: none;
-  color: var(--color-text-primary);
-  cursor: pointer;
   flex: 1;
+  color: var(--color-text-primary);
+  text-decoration: none;
 
   &:hover {
     color: var(--color-accent);
@@ -53,9 +52,9 @@
 
 .iconContainer {
   display: flex;
-  gap: 20px;
   justify-content: center;
   align-items: center;
+  gap: 20px;
 }
 
 .icon {
@@ -65,11 +64,10 @@
 
 .profileContainer {
   display: flex;
-  gap: 8px;
+  flex-shrink: 0;
   justify-content: center;
   align-items: center;
-  flex-shrink: 0;
-  cursor: pointer;
+  gap: 8px;
 }
 
 .headerLogin {

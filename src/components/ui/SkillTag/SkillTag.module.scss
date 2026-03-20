@@ -1,18 +1,18 @@
 .tag,
 .count {
   display: inline-flex;
+  align-items: center;
+  gap: 4px;
   width: fit-content;
   height: 32px;
-  align-items: center;
-  padding: 8px 12px;
   border-radius: var(--radius-tag);
-  gap: 4px;
+  padding: 8px 12px;
+  color: var(--color-text-primary);
   font-family: var(--font-family-base);
   font-weight: var(--font-weight-regular);
   font-size: var(--font-size-caption);
   line-height: var(--line-height-caption);
   letter-spacing: 0.02em;
-  color: var(--color-text-primary);
 }
 
 .count {

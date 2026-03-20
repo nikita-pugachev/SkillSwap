@@ -3,11 +3,11 @@
   width: 100%;
   border: none;
   outline: none;
-  background: transparent;
-  font-size: var(--font-size-body);
-  font-family: var(--font-family-base);
-  line-height: var(--line-height-body);
   color: var(--color-text-primary);
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-body);
+  background: transparent;
   caret-color: var(--color-accent-pressed);
 
   &::placeholder {

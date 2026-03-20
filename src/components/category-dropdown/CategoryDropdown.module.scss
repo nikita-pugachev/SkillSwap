@@ -6,12 +6,11 @@
   display: flex;
   gap: 4px;
   align-items: center;
-  color: var(--color-text-primary, #000);
-  font-size: var(--font-size-body, 16px);
-  font-weight: var(--font-weight-regular, 400);
-  font-family: var(--font-family-base, 'Roboto');
+  color: var(--color-text-primary);
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-regular);
+  font-family: var(--font-family-base);
   letter-spacing: 0.02em;
-  cursor: pointer;
   background: none;
   border: none;
 
@@ -33,9 +32,9 @@
   position: absolute;
   z-index: 1;
   overflow-y: auto;
-  background: var(--color-surface, #fff);
+  background: var(--color-surface);
   border: 1px solid var(--color-text-secondary);
-  border-radius: var(--radius-primary, 12px);
+  border-radius: var(--radius-primary);
 }
 
 .container {
