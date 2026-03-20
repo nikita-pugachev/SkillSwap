@@ -9,7 +9,6 @@ export interface SearchInputUIProps {
   value: string;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onClear: () => void;
-  onSearch?: (value: string) => void;
 }
 
 export const SearchInputUI: React.FC<SearchInputUIProps> = ({
@@ -17,15 +16,8 @@ export const SearchInputUI: React.FC<SearchInputUIProps> = ({
   value,
   onChange,
   onClear,
-  onSearch,
 }) => {
   const hasValue = value.length > 0;
-
-  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter') {
-      onSearch?.(value);
-    }
-  };
 
   return (
     <div className={[styles.searchInput].join(' ')} id="search-input">
@@ -37,7 +29,6 @@ export const SearchInputUI: React.FC<SearchInputUIProps> = ({
         value={value}
         placeholder={placeholder}
         onChange={onChange}
-        onKeyDown={handleKeyDown}
       />
 
       {hasValue && (

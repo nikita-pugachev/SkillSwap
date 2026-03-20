@@ -8,11 +8,10 @@
   flex-shrink: 0;
   width: 40px;
   height: 40px;
-  padding: 0;
-  cursor: pointer;
-  background: none;
   border: none;
   border-radius: var(--radius-circle);
+  padding: 0;
+  background: none;
   transition: transform 0.2s ease;
 
   &:hover {
@@ -27,22 +26,21 @@
 
 .contentColumn {
   display: flex;
-  flex: 1;
   flex-direction: column;
+  flex: 1;
   gap: 8px;
 }
 
 .categoryButton {
   display: block;
   width: 100%;
+  border: none;
   color: var(--color-text-primary, #000);
-  font-size: var(--font-size-h2, 24px);
   font-family: var(--font-family-heading, 'Jost');
   font-weight: var(--font-weight-medium, 500);
+  font-size: var(--font-size-h2, 24px);
   text-align: left;
-  cursor: pointer;
   background: none;
-  border: none;
   transition: color 0.2s ease;
 
   &:hover {
@@ -63,28 +61,27 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
-  padding: 0;
   margin: 0;
+  padding: 0;
   list-style: none;
 }
 
 .subcategoryList li {
-  padding: 0;
   margin: 0;
+  padding: 0;
 }
 
 .subcategoryButton {
   display: block;
   width: 100%;
-  padding: 4px 0;
-  font-family: var(--font-family-base, 'Roboto');
-  font-size: var(--font-size-body, 16px);
-  font-weight: var(--font-weight-regular, 400);
-  color: var(--color-text-primary, #000);
-  text-align: left;
-  cursor: pointer;
-  background: none;
   border: none;
+  padding: 4px 0;
+  color: var(--color-text-primary, #000);
+  font-family: var(--font-family-base, 'Roboto');
+  font-weight: var(--font-weight-regular, 400);
+  font-size: var(--font-size-body, 16px);
+  text-align: left;
+  background: none;
 
   &:hover {
     color: var(--color-accent, #abd27a);

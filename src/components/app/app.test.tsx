@@ -5,14 +5,14 @@ import { store } from '@/services/store';
 import { Suspense } from 'react';
 
 jest.mock('@/pages/catalog-page', () => ({ default: () => <div>Catalog Page</div> }));
-jest.mock('@/pages/not-found-page', () => ({ default: () => <div>Страница не найдена</div> }));
+jest.mock('@/pages/error-page', () => ({ default: () => <div>Страница не найдена</div> }));
 jest.mock('@/pages/login-page', () => ({ default: () => <div>Login Page</div> }));
 jest.mock('@/pages/profile-page', () => ({ default: () => <div>Profile Page</div> }));
 
 const renderAt = (path: string) => {
   const { Routes, Route } = jest.requireActual('react-router-dom');
   const CatalogPage = jest.requireMock('@/pages/catalog-page').default;
-  const NotFoundPage = jest.requireMock('@/pages/not-found-page').default;
+  const NotFoundPage = jest.requireMock('@/pages/error-page').default;
   const LoginPage = jest.requireMock('@/pages/login-page').default;
   const ProfilePage = jest.requireMock('@/pages/profile-page').default;
 

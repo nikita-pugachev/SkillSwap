@@ -4,16 +4,15 @@
 
 .dropdownButton {
   display: flex;
-  gap: 4px;
   align-items: center;
-  color: var(--color-text-primary, #000);
-  font-size: var(--font-size-body, 16px);
-  font-weight: var(--font-weight-regular, 400);
-  font-family: var(--font-family-base, 'Roboto');
-  letter-spacing: 0.02em;
-  cursor: pointer;
-  background: none;
+  gap: 4px;
   border: none;
+  color: var(--color-text-primary);
+  font-family: var(--font-family-base);
+  font-weight: var(--font-weight-regular);
+  font-size: var(--font-size-body);
+  letter-spacing: 0.02em;
+  background: none;
 
   &:hover {
     color: var(--color-accent);
@@ -32,10 +31,10 @@
 .menuPanel {
   position: absolute;
   z-index: 1;
-  overflow-y: auto;
-  background: var(--color-surface, #fff);
   border: 1px solid var(--color-text-secondary);
-  border-radius: var(--radius-primary, 12px);
+  border-radius: var(--radius-primary);
+  overflow-y: auto;
+  background: var(--color-surface);
 }
 
 .container {

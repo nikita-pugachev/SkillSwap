@@ -9,6 +9,11 @@ export type SkillCategorySlug =
 
 export type SkillType = 'teach' | 'learn';
 
+export interface UserSkill {
+  name: string;
+  category?: SkillCategorySlug;
+}
+
 export interface SkillAuthor {
   id: number;
   name: string;
@@ -33,8 +38,8 @@ export interface User {
   avatar: string;
   city: string;
   birthday: string;
-  skillsTeach: number[];
-  skillsLearn: number[];
+  skillsTeach: UserSkill[];
+  skillsLearn: UserSkill[];
   isFavorite: boolean;
 }
 
@@ -53,6 +58,13 @@ export interface SkillCategory {
 export interface City {
   id: number;
   name: string;
+}
+
+export interface Filters {
+  mode: 'all' | 'wantToLearn' | 'canTeach';
+  skills: number[];
+  gender: 'Мужской' | 'Женский' | null;
+  city: string[];
 }
 
 export interface UserSkillTeach {

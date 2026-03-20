@@ -1,5 +1,6 @@
 export { Avatar } from './Avatar';
 export { Button } from './Button';
+export { CardSection } from './CardSection';
 export { CheckboxButton } from './CheckboxButton';
 export { ErrorPageUI } from './ErrorPageUI';
 export { FormInputUI } from './FormInputUI';
@@ -14,3 +15,4 @@ export { RadioGroup } from './RadioGroup';
 export { SearchInputUI } from './SearchInputUI';
 export { SkillCategory } from './SkillCategory';
 export { SkillTag } from './SkillTag';
+export { UserCard } from './UserCard';

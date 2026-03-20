@@ -1,8 +1,7 @@
-import { ErrorPageUI } from '@/components/ui/ErrorPageUI';
+import { ErrorPageUI, Button } from '@/components/ui';
 import { useNavigate, useParams } from 'react-router-dom';
-import { errorConfig, type ErrorType } from '@/pages/ErrorPage/model/errorConfig';
-import styles from './ErrorPage.module.scss';
-import { Button } from '@/components/ui';
+import { errorConfig, type ErrorType } from '@/pages/error-page/model/errorConfig';
+import styles from './error-page.module.scss';
 
 type ErrorPageProps = {
   defaultType?: ErrorType;
@@ -46,3 +45,5 @@ export const ErrorPage = ({ defaultType }: ErrorPageProps) => {
     </div>
   );
 };
+
+export default ErrorPage;

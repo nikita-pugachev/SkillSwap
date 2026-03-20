@@ -2,7 +2,7 @@
   {
     "id": 1,
     "title": "Бизнес и карьера",
-    "icon": "icon-business-career.svg",
+    "icon": "business-career.svg",
     "subcategories": [
       { "id": 101, "title": "Управление командой" },
       { "id": 102, "title": "Маркетинг и реклама" },
@@ -17,7 +17,7 @@
   {
     "id": 2,
     "title": "Иностранные языки",
-    "icon": "icon-languages.svg",
+    "icon": "languages.svg",
     "subcategories": [
       { "id": 201, "title": "Английский" },
       { "id": 202, "title": "Французский" },
@@ -31,7 +31,7 @@
   {
     "id": 3,
     "title": "Дом и уют",
-    "icon": "icon-home.svg",
+    "icon": "home.svg",
     "subcategories": [
       { "id": 301, "title": "Уборка и организация" },
       { "id": 302, "title": "Домашние финансы" },
@@ -44,7 +44,7 @@
   {
     "id": 4,
     "title": "Творчество и искусство",
-    "icon": "icon-art.svg",
+    "icon": "art.svg",
     "subcategories": [
       { "id": 401, "title": "Рисование и иллюстрация" },
       { "id": 402, "title": "Фотография" },
@@ -59,7 +59,7 @@
   {
     "id": 5,
     "title": "Образование и развитие",
-    "icon": "icon-education.svg",
+    "icon": "education.svg",
     "subcategories": [
       { "id": 501, "title": "Личностное развитие" },
       { "id": 502, "title": "Навыки обучения" },
@@ -72,7 +72,7 @@
   {
     "id": 6,
     "title": "Здоровье и лайфстайл",
-    "icon": "icon-health.svg",
+    "icon": "health.svg",
     "subcategories": [
       { "id": 601, "title": "Йога и медитация" },
       { "id": 602, "title": "Питание и ЗОЖ" },
