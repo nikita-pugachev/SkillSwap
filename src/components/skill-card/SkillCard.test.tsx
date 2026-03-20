@@ -1,7 +1,8 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
-import { SkillCard, SkillCardProps } from './SkillCard';
-import { SkillCategorySlug } from '@/utils/types';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { SkillCard } from './SkillCard';
+import type { SkillCardProps } from './SkillCard';
 
 jest.mock('swiper/react', () => ({
   Swiper: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
@@ -12,8 +13,8 @@ jest.mock('swiper/modules', () => ({
   Navigation: () => null,
 }));
 
-jest.mock('../user-card', () => ({
-  UserCard: () => <div data-testid="user-card">User Card Component</div>,
+jest.mock('@/components/ui/SkillTag', () => ({
+  SkillTag: ({ label }: { label: string }) => <span data-testid="skill-tag">{label}</span>,
 }));
 
 const mockProps: SkillCardProps = {
@@ -30,11 +31,8 @@ const mockProps: SkillCardProps = {
     avatar: 'avatar.jpg',
     city: 'Москва',
     birthday: '1995-05-20',
-    skillsTeach: [{ name: 'React', category: 'education' as SkillCategorySlug }] as unknown as [],
-    skillsLearn: [{ name: 'Node.js', category: 'education' as SkillCategorySlug }] as unknown as [],
-    isFavorite: false,
-    onFavoriteToggle: jest.fn(),
-    onDetailsClick: jest.fn(),
+    skillsTeach: [{ name: 'React', category: 'education' }],
+    skillsLearn: [{ name: 'Node.js', category: 'education' }],
   },
   onLikeToggle: jest.fn(),
   onShare: jest.fn(),
@@ -43,21 +41,41 @@ const mockProps: SkillCardProps = {
 };
 
 describe('SkillCard Component', () => {
+  const setupUser = () => userEvent.setup();
+
   it('renders title and description', () => {
     render(<SkillCard {...mockProps} />);
     expect(screen.getByText(mockProps.title)).toBeInTheDocument();
     expect(screen.getByText(mockProps.description)).toBeInTheDocument();
   });
 
-  it('renders UserCard mock', () => {
+  it('renders custom author block matching mockup', () => {
     render(<SkillCard {...mockProps} />);
-    expect(screen.getByTestId('user-card')).toBeInTheDocument();
+    expect(screen.getByText('Александр Афанасьев')).toBeInTheDocument();
+    // Проверка генерации возраста (от 1995 года)
+    expect(screen.getByText(/Москва, \d+ лет/)).toBeInTheDocument();
+    expect(screen.getAllByTestId('skill-tag').length).toBe(2);
   });
 
-  it('calls onExchangeClick on button press', () => {
+  it('handles empty images array gracefully', () => {
+    render(<SkillCard {...mockProps} images={[]} />);
+    expect(screen.getByText('Нет фото')).toBeInTheDocument();
+  });
+
+  it('toggles isLiked correctly', () => {
+    const { rerender } = render(<SkillCard {...mockProps} isLiked={false} />);
+    expect(screen.getByLabelText('Добавить в избранное')).toBeInTheDocument();
+
+    rerender(<SkillCard {...mockProps} isLiked={true} />);
+    expect(screen.getByLabelText('Убрать из избранного')).toBeInTheDocument();
+  });
+
+  it('calls onExchangeClick on button press using userEvent', async () => {
+    const user = setupUser();
     render(<SkillCard {...mockProps} />);
     const button = screen.getByText(/предложить обмен/i);
-    fireEvent.click(button);
-    expect(mockProps.onExchangeClick).toHaveBeenCalled();
+
+    await user.click(button);
+    expect(mockProps.onExchangeClick).toHaveBeenCalledTimes(1);
   });
 });
