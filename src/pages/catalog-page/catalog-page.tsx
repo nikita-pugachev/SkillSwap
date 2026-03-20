@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import { FilterSidebar } from '@/components/FilterSidebar';
 import type { SkillCategoryData } from '@/components/FilterSidebar';
+import { getSkills } from '@/utils/api';
 
 type User = {
   id: number;
@@ -41,11 +42,7 @@ export const CatalogPage = () => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch('/db/skills.json')
-      .then((res) => {
-        if (!res.ok) throw new Error('Ошибка загрузки навыков');
-        return res.json();
-      })
+    getSkills()
       .then((data: SkillCategoryData[]) => {
         setSkills(data);
       })
