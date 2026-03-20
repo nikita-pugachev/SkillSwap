@@ -52,7 +52,6 @@ describe('SkillCard Component', () => {
   it('renders custom author block matching mockup', () => {
     render(<SkillCard {...mockProps} />);
     expect(screen.getByText('Александр Афанасьев')).toBeInTheDocument();
-    // Проверка генерации возраста (от 1995 года)
     expect(screen.getByText(/Москва, \d+ лет/)).toBeInTheDocument();
     expect(screen.getAllByTestId('skill-tag').length).toBe(2);
   });

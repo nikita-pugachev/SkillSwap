@@ -30,8 +30,8 @@ export type SkillCardProps = {
     avatar: string;
     city: string;
     birthday: string;
-    about?: string; // Добавили поле "О себе"
-    skillsTeach: { name: string; category: string }[]; // Добавили категорию
+    about?: string;
+    skillsTeach: { name: string; category: string }[];
     skillsLearn: { name: string; category: string }[];
   };
   onLikeToggle?: () => void;
@@ -40,8 +40,6 @@ export type SkillCardProps = {
   onExchangeClick?: () => void;
 };
 
-// Вычисляем возраст и правильное окончание
-// Вычисляем возраст и правильное окончание
 const getAgeString = (birthday?: string): string => {
   if (!birthday) return '';
 
@@ -82,7 +80,6 @@ export const SkillCard: FC<SkillCardProps> = ({
 
   return (
     <article className={styles.card}>
-      {/* ЛЕВАЯ КОЛОНКА */}
       <aside className={styles.leftColumn}>
         <div className={styles.authorHeader}>
           <img src={user.avatar} alt={user.name} className={styles.avatar} />
@@ -94,7 +91,6 @@ export const SkillCard: FC<SkillCardProps> = ({
           </div>
         </div>
 
-        {/* Добавили описание автора из макета */}
         {user.about && <p className={styles.authorAbout}>{user.about}</p>}
 
         <div className={styles.skillsSection}>
@@ -116,7 +112,6 @@ export const SkillCard: FC<SkillCardProps> = ({
         </div>
       </aside>
 
-      {/* ПРАВАЯ КОЛОНКА */}
       <div className={styles.rightContent}>
         <div className={styles.actions}>
           <IconButton
