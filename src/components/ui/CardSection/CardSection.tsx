@@ -12,8 +12,9 @@ export interface UsersSectionProps {
 }
 
 export const CardSection = ({ title, buttonText, showAllLink, cards }: UsersSectionProps) => {
-  const handleFavoriteToggle = () => {};
-  const handleDetailsClick = () => {};
+  const handleDetailsClick = (id: string | number) => {
+    console.log(id);
+  };
 
   return (
     <section className={styles.cardSection}>
@@ -46,9 +47,7 @@ export const CardSection = ({ title, buttonText, showAllLink, cards }: UsersSect
             birthday={card.birthday}
             skillsTeach={card.skillsTeach}
             skillsLearn={card.skillsLearn}
-            isFavorite={card.isFavorite}
-            onFavoriteToggle={handleFavoriteToggle}
-            onDetailsClick={handleDetailsClick}
+            onDetailsClick={() => handleDetailsClick}
           />
         ))}
       </div>
