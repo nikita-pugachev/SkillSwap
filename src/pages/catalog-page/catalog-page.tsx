@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useCallback } from 'react';
+import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import { FilterSidebar } from '@/components/FilterSidebar';
 import type { SkillCategoryData } from '@/components/FilterSidebar';
 import { CatalogLoading, CatalogError, CatalogEmpty } from './components';
@@ -41,6 +41,8 @@ export const CatalogPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  const latestRequest = useRef(0); // для отмены устаревших запросов
+
   // Функции загрузки отдельных данных
   const fetchSkills = useCallback(async () => {
     const res = await fetch('/db/skills.json');
@@ -63,16 +65,22 @@ export const CatalogPage = () => {
     setUsers(data.users);
   }, []);
 
-  // Общая функция загрузки всех данных
+  // Общая функция загрузки всех данных с защитой от race condition
   const fetchAllData = useCallback(async () => {
+    const requestId = ++latestRequest.current;
     setLoading(true);
     setError(null);
     try {
       await Promise.all([fetchSkills(), fetchCities(), fetchUsers()]);
+      if (requestId !== latestRequest.current) return; // игнорируем устаревший запрос
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Неизвестная ошибка');
+      if (requestId === latestRequest.current) {
+        setError(err instanceof Error ? err.message : 'Неизвестная ошибка');
+      }
     } finally {
-      setLoading(false);
+      if (requestId === latestRequest.current) {
+        setLoading(false);
+      }
     }
   }, [fetchSkills, fetchCities, fetchUsers]);
 
@@ -122,25 +130,13 @@ export const CatalogPage = () => {
     });
   };
 
-  const renderContent = () => {
-    if (loading) return <CatalogLoading />;
-    if (error) return <CatalogError message={error} onRetry={fetchAllData} />;
-    if (filteredUsers.length === 0) return <CatalogEmpty onResetFilters={handleResetFilters} />;
-    return (
-      <div>
-        {filteredUsers.map((user) => {
-          const cityName =
-            cities.find((city) => city.id === user.cityId)?.name ?? 'Неизвестный город';
-          return (
-            <div key={user.id}>
-              {user.name} — {cityName}
-            </div>
-          );
-        })}
-      </div>
-    );
-  };
+  // Показываем состояние загрузки
+  if (loading) return <CatalogLoading />;
 
+  // Показываем ошибку (без сайдбара)
+  if (error) return <CatalogError message={error} onRetry={fetchAllData} />;
+
+  // Успешная загрузка – рендерим сайдбар и контент
   return (
     <div style={{ display: 'flex', gap: '20px' }}>
       <FilterSidebar
@@ -149,7 +145,21 @@ export const CatalogPage = () => {
         cities={cities.map((city) => city.name)}
         categories={skills}
       />
-      {renderContent()}
+      {filteredUsers.length === 0 ? (
+        <CatalogEmpty onResetFilters={handleResetFilters} />
+      ) : (
+        <div>
+          {filteredUsers.map((user) => {
+            const cityName =
+              cities.find((city) => city.id === user.cityId)?.name ?? 'Неизвестный город';
+            return (
+              <div key={user.id}>
+                {user.name} — {cityName}
+              </div>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 };
