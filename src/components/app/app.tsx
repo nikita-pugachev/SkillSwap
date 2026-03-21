@@ -4,7 +4,6 @@ import { Provider } from 'react-redux';
 import { store } from '@/services/store';
 import { ProtectedRoute } from '@/components/protected-route';
 import { Header } from '@/components/Header';
-import { DateInput } from '../DateInput';
 
 const CatalogPage = lazy(() => import('@/pages/catalog-page'));
 const SkillPage = lazy(() => import('@/pages/skill-page'));
@@ -26,7 +25,6 @@ export default function Root() {
       <BrowserRouter>
         <Header isLogin={false} user={user} />
         <Suspense fallback={null}>
-          <DateInput />
           <Routes>
             <Route path="/" element={<CatalogPage />} />
             <Route path="/skill/:id" element={<SkillPage />} />

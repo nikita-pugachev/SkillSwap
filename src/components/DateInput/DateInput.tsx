@@ -23,7 +23,7 @@ import {
 import { DateInputUI } from '../ui/DateInputUI';
 
 export interface DateInputProps {
-  disabled: boolean;
+  disabled?: boolean;
 }
 
 export function DateInput({ disabled }: DateInputProps): JSX.Element {
