@@ -43,26 +43,32 @@ export const CatalogPage = () => {
 
   const latestRequest = useRef(0); // для отмены устаревших запросов
 
-  // Функции загрузки отдельных данных
-  const fetchSkills = useCallback(async () => {
+  // Функции загрузки отдельных данных с проверкой requestId
+  const fetchSkills = useCallback(async (requestId: number) => {
     const res = await fetch('/db/skills.json');
     if (!res.ok) throw new Error('Ошибка загрузки навыков');
     const data: SkillCategoryData[] = await res.json();
-    setSkills(data);
+    if (requestId === latestRequest.current) {
+      setSkills(data);
+    }
   }, []);
 
-  const fetchCities = useCallback(async () => {
+  const fetchCities = useCallback(async (requestId: number) => {
     const res = await fetch('/db/cities.json');
     if (!res.ok) throw new Error('Ошибка загрузки городов');
     const data: City[] = await res.json();
-    setCities(data);
+    if (requestId === latestRequest.current) {
+      setCities(data);
+    }
   }, []);
 
-  const fetchUsers = useCallback(async () => {
+  const fetchUsers = useCallback(async (requestId: number) => {
     const res = await fetch('/db/users.json');
     if (!res.ok) throw new Error('Ошибка загрузки пользователей');
     const data: { users: User[] } = await res.json();
-    setUsers(data.users);
+    if (requestId === latestRequest.current) {
+      setUsers(data.users);
+    }
   }, []);
 
   // Общая функция загрузки всех данных с защитой от race condition
@@ -71,7 +77,7 @@ export const CatalogPage = () => {
     setLoading(true);
     setError(null);
     try {
-      await Promise.all([fetchSkills(), fetchCities(), fetchUsers()]);
+      await Promise.all([fetchSkills(requestId), fetchCities(requestId), fetchUsers(requestId)]);
       if (requestId !== latestRequest.current) return; // игнорируем устаревший запрос
     } catch (err) {
       if (requestId === latestRequest.current) {
