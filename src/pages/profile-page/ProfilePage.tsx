@@ -1,5 +1,6 @@
 import { useRef, useState, useEffect } from 'react';
 import styles from './ProfilePage.module.scss';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui';
 import { Avatar } from '@/components/ui';
 import { Footer } from '@/components/Footer/Footer';
@@ -22,6 +23,8 @@ import crossIcon from '@/assets/icons/cross.svg';
 import IconGalleryEdit from '@/assets/icons/gallery-edit.svg?react';
 
 export default function ProfilePage() {
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState('#TODO почта пользователя');
   const emailRef = useRef<HTMLInputElement>(null);
 
@@ -80,6 +83,10 @@ export default function ProfilePage() {
     }));
   };
 
+  const handleFavorit = () => {
+    navigate('/favorites');
+  };
+
   return (
     <>
       <main className={styles.main}>
@@ -98,7 +105,7 @@ export default function ProfilePage() {
               </Button>
             </li>
             <li className={styles.navigationListLink}>
-              <Button variant="tertiary">
+              <Button variant="tertiary" onClick={handleFavorit}>
                 <IconLike />
                 Избранное
               </Button>
@@ -106,7 +113,7 @@ export default function ProfilePage() {
             <li className={styles.navigationListLink}>
               <Button variant="tertiary">
                 <IconIdea />
-                Избранное
+                Мои навыки
               </Button>
             </li>
             <li className={styles.navigationListLink}>
