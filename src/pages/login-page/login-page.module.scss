@@ -10,13 +10,12 @@
 }
 
 .registerLink {
+  align-self: center;
+  color: var(--color-accent-pressed);
   font-family: var(--font-family-base);
   font-weight: var(--font-weight-regular);
   font-size: var(--font-size-body);
   line-height: var(--line-height-body);
   letter-spacing: 0.02em;
-  color: var(--color-accent-pressed);
   text-decoration: none;
-  cursor: pointer;
-  align-self: center;
 }

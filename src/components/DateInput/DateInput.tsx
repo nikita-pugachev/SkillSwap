@@ -1,4 +1,4 @@
-import {
+import React, {
   KeyboardEvent,
   ChangeEvent,
   MouseEvent as ReactMouseEvent,
@@ -9,7 +9,7 @@ import {
   JSX,
   useCallback,
 } from 'react';
-import { NullableDate, CalendarCell } from './DateInput.types';
+import { NullableDate, CalendarCell } from '@/utils/types';
 import {
   startOfDay,
   formatDate,
@@ -20,9 +20,13 @@ import {
   isDateDisabled,
   getCalendarDays,
 } from './DateInput.utils';
-import { DateInputUI } from '../DateInputUI';
+import { DateInputUI } from '../ui/DateInputUI';
 
-export function DateInput(): JSX.Element {
+export interface DateInputProps {
+  disabled: boolean;
+}
+
+export function DateInput({ disabled }: DateInputProps): JSX.Element {
   const today = useMemo<Date>(() => startOfDay(new Date()), []);
   const minDate = useMemo<Date>(() => new Date(1900, 0, 1), []);
   const maxDate = today;
@@ -157,10 +161,11 @@ export function DateInput(): JSX.Element {
   }
 
   function cancelSelection(): void {
-    setDraftDate(selectedDate);
-    setInputValue(selectedDate ? formatDate(selectedDate) : '');
-    setViewDate(selectedDate ?? today);
-    setFocusedDay(selectedDate ?? today);
+    setSelectedDate(null);
+    setDraftDate(null);
+    setInputValue('');
+    setViewDate(today);
+    setFocusedDay(today);
     setError('');
     setIsOpen(false);
   }
@@ -186,7 +191,13 @@ export function DateInput(): JSX.Element {
     syncFromTypedValue(masked);
   }
 
-  function handleInputBlur(): void {
+  function handleInputBlur(event: React.FocusEvent<HTMLInputElement>): void {
+    const nextFocused = event.relatedTarget;
+
+    if (nextFocused instanceof Node && wrapperRef.current?.contains(nextFocused)) {
+      return;
+    }
+
     setTouched(true);
 
     if (!inputValue) {
@@ -251,7 +262,6 @@ export function DateInput(): JSX.Element {
           setDraftDate(parsed);
           setFocusedDay(parsed);
           setViewDate(parsed);
-          setSelectedDate(parsed);
           setInputValue(formatDate(parsed));
           setError('');
         }
@@ -384,6 +394,7 @@ export function DateInput(): JSX.Element {
 
   return (
     <DateInputUI
+      disabled={disabled}
       wrapperRef={wrapperRef}
       error={error}
       inputRef={inputRef}
@@ -404,7 +415,6 @@ export function DateInput(): JSX.Element {
       years={years}
       calendarDays={calendarDays}
       draftDate={draftDate}
-      focusedDay={focusedDay}
       minDate={minDate}
       maxDate={maxDate}
       cancelSelection={cancelSelection}

@@ -1,12 +1,12 @@
 import React from 'react';
 import styles from './CategoryIcon.module.scss';
 
-import businessIcon from '@/assets/icons/skills-category/icon-business-career.svg';
-import languagesIcon from '@/assets/icons/skills-category/icon-languages.svg';
-import homeIcon from '@/assets/icons/skills-category/icon-home.svg';
-import artIcon from '@/assets/icons/skills-category/icon-art.svg';
-import educationIcon from '@/assets/icons/skills-category/icon-education.svg';
-import healthIcon from '@/assets/icons/skills-category/icon-health.svg';
+import businessIcon from '@/assets/icons/skills-category/business-career.svg';
+import languagesIcon from '@/assets/icons/skills-category/languages.svg';
+import homeIcon from '@/assets/icons/skills-category/home.svg';
+import artIcon from '@/assets/icons/skills-category/art.svg';
+import educationIcon from '@/assets/icons/skills-category/education.svg';
+import healthIcon from '@/assets/icons/skills-category/health.svg';
 
 const iconMap = {
   'Бизнес и карьера': businessIcon,

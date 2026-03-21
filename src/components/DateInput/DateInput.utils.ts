@@ -1,4 +1,4 @@
-import { NullableDate, DateValidationOptions, CalendarCell } from './DateInput.types';
+import { NullableDate, DateValidationOptions, CalendarCell } from '@/utils/types';
 
 export function startOfDay(date: Date): Date {
   return new Date(date.getFullYear(), date.getMonth(), date.getDate());

@@ -17,6 +17,7 @@
   --color-input-hover: #e4e8df;
   --color-input-border: #69735d;
   --color-scroll: #e4e8df;
+  --color-icon: var(--color-text-primary);
 
   /* Фокус */
   --color-focus: var(--color-accent);
@@ -36,6 +37,8 @@
   --color-tag-home: #f7ebe5;
   --color-tag-health: #e9f7e7;
   --color-tag-other: #e8ecf7;
+
+  /* Типографика */
 
   /* Шрифты */
   --font-family-base: 'Roboto', sans-serif;
@@ -67,5 +70,5 @@
   --radius-primary: 12px;
   --radius-secondary: 24px;
   --radius-tag: 20px;
-  --radius-circle: 100px;
+  --radius-circle: 50%;
 }

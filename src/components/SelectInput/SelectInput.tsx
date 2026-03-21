@@ -1,11 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import clearIconSrc from '../../assets/icons/cross.svg';
 import { SelectInputUI } from '../ui/SelectInputUI';
-
-export type TSelectOption = {
-  id: number;
-  name: string;
-};
+import { TSelectOption } from '@/utils/types';
 
 export type TSelectInputProps = {
   id: string;

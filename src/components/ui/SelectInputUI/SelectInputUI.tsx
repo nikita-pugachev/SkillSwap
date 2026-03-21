@@ -3,7 +3,7 @@ import { InputUI } from '../InputUI/InputUI';
 import { IconButton } from '../IconButton/IconButton';
 import { ChevronIcon } from '../Icons/ChevronIcon';
 import styles from './SelectInputUI.module.scss';
-import type { TSelectOption } from '@/components/SelectInput/SelectInput';
+import type { TSelectOption } from '@/utils/types';
 
 type TSelectInputUIProps = {
   id: string;
@@ -129,6 +129,7 @@ export const SelectInputUI: React.FC<TSelectInputUIProps> = ({
               onClick={handleActionClick}
               className={styles.actionButton}
               type="button"
+              disabled={disabled}
             />
           ) : (
             <button
@@ -151,9 +152,8 @@ export const SelectInputUI: React.FC<TSelectInputUIProps> = ({
             aria-label={label || placeholder}
           >
             {filteredOptions.length > 0 ? (
-              filteredOptions.map((option, index) => {
+              filteredOptions.map((option) => {
                 const isSelected = option.id === selectedOption?.id;
-                const isActive = index === activeOptionIndex;
 
                 return (
                   <button
@@ -165,7 +165,7 @@ export const SelectInputUI: React.FC<TSelectInputUIProps> = ({
                       .join(' ')}
                     onClick={() => handleSelectOption(option)}
                     role="option"
-                    aria-selected={isActive}
+                    aria-selected={isSelected}
                   >
                     {option.name}
                   </button>

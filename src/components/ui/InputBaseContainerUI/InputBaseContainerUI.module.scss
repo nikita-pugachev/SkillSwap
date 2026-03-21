@@ -1,22 +1,22 @@
 .inputBaseContainer {
-  font-family: var(--font-family-base);
   display: flex;
   flex-direction: column;
   gap: 4px;
   width: 100%;
+  font-family: var(--font-family-base);
 }
 
 .inputBase {
   position: relative;
-  padding: 12px;
   height: 48px;
+  border: 1px solid var(--color-input-border);
   border-radius: var(--radius-primary);
+  padding: 12px;
+  background-color: var(--color-surface);
   transition:
     border-color 0.15s ease,
     box-shadow 0.15s ease,
     background-color 0.15s ease;
-  border: 1px solid var(--color-input-border);
-  background-color: var(--color-surface);
 
   &:hover {
     background-color: var(--color-input-hover);
@@ -37,9 +37,9 @@
 }
 
 .labelInput {
+  color: var(--color-text-primary);
   font-size: var(--font-size-body);
   line-height: var(--line-height-body);
-  color: var(--color-text-primary);
 }
 
 .errorInput,
