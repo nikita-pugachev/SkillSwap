@@ -127,6 +127,7 @@ export default function ProfilePage() {
                     type="email"
                     value={email}
                     ref={emailRef}
+                    placeholder="Введите ваш новый email"
                     onChange={(e) => setEmail(e.target.value)}
                   />
                   <IconEdit onClick={handleEditEmail} />
@@ -144,6 +145,7 @@ export default function ProfilePage() {
                       id="password"
                       type={showPassword ? 'text' : 'password'}
                       value={password}
+                      placeholder="Введите ваш новый пароль"
                       onChange={(e) => setPassword(e.target.value)}
                     />
                     <IconButton
@@ -161,6 +163,7 @@ export default function ProfilePage() {
                     type="text"
                     value={name}
                     ref={nameRef}
+                    placeholder="Введите ваше имя"
                     onChange={(e) => setName(e.target.value)}
                   />
                   <IconEdit onClick={handleEditName} />
