@@ -7,7 +7,7 @@ interface IconButtonProps {
   onClick?: () => void;
   className?: string;
   type?: 'button' | 'submit' | 'reset';
-  disabled: boolean;
+  disabled?: boolean;
   onMouseDown?: (event: ReactMouseEvent<HTMLButtonElement>) => void;
 }
 

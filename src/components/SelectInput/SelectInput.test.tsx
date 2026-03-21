@@ -1,6 +1,7 @@
 import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
-import { SelectInput, TSelectOption } from './SelectInput';
+import { SelectInput } from './SelectInput';
+import { TSelectOption } from '@/utils/types';
 
 type SelectInputUIMockProps = {
   id: string;

@@ -1,7 +1,7 @@
 import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { SelectInputUI } from './SelectInputUI';
-import type { TSelectOption } from '@/components/SelectInput/SelectInput';
+import type { TSelectOption } from '@/utils/types';
 
 jest.mock('./SelectInputUI.module.scss', () => ({
   __esModule: true,
