@@ -1,31 +1,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import { FilterSidebar } from '@/components/FilterSidebar';
-import type { SkillCategoryData } from '@/components/FilterSidebar';
 import { getSkills } from '@/utils/api';
-
-type User = {
-  id: number;
-  name: string;
-  cityId: number;
-  gender: 'male' | 'female';
-  skillsTeach: {
-    id: number;
-    subcategoryId: number;
-  }[];
-  skillsLearn: number[];
-};
-
-type City = {
-  id: number;
-  name: string;
-};
-
-type Filters = {
-  mode: 'all' | 'wantToLearn' | 'canTeach';
-  skills: number[];
-  gender: 'Мужской' | 'Женский' | null;
-  city: string[];
-};
+import type { Skill, City, Filters, UserFromDb } from '@/utils/types';
 
 export const CatalogPage = () => {
   const [filters, setFilters] = useState<Filters>({
@@ -35,15 +11,15 @@ export const CatalogPage = () => {
     city: [],
   });
 
-  const [skills, setSkills] = useState<SkillCategoryData[]>([]);
+  const [skills, setSkills] = useState<Skill[]>([]);
   const [cities, setCities] = useState<City[]>([]);
-  const [users, setUsers] = useState<User[]>([]);
+  const [users, setUsers] = useState<UserFromDb[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     getSkills()
-      .then((data: SkillCategoryData[]) => {
+      .then((data) => {
         setSkills(data);
       })
       .catch((err: Error) => {
@@ -73,7 +49,7 @@ export const CatalogPage = () => {
         if (!res.ok) throw new Error('Ошибка загрузки пользователей');
         return res.json();
       })
-      .then((data: { users: User[] }) => {
+      .then((data: { users: UserFromDb[] }) => {
         setUsers(data.users);
         setLoading(false);
       })

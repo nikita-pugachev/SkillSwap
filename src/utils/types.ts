@@ -20,7 +20,19 @@ export interface SkillAuthor {
   avatar: string;
 }
 
+export interface Subcategory {
+  id: number;
+  title: string;
+}
+
 export interface Skill {
+  id: number;
+  title: string;
+  icon: string;
+  subcategories: Subcategory[];
+}
+
+export interface SkillOffer {
   id: number;
   title: string;
   description: string;
@@ -41,18 +53,6 @@ export interface User {
   skillsTeach: UserSkill[];
   skillsLearn: UserSkill[];
   isFavorite: boolean;
-}
-
-export interface Subcategory {
-  id: number;
-  title: string;
-}
-
-export interface SkillCategory {
-  id: number;
-  title: string;
-  icon: string;
-  subcategories: Subcategory[];
 }
 
 export interface City {

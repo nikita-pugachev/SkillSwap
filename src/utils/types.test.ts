@@ -1,4 +1,4 @@
-import type { SkillCategorySlug, SkillType, Skill, User } from './types';
+import type { SkillCategorySlug, SkillType, Skill, SkillOffer, User } from './types';
 
 describe('types', () => {
   afterEach(() => {
@@ -22,6 +22,17 @@ describe('types', () => {
   it('Skill: тестовый объект соответствует типу', () => {
     const skill: Skill = {
       id: 1,
+      title: 'Бизнес и карьера',
+      icon: 'icon-business-career.svg',
+      subcategories: [{ id: 101, title: 'Управление командой' }],
+    };
+    expect(skill.id).toBe(1);
+    expect(skill.subcategories).toHaveLength(1);
+  });
+
+  it('SkillOffer: тестовый объект соответствует типу', () => {
+    const offer: SkillOffer = {
+      id: 1,
       title: 'JavaScript',
       description: 'Базовый курс',
       category: 'education',
@@ -31,8 +42,8 @@ describe('types', () => {
       imageUrl: '/skills/js.jpg',
       isFavorite: false,
     };
-    expect(skill.id).toBe(1);
-    expect(skill.category).toBe('education');
+    expect(offer.id).toBe(1);
+    expect(offer.category).toBe('education');
   });
 
   it('User: тестовый объект соответствует типу', () => {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { FilterSidebar, type SkillCategoryData } from './FilterSidebar';
+import { FilterSidebar, type Skill } from './FilterSidebar';
 
 jest.mock('./FilterSidebar.module.scss', () => ({
   __esModule: true,
@@ -75,7 +75,7 @@ jest.mock('@/components/ui', () => ({
     onToggleCategoryCheckbox,
     onToggleSubcategory,
   }: {
-    category: SkillCategoryData;
+    category: Skill;
     expanded: boolean;
     checkedSubcategories: number[];
     onToggleExpand: (categoryId: number) => void;
@@ -104,7 +104,7 @@ jest.mock('@/components/ui', () => ({
 }));
 
 describe('FilterSidebar', () => {
-  const categories: SkillCategoryData[] = [
+  const categories: Skill[] = [
     {
       id: 1,
       title: 'Иностранные языки',
