@@ -4,7 +4,7 @@ import type { SkillCategoryData } from '@/components/FilterSidebar';
 import { UserCard } from '@/components/user-card';
 import { useLoadCatalogData } from '@/services/hooks/useLoadCatalogData';
 import { useAppSelector } from '@/services/hooks';
-import type { Filters, UserFromDb } from '@/utils/types';
+import type { Filters } from '@/utils/types';
 
 export const CatalogPage = () => {
   const [filters, setFilters] = useState<Filters>({
@@ -17,8 +17,16 @@ export const CatalogPage = () => {
   const { users, skills, cities, loading, error } = useAppSelector((state) => state.catalog);
   useLoadCatalogData();
 
+  const getSkillNameById = (id: number): string => {
+    for (const category of skills) {
+      const sub = category.subcategories.find((sub) => sub.id === id);
+      if (sub) return sub.title;
+    }
+    return `Навык ${id}`;
+  };
+
   const filteredUsers = useMemo(() => {
-    return (users as UserFromDb[]).filter((user) => {
+    return users.filter((user) => {
       if (filters.gender) {
         const genderMap = {
           Мужской: 'male',
@@ -65,6 +73,17 @@ export const CatalogPage = () => {
         {filteredUsers.map((user) => {
           const cityName =
             cities.find((city) => city.id === user.cityId)?.name ?? 'Неизвестный город';
+
+          const teachSkills = user.skillsTeach.map((skill) => ({
+            name: skill.customTitle,
+            category: 'other' as const,
+          }));
+
+          const learnSkills = user.skillsLearn.map((id) => ({
+            name: getSkillNameById(id),
+            category: 'other' as const,
+          }));
+
           return (
             <UserCard
               key={user.id}
@@ -73,12 +92,9 @@ export const CatalogPage = () => {
               avatar={user.userAvatar}
               city={cityName}
               birthday={user.birthday}
-              skillsTeach={user.skillsTeach.map((skill) => ({
-                name: skill.customTitle,
-                category: 'other',
-              }))}
-              skillsLearn={[]} // пока пустой массив, можно доработать
-              onDetailsClick={(id) => console.log('details', id)}
+              skillsTeach={teachSkills}
+              skillsLearn={learnSkills}
+              onDetailsClick={() => {}} // TODO: переход на страницу навыка
             />
           );
         })}
