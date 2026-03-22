@@ -1,6 +1,9 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { SkillTag, Button, Avatar, IconButton } from '@/components/ui';
+import { Avatar } from '../Avatar';
+import { Button } from '../Button';
+import { IconButton } from '../IconButton';
+import { SkillTag } from '../SkillTag';
 import LikeOutline from '@/assets/icons/like-outline.svg';
 import LikeFilled from '@/assets/icons/like-filled.svg';
 import type { UserSkill } from '@/utils/types';

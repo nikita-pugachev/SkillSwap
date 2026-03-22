@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from './FormInputUI.module.scss';
-import { InputUI, IconButton } from '@/components/ui';
+import { InputUI } from '../InputUI/InputUI';
+import { IconButton } from '../IconButton';
 import eyeIcon from '@/assets/icons/eye.svg';
 import eyeSlashIcon from '@/assets/icons/eye-slash.svg';
 

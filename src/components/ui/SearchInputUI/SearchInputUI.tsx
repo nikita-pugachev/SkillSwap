@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from './SearchInputUI.module.scss';
-import { InputUI, IconButton } from '@/components/ui';
+import { InputUI } from '../InputUI/InputUI';
+import { IconButton } from '../IconButton';
 import CrossIcon from '@/assets/icons/cross.svg';
 import SearchIcon from '@/assets/icons/search.svg?react';
 
