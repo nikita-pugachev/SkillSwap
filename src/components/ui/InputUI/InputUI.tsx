@@ -1,8 +1,7 @@
-import type { InputHTMLAttributes } from 'react';
-import React from 'react';
+import { forwardRef, type InputHTMLAttributes } from 'react';
 import styles from './InputUI.module.scss';
 
-export const InputUI = React.forwardRef<HTMLInputElement, InputHTMLAttributes<HTMLInputElement>>(
+export const InputUI = forwardRef<HTMLInputElement, InputHTMLAttributes<HTMLInputElement>>(
   ({ id, className = '', type = 'text', ...props }, ref) => {
     const inputClassName = [styles.input, className].filter(Boolean).join(' ');
 

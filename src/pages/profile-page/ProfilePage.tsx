@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState } from 'react';
 import styles from './ProfilePage.module.scss';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui';
@@ -39,14 +39,6 @@ export default function ProfilePage() {
 
   const [about, setAbout] = useState('#TODO о пользователе');
   const aboutRef = useRef<HTMLTextAreaElement>(null);
-
-  useEffect(() => {
-    if (isOpen) {
-      passwordRef.current?.classList.remove(styles.passwordContainerState);
-    } else {
-      passwordRef.current?.classList.add(styles.passwordContainerState);
-    }
-  }, [isOpen]);
 
   const handleEditEmail = () => {
     setEmail('');
@@ -145,7 +137,7 @@ export default function ProfilePage() {
                   Изменить пароль
                 </p>
               </div>
-              <div ref={passwordRef} className={styles.passwordContainerState}>
+              <div ref={passwordRef} className={!isOpen ? styles.passwordContainerState : ''}>
                 <InputBaseContainerUI label="Пароль" id="password">
                   <div className={styles.inputEdit}>
                     <InputUI
