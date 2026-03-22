@@ -8,11 +8,8 @@ export type SkillCategorySlug =
   | 'other';
 
 export type SkillType = 'teach' | 'learn';
-
-export interface UserSkill {
-  name: string;
-  category?: SkillCategorySlug;
-}
+export type FilterMode = 'all' | 'wantToLearn' | 'canTeach';
+export type Gender = 'Мужской' | 'Женский';
 
 export interface SkillAuthor {
   id: number;
@@ -32,15 +29,21 @@ export interface Skill {
   isFavorite: boolean;
 }
 
-export interface User {
+export interface UserSkillTag {
+  name: string;
+  category?: SkillCategorySlug;
+}
+
+export interface UserCardModel {
   id: number;
   name: string;
   avatar: string;
   city: string;
   birthday: string;
-  skillsTeach: UserSkill[];
-  skillsLearn: UserSkill[];
+  skillsTeach: UserSkillTag[];
+  skillsLearn: UserSkillTag[];
   isFavorite: boolean;
+  likes: number;
 }
 
 export interface Subcategory {
@@ -61,13 +64,13 @@ export interface City {
 }
 
 export interface Filters {
-  mode: 'all' | 'wantToLearn' | 'canTeach';
+  mode: FilterMode;
   skills: number[];
-  gender: 'Мужской' | 'Женский' | null;
+  gender: Gender | null;
   city: string[];
 }
 
-export interface UserSkillTeach {
+export interface UserTeachSkillDb {
   id: number;
   customTitle: string;
   subcategoryId: number;
@@ -75,15 +78,15 @@ export interface UserSkillTeach {
   images: string[];
 }
 
-export interface UserFromDb {
+export interface UserDb {
   id: number;
   name: string;
   userAvatar: string;
   cityId: number;
-  gender: string;
+  gender: Gender;
   birthday: string;
   about: string;
-  skillsTeach: UserSkillTeach[];
+  skillsTeach: UserTeachSkillDb[];
   skillsLearn: number[];
   likes: number;
   createdAt: string;

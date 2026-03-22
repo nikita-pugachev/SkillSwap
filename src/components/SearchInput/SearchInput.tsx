@@ -4,14 +4,19 @@ import { InputBaseContainerUI } from '../ui/InputBaseContainerUI';
 import { useDebounce } from '@/hooks/useDebounce';
 
 interface SearchInputProp {
+  value?: string;
   onSearch?: (value: string) => void;
   className?: string;
 }
 
-export const SearchInput: FC<SearchInputProp> = ({ onSearch, className }) => {
-  const [value, setValue] = useState('');
-  const debouncedValue = useDebounce(value, 300);
+export const SearchInput: FC<SearchInputProp> = ({ value = '', onSearch, className }) => {
+  const [inputValue, setInputValue] = useState(value);
+  const debouncedValue = useDebounce(inputValue, 300);
   const isFirstRender = useRef(true);
+
+  useEffect(() => {
+    setInputValue(value);
+  }, [value]);
 
   useEffect(() => {
     if (isFirstRender.current) {
@@ -23,16 +28,16 @@ export const SearchInput: FC<SearchInputProp> = ({ onSearch, className }) => {
   }, [debouncedValue, onSearch]);
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value);
+    setInputValue(e.target.value);
   };
 
   const onClear = () => {
-    setValue('');
+    setInputValue('');
   };
 
   return (
     <InputBaseContainerUI isSearch={true} className={className}>
-      <SearchInputUI value={value} onChange={onChange} onClear={onClear} />
+      <SearchInputUI value={inputValue} onChange={onChange} onClear={onClear} />
     </InputBaseContainerUI>
   );
 };

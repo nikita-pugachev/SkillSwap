@@ -2,10 +2,12 @@ import { useState } from 'react';
 import { RadioGroup } from '@/components/ui/RadioGroup';
 import { CheckboxButton } from '@/components/ui/CheckboxButton';
 import { SkillCategory } from '@/components/ui';
+
 import styles from './FilterSidebar.module.scss';
 
 import ChevronDown from '@/assets/icons/chevron-down.svg?react';
 import ChevronUp from '@/assets/icons/chevron-up.svg?react';
+import CrossIcon from '@/assets/icons/cross.svg?react';
 
 type SkillSubcategory = {
   id: number;
@@ -27,11 +29,13 @@ export interface FilterSidebarProps {
     city: string[];
   };
   onChange: (newFilters: Partial<FilterSidebarProps['filters']>) => void;
+  onReset: () => void;
+  activeFiltersCount: number;
+  canReset?: boolean;
   cities?: string[];
   categories?: SkillCategoryData[];
 }
 
-// Хук для управления раскрытием категорий (без эффекта)
 const useExpandedCategories = (categories: SkillCategoryData[]) => {
   const [expanded, setExpanded] = useState<Record<number, boolean>>({});
 
@@ -45,9 +49,11 @@ const useExpandedCategories = (categories: SkillCategoryData[]) => {
   const toggleAll = () => {
     const hasExpanded = Object.values(expanded).some((val) => val);
     const newExpanded: Record<number, boolean> = {};
+
     categories.forEach((cat) => {
       newExpanded[cat.id] = !hasExpanded;
     });
+
     setExpanded(newExpanded);
   };
 
@@ -59,35 +65,37 @@ const useExpandedCategories = (categories: SkillCategoryData[]) => {
 export const FilterSidebar = ({
   filters,
   onChange,
+  onReset,
+  activeFiltersCount,
+  canReset,
   cities = [],
   categories = [],
 }: FilterSidebarProps) => {
   const { expanded, toggleExpand, toggleAll, isAnyExpanded } = useExpandedCategories(categories);
+  const [expandedCities, setExpandedCities] = useState(false);
+  const shouldShowReset = canReset ?? activeFiltersCount > 0;
 
-  // Обработчик изменения режима (роли)
   const handleModeChange = (value: string) => {
     onChange({ mode: value as 'all' | 'wantToLearn' | 'canTeach' });
   };
 
-  // Обработчик изменения пола
   const handleGenderChange = (value: string) => {
     let gender: 'Мужской' | 'Женский' | null = null;
+
     if (value === 'male') gender = 'Мужской';
     else if (value === 'female') gender = 'Женский';
+
     onChange({ gender });
   };
 
-  // Обработчик выбора города
   const handleCityToggle = (city: string) => {
     const newCities = filters.city.includes(city)
       ? filters.city.filter((c) => c !== city)
       : [...filters.city, city];
+
     onChange({ city: newCities });
   };
 
-  const [expandedCities, setExpandedCities] = useState(false);
-
-  // Обработчик чекбокса категории (выбрать/снять все подкатегории)
   const handleToggleCategoryCheckbox = (categoryId: number) => {
     const category = categories.find((cat) => cat.id === categoryId);
     if (!category) return;
@@ -102,7 +110,6 @@ export const FilterSidebar = ({
     onChange({ skills: newSkills });
   };
 
-  // Обработчик чекбокса подкатегории
   const handleToggleSubcategory = (categoryId: number, subcategoryId: number) => {
     const category = categories.find((cat) => cat.id === categoryId);
     const isValid = category?.subcategories.some((sub) => sub.id === subcategoryId);
@@ -116,15 +123,24 @@ export const FilterSidebar = ({
     onChange({ skills: newSkills });
   };
 
-  // Преобразуем текущее значение пола в формат для RadioGroup
   const genderValue =
     filters.gender === 'Мужской' ? 'male' : filters.gender === 'Женский' ? 'female' : 'any';
 
   return (
     <aside className={styles.sidebar}>
-      <h2 className={styles.title}>Фильтры</h2>
+      <div className={styles.header}>
+        <h2 className={styles.title}>
+          Фильтры{activeFiltersCount > 0 ? ` (${activeFiltersCount})` : ''}
+        </h2>
 
-      {/* Режим (роль) */}
+        {shouldShowReset && (
+          <button type="button" className={styles.resetButton} onClick={onReset}>
+            <span>Сбросить</span>
+            <CrossIcon className={styles.resetIcon} />
+          </button>
+        )}
+      </div>
+
       <RadioGroup
         legend=""
         name="mode"
@@ -137,10 +153,10 @@ export const FilterSidebar = ({
         onChange={handleModeChange}
       />
 
-      {/* Навыки */}
       {categories.length > 0 && (
         <div className={styles.filterGroup}>
           <h3 className={styles.groupTitle}>Навыки</h3>
+
           <div className={styles.categoryTree}>
             {categories.map((category) => (
               <SkillCategory
@@ -154,6 +170,7 @@ export const FilterSidebar = ({
               />
             ))}
           </div>
+
           <button type="button" onClick={toggleAll} className={styles.allCategoriesButton}>
             Все категории
             {isAnyExpanded ? <ChevronUp /> : <ChevronDown />}
@@ -161,7 +178,6 @@ export const FilterSidebar = ({
         </div>
       )}
 
-      {/* Пол автора */}
       <div className={styles.filterGroup}>
         <h3 className={styles.groupTitle}>Пол автора</h3>
         <RadioGroup
@@ -177,10 +193,10 @@ export const FilterSidebar = ({
         />
       </div>
 
-      {/* Города */}
       {cities.length > 0 && (
         <div className={styles.filterGroup}>
           <h3 className={styles.groupTitle}>Город</h3>
+
           <div className={styles.checkboxList}>
             {(expandedCities ? cities : cities.slice(0, 5)).map((city) => (
               <CheckboxButton
@@ -191,6 +207,7 @@ export const FilterSidebar = ({
               />
             ))}
           </div>
+
           {cities.length > 5 && (
             <button
               type="button"

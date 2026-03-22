@@ -46,3 +46,5 @@ export const ErrorPage = ({ defaultType }: ErrorPageProps) => {
     </div>
   );
 };
+
+export default ErrorPage;

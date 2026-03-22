@@ -1,41 +1,48 @@
 import styles from './CardSection.module.scss';
 import Icon from '@/assets/icons/chevron-right.svg?react';
-import { Link } from 'react-router-dom';
 import { UserCard } from '@/components/user-card';
-import type { User } from '@/utils/types';
+import type { UserCardModel } from '@/utils/types';
+import { Button } from '@/components/ui';
+import { useNavigate } from 'react-router-dom';
 
 export interface UsersSectionProps {
-  title: string;
-  buttonText: string;
-  showAllLink?: string;
-  cards: User[];
+  title?: string;
+  buttonText?: string;
+  onActionClick?: () => void;
+  cards: UserCardModel[];
+  isLogin: boolean;
 }
 
-export const CardSection = ({ title, buttonText, showAllLink, cards }: UsersSectionProps) => {
+export const CardSection = ({
+  title,
+  buttonText,
+  onActionClick,
+  cards,
+  isLogin,
+}: UsersSectionProps) => {
+  const navigate = useNavigate();
+
   const handleDetailsClick = (id: string | number) => {
-    console.log(id);
+    navigate(`/skill/${id}`);
   };
 
   return (
     <section className={styles.cardSection}>
-      <div className={styles.textContainer}>
-        <h2 className={styles.title}>{title}</h2>
-        {showAllLink ? (
-          <Link to={showAllLink} className={styles.showAll}>
-            <span className={styles.buttonContent}>
-              <span>{buttonText}</span>
-              <Icon className={styles.icon} />
-            </span>
-          </Link>
-        ) : (
-          <span className={styles.showAll}>
-            <span className={styles.buttonContent}>
-              <span>{buttonText}</span>
-              <Icon className={styles.icon} />
-            </span>
-          </span>
-        )}
-      </div>
+      {(title || buttonText) && (
+        <div className={styles.textContainer}>
+          {title && <h2 className={styles.title}>{title}</h2>}
+
+          {buttonText && onActionClick && (
+            <Button variant="tertiary" className={styles.showAllButton} onClick={onActionClick}>
+              <span className={styles.buttonContent}>
+                <span>{buttonText}</span>
+                <Icon className={styles.icon} />
+              </span>
+            </Button>
+          )}
+        </div>
+      )}
+
       <div className={styles.cardContainer}>
         {cards.map((card) => (
           <UserCard
@@ -47,7 +54,9 @@ export const CardSection = ({ title, buttonText, showAllLink, cards }: UsersSect
             birthday={card.birthday}
             skillsTeach={card.skillsTeach}
             skillsLearn={card.skillsLearn}
-            onDetailsClick={() => handleDetailsClick}
+            likes={card.likes}
+            isLogin={isLogin}
+            onDetailsClick={handleDetailsClick}
           />
         ))}
       </div>

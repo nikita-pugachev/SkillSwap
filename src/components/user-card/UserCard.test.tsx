@@ -1,10 +1,12 @@
 import React from 'react';
+import { MemoryRouter } from 'react-router-dom';
 import { render, screen, fireEvent } from '@testing-library/react';
-import { UserCard, UserCardProps, UserSkill } from './UserCard';
+import { UserCard, UserCardProps } from './UserCard';
 import { toggleFavorite } from '@/services/slices/favoritesSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectIsFavorite } from '@/services/selectors';
 import { RootState } from '@/services/store';
+import { UserSkillTag } from '@/utils/types';
 
 // --- mocks redux ---
 const mockDispatch = jest.fn();
@@ -52,13 +54,13 @@ jest.mock('@/components/ui/ButtonUI', () => ({
 }));
 
 // --- test data ---
-const mockTeachSkills: UserSkill[] = [
+const mockTeachSkills: UserSkillTag[] = [
   { name: 'React', category: 'education' },
   { name: 'TypeScript', category: 'education' },
   { name: 'Node.js', category: 'other' },
 ];
 
-const mockLearnSkills: UserSkill[] = [
+const mockLearnSkills: UserSkillTag[] = [
   { name: 'Python', category: 'languages' },
   { name: 'Django', category: 'business' },
 ];
@@ -72,6 +74,8 @@ const mockProps: UserCardProps = {
   skillsTeach: mockTeachSkills,
   skillsLearn: mockLearnSkills,
   onDetailsClick: jest.fn(),
+  likes: 0,
+  isLogin: true,
 };
 
 describe('UserCard', () => {
@@ -94,7 +98,11 @@ describe('UserCard', () => {
   });
 
   it('renders user name and location with age', () => {
-    render(<UserCard {...mockProps} />);
+    render(
+      <MemoryRouter>
+        <UserCard {...mockProps} />
+      </MemoryRouter>
+    );
     expect(screen.getByText('Иван Петров')).toBeInTheDocument();
     expect(screen.getByText(/Москва, \d+ (год|года|лет)/)).toBeInTheDocument();
   });
@@ -103,14 +111,22 @@ describe('UserCard', () => {
     jest.useFakeTimers();
     jest.setSystemTime(new Date(2026, 2, 15));
 
-    render(<UserCard {...mockProps} />);
+    render(
+      <MemoryRouter>
+        <UserCard {...mockProps} />
+      </MemoryRouter>
+    );
     expect(screen.getByText(/Москва, 35 лет/)).toBeInTheDocument();
 
     jest.useRealTimers();
   });
 
   it('shows correct skill tags with categories', () => {
-    render(<UserCard {...mockProps} />);
+    render(
+      <MemoryRouter>
+        <UserCard {...mockProps} />
+      </MemoryRouter>
+    );
     const tags = screen.getAllByTestId('skill-tag');
 
     expect(tags).toHaveLength(5);
@@ -132,7 +148,11 @@ describe('UserCard', () => {
   });
 
   it('dispatches toggleFavorite when favorite button clicked', () => {
-    render(<UserCard {...mockProps} />);
+    render(
+      <MemoryRouter>
+        <UserCard {...mockProps} />
+      </MemoryRouter>
+    );
     const favButton = screen.getByRole('button', {
       name: /добавить в избранное/i,
     });
@@ -143,7 +163,11 @@ describe('UserCard', () => {
   });
 
   it('calls onDetailsClick when details button clicked', () => {
-    render(<UserCard {...mockProps} />);
+    render(
+      <MemoryRouter>
+        <UserCard {...mockProps} />
+      </MemoryRouter>
+    );
     const detailsButton = screen.getByRole('button', { name: /подробнее/i });
 
     fireEvent.click(detailsButton);
@@ -154,12 +178,32 @@ describe('UserCard', () => {
   it('displays filled favorite icon when user is favorite', () => {
     mockSelectIsFavorite.mockReturnValue(() => true);
 
-    render(<UserCard {...mockProps} />);
+    render(
+      <MemoryRouter>
+        <UserCard {...mockProps} />
+      </MemoryRouter>
+    );
 
     const favButton = screen.getByRole('button', {
       name: /удалить из избранного/i,
     });
 
     expect(favButton).toBeInTheDocument();
+  });
+
+  it('does not dispatch toggleFavorite when user is not logged in', () => {
+    render(
+      <MemoryRouter>
+        <UserCard {...mockProps} isLogin={false} />
+      </MemoryRouter>
+    );
+
+    const favButton = screen.getByRole('button', {
+      name: /добавить в избранное/i,
+    });
+
+    fireEvent.click(favButton);
+
+    expect(mockDispatch).not.toHaveBeenCalled();
   });
 });

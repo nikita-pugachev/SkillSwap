@@ -16,7 +16,7 @@
   flex: 1;
 }
 
-.searchIinput {
+.searchInput {
   width: 100%;
 }
 
@@ -68,6 +68,9 @@
   justify-content: center;
   align-items: center;
   gap: 8px;
+  border: none;
+  font-family: var(--font-family-base);
+  background-color: transparent;
 }
 
 .headerLogin {

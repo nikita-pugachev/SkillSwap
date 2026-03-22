@@ -1,4 +1,4 @@
-import type { SkillCategorySlug, SkillType, Skill, User } from './types';
+import type { SkillCategorySlug, SkillType, Skill, UserCardModel } from './types';
 
 describe('types', () => {
   afterEach(() => {
@@ -36,7 +36,7 @@ describe('types', () => {
   });
 
   it('User: тестовый объект соответствует типу', () => {
-    const user: User = {
+    const user: UserCardModel = {
       id: 1,
       name: 'Иван',
       avatar: '/avatars/1.png',
@@ -48,6 +48,7 @@ describe('types', () => {
         { name: 'Negotiation', category: 'business' },
       ],
       isFavorite: false,
+      likes: 0,
     };
     expect(user.id).toBe(1);
     expect(user.skillsTeach).toHaveLength(1);

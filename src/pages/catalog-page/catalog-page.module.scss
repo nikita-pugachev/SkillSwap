@@ -1,0 +1,79 @@
+.page {
+  width: 100%;
+}
+
+.content {
+  display: grid;
+  grid-template-columns: 324px minmax(0, 1fr);
+  align-items: start;
+  gap: 24px;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 32px 40px 48px;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+}
+
+.selectedFilters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.filterChip {
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.filterChipClose {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  color: var(--color-text-primary);
+}
+
+.resultsHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.resultsTitle {
+  min-width: 0;
+  margin: 0;
+}
+
+.sortButton {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 8px;
+  min-width: 203px;
+  white-space: nowrap;
+}
+
+.backButton {
+  display: inline-flex;
+  flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.icon {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+}

@@ -1,38 +1,35 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
-import { type ButtonProps } from '../ui/ButtonUI/ButtonUI';
 
-// ----------------------
-// Моки для всех компонентов, которые тянут ассеты
-// ----------------------
-jest.mock('../ui/Logo/Logo', () => ({
+import { type ButtonProps } from '@/components/ui/ButtonUI/ButtonUI';
+
+jest.mock('@/components/ui/Logo/Logo', () => ({
   Logo: () => <div data-testid="logo" />,
 }));
 
-jest.mock('../SearchInput/SearchInput', () => ({
+jest.mock('@/components/SearchInput/SearchInput', () => ({
   SearchInput: () => <input data-testid="search-input" />,
 }));
 
-jest.mock('../category-dropdown', () => ({
+jest.mock('@/components/category-dropdown', () => ({
   CategoryDropdown: () => <div data-testid="category-dropdown" />,
 }));
 
-jest.mock('../ui/IconButton', () => ({
-  IconButton: () => <button data-testid="icon-button" />,
+jest.mock('@/components/ui/IconButton', () => ({
+  IconButton: ({ ariaLabel, onClick }: { ariaLabel: string; onClick?: () => void }) => (
+    <button type="button" data-testid="icon-button" aria-label={ariaLabel} onClick={onClick} />
+  ),
 }));
 
-jest.mock('../ui', () => ({
+jest.mock('@/components/ui', () => ({
   Avatar: ({ name }: { name: string }) => <img alt={name} />,
 }));
 
-jest.mock('../ui/ButtonUI/ButtonUI', () => ({
+jest.mock('@/components/ui/ButtonUI/ButtonUI', () => ({
   Button: ({ children, onClick }: ButtonProps) => <button onClick={onClick}>{children}</button>,
 }));
 
-// ----------------------
-// Мокаем useNavigate, чтобы проверить navigate(-1)
-// ----------------------
 const mockNavigate = jest.fn();
 
 jest.mock('react-router-dom', () => {
@@ -43,14 +40,8 @@ jest.mock('react-router-dom', () => {
   };
 });
 
-// ----------------------
-// Импорт компонента после моков
-// ----------------------
 import { Header, type HeaderProps } from './Header';
 
-// ----------------------
-// Тестовые данные
-// ----------------------
 const mockUser: HeaderProps['user'] = {
   name: 'Тест Пользователь',
   avatar: '/avatar.png',
@@ -63,42 +54,57 @@ const renderHeader = (props: HeaderProps, route = '/') =>
     </MemoryRouter>
   );
 
-// ----------------------
-// Тесты
-// ----------------------
 describe('Header component', () => {
+  beforeEach(() => {
+    mockNavigate.mockClear();
+  });
+
   test('renders header', () => {
-    renderHeader({ isLogin: false });
+    renderHeader({ isAuthenticated: false });
     expect(screen.getByRole('banner')).toBeInTheDocument();
   });
 
   test('renders login and register buttons when user is not logged in', () => {
-    renderHeader({ isLogin: false });
+    renderHeader({ isAuthenticated: false });
     expect(screen.getByRole('button', { name: 'Войти' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Зарегистрироваться' })).toBeInTheDocument();
   });
 
   test('renders user info when user is logged in', () => {
     renderHeader({
-      isLogin: true,
+      isAuthenticated: true,
       user: mockUser,
     });
+
     expect(screen.getByText(mockUser.name)).toBeInTheDocument();
     expect(screen.getByAltText(mockUser.name)).toBeInTheDocument();
   });
 
   test.each(['/login', '/register'])('renders close button on auth route %s', (route) => {
-    renderHeader({ isLogin: false }, route);
+    renderHeader({ isAuthenticated: false, isAuthPage: true }, route);
     expect(screen.getByRole('button', { name: /закрыть/i })).toBeInTheDocument();
   });
 
   test('clicking close button calls navigate(-1)', async () => {
     const user = userEvent.setup();
-    renderHeader({ isLogin: false }, '/login');
 
-    const closeButton = screen.getByRole('button', { name: /закрыть/i });
-    await user.click(closeButton);
+    renderHeader({ isAuthenticated: false, isAuthPage: true }, '/login');
+
+    await user.click(screen.getByRole('button', { name: /закрыть/i }));
 
     expect(mockNavigate).toHaveBeenCalledWith(-1);
+  });
+
+  test('clicking the favorites icon navigates to /favorites', async () => {
+    const user = userEvent.setup();
+
+    renderHeader({
+      isAuthenticated: true,
+      user: mockUser,
+    });
+
+    await user.click(screen.getByRole('button', { name: 'Избранное' }));
+
+    expect(mockNavigate).toHaveBeenCalledWith('/favorites');
   });
 });

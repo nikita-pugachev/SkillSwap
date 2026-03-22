@@ -1,4 +1,5 @@
 import { act, fireEvent, render, screen } from '@testing-library/react';
+
 import { SearchInput } from './SearchInput';
 
 jest.useFakeTimers();
@@ -8,50 +9,50 @@ describe('SearchInput', () => {
     jest.clearAllTimers();
   });
 
-  it('рендерит компонент', () => {
+  it('renders the search input', () => {
     render(<SearchInput />);
 
-    expect(screen.getByRole('searchbox', { name: 'Искать навык' })).toBeInTheDocument();
+    expect(screen.getByRole('searchbox', { name: /Искать навык/i })).toBeInTheDocument();
   });
 
-  it('обновляет значение инпута при вводе', () => {
+  it('updates the input value while typing', () => {
     render(<SearchInput />);
 
-    const input = screen.getByRole('searchbox', { name: 'Искать навык' }) as HTMLInputElement;
+    const input = screen.getByRole('searchbox', { name: /Искать навык/i }) as HTMLInputElement;
 
     fireEvent.change(input, { target: { value: 'React' } });
 
     expect(input.value).toBe('React');
   });
 
-  it('показывает кнопку очистки при наличии текста', () => {
+  it('shows a clear button when the field has a value', () => {
     render(<SearchInput />);
 
-    const input = screen.getByRole('searchbox', { name: 'Искать навык' });
+    fireEvent.change(screen.getByRole('searchbox', { name: /Искать навык/i }), {
+      target: { value: 'React' },
+    });
 
-    fireEvent.change(input, { target: { value: 'React' } });
-
-    expect(screen.getByRole('button', { name: 'Очистить' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Очистить/i })).toBeInTheDocument();
   });
 
-  it('очищает поле по клику на кнопку очистки', () => {
+  it('clears the field when the clear button is clicked', () => {
     render(<SearchInput />);
 
-    const input = screen.getByRole('searchbox', { name: 'Искать навык' }) as HTMLInputElement;
+    const input = screen.getByRole('searchbox', { name: /Искать навык/i }) as HTMLInputElement;
 
     fireEvent.change(input, { target: { value: 'React' } });
-    fireEvent.click(screen.getByRole('button', { name: 'Очистить' }));
+    fireEvent.click(screen.getByRole('button', { name: /Очистить/i }));
 
     expect(input.value).toBe('');
-    expect(screen.queryByRole('button', { name: 'Очистить' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: /Очистить/i })).not.toBeInTheDocument();
   });
 
-  it('вызывает onSearch только после паузы во вводе', () => {
+  it('calls onSearch only after the debounce delay', () => {
     const onSearch = jest.fn();
 
     render(<SearchInput onSearch={onSearch} />);
 
-    const input = screen.getByRole('searchbox', { name: 'Искать навык' });
+    const input = screen.getByRole('searchbox', { name: /Искать навык/i });
 
     fireEvent.change(input, { target: { value: 'R' } });
     fireEvent.change(input, { target: { value: 'Re' } });
@@ -67,12 +68,12 @@ describe('SearchInput', () => {
     expect(onSearch).toHaveBeenCalledWith('React');
   });
 
-  it('при очистке input корректно сбрасывает значение поиска', () => {
+  it('reports an empty value after clearing the field', () => {
     const onSearch = jest.fn();
 
     render(<SearchInput onSearch={onSearch} />);
 
-    const input = screen.getByRole('searchbox', { name: 'Искать навык' });
+    const input = screen.getByRole('searchbox', { name: /Искать навык/i });
 
     fireEvent.change(input, { target: { value: 'React' } });
 
@@ -80,7 +81,7 @@ describe('SearchInput', () => {
       jest.advanceTimersByTime(300);
     });
 
-    fireEvent.click(screen.getByRole('button', { name: 'Очистить' }));
+    fireEvent.click(screen.getByRole('button', { name: /Очистить/i }));
 
     act(() => {
       jest.advanceTimersByTime(300);
@@ -89,7 +90,7 @@ describe('SearchInput', () => {
     expect(onSearch).toHaveBeenLastCalledWith('');
   });
 
-  it('не вызывает onSearch при первом рендере', () => {
+  it('does not call onSearch on the first render', () => {
     const onSearch = jest.fn();
 
     render(<SearchInput onSearch={onSearch} />);
@@ -99,5 +100,17 @@ describe('SearchInput', () => {
     });
 
     expect(onSearch).not.toHaveBeenCalled();
+  });
+
+  it('syncs the input with an external value prop', () => {
+    const { rerender } = render(<SearchInput value="React" />);
+
+    const input = screen.getByRole('searchbox', { name: /Искать навык/i }) as HTMLInputElement;
+
+    expect(input.value).toBe('React');
+
+    rerender(<SearchInput value="" />);
+
+    expect(input.value).toBe('');
   });
 });

@@ -1,152 +1,478 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useOutletContext } from 'react-router-dom';
+
+import ChevronLeftIcon from '@/assets/icons/chevron-left.svg?react';
+import CrossIcon from '@/assets/icons/cross.svg?react';
+import SortIcon from '@/assets/icons/sort.svg?react';
 import { FilterSidebar } from '@/components/FilterSidebar';
-import type { SkillCategoryData } from '@/components/FilterSidebar';
-import { getSkills } from '@/utils/api';
+import { Button } from '@/components/ui';
+import { CardSection } from '@/components/ui/CardSection';
+import { getCities, getSkills, getUsers } from '@/utils/api';
+import type { City, Filters, SkillCategory, UserCardModel, UserDb } from '@/utils/types';
 
-type User = {
-  id: number;
-  name: string;
-  cityId: number;
-  gender: 'male' | 'female';
-  skillsTeach: {
-    id: number;
-    subcategoryId: number;
-  }[];
-  skillsLearn: number[];
+import {
+  type FilterChip,
+  type SelectedCollection,
+  type SortOrder,
+  buildActiveFilterChips,
+  countActiveFilters,
+  createInitialFilters,
+  createPreparedUsers,
+  createSubcategoryMetaById,
+  filterPreparedUsers,
+  filterPreparedUsersByTeachSkillMatch,
+  getCollectionTitle,
+  sortPreparedUsersByDate,
+} from './catalog-page.helpers';
+import styles from './catalog-page.module.scss';
+
+type LayoutOutletContext = {
+  searchQuery: string;
+  setSearchQuery: (value: string) => void;
 };
 
-type City = {
-  id: number;
-  name: string;
+type CatalogDataState = {
+  skills: SkillCategory[];
+  cities: City[];
+  users: UserDb[];
+  loading: boolean;
+  error: string | null;
 };
 
-type Filters = {
-  mode: 'all' | 'wantToLearn' | 'canTeach';
-  skills: number[];
-  gender: 'Мужской' | 'Женский' | null;
-  city: string[];
+type HomeSection = {
+  title: string;
+  cards: UserCardModel[];
+  buttonText?: string;
+  onActionClick?: () => void;
 };
 
-export const CatalogPage = () => {
-  const [filters, setFilters] = useState<Filters>({
-    mode: 'all',
-    skills: [],
-    gender: null,
-    city: [],
-  });
+const AUTH_USER_ID_STORAGE_KEY = 'userId';
+const CATALOG_FILTERS_STORAGE_KEY = 'catalogFilters';
+const FALLBACK_AUTH_USER_ID = 1;
 
-  const [skills, setSkills] = useState<SkillCategoryData[]>([]);
+const getAuthenticatedUserId = () => {
+  if (!localStorage.getItem('token')) {
+    return null;
+  }
+
+  const storedUserId = Number(localStorage.getItem(AUTH_USER_ID_STORAGE_KEY));
+
+  return Number.isInteger(storedUserId) && storedUserId > 0 ? storedUserId : FALLBACK_AUTH_USER_ID;
+};
+
+const getPersistedFilters = (): Filters => {
+  const storedFilters = localStorage.getItem(CATALOG_FILTERS_STORAGE_KEY);
+
+  if (!storedFilters) {
+    return createInitialFilters();
+  }
+
+  try {
+    const parsedFilters = JSON.parse(storedFilters) as Partial<Filters>;
+
+    const mode =
+      parsedFilters.mode === 'all' ||
+      parsedFilters.mode === 'wantToLearn' ||
+      parsedFilters.mode === 'canTeach'
+        ? parsedFilters.mode
+        : 'all';
+
+    const gender =
+      parsedFilters.gender === 'Мужской' || parsedFilters.gender === 'Женский'
+        ? parsedFilters.gender
+        : null;
+
+    const city = Array.isArray(parsedFilters.city)
+      ? parsedFilters.city.filter((value): value is string => typeof value === 'string')
+      : [];
+
+    const skills = Array.isArray(parsedFilters.skills)
+      ? parsedFilters.skills.filter((value): value is number => typeof value === 'number')
+      : [];
+
+    return {
+      mode,
+      gender,
+      city,
+      skills,
+    };
+  } catch {
+    return createInitialFilters();
+  }
+};
+
+const useCatalogData = (): CatalogDataState => {
+  const [skills, setSkills] = useState<SkillCategory[]>([]);
   const [cities, setCities] = useState<City[]>([]);
-  const [users, setUsers] = useState<User[]>([]);
+  const [users, setUsers] = useState<UserDb[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    getSkills()
-      .then((data: SkillCategoryData[]) => {
-        setSkills(data);
-      })
-      .catch((err: Error) => {
-        console.error('Ошибка загрузки категорий:', err);
-        setError(err.message);
-      });
+    const abortController = new AbortController();
+
+    const loadData = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+
+        const [skillsData, citiesData, usersData] = await Promise.all([
+          getSkills({ signal: abortController.signal }),
+          getCities({ signal: abortController.signal }),
+          getUsers({ signal: abortController.signal }),
+        ]);
+
+        setSkills(skillsData);
+        setCities(citiesData);
+        setUsers(usersData);
+      } catch (err) {
+        if (err instanceof DOMException && err.name === 'AbortError') {
+          return;
+        }
+
+        setError(err instanceof Error ? err.message : 'Ошибка загрузки данных');
+      } finally {
+        if (!abortController.signal.aborted) {
+          setLoading(false);
+        }
+      }
+    };
+
+    loadData();
+
+    return () => {
+      abortController.abort();
+    };
   }, []);
 
-  useEffect(() => {
-    fetch('/db/cities.json')
-      .then((res) => {
-        if (!res.ok) throw new Error('Ошибка загрузки городов');
-        return res.json();
-      })
-      .then((data: City[]) => {
-        setCities(data);
-      })
-      .catch((err: Error) => {
-        console.error('Ошибка загрузки городов:', err);
-        setError(err.message);
-      });
-  }, []);
+  return { skills, cities, users, loading, error };
+};
 
-  useEffect(() => {
-    fetch('/db/users.json')
-      .then((res) => {
-        if (!res.ok) throw new Error('Ошибка загрузки пользователей');
-        return res.json();
-      })
-      .then((data: { users: User[] }) => {
-        setUsers(data.users);
-        setLoading(false);
-      })
-      .catch((err: Error) => {
-        console.error('Ошибка загрузки пользователей:', err);
-        setError(err.message);
-        setLoading(false);
-      });
-  }, []);
+export const CatalogPage = () => {
+  const { searchQuery, setSearchQuery } = useOutletContext<LayoutOutletContext>();
+
+  const [filters, setFilters] = useState<Filters>(getPersistedFilters);
+  const [selectedCollection, setSelectedCollection] = useState<SelectedCollection>('all');
+  const [sortOrder, setSortOrder] = useState<SortOrder>('newest');
+  const { skills, cities, users, loading, error } = useCatalogData();
+
+  const authenticatedUserId = getAuthenticatedUserId();
+  const isAuthenticated = authenticatedUserId !== null;
+  const hasSearchQuery = searchQuery.trim().length > 0;
+
+  const cityNameById = useMemo(() => {
+    return new Map(cities.map((city) => [city.id, city.name]));
+  }, [cities]);
+
+  const cityOptions = useMemo(() => {
+    return cities.map((city) => city.name);
+  }, [cities]);
+
+  const subcategoryMetaById = useMemo(() => {
+    return createSubcategoryMetaById(skills);
+  }, [skills]);
+
+  const preparedUsers = useMemo(() => {
+    return createPreparedUsers(users, cityNameById, subcategoryMetaById);
+  }, [users, cityNameById, subcategoryMetaById]);
+
+  const authenticatedUser = useMemo(() => {
+    if (!authenticatedUserId) {
+      return null;
+    }
+
+    return users.find((user) => user.id === authenticatedUserId) ?? null;
+  }, [authenticatedUserId, users]);
 
   const filteredUsers = useMemo(() => {
-    return users.filter((user) => {
-      if (filters.gender) {
-        const genderMap = {
-          Мужской: 'male',
-          Женский: 'female',
-        } as const;
+    return filterPreparedUsers(preparedUsers, filters, searchQuery);
+  }, [preparedUsers, filters, searchQuery]);
 
-        if (user.gender !== genderMap[filters.gender]) {
-          return false;
-        }
+  const exactMatchUsers = useMemo(() => {
+    if (!authenticatedUser) {
+      return [];
+    }
+
+    return filterPreparedUsersByTeachSkillMatch(
+      filteredUsers,
+      authenticatedUser.skillsLearn,
+      authenticatedUser.id
+    );
+  }, [authenticatedUser, filteredUsers]);
+
+  const recommendedCards = useMemo(() => {
+    return filteredUsers.map(({ card }) => card);
+  }, [filteredUsers]);
+
+  const popularUsers = useMemo(() => {
+    return [...filteredUsers].sort(
+      (firstUser, secondUser) => secondUser.card.likes - firstUser.card.likes
+    );
+  }, [filteredUsers]);
+
+  const newUsers = useMemo(() => {
+    return sortPreparedUsersByDate(filteredUsers, 'newest');
+  }, [filteredUsers]);
+
+  const defaultUsers = useMemo(() => {
+    return sortPreparedUsersByDate(filteredUsers, sortOrder);
+  }, [filteredUsers, sortOrder]);
+
+  const collectionUsers = useMemo(() => {
+    if (selectedCollection === 'exact') {
+      return exactMatchUsers;
+    }
+
+    if (selectedCollection === 'popular') {
+      return popularUsers;
+    }
+
+    if (selectedCollection === 'new') {
+      return newUsers;
+    }
+
+    return defaultUsers;
+  }, [defaultUsers, exactMatchUsers, newUsers, popularUsers, selectedCollection]);
+
+  const collectionCards = useMemo(() => {
+    return collectionUsers.map(({ card }) => card);
+  }, [collectionUsers]);
+
+  const exactMatchUsersPreview = useMemo(() => {
+    return exactMatchUsers.slice(0, 3).map(({ card }) => card);
+  }, [exactMatchUsers]);
+
+  const popularUsersPreview = useMemo(() => {
+    return popularUsers.slice(0, 3).map(({ card }) => card);
+  }, [popularUsers]);
+
+  const newUsersPreview = useMemo(() => {
+    return newUsers.slice(0, 3).map(({ card }) => card);
+  }, [newUsers]);
+
+  const activeFiltersCount = useMemo(() => {
+    return countActiveFilters(filters);
+  }, [filters]);
+
+  const activeFilterChips = useMemo(() => {
+    return buildActiveFilterChips(filters, subcategoryMetaById);
+  }, [filters, subcategoryMetaById]);
+
+  const hasActiveFilters = activeFiltersCount > 0 || hasSearchQuery || selectedCollection !== 'all';
+
+  useEffect(() => {
+    if (countActiveFilters(filters) === 0) {
+      localStorage.removeItem(CATALOG_FILTERS_STORAGE_KEY);
+      return;
+    }
+
+    localStorage.setItem(CATALOG_FILTERS_STORAGE_KEY, JSON.stringify(filters));
+  }, [filters]);
+
+  const handleFiltersChange = useCallback((newFilters: Partial<Filters>) => {
+    setFilters((prev) => ({
+      ...prev,
+      ...newFilters,
+    }));
+  }, []);
+
+  const handleToggleSortOrder = useCallback(() => {
+    setSortOrder((prev) => (prev === 'newest' ? 'oldest' : 'newest'));
+  }, []);
+
+  const clearSearchQuery = useCallback(() => {
+    setSearchQuery('');
+  }, [setSearchQuery]);
+
+  const removeFilterChip = useCallback((chip: Pick<FilterChip, 'type' | 'value'>) => {
+    setFilters((prev) => {
+      switch (chip.type) {
+        case 'mode':
+          return { ...prev, mode: 'all' };
+
+        case 'gender':
+          return { ...prev, gender: null };
+
+        case 'city':
+          return {
+            ...prev,
+            city: prev.city.filter((cityName) => cityName !== chip.value),
+          };
+
+        case 'skill':
+          return {
+            ...prev,
+            skills: prev.skills.filter((skillId) => skillId !== chip.value),
+          };
+
+        default:
+          return prev;
       }
-
-      if (filters.city.length > 0) {
-        const userCityName = cities.find((city) => city.id === user.cityId)?.name;
-
-        if (!userCityName || !filters.city.includes(userCityName)) {
-          return false;
-        }
-      }
-
-      if (filters.mode === 'wantToLearn') {
-        return (
-          filters.skills.length === 0 ||
-          user.skillsLearn.some((skillId) => filters.skills.includes(skillId))
-        );
-      }
-
-      if (filters.mode === 'canTeach') {
-        return (
-          filters.skills.length === 0 ||
-          user.skillsTeach.some((skill) => filters.skills.includes(skill.subcategoryId))
-        );
-      }
-
-      return true;
     });
-  }, [users, filters, cities]);
+  }, []);
 
-  if (loading) return <div>Загрузка...</div>;
-  if (error) return <div>Ошибка: {error}</div>;
+  const handleShowAllPopular = useCallback(() => {
+    setSelectedCollection('popular');
+  }, []);
+
+  const handleShowAllExact = useCallback(() => {
+    setSelectedCollection('exact');
+  }, []);
+
+  const handleShowAllNew = useCallback(() => {
+    setSelectedCollection('new');
+  }, []);
+
+  const handleBackToCatalog = useCallback(() => {
+    setSelectedCollection('all');
+  }, []);
+
+  const resetFilters = useCallback(() => {
+    setSearchQuery('');
+    setFilters(createInitialFilters());
+    setSelectedCollection('all');
+    setSortOrder('newest');
+  }, [setSearchQuery]);
+
+  const collectionTitle =
+    isAuthenticated && selectedCollection === 'new'
+      ? 'Новые идеи'
+      : getCollectionTitle(selectedCollection);
+
+  const homeSections = useMemo<HomeSection[]>(() => {
+    const primarySectionTitle = isAuthenticated ? 'Точное совпадение' : 'Популярное';
+    const secondarySectionTitle = isAuthenticated ? 'Новые идеи' : 'Новое';
+    const primarySectionCards = isAuthenticated ? exactMatchUsersPreview : popularUsersPreview;
+    const primarySectionAction = isAuthenticated ? handleShowAllExact : handleShowAllPopular;
+
+    return [
+      {
+        title: primarySectionTitle,
+        buttonText: 'Смотреть все',
+        cards: primarySectionCards,
+        onActionClick: primarySectionAction,
+      },
+      {
+        title: secondarySectionTitle,
+        buttonText: 'Смотреть все',
+        cards: newUsersPreview,
+        onActionClick: handleShowAllNew,
+      },
+      {
+        title: 'Рекомендуем',
+        cards: recommendedCards,
+      },
+    ];
+  }, [
+    exactMatchUsersPreview,
+    handleShowAllExact,
+    handleShowAllNew,
+    handleShowAllPopular,
+    isAuthenticated,
+    newUsersPreview,
+    popularUsersPreview,
+    recommendedCards,
+  ]);
+
+  if (loading) {
+    return <div>Загрузка...</div>;
+  }
+
+  if (error) {
+    return <div>Ошибка: {error}</div>;
+  }
 
   return (
-    <div style={{ display: 'flex', gap: '20px' }}>
-      <FilterSidebar
-        filters={filters}
-        onChange={(newFilters) => setFilters((prev) => ({ ...prev, ...newFilters }))}
-        cities={cities.map((city) => city.name)}
-        categories={skills}
-      />
+    <div className={styles.content}>
+      <aside>
+        <FilterSidebar
+          filters={filters}
+          activeFiltersCount={activeFiltersCount}
+          canReset={hasActiveFilters}
+          onReset={resetFilters}
+          onChange={handleFiltersChange}
+          categories={skills}
+          cities={cityOptions}
+        />
+      </aside>
 
-      <div>
-        {filteredUsers.map((user) => {
-          const cityName =
-            cities.find((city) => city.id === user.cityId)?.name ?? 'Неизвестный город';
+      <section className={styles.main}>
+        {hasActiveFilters ? (
+          <>
+            {(hasSearchQuery || activeFilterChips.length > 0) && (
+              <div className={styles.selectedFilters}>
+                {hasSearchQuery && (
+                  <Button
+                    variant="tertiary"
+                    className={styles.filterChip}
+                    onClick={clearSearchQuery}
+                  >
+                    {searchQuery}
+                    <CrossIcon className={styles.filterChipClose} aria-hidden="true" />
+                  </Button>
+                )}
 
-          return (
-            <div key={user.id}>
-              {user.name} — {cityName}
+                {activeFilterChips.map((chip) => (
+                  <Button
+                    key={chip.key}
+                    variant="tertiary"
+                    className={styles.filterChip}
+                    onClick={() => removeFilterChip(chip)}
+                  >
+                    {chip.label}
+                    <CrossIcon className={styles.filterChipClose} aria-hidden="true" />
+                  </Button>
+                ))}
+              </div>
+            )}
+
+            <div className={styles.resultsHeader}>
+              <h1 className={styles.resultsTitle}>
+                {collectionTitle}: {collectionCards.length}
+              </h1>
+
+              {(selectedCollection === 'exact' ||
+                selectedCollection === 'popular' ||
+                selectedCollection === 'new') && (
+                <Button
+                  variant="tertiary"
+                  className={styles.backButton}
+                  onClick={handleBackToCatalog}
+                >
+                  <ChevronLeftIcon className={styles.icon} />
+                  Вернуться назад
+                </Button>
+              )}
+
+              {selectedCollection === 'all' && (
+                <Button
+                  variant="tertiary"
+                  className={styles.sortButton}
+                  onClick={handleToggleSortOrder}
+                >
+                  <SortIcon className={styles.icon} />
+                  {sortOrder === 'newest' ? 'Сначала новые' : 'Сначала старые'}
+                </Button>
+              )}
             </div>
-          );
-        })}
-      </div>
+
+            <CardSection cards={collectionCards} isLogin={isAuthenticated} />
+          </>
+        ) : (
+          <>
+            {homeSections.map((section) => (
+              <CardSection
+                key={section.title}
+                title={section.title}
+                buttonText={section.buttonText}
+                cards={section.cards}
+                onActionClick={section.onActionClick}
+                isLogin={isAuthenticated}
+              />
+            ))}
+          </>
+        )}
+      </section>
     </div>
   );
 };

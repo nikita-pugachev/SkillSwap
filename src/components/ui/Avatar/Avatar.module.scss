@@ -1,14 +1,21 @@
 .avatar {
-  border-radius: 50%;
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  border-radius: var(--boreder-circle);
   object-fit: cover;
   overflow: hidden;
+  flex-shrink: 0;
 }
 
 .fallback {
   display: flex;
   justify-content: center;
   align-items: center;
-  color: white;
+  border-radius: var(--boreder-circle);
+  flex-shrink: 0;
+  color: var(--color-surface);
   font-family: var(--font-family-base);
   font-weight: 600;
   font-size: var(--font-size-body);
