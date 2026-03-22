@@ -6,8 +6,8 @@ import { Button } from '@/components/ui/ButtonUI';
 import { Avatar } from '@/components/ui/Avatar';
 import { IconButton } from '@/components/ui/IconButton';
 
-import LikeOutline from '@/assets/icons/like-outline.svg';
-import LikeFilled from '@/assets/icons/like-filled.svg';
+import LikeOutline from '@/assets/icons/like-outline.svg?react';
+import LikeFilled from '@/assets/icons/like-filled.svg?react';
 
 import type { UserSkillTag } from '@/utils/types';
 import styles from './UserCard.module.scss';
@@ -111,7 +111,7 @@ export const UserCard: React.FC<UserCardProps> = ({
         <div className={styles.favoriteWrapper}>
           <span className={styles.likesCount}>{likes}</span>
           <IconButton
-            iconSrc={isFavorite ? LikeFilled : LikeOutline}
+            icon={isFavorite ? LikeFilled : LikeOutline}
             ariaLabel={isFavorite ? 'Удалить из избранного' : 'Добавить в избранное'}
             onClick={handleFavoriteClick}
             className={styles.favoriteButton}

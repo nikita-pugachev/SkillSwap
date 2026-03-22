@@ -8,8 +8,8 @@ import { IconButton } from '@/components/ui/IconButton';
 import { InputBaseContainerUI } from '@/components/ui/InputBaseContainerUI';
 import { InputUI } from '@/components/ui/InputUI';
 
-import eyeIcon from '@/assets/icons/eye.svg';
-import eyeSlashIcon from '@/assets/icons/eye-slash.svg';
+import eyeIcon from '@/assets/icons/eye.svg?react';
+import eyeSlashIcon from '@/assets/icons/eye-slash.svg?react';
 import appleIcon from '@/assets/icons/logo/apple.svg';
 import googleIcon from '@/assets/icons/logo/google.svg';
 import lightBulb from '@/assets/illustrations/light-bulb.svg';
@@ -119,7 +119,7 @@ export default function RegisterPage() {
                       />
 
                       <IconButton
-                        iconSrc={showPassword ? eyeSlashIcon : eyeIcon}
+                        icon={showPassword ? eyeSlashIcon : eyeIcon}
                         ariaLabel={showPassword ? 'Скрыть пароль' : 'Показать пароль'}
                         onClick={togglePassword}
                       />

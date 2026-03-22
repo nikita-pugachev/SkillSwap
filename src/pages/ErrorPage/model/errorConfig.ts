@@ -1,5 +1,5 @@
-import NotFoundErrorImg from '../../../assets/illustrations/error-404.svg?react';
-import ServerErrorImg from '../../../assets/illustrations/error-500.svg?react';
+import NotFoundErrorImg from '@/assets/illustrations/error-404.svg?react';
+import ServerErrorImg from '@/assets/illustrations/error-500.svg?react';
 
 export const errorConfig = {
   notFoundError: {

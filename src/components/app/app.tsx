@@ -24,6 +24,7 @@ export default function Root() {
               <Route path="/" element={<CatalogPage />} />
               <Route path="/skill/:id" element={<SkillPage />} />
               <Route path="/error/:type" element={<ErrorPage />} />
+              <Route path="*" element={<ErrorPage defaultType="notFoundError" />} />
 
               <Route element={<ProtectedRoute />}>
                 <Route path="/profile" element={<ProfilePage />} />

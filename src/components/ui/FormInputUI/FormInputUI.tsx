@@ -2,8 +2,8 @@ import React from 'react';
 import styles from './FormInputUI.module.scss';
 import { InputUI } from '../InputUI/InputUI';
 import { IconButton } from '../IconButton';
-import eyeIcon from '@/assets/icons/eye.svg';
-import eyeSlashIcon from '@/assets/icons/eye-slash.svg';
+import eyeIcon from '@/assets/icons/eye.svg?react';
+import eyeSlashIcon from '@/assets/icons/eye-slash.svg?react';
 
 export interface FormInputUIProps {
   type: string;
@@ -26,7 +26,7 @@ export const FormInputUI: React.FC<FormInputUIProps> = ({
   isVisible = false,
   isPassword = false,
 }) => {
-  const iconSrc = isVisible ? eyeSlashIcon : eyeIcon;
+  const icon = isVisible ? eyeSlashIcon : eyeIcon;
 
   return (
     <div className={styles.formInput}>
@@ -43,7 +43,7 @@ export const FormInputUI: React.FC<FormInputUIProps> = ({
         <IconButton
           onClick={onShow}
           type="button"
-          iconSrc={iconSrc}
+          icon={icon}
           ariaLabel="Показать или скрыть значение"
         />
       )}

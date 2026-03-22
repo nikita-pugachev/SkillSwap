@@ -74,6 +74,12 @@ p:where(:not([class], :last-child)) {
   margin-bottom: var(--paragraph-margin-bottom);
 }
 
+img,
+video {
+  display: block;
+  max-width: 100%;
+}
+
 /**
   Наследуем свойства шрифт для полей ввода
  */

@@ -11,10 +11,10 @@ import { Logo } from '@/components/ui/Logo/Logo';
 import styles from './Header.module.scss';
 
 import CrossIcon from '@/assets/icons/cross.svg?react';
-import LikeOutlineIcon from '@/assets/icons/like-outline.svg';
-import MoonIcon from '@/assets/icons/moon.svg';
-import NotificationIcon from '@/assets/icons/notification.svg';
-import SunIcon from '@/assets/icons/sun.svg';
+import LikeOutlineIcon from '@/assets/icons/like-outline.svg?react';
+import MoonIcon from '@/assets/icons/moon.svg?react';
+import NotificationIcon from '@/assets/icons/notification.svg?react';
+import SunIcon from '@/assets/icons/sun.svg?react';
 
 export interface HeaderProps {
   isAuthPage?: boolean;
@@ -85,20 +85,16 @@ export const Header: FC<HeaderProps> = ({
       <div className={styles.right}>
         <div className={styles.iconContainer}>
           <IconButton
-            iconSrc={isDarkTheme ? SunIcon : MoonIcon}
+            icon={isDarkTheme ? SunIcon : MoonIcon}
             ariaLabel="Смена темы"
             onClick={handleThemeToggle}
           />
 
           {isAuthenticated && (
             <>
+              <IconButton icon={NotificationIcon} ariaLabel="Уведомления" className={styles.icon} />
               <IconButton
-                iconSrc={NotificationIcon}
-                ariaLabel="Уведомления"
-                className={styles.icon}
-              />
-              <IconButton
-                iconSrc={LikeOutlineIcon}
+                icon={LikeOutlineIcon}
                 ariaLabel="Избранное"
                 className={styles.icon}
                 onClick={handleFavorites}
