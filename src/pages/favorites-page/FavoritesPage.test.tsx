@@ -91,6 +91,44 @@ describe('FavoritesPage', () => {
   });
 
   describe('Рендеринг', () => {
+    it('должен показывать спиннер во время загрузки', async () => {
+      (fetch as jest.Mock)
+        .mockImplementationOnce(
+          () =>
+            new Promise((resolve) =>
+              setTimeout(() => resolve({ ok: true, json: async () => mockCities }), 100)
+            )
+        )
+        .mockImplementationOnce(
+          () =>
+            new Promise((resolve) =>
+              setTimeout(() => resolve({ ok: true, json: async () => mockSkills }), 100)
+            )
+        )
+        .mockImplementationOnce(
+          () =>
+            new Promise((resolve) =>
+              setTimeout(() => resolve({ ok: true, json: async () => mockUsers }), 100)
+            )
+        );
+
+      const store = createMockStore([1]);
+
+      render(
+        <Provider store={store}>
+          <BrowserRouter>
+            <FavoritesPage />
+          </BrowserRouter>
+        </Provider>
+      );
+
+      expect(screen.getByText('Загрузка избранных пользователей...')).toBeInTheDocument();
+
+      await waitFor(() => {
+        expect(screen.queryByText('Загрузка избранных пользователей...')).not.toBeInTheDocument();
+      });
+    });
+
     it('должен показывать текст "У вас пока нет избранных пользователей", когда список пуст', async () => {
       (fetch as jest.Mock)
         .mockResolvedValueOnce({ ok: true, json: async () => mockCities })
@@ -106,6 +144,10 @@ describe('FavoritesPage', () => {
           </BrowserRouter>
         </Provider>
       );
+
+      await waitFor(() => {
+        expect(screen.queryByText('Загрузка избранных пользователей...')).not.toBeInTheDocument();
+      });
 
       await waitFor(() => {
         expect(screen.getByText('У вас пока нет избранных пользователей')).toBeInTheDocument();
@@ -127,6 +169,10 @@ describe('FavoritesPage', () => {
           </BrowserRouter>
         </Provider>
       );
+
+      await waitFor(() => {
+        expect(screen.queryByText('Загрузка избранных пользователей...')).not.toBeInTheDocument();
+      });
 
       await waitFor(() => {
         expect(screen.getByText('Иван')).toBeInTheDocument();
@@ -151,6 +197,10 @@ describe('FavoritesPage', () => {
       );
 
       await waitFor(() => {
+        expect(screen.queryByText('Загрузка избранных пользователей...')).not.toBeInTheDocument();
+      });
+
+      await waitFor(() => {
         expect(screen.getByText('Иван')).toBeInTheDocument();
         expect(screen.getByText('Анна')).toBeInTheDocument();
       });
@@ -162,7 +212,7 @@ describe('FavoritesPage', () => {
       (fetch as jest.Mock)
         .mockResolvedValueOnce({ ok: true, json: async () => mockCities })
         .mockResolvedValueOnce({ ok: true, json: async () => mockSkills })
-        .mockResolvedValueOnce({ ok: false, status: 500 });
+        .mockResolvedValueOnce({ ok: false, status: 500, statusText: 'Internal Server Error' });
 
       const store = createMockStore([1]);
 
@@ -175,13 +225,17 @@ describe('FavoritesPage', () => {
       );
 
       await waitFor(() => {
+        expect(screen.queryByText('Загрузка избранных пользователей...')).not.toBeInTheDocument();
+      });
+
+      await waitFor(() => {
         expect(screen.getByText(/Ошибка загрузки пользователей/i)).toBeInTheDocument();
       });
     });
 
     it('должен показывать ошибку при неудачной загрузке городов (но не падать)', async () => {
       (fetch as jest.Mock)
-        .mockResolvedValueOnce({ ok: false, status: 500 })
+        .mockResolvedValueOnce({ ok: false, status: 500, statusText: 'Internal Server Error' })
         .mockResolvedValueOnce({ ok: true, json: async () => mockSkills })
         .mockResolvedValueOnce({ ok: true, json: async () => mockUsers });
 
@@ -196,13 +250,42 @@ describe('FavoritesPage', () => {
       );
 
       await waitFor(() => {
-        expect(screen.getByText('Иван')).toBeInTheDocument();
-
-        const locationElement = screen.getByText((content, element) => {
-          return element?.className === 'location' && content.includes('Город не указан');
-        });
-        expect(locationElement).toBeInTheDocument();
+        expect(screen.queryByText('Загрузка избранных пользователей...')).not.toBeInTheDocument();
       });
+
+      await waitFor(() => {
+        expect(screen.getByText('Иван')).toBeInTheDocument();
+      });
+
+      expect(screen.getByText(/Город не указан/i)).toBeInTheDocument();
+    });
+
+    it('должен показывать фолбек-названия навыков при неудачной загрузке навыков', async () => {
+      (fetch as jest.Mock)
+        .mockResolvedValueOnce({ ok: true, json: async () => mockCities })
+        .mockResolvedValueOnce({ ok: false, status: 500, statusText: 'Internal Server Error' })
+        .mockResolvedValueOnce({ ok: true, json: async () => mockUsers });
+
+      const store = createMockStore([1]);
+
+      render(
+        <Provider store={store}>
+          <BrowserRouter>
+            <FavoritesPage />
+          </BrowserRouter>
+        </Provider>
+      );
+
+      await waitFor(() => {
+        expect(screen.queryByText('Загрузка избранных пользователей...')).not.toBeInTheDocument();
+      });
+
+      await waitFor(() => {
+        expect(screen.getByText('Иван')).toBeInTheDocument();
+      });
+
+      expect(screen.getByText('Навык 106')).toBeInTheDocument();
+      expect(screen.getByText('Навык 201')).toBeInTheDocument();
     });
   });
 
@@ -224,11 +307,13 @@ describe('FavoritesPage', () => {
       );
 
       await waitFor(() => {
-        const locationElement = screen.getByText((content, element) => {
-          return element?.className === 'location' && content.includes('Москва');
-        });
-        expect(locationElement).toBeInTheDocument();
+        expect(screen.queryByText('Загрузка избранных пользователей...')).not.toBeInTheDocument();
       });
+
+      const locationElement = screen.getByText((content, element) => {
+        return element?.className === 'location' && content.includes('Москва');
+      });
+      expect(locationElement).toBeInTheDocument();
     });
   });
 });

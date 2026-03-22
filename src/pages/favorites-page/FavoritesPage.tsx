@@ -13,15 +13,21 @@ export const FavoritesPage: React.FC = () => {
   const [skills, setSkills] = useState<SkillCategory[]>([]);
   const [users, setUsers] = useState<UserFromDb[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchCities = async () => {
       try {
         const response = await fetch('/db/cities.json');
+
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+
         const data = await response.json();
         setCities(data);
       } catch (err) {
-        console.error('Ошибка загрузки городов:', err);
+        setError(err instanceof Error ? err.message : 'Ошибка загрузки городов');
       }
     };
     fetchCities();
@@ -31,10 +37,15 @@ export const FavoritesPage: React.FC = () => {
     const fetchSkills = async () => {
       try {
         const response = await fetch('/db/skills.json');
+
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+
         const data = await response.json();
         setSkills(data);
       } catch (err) {
-        console.error('Ошибка загрузки навыков:', err);
+        setError(err instanceof Error ? err.message : 'Ошибка загрузки навыков');
       }
     };
     fetchSkills();
@@ -42,8 +53,11 @@ export const FavoritesPage: React.FC = () => {
 
   useEffect(() => {
     const fetchUsers = async () => {
+      setIsLoading(true);
+
       try {
         const response = await fetch('/db/users.json');
+
         if (!response.ok) {
           throw new Error('Ошибка загрузки пользователей');
         }
@@ -57,6 +71,8 @@ export const FavoritesPage: React.FC = () => {
         setError(null);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Ошибка загрузки пользователей');
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -96,13 +112,24 @@ export const FavoritesPage: React.FC = () => {
   };
 
   const handleDetailsClick = (userId: string | number) => {
-    navigate(`/skill/${userId}`);
+    navigate(`/profile/${userId}`);
   };
 
   if (error) {
     return (
       <div className={styles.container}>
         <div className={styles.error}>Ошибка: {error}</div>
+      </div>
+    );
+  }
+
+  if (isLoading) {
+    return (
+      <div className={styles.container}>
+        <div className={styles.loading}>
+          <div className={styles.spinner} />
+          <p>Загрузка избранных пользователей...</p>
+        </div>
       </div>
     );
   }
