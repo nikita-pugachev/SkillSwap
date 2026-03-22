@@ -1,31 +1,10 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { FilterSidebar } from '@/components/FilterSidebar';
 import type { SkillCategoryData } from '@/components/FilterSidebar';
-import { getSkills } from '@/utils/api';
-
-type User = {
-  id: number;
-  name: string;
-  cityId: number;
-  gender: 'male' | 'female';
-  skillsTeach: {
-    id: number;
-    subcategoryId: number;
-  }[];
-  skillsLearn: number[];
-};
-
-type City = {
-  id: number;
-  name: string;
-};
-
-type Filters = {
-  mode: 'all' | 'wantToLearn' | 'canTeach';
-  skills: number[];
-  gender: 'Мужской' | 'Женский' | null;
-  city: string[];
-};
+import { UserCard } from '@/components/user-card';
+import { useLoadCatalogData } from '@/services/hooks/useLoadCatalogData';
+import { useAppSelector } from '@/services/hooks';
+import type { Filters, UserFromDb } from '@/utils/types';
 
 export const CatalogPage = () => {
   const [filters, setFilters] = useState<Filters>({
@@ -35,74 +14,22 @@ export const CatalogPage = () => {
     city: [],
   });
 
-  const [skills, setSkills] = useState<SkillCategoryData[]>([]);
-  const [cities, setCities] = useState<City[]>([]);
-  const [users, setUsers] = useState<User[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    getSkills()
-      .then((data: SkillCategoryData[]) => {
-        setSkills(data);
-      })
-      .catch((err: Error) => {
-        console.error('Ошибка загрузки категорий:', err);
-        setError(err.message);
-      });
-  }, []);
-
-  useEffect(() => {
-    fetch('/db/cities.json')
-      .then((res) => {
-        if (!res.ok) throw new Error('Ошибка загрузки городов');
-        return res.json();
-      })
-      .then((data: City[]) => {
-        setCities(data);
-      })
-      .catch((err: Error) => {
-        console.error('Ошибка загрузки городов:', err);
-        setError(err.message);
-      });
-  }, []);
-
-  useEffect(() => {
-    fetch('/db/users.json')
-      .then((res) => {
-        if (!res.ok) throw new Error('Ошибка загрузки пользователей');
-        return res.json();
-      })
-      .then((data: { users: User[] }) => {
-        setUsers(data.users);
-        setLoading(false);
-      })
-      .catch((err: Error) => {
-        console.error('Ошибка загрузки пользователей:', err);
-        setError(err.message);
-        setLoading(false);
-      });
-  }, []);
+  const { users, skills, cities, loading, error } = useAppSelector((state) => state.catalog);
+  useLoadCatalogData();
 
   const filteredUsers = useMemo(() => {
-    return users.filter((user) => {
+    return (users as UserFromDb[]).filter((user) => {
       if (filters.gender) {
         const genderMap = {
           Мужской: 'male',
           Женский: 'female',
         } as const;
-
-        if (user.gender !== genderMap[filters.gender]) {
-          return false;
-        }
+        if (user.gender !== genderMap[filters.gender]) return false;
       }
 
       if (filters.city.length > 0) {
         const userCityName = cities.find((city) => city.id === user.cityId)?.name;
-
-        if (!userCityName || !filters.city.includes(userCityName)) {
-          return false;
-        }
+        if (!userCityName || !filters.city.includes(userCityName)) return false;
       }
 
       if (filters.mode === 'wantToLearn') {
@@ -132,18 +59,27 @@ export const CatalogPage = () => {
         filters={filters}
         onChange={(newFilters) => setFilters((prev) => ({ ...prev, ...newFilters }))}
         cities={cities.map((city) => city.name)}
-        categories={skills}
+        categories={skills as SkillCategoryData[]}
       />
-
       <div>
         {filteredUsers.map((user) => {
           const cityName =
             cities.find((city) => city.id === user.cityId)?.name ?? 'Неизвестный город';
-
           return (
-            <div key={user.id}>
-              {user.name} — {cityName}
-            </div>
+            <UserCard
+              key={user.id}
+              id={user.id}
+              name={user.name}
+              avatar={user.userAvatar}
+              city={cityName}
+              birthday={user.birthday}
+              skillsTeach={user.skillsTeach.map((skill) => ({
+                name: skill.customTitle,
+                category: 'other',
+              }))}
+              skillsLearn={[]} // пока пустой массив, можно доработать
+              onDetailsClick={(id) => console.log('details', id)}
+            />
           );
         })}
       </div>
