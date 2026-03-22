@@ -80,6 +80,14 @@ describe('Header component', () => {
     expect(screen.getByAltText(mockUser.name)).toBeInTheDocument();
   });
 
+  test('renders profile button instead of auth buttons while user data is loading', () => {
+    renderHeader({ isAuthenticated: true });
+
+    expect(screen.getByRole('button', { name: 'Профиль' })).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Войти' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Зарегистрироваться' })).not.toBeInTheDocument();
+  });
+
   test.each(['/login', '/register'])('renders close button on auth route %s', (route) => {
     renderHeader({ isAuthenticated: false, isAuthPage: true }, route);
     expect(screen.getByRole('button', { name: /закрыть/i })).toBeInTheDocument();

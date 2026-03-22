@@ -107,10 +107,10 @@ export const Header: FC<HeaderProps> = ({
           )}
         </div>
 
-        {isAuthenticated && user ? (
+        {isAuthenticated ? (
           <button type="button" onClick={handleProfile} className={styles.profileContainer}>
-            <span className={styles.link}>{user.name}</span>
-            <Avatar src={user.avatar} name={user.name} size="sm" />
+            <span className={styles.link}>{user?.name ?? 'Профиль'}</span>
+            {user && <Avatar src={user.avatar} name={user.name} size="sm" />}
           </button>
         ) : (
           <div className={styles.buttonContainer}>

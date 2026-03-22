@@ -7,6 +7,7 @@ import SortIcon from '@/assets/icons/sort.svg?react';
 import { FilterSidebar } from '@/components/FilterSidebar';
 import { Button } from '@/components/ui';
 import { CardSection } from '@/components/ui/CardSection';
+import { getAuthenticatedUserId } from '@/utils/auth';
 import { getCities, getSkills, getUsers } from '@/utils/api';
 import type { City, Filters, SkillCategory, UserCardModel, UserDb } from '@/utils/types';
 
@@ -46,19 +47,7 @@ type HomeSection = {
   onActionClick?: () => void;
 };
 
-const AUTH_USER_ID_STORAGE_KEY = 'userId';
 const CATALOG_FILTERS_STORAGE_KEY = 'catalogFilters';
-const FALLBACK_AUTH_USER_ID = 1;
-
-const getAuthenticatedUserId = () => {
-  if (!localStorage.getItem('token')) {
-    return null;
-  }
-
-  const storedUserId = Number(localStorage.getItem(AUTH_USER_ID_STORAGE_KEY));
-
-  return Number.isInteger(storedUserId) && storedUserId > 0 ? storedUserId : FALLBACK_AUTH_USER_ID;
-};
 
 const getPersistedFilters = (): Filters => {
   const storedFilters = localStorage.getItem(CATALOG_FILTERS_STORAGE_KEY);
