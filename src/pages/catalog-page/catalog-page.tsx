@@ -127,15 +127,6 @@ export const CatalogPage = () => {
     });
   }, [users, filters, cities]);
 
-  const handleResetFilters = () => {
-    setFilters({
-      mode: 'all',
-      skills: [],
-      gender: null,
-      city: [],
-    });
-  };
-
   // Показываем состояние загрузки
   if (loading) return <CatalogLoading />;
 
@@ -152,7 +143,7 @@ export const CatalogPage = () => {
         categories={skills}
       />
       {filteredUsers.length === 0 ? (
-        <CatalogEmpty onResetFilters={handleResetFilters} />
+        <CatalogEmpty />
       ) : (
         <div>
           {filteredUsers.map((user) => {

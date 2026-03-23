@@ -8,6 +8,9 @@
 }
 
 .emptyMessage {
-  color: var(--color-text-secondary);
-  margin-bottom: 16px;
+  font-family: var(--font-family-heading);
+  font-size: var(--font-size-h1);
+  line-height: var(--line-height-h1);
+  color: var(--color-text-primary);
+  margin: 0;
 }

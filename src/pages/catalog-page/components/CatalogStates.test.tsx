@@ -18,11 +18,8 @@ describe('Catalog states', () => {
     expect(onRetry).toHaveBeenCalledTimes(1);
   });
 
-  it('CatalogEmpty displays empty message and calls onResetFilters', () => {
-    const onReset = jest.fn();
-    render(<CatalogEmpty onResetFilters={onReset} />);
-    expect(screen.getByText('Ничего не найдено')).toBeInTheDocument();
-    fireEvent.click(screen.getByRole('button', { name: /сбросить фильтры/i }));
-    expect(onReset).toHaveBeenCalledTimes(1);
+  it('CatalogEmpty displays empty message', () => {
+    render(<CatalogEmpty />);
+    expect(screen.getByText('По вашему запросу ничего не найдено')).toBeInTheDocument();
   });
 });

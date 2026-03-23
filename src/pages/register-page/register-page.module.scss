@@ -34,13 +34,13 @@
 }
 
 .formSectionStepOne {
-  padding: 121px 60px;
   gap: 24px;
+  padding: 121px 60px;
 }
 
 .formSectionStepTwo {
-  padding: 40px 60px;
   gap: 16px;
+  padding: 40px 60px;
 }
 
 .avatarBlock {
@@ -49,10 +49,9 @@
 }
 
 .avatarButton {
-  padding: 0;
   border: none;
+  padding: 0;
   background: transparent;
-  cursor: pointer;
 }
 
 .avatarAddIcon {
@@ -72,30 +71,29 @@
 
 .selectField {
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
   width: 100%;
-  padding: 0;
   border: none;
+  padding: 0;
+  color: inherit;
+  font: inherit;
   background: transparent;
   appearance: none;
-  cursor: pointer;
-  font: inherit;
-  color: inherit;
 }
 
 .selectText {
+  color: var(--color-text-secondary);
   font-family: var(--font-family-base);
   font-weight: var(--font-weight-regular);
   font-size: var(--font-size-body);
   line-height: var(--line-height-body);
   letter-spacing: 0.02em;
-  color: var(--color-text-secondary);
 }
 
 .formSectionStepThree {
-  padding: 50px 60px;
   gap: 32px;
+  padding: 50px 60px;
 }
 
 .textareaBlock {
@@ -106,32 +104,32 @@
 }
 
 .textareaLabel {
+  color: var(--color-text-primary);
   font-family: var(--font-family-base);
   font-size: var(--font-size-body);
   line-height: var(--line-height-body);
-  color: var(--color-text-primary);
 }
 
 .textarea {
+  box-sizing: border-box;
   width: 100%;
   min-height: 96px;
-  padding: 12px;
-  box-sizing: border-box;
-  resize: none;
   border: 1px solid var(--color-input-border);
   border-radius: var(--radius-primary);
-  background-color: var(--color-surface);
+  padding: 12px;
+  outline: none;
+  color: var(--color-text-primary);
   font-family: var(--font-family-base);
   font-weight: var(--font-weight-regular);
   font-size: var(--font-size-body);
   line-height: var(--line-height-body);
   letter-spacing: 0.02em;
-  color: var(--color-text-primary);
-  outline: none;
+  background-color: var(--color-surface);
   transition:
     border-color 0.15s ease,
     box-shadow 0.15s ease,
     background-color 0.15s ease;
+  resize: none;
 }
 
 .textarea:hover {
@@ -147,39 +145,38 @@
 }
 
 .uploadBlock {
-  box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  gap: 4px;
+  box-sizing: border-box;
   width: 100%;
   min-height: 96px;
-  padding: 20px;
-  gap: 4px;
   border: 1px dashed var(--color-input-border);
   border-radius: var(--radius-primary);
+  padding: 20px;
   opacity: 0.8;
 }
 
 .uploadText {
   margin: 0;
   color: var(--color-text-secondary);
-  text-align: center;
   font-family: var(--font-family-base);
   font-weight: var(--font-weight-regular);
   font-size: var(--font-size-body);
   line-height: var(--line-height-body);
   letter-spacing: 0.02em;
+  text-align: center;
 }
 
 .uploadButton {
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   gap: 4px;
   border: none;
   background: transparent;
-  cursor: pointer;
 }
 
 .uploadButtonText {
