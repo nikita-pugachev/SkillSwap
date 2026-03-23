@@ -51,6 +51,7 @@ export interface Subcategory {
 export interface SkillCategory {
   id: number;
   title: string;
+  slug: string;
   icon: string;
   subcategories: Subcategory[];
 }
