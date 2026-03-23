@@ -71,6 +71,7 @@ export const DateInputUI = ({
   cancelSelection,
   applyDate,
 }: DateInputUIProps) => {
+  const errorId = `${id}-error`;
   const [activeSelect, setActiveSelect] = React.useState<'month' | 'year' | null>(null);
   return (
     <div ref={wrapperRef} className={styles.dateInputContainer}>
@@ -107,7 +108,7 @@ export const DateInputUI = ({
       </div>
 
       {error ? (
-        <div id="birth-date-error" className={styles.errorInput}>
+        <div id={errorId} className={styles.errorInput}>
           {error}
         </div>
       ) : null}

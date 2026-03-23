@@ -105,3 +105,20 @@ export type DateValidationOptions = {
   minDate: Date;
   maxDate: Date;
 };
+
+export type TCategoryWithSubcategories = {
+  id: number;
+  title: string;
+  icon: string;
+  subcategories: {
+    id: number;
+    title: string;
+  }[];
+};
+
+export type TSubcategoryOption = {
+  id: number;
+  title: string;
+  categoryId: number;
+  categoryTitle: string;
+};
