@@ -14,6 +14,9 @@ export type TSelectInputProps = {
   onChange?: (option: TSelectOption | null) => void;
   disabled?: boolean;
   noOptionsText?: string;
+
+  isOpen?: boolean;
+  onToggle?: (next: boolean) => void;
 };
 
 const getFilteredOptions = (options: TSelectOption[], value: string) => {
@@ -37,6 +40,8 @@ export const SelectInput: React.FC<TSelectInputProps> = ({
   onChange,
   disabled = false,
   noOptionsText = 'Ничего не найдено',
+  isOpen: externalIsOpen,
+  onToggle,
 }) => {
   const rootRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -47,10 +52,24 @@ export const SelectInput: React.FC<TSelectInputProps> = ({
     [options, defaultValue]
   );
 
-  const [isOpen, setIsOpen] = useState(false);
+  const [internalIsOpen, setInternalIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState<TSelectOption | null>(initialSelectedOption);
   const [inputValue, setInputValue] = useState(initialSelectedOption?.name ?? '');
   const [activeOptionIndex, setActiveOptionIndex] = useState<number>(-1);
+
+  const isControlled = externalIsOpen !== undefined;
+  const isOpen = isControlled ? externalIsOpen : internalIsOpen;
+
+  const setOpen = useCallback(
+    (next: boolean) => {
+      if (!isControlled) {
+        setInternalIsOpen(next);
+      }
+
+      onToggle?.(next);
+    },
+    [isControlled, onToggle]
+  );
 
   useEffect(() => {
     selectedOptionRef.current = selectedOption;
@@ -90,31 +109,31 @@ export const SelectInput: React.FC<TSelectInputProps> = ({
     []
   );
 
-  const openDropdown = useCallback(() => {
-    if (disabled) return;
-
-    setIsOpen(true);
-    setActiveOptionIndex(getInitialActiveIndex(filteredOptions, selectedOptionRef.current));
-  }, [disabled, filteredOptions, getInitialActiveIndex]);
-
-  const closeDropdown = useCallback(() => {
-    setIsOpen(false);
-    setActiveOptionIndex(-1);
-  }, []);
-
   const restoreSelectedValue = useCallback((option?: TSelectOption | null) => {
     setInputValue(option?.name ?? '');
   }, []);
+
+  const openDropdown = useCallback(() => {
+    if (disabled) return;
+
+    setOpen(true);
+    setActiveOptionIndex(getInitialActiveIndex(filteredOptions, selectedOptionRef.current));
+  }, [disabled, filteredOptions, getInitialActiveIndex, setOpen]);
+
+  const closeDropdown = useCallback(() => {
+    setOpen(false);
+    setActiveOptionIndex(-1);
+  }, [setOpen]);
 
   const handleSelectOption = useCallback(
     (option: TSelectOption) => {
       setSelectedOption(option);
       setInputValue(option.name);
-      setIsOpen(false);
+      setOpen(false);
       setActiveOptionIndex(-1);
       onChange?.(option);
     },
-    [onChange]
+    [onChange, setOpen]
   );
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -122,7 +141,7 @@ export const SelectInput: React.FC<TSelectInputProps> = ({
     const nextFilteredOptions = getFilteredOptions(options, nextValue);
 
     if (!isOpen) {
-      setIsOpen(true);
+      setOpen(true);
     }
 
     setInputValue(nextValue);
@@ -133,7 +152,7 @@ export const SelectInput: React.FC<TSelectInputProps> = ({
   const handleClear = () => {
     setSelectedOption(null);
     setInputValue('');
-    setIsOpen(false);
+    setOpen(false);
     setActiveOptionIndex(-1);
     onChange?.(null);
 
@@ -258,6 +277,23 @@ export const SelectInput: React.FC<TSelectInputProps> = ({
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [isOpen, closeDropdown, restoreSelectedValue]);
+
+  const prevIsOpenRef = useRef(isOpen);
+
+  useEffect(() => {
+    const wasOpen = prevIsOpenRef.current;
+
+    if (!wasOpen && isOpen) {
+      setActiveOptionIndex(getInitialActiveIndex(filteredOptions, selectedOptionRef.current));
+    }
+
+    if (wasOpen && !isOpen) {
+      setActiveOptionIndex(-1);
+      restoreSelectedValue(selectedOptionRef.current);
+    }
+
+    prevIsOpenRef.current = isOpen;
+  }, [isOpen, filteredOptions, getInitialActiveIndex, restoreSelectedValue]);
 
   const shouldShowClear = (isOpen && inputValue.length > 0) || (!isOpen && !!selectedOption);
   const actionAriaLabel = shouldShowClear

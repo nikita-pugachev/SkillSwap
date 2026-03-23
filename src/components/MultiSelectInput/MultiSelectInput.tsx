@@ -14,6 +14,8 @@ export type TMultiSelectInputProps = {
   onChange?: (options: TSubcategoryOption[]) => void;
   disabled?: boolean;
   noOptionsText?: string;
+  isOpen: boolean;
+  onToggle: () => void;
 };
 
 const EMPTY_DEFAULT_VALUE: TSubcategoryOption[] = [];
@@ -43,11 +45,12 @@ export const MultiSelectInput: React.FC<TMultiSelectInputProps> = ({
   onChange,
   disabled = false,
   noOptionsText = 'Ничего не найдено',
+  isOpen,
+  onToggle,
 }) => {
   const rootRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const [isOpen, setIsOpen] = useState(false);
   const [searchValue, setSearchValue] = useState('');
   const [selectedOptions, setSelectedOptions] = useState<TSubcategoryOption[]>(
     defaultValue ?? EMPTY_DEFAULT_VALUE
@@ -73,17 +76,19 @@ export const MultiSelectInput: React.FC<TMultiSelectInputProps> = ({
   }, [isOpen, searchValue, selectedOptions]);
 
   const openDropdown = useCallback(() => {
-    if (disabled) return;
+    if (disabled || isOpen) return;
 
-    setIsOpen(true);
+    onToggle();
     setActiveOptionIndex(-1);
-  }, [disabled]);
+  }, [disabled, isOpen, onToggle]);
 
   const closeDropdown = useCallback(() => {
-    setIsOpen(false);
+    if (!isOpen) return;
+
+    onToggle();
     setSearchValue('');
     setActiveOptionIndex(-1);
-  }, []);
+  }, [isOpen, onToggle]);
 
   const handleToggleOption = useCallback(
     (option: TSubcategoryOption) => {
@@ -109,7 +114,7 @@ export const MultiSelectInput: React.FC<TMultiSelectInputProps> = ({
     const nextValue = event.target.value;
 
     if (!isOpen) {
-      setIsOpen(true);
+      openDropdown();
     }
 
     setSearchValue(nextValue);

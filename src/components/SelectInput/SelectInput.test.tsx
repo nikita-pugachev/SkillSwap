@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { SelectInput } from './SelectInput';
 import { TSelectOption } from '@/utils/types';
@@ -12,8 +12,8 @@ type SelectInputUIMockProps = {
   disabled: boolean;
   noOptionsText: string;
   isOpen: boolean;
-  rootRef: React.RefObject<HTMLDivElement>;
-  inputRef: React.RefObject<HTMLInputElement>;
+  rootRef: React.RefObject<HTMLDivElement | null>;
+  inputRef: React.RefObject<HTMLInputElement | null>;
   inputValue: string;
   selectedOption: TSelectOption | null;
   filteredOptions: TSelectOption[];
@@ -47,7 +47,7 @@ jest.mock('../ui/SelectInputUI', () => ({
   }: SelectInputUIMockProps) => (
     <div
       ref={rootRef}
-      data-testid="select-root"
+      data-testid={`select-root-${id}`}
       data-is-open={String(isOpen)}
       data-input-value={inputValue}
       data-selected-value={selectedOption?.name ?? ''}
@@ -55,7 +55,7 @@ jest.mock('../ui/SelectInputUI', () => ({
       <input
         id={id}
         ref={inputRef}
-        data-testid="select-input"
+        data-testid={`select-input-${id}`}
         value={inputValue}
         onChange={handleInputChange}
         onFocus={handleInputFocus}
@@ -64,20 +64,20 @@ jest.mock('../ui/SelectInputUI', () => ({
 
       <button
         type="button"
-        data-testid="action-button"
+        data-testid={`action-button-${id}`}
         aria-label={actionAriaLabel}
         onClick={handleActionClick}
       >
         action
       </button>
 
-      <div data-testid="options-list">
+      <div data-testid={`options-list-${id}`}>
         {filteredOptions.length > 0 ? (
           filteredOptions.map((option) => (
             <button
               key={option.id}
               type="button"
-              data-testid={`option-${option.id}`}
+              data-testid={`option-${id}-${option.id}`}
               onClick={() => handleSelectOption(option)}
             >
               {option.name}
@@ -92,32 +92,37 @@ jest.mock('../ui/SelectInputUI', () => ({
 }));
 
 describe('SelectInput', () => {
-  const options: TSelectOption[] = [
+  const cityOptions: TSelectOption[] = [
     { id: 1, name: 'Москва' },
     { id: 2, name: 'Самара' },
     { id: 3, name: 'Томск' },
   ];
 
-  it('фильтрует значения по порядку символов: при вводе "мо" подходит только "Москва"', () => {
-    render(<SelectInput id="city" options={options} />);
+  const genderOptions: TSelectOption[] = [
+    { id: 1, name: 'Мужской' },
+    { id: 2, name: 'Женский' },
+  ];
 
-    const input = screen.getByTestId('select-input');
+  it('фильтрует значения по порядку символов: при вводе "мо" подходит только "Москва"', () => {
+    render(<SelectInput id="city" options={cityOptions} />);
+
+    const input = screen.getByTestId('select-input-city');
 
     fireEvent.focus(input);
     fireEvent.change(input, { target: { value: 'мо' } });
 
-    expect(screen.getByTestId('select-root')).toHaveAttribute('data-is-open', 'true');
-    expect(screen.getByTestId('option-1')).toHaveTextContent('Москва');
-    expect(screen.queryByTestId('option-2')).not.toBeInTheDocument();
-    expect(screen.queryByTestId('option-3')).not.toBeInTheDocument();
+    expect(screen.getByTestId('select-root-city')).toHaveAttribute('data-is-open', 'true');
+    expect(screen.getByTestId('option-city-1')).toHaveTextContent('Москва');
+    expect(screen.queryByTestId('option-city-2')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('option-city-3')).not.toBeInTheDocument();
   });
 
   it('по action-кнопке очищает только input, оставляет список открытым и сохраняет selectedOption', () => {
-    render(<SelectInput id="city" options={options} defaultValue="Самара" />);
+    render(<SelectInput id="city" options={cityOptions} defaultValue="Самара" />);
 
-    const input = screen.getByTestId('select-input');
-    const actionButton = screen.getByTestId('action-button');
-    const root = screen.getByTestId('select-root');
+    const input = screen.getByTestId('select-input-city');
+    const actionButton = screen.getByTestId('action-button-city');
+    const root = screen.getByTestId('select-root-city');
 
     fireEvent.focus(input);
 
@@ -130,5 +135,50 @@ describe('SelectInput', () => {
     expect(root).toHaveAttribute('data-is-open', 'true');
     expect(root).toHaveAttribute('data-input-value', '');
     expect(root).toHaveAttribute('data-selected-value', 'Самара');
+  });
+
+  it('в controlled-режиме при открытии одного селекта закрывает другой', () => {
+    const ControlledForm = () => {
+      const [openSelectId, setOpenSelectId] = useState<string | null>(null);
+
+      return (
+        <>
+          <SelectInput
+            id="gender"
+            options={genderOptions}
+            isOpen={openSelectId === 'gender'}
+            onToggle={(next) => setOpenSelectId(next ? 'gender' : null)}
+          />
+
+          <SelectInput
+            id="city"
+            options={cityOptions}
+            isOpen={openSelectId === 'city'}
+            onToggle={(next) => setOpenSelectId(next ? 'city' : null)}
+          />
+        </>
+      );
+    };
+
+    render(<ControlledForm />);
+
+    const genderInput = screen.getByTestId('select-input-gender');
+    const cityInput = screen.getByTestId('select-input-city');
+
+    const genderRoot = screen.getByTestId('select-root-gender');
+    const cityRoot = screen.getByTestId('select-root-city');
+
+    expect(genderRoot).toHaveAttribute('data-is-open', 'false');
+    expect(cityRoot).toHaveAttribute('data-is-open', 'false');
+
+    fireEvent.focus(genderInput);
+
+    expect(genderRoot).toHaveAttribute('data-is-open', 'true');
+    expect(cityRoot).toHaveAttribute('data-is-open', 'false');
+
+    fireEvent.focus(cityInput);
+
+    expect(genderRoot).toHaveAttribute('data-is-open', 'false');
+    expect(cityRoot).toHaveAttribute('data-is-open', 'true');
   });
 });
