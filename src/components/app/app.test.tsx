@@ -3,6 +3,7 @@ import { MemoryRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { store } from '@/services/store';
 import { Suspense } from 'react';
+import { login } from '@/services/slices/authSlice';
 
 jest.mock('@/pages/catalog-page', () => ({ default: () => <div>Catalog Page</div> }));
 jest.mock('@/pages/not-found-page', () => ({ default: () => <div>Страница не найдена</div> }));
@@ -57,7 +58,14 @@ describe('Routing', () => {
   });
 
   it('рендерит ProfilePage при наличии токена', () => {
-    localStorage.setItem('token', 'mock-token');
+    store.dispatch(
+      login({
+        id: 1,
+        name: 'Test User',
+        userAvatar: '/test-avatar.png',
+      })
+    );
+
     renderAt('/profile');
     expect(screen.getByText('Profile Page')).toBeInTheDocument();
   });
