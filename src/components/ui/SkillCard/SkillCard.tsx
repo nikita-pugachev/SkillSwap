@@ -6,10 +6,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 
 import styles from './SkillCard.module.scss';
-import { Button } from '@/components/ui/ButtonUI';
-import { IconButton } from '@/components/ui/IconButton';
-import { NavigationButton } from '@/components/ui/NavigationButton';
-import { SkillTag } from '@/components/ui/SkillTag';
+import { Button, IconButton, NavigationButton, SkillTag } from '@/components/ui';
 import { SkillCategorySlug } from '@/utils/types';
 import heartOutlineSrc from '@/assets/icons/like-outline.svg';
 import heartFilledSrc from '@/assets/icons/like-filled.svg';
@@ -96,8 +93,12 @@ export const SkillCard: FC<SkillCardProps> = ({
         <div className={styles.skillsSection}>
           <h4 className={styles.skillsTitle}>Может научить</h4>
           <div className={styles.tagsContainer}>
-            {user.skillsTeach?.map((skill, i) => (
-              <SkillTag key={i} label={skill.name} category={skill.category as SkillCategorySlug} />
+            {user.skillsTeach?.map((skill) => (
+              <SkillTag
+                key={skill.name}
+                label={skill.name}
+                category={skill.category as SkillCategorySlug}
+              />
             ))}
           </div>
         </div>
@@ -105,8 +106,12 @@ export const SkillCard: FC<SkillCardProps> = ({
         <div className={styles.skillsSection}>
           <h4 className={styles.skillsTitle}>Хочет научиться</h4>
           <div className={styles.tagsContainer}>
-            {user.skillsLearn?.map((skill, i) => (
-              <SkillTag key={i} label={skill.name} category={skill.category as SkillCategorySlug} />
+            {user.skillsLearn?.map((skill) => (
+              <SkillTag
+                key={skill.name}
+                label={skill.name}
+                category={skill.category as SkillCategorySlug}
+              />
             ))}
           </div>
         </div>
