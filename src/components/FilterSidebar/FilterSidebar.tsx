@@ -9,8 +9,6 @@ import ChevronUp from '@/assets/icons/chevron-up.svg?react';
 
 import type { Skill, Filters } from '@/utils/types';
 
-export type { Skill };
-
 export interface FilterSidebarProps {
   filters: Filters;
   onChange: (newFilters: Partial<Filters>) => void;
