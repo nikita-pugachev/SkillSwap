@@ -9,9 +9,6 @@
   border-radius: 50%;
   border: 3px solid var(--color-accent);
   border-top-color: transparent;
-
-  /* `global.scss` (prefers-reduced-motion: reduce) overwrites animation rules with `!important`.
-     Make spinner animation priority so it is visibly rotating. */
   animation: spin 0.8s linear infinite !important;
   will-change: transform;
 }
