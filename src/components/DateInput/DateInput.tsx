@@ -24,9 +24,12 @@ import { DateInputUI } from '../ui/DateInputUI';
 
 export interface DateInputProps {
   disabled: boolean;
+  id: string;
+  label: string;
+  placeholder: string;
 }
 
-export function DateInput({ disabled }: DateInputProps): JSX.Element {
+export function DateInput({ disabled, id, label, placeholder }: DateInputProps): JSX.Element {
   const today = useMemo<Date>(() => startOfDay(new Date()), []);
   const minDate = useMemo<Date>(() => new Date(1900, 0, 1), []);
   const maxDate = today;
@@ -395,6 +398,9 @@ export function DateInput({ disabled }: DateInputProps): JSX.Element {
   return (
     <DateInputUI
       disabled={disabled}
+      id={id}
+      label={label}
+      placeholder={placeholder}
       wrapperRef={wrapperRef}
       error={error}
       inputRef={inputRef}

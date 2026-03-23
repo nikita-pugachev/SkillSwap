@@ -10,3 +10,4 @@ export { SearchInputUI } from './SearchInputUI';
 export { InputBaseContainerUI } from './InputBaseContainerUI';
 export { FormInputUI } from './FormInputUI';
 export { ErrorPageUI } from './ErrorPageUI';
+export { DateInputUI } from './DateInputUI';

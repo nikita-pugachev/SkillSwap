@@ -44,11 +44,26 @@ describe('DateInput', () => {
   const today = new Date(2025, 0, 20);
   const validDate = new Date(2024, 4, 15);
 
+  const defaultProps = {
+    disabled: false,
+    id: 'birth-date',
+    label: 'Дата рождения',
+    placeholder: 'дд.мм.гггг',
+  };
+
+  function renderComponent(overrideProps: Partial<React.ComponentProps<typeof DateInput>> = {}) {
+    return render(<DateInput {...defaultProps} {...overrideProps} />);
+  }
+
   beforeEach(() => {
     jest.clearAllMocks();
 
     mockedDateInputUI.mockImplementation((props: DateInputUIProps) => (
       <div data-testid="date-input-ui">
+        <label htmlFor={props.id} data-testid="label">
+          {props.label}
+        </label>
+
         <div data-testid="error">{props.error}</div>
         <div data-testid="input-value">{props.inputValue}</div>
         <div data-testid="is-open">{String(props.isOpen)}</div>
@@ -58,7 +73,9 @@ describe('DateInput', () => {
         </div>
 
         <input
+          id={props.id}
           data-testid="input"
+          placeholder={props.placeholder}
           value={props.inputValue}
           onChange={props.handleInputChange}
           onFocus={props.handleInputFocus}
@@ -147,8 +164,25 @@ describe('DateInput', () => {
     mockedGetCalendarDays.mockReturnValue([]);
   });
 
+  it('прокидывает id, label и placeholder в DateInputUI', () => {
+    renderComponent();
+
+    expect(screen.getByTestId('label')).toHaveTextContent('Дата рождения');
+
+    const input = screen.getByTestId('input');
+    expect(input).toHaveAttribute('id', 'birth-date');
+    expect(input).toHaveAttribute('placeholder', 'дд.мм.гггг');
+
+    expect(mockedDateInputUI).toHaveBeenCalled();
+    const firstCallProps = mockedDateInputUI.mock.calls[0][0];
+
+    expect(firstCallProps.id).toBe('birth-date');
+    expect(firstCallProps.label).toBe('Дата рождения');
+    expect(firstCallProps.placeholder).toBe('дд.мм.гггг');
+  });
+
   it('открывает календарь при фокусе на input', () => {
-    render(<DateInput disabled={false} />);
+    renderComponent();
 
     fireEvent.focus(screen.getByTestId('input'));
 
@@ -158,7 +192,7 @@ describe('DateInput', () => {
   it('обновляет inputValue через maskDateInput', () => {
     mockedMaskDateInput.mockReturnValue('12.12.2024');
 
-    render(<DateInput disabled={false} />);
+    renderComponent();
 
     fireEvent.change(screen.getByTestId('input'), {
       target: { value: '12122024' },
@@ -172,7 +206,7 @@ describe('DateInput', () => {
     mockedMaskDateInput.mockReturnValue('99.99.9999');
     mockedParseDate.mockReturnValue(null);
 
-    render(<DateInput disabled={false} />);
+    renderComponent();
 
     fireEvent.change(screen.getByTestId('input'), {
       target: { value: '99.99.9999' },
@@ -184,7 +218,7 @@ describe('DateInput', () => {
   it('не показывает ошибку при неполной дате во время ввода', () => {
     mockedMaskDateInput.mockReturnValue('12.12');
 
-    render(<DateInput disabled={false} />);
+    renderComponent();
 
     fireEvent.change(screen.getByTestId('input'), {
       target: { value: '12.12' },
@@ -194,7 +228,7 @@ describe('DateInput', () => {
   });
 
   it('показывает ошибку на blur, если дата не заполнена', () => {
-    render(<DateInput disabled={false} />);
+    renderComponent();
 
     fireEvent.blur(screen.getByTestId('input'));
 
@@ -204,7 +238,7 @@ describe('DateInput', () => {
   it('показывает ошибку на blur, если дата введена не полностью', () => {
     mockedMaskDateInput.mockReturnValue('12.12');
 
-    render(<DateInput disabled={false} />);
+    renderComponent();
 
     fireEvent.change(screen.getByTestId('input'), {
       target: { value: '12.12' },
@@ -222,7 +256,7 @@ describe('DateInput', () => {
     mockedParseDate.mockReturnValue(validDate);
     mockedValidateDate.mockReturnValue('');
 
-    render(<DateInput disabled={false} />);
+    renderComponent();
 
     fireEvent.change(screen.getByTestId('input'), {
       target: { value: '15.05.2024' },
@@ -234,7 +268,7 @@ describe('DateInput', () => {
   });
 
   it('выбирает дату через selectDate', () => {
-    render(<DateInput disabled={false} />);
+    renderComponent();
 
     fireEvent.click(screen.getByTestId('select-date-button'));
 
@@ -247,7 +281,7 @@ describe('DateInput', () => {
   it('не выбирает disabled дату', () => {
     mockedIsDateDisabled.mockReturnValue(true);
 
-    render(<DateInput disabled={false} />);
+    renderComponent();
 
     fireEvent.click(screen.getByTestId('select-date-button'));
 
@@ -260,7 +294,7 @@ describe('DateInput', () => {
     mockedParseDate.mockReturnValue(validDate);
     mockedValidateDate.mockReturnValue('');
 
-    render(<DateInput disabled={false} />);
+    renderComponent();
 
     fireEvent.change(screen.getByTestId('input'), {
       target: { value: '15.05.2024' },
@@ -276,7 +310,7 @@ describe('DateInput', () => {
   it('показывает ошибку при apply, если дата невалидна', () => {
     mockedParseDate.mockReturnValue(null);
 
-    render(<DateInput disabled={false} />);
+    renderComponent();
 
     fireEvent.click(screen.getByTestId('apply-button'));
 
@@ -288,7 +322,7 @@ describe('DateInput', () => {
     mockedParseDate.mockReturnValue(validDate);
     mockedValidateDate.mockReturnValue('');
 
-    render(<DateInput disabled={false} />);
+    renderComponent();
 
     fireEvent.change(screen.getByTestId('input'), {
       target: { value: '15.05.2024' },
@@ -304,7 +338,7 @@ describe('DateInput', () => {
   });
 
   it('открывает календарь по ArrowDown в input', () => {
-    render(<DateInput disabled={false} />);
+    renderComponent();
 
     fireEvent.keyDown(screen.getByTestId('input'), { key: 'ArrowDown' });
 
@@ -316,7 +350,7 @@ describe('DateInput', () => {
     mockedParseDate.mockReturnValue(validDate);
     mockedValidateDate.mockReturnValue('');
 
-    render(<DateInput disabled={false} />);
+    renderComponent();
 
     fireEvent.change(screen.getByTestId('input'), {
       target: { value: '15.05.2024' },
@@ -330,7 +364,7 @@ describe('DateInput', () => {
   });
 
   it('меняет месяц через select', () => {
-    render(<DateInput disabled={false} />);
+    renderComponent();
 
     fireEvent.change(screen.getByTestId('month-select'), {
       target: { value: '5' },
@@ -340,7 +374,7 @@ describe('DateInput', () => {
   });
 
   it('меняет год через select', () => {
-    render(<DateInput disabled={false} />);
+    renderComponent();
 
     fireEvent.change(screen.getByTestId('year-select'), {
       target: { value: '2024' },
@@ -350,7 +384,7 @@ describe('DateInput', () => {
   });
 
   it('двигает focused day по ArrowRight в календаре', () => {
-    render(<DateInput disabled={false} />);
+    renderComponent();
 
     fireEvent.focus(screen.getByTestId('input'));
     fireEvent.keyDown(screen.getByTestId('calendar'), { key: 'ArrowRight' });
@@ -359,7 +393,7 @@ describe('DateInput', () => {
   });
 
   it('выбирает focused day по Enter в календаре', () => {
-    render(<DateInput disabled={false} />);
+    renderComponent();
 
     fireEvent.focus(screen.getByTestId('input'));
     fireEvent.keyDown(screen.getByTestId('calendar'), { key: 'ArrowRight' });
@@ -371,7 +405,7 @@ describe('DateInput', () => {
   });
 
   it('по клику на иконку открывает календарь, если он закрыт', () => {
-    render(<DateInput disabled={false} />);
+    renderComponent();
 
     fireEvent.click(screen.getByTestId('icon-button'));
 
@@ -383,7 +417,7 @@ describe('DateInput', () => {
     mockedParseDate.mockReturnValue(validDate);
     mockedValidateDate.mockReturnValue('');
 
-    render(<DateInput disabled={false} />);
+    renderComponent();
 
     fireEvent.change(screen.getByTestId('input'), {
       target: { value: '15.05.2024' },

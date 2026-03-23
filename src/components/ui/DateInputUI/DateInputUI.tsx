@@ -9,6 +9,9 @@ import { ChevronIcon } from '../Icons/ChevronIcon';
 import { Button } from '..';
 
 export interface DateInputUIProps {
+  id: string;
+  label: string;
+  placeholder: string;
   wrapperRef: React.RefObject<HTMLDivElement | null>;
   inputRef: React.RefObject<HTMLInputElement | null>;
   dialogRef: React.RefObject<HTMLDivElement | null>;
@@ -40,6 +43,9 @@ export interface DateInputUIProps {
 
 export const DateInputUI = ({
   disabled,
+  id,
+  label = 'Дата рождения',
+  placeholder = 'дд.мм.гггг',
   wrapperRef,
   inputRef,
   dialogRef,
@@ -68,20 +74,20 @@ export const DateInputUI = ({
   const [activeSelect, setActiveSelect] = React.useState<'month' | 'year' | null>(null);
   return (
     <div ref={wrapperRef} className={styles.dateInputContainer}>
-      <label htmlFor="birth-date" className={styles.label}>
-        Дата рождения
+      <label htmlFor={id} className={styles.label}>
+        {label}
       </label>
 
       <div className={[styles.dateFrame, error ? styles.isError : ''].filter(Boolean).join(' ')}>
         <input
-          id="birth-date"
+          id={id}
           ref={inputRef}
           value={inputValue}
           onFocus={handleInputFocus}
           onChange={handleInputChange}
           onBlur={handleInputBlur}
           onKeyDown={handleInputKeyDown}
-          placeholder="дд.мм.гггг"
+          placeholder={placeholder}
           inputMode="numeric"
           aria-invalid={Boolean(error)}
           aria-describedby={error ? 'birth-date-error' : undefined}
