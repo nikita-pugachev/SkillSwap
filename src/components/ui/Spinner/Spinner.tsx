@@ -3,6 +3,7 @@ import styles from './Spinner.module.scss';
 
 interface SpinnerProps {
   size?: 'sm' | 'md' | 'lg';
+  label?: string; // текст для скринридеров
 }
 
 const sizeMap = {
@@ -11,9 +12,9 @@ const sizeMap = {
   lg: styles.lg,
 };
 
-export const Spinner: React.FC<SpinnerProps> = ({ size = 'md' }) => {
+export const Spinner: React.FC<SpinnerProps> = ({ size = 'md', label = 'Загрузка...' }) => {
   return (
-    <div className={styles.wrapper}>
+    <div className={styles.wrapper} role="status" aria-label={label}>
       <div className={`${styles.spinner} ${sizeMap[size]}`} />
     </div>
   );
