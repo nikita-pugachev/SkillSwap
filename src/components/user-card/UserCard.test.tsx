@@ -84,6 +84,13 @@ describe('UserCard', () => {
       favorites: {
         favoriteIds: [],
       },
+      catalog: {
+        users: [],
+        skills: [],
+        cities: [],
+        loading: false,
+        error: null,
+      },
       auth: {
         user: null,
         isAuthenticated: false,
