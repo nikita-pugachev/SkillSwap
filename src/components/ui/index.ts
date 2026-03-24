@@ -11,4 +11,4 @@ export { InputBaseContainerUI } from './InputBaseContainerUI';
 export { FormInputUI } from './FormInputUI';
 export { ErrorPageUI } from './ErrorPageUI';
 export { DateInputUI } from './DateInputUI';
-export { MultiSelectInputUI } from './MultiSelectInputUI.tsx';
+export { MultiSelectInputUI } from './MultiSelectInputUI';
