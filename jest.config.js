@@ -7,18 +7,17 @@ const config = {
     '^.+\\.tsx?$': ['ts-jest', { tsconfig: 'tsconfig.test.json' }],
   },
   moduleNameMapper: {
+    '^swiper/css$': '<rootDir>/src/__mocks__/styleMock.ts',
+    '^swiper/css/navigation$': '<rootDir>/src/__mocks__/styleMock.ts',
+
     '^@/.*\\.svg\\?react$': '<rootDir>/src/__mocks__/svgReactMock.tsx',
     '^@/.*\\.svg$': '<rootDir>/src/__mocks__/fileMock.ts',
     '^@/.*\\.(png|jpg|jpeg|gif|webp)$': '<rootDir>/src/__mocks__/fileMock.ts',
     '^@/.*\\.(css|scss|sass)$': '<rootDir>/src/__mocks__/styleMock.ts',
-
     '^@/(.*)$': '<rootDir>/src/$1',
-
     '\\.(css|scss|sass)$': '<rootDir>/src/__mocks__/styleMock.ts',
-
     '\\.svg\\?react$': '<rootDir>/src/__mocks__/svgReactMock.tsx',
     '\\.svg$': '<rootDir>/src/__mocks__/fileMock.ts',
-
     '\\.(png|jpg|jpeg|gif|webp)$': '<rootDir>/src/__mocks__/fileMock.ts',
   },
   coverageDirectory: 'coverage',
