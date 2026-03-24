@@ -1,7 +1,8 @@
 import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import { FilterSidebar } from '@/components/FilterSidebar';
 import { CatalogLoading, CatalogError, CatalogEmpty } from './components';
-import type { City, Filters, UserFromDb, Skill } from '@/utils/types';
+import { getSkills } from '@/utils/api';
+import type { Skill, City, Filters, UserFromDb } from '@/utils/types';
 
 export const CatalogPage = () => {
   const [filters, setFilters] = useState<Filters>({
@@ -20,33 +21,50 @@ export const CatalogPage = () => {
   const latestRequest = useRef(0);
 
   const fetchSkills = useCallback(async (requestId: number) => {
-    const res = await fetch('/db/skills.json');
-    if (!res.ok) throw new Error('Ошибка загрузки навыков');
-    const data: Skill[] = await res.json();
-    if (requestId === latestRequest.current) setSkills(data);
+    const data = await getSkills();
+    if (requestId === latestRequest.current) {
+      setSkills(data);
+    }
   }, []);
 
   const fetchCities = useCallback(async (requestId: number) => {
     const res = await fetch('/db/cities.json');
-    if (!res.ok) throw new Error('Ошибка загрузки городов');
+    if (!res.ok) {
+      throw new Error('Ошибка загрузки городов');
+    }
+
     const data: City[] = await res.json();
-    if (requestId === latestRequest.current) setCities(data);
+
+    if (requestId === latestRequest.current) {
+      setCities(data);
+    }
   }, []);
 
   const fetchUsers = useCallback(async (requestId: number) => {
     const res = await fetch('/db/users.json');
-    if (!res.ok) throw new Error('Ошибка загрузки пользователей');
+    if (!res.ok) {
+      throw new Error('Ошибка загрузки пользователей');
+    }
+
     const data: { users: UserFromDb[] } = await res.json();
-    if (requestId === latestRequest.current) setUsers(data.users);
+
+    if (requestId === latestRequest.current) {
+      setUsers(data.users);
+    }
   }, []);
 
   const fetchAllData = useCallback(async () => {
     const requestId = ++latestRequest.current;
+
     setLoading(true);
     setError(null);
+
     try {
       await Promise.all([fetchSkills(requestId), fetchCities(requestId), fetchUsers(requestId)]);
-      if (requestId !== latestRequest.current) return;
+
+      if (requestId !== latestRequest.current) {
+        return;
+      }
     } catch (err: unknown) {
       if (requestId === latestRequest.current) {
         setError(err instanceof Error ? err.message : 'Неизвестная ошибка');
@@ -63,12 +81,21 @@ export const CatalogPage = () => {
   const filteredUsers = useMemo(() => {
     return users.filter((user) => {
       if (filters.gender) {
-        const genderMap = { Мужской: 'male', Женский: 'female' } as const;
-        if (user.gender !== genderMap[filters.gender]) return false;
+        const genderMap = {
+          Мужской: 'male',
+          Женский: 'female',
+        } as const;
+
+        if (user.gender !== genderMap[filters.gender]) {
+          return false;
+        }
       }
       if (filters.city.length > 0) {
         const userCityName = cities.find((city) => city.id === user.cityId)?.name;
-        if (!userCityName || !filters.city.includes(userCityName)) return false;
+
+        if (!userCityName || !filters.city.includes(userCityName)) {
+          return false;
+        }
       }
       if (filters.mode === 'wantToLearn') {
         return (
@@ -86,8 +113,13 @@ export const CatalogPage = () => {
     });
   }, [users, filters, cities]);
 
-  if (loading) return <CatalogLoading />;
-  if (error) return <CatalogError message={error} onRetry={fetchAllData} />;
+  if (loading) {
+    return <CatalogLoading />;
+  }
+
+  if (error) {
+    return <CatalogError message={error} onRetry={fetchAllData} />;
+  }
 
   return (
     <div style={{ display: 'flex', gap: '20px' }}>
@@ -97,6 +129,7 @@ export const CatalogPage = () => {
         cities={cities.map((city) => city.name)}
         categories={skills}
       />
+
       {filteredUsers.length === 0 ? (
         <CatalogEmpty />
       ) : (
@@ -104,6 +137,7 @@ export const CatalogPage = () => {
           {filteredUsers.map((user) => {
             const cityName =
               cities.find((city) => city.id === user.cityId)?.name ?? 'Неизвестный город';
+
             return (
               <div key={user.id}>
                 {user.name} — {cityName}
