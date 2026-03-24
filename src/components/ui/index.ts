@@ -7,3 +7,4 @@ export { SkillCategory } from './SkillCategory';
 export { SkillTag } from './SkillTag';
 export { NavigationButton } from './NavigationButton';
 export { IconButton } from './IconButton';
+export { SkillCard } from './SkillCard';
