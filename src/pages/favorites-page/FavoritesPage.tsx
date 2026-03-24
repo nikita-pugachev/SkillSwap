@@ -3,14 +3,19 @@ import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { UserCard } from '@/components/user-card';
 import { selectFavoriteIds } from '@/services/selectors';
-import type { SkillCategorySlug, UserFromDb, City, SkillCategory } from '@/utils/types';
+import type { SkillCategorySlug, UserFromDb, City } from '@/utils/types';
 import styles from './FavoritesPage.module.scss';
+
+interface TempSkillCategory {
+  slug: string;
+  subcategories: { id: number; title: string }[];
+}
 
 export const FavoritesPage: React.FC = () => {
   const favoriteIds = useSelector(selectFavoriteIds);
   const navigate = useNavigate();
   const [cities, setCities] = useState<City[]>([]);
-  const [skills, setSkills] = useState<SkillCategory[]>([]);
+  const [skills, setSkills] = useState<TempSkillCategory[]>([]);
   const [users, setUsers] = useState<UserFromDb[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -19,11 +24,7 @@ export const FavoritesPage: React.FC = () => {
     const fetchCities = async () => {
       try {
         const response = await fetch('/db/cities.json');
-
-        if (!response.ok) {
-          throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-        }
-
+        if (!response.ok) throw new Error(`HTTP ${response.status}: ${response.statusText}`);
         const data = await response.json();
         setCities(data);
       } catch (err) {
@@ -37,11 +38,7 @@ export const FavoritesPage: React.FC = () => {
     const fetchSkills = async () => {
       try {
         const response = await fetch('/db/skills.json');
-
-        if (!response.ok) {
-          throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-        }
-
+        if (!response.ok) throw new Error(`HTTP ${response.status}: ${response.statusText}`);
         const data = await response.json();
         setSkills(data);
       } catch (err) {
@@ -54,19 +51,12 @@ export const FavoritesPage: React.FC = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       setIsLoading(true);
-
       try {
         const response = await fetch('/db/users.json');
-
-        if (!response.ok) {
-          throw new Error('Ошибка загрузки пользователей');
-        }
-
+        if (!response.ok) throw new Error('Ошибка загрузки пользователей');
         const data = await response.json();
         const allUsers: UserFromDb[] = data.users;
-
         const favoriteUsers = allUsers.filter((user) => favoriteIds.includes(Number(user.id)));
-
         setUsers(favoriteUsers);
         setError(null);
       } catch (err) {
@@ -75,7 +65,6 @@ export const FavoritesPage: React.FC = () => {
         setIsLoading(false);
       }
     };
-
     fetchUsers();
   }, [favoriteIds]);
 
@@ -87,9 +76,7 @@ export const FavoritesPage: React.FC = () => {
   const getSkillName = (skillId: number): string => {
     for (const category of skills) {
       const subcategory = category.subcategories.find((sub) => sub.id === skillId);
-      if (subcategory) {
-        return subcategory.title;
-      }
+      if (subcategory) return subcategory.title;
     }
     return `Навык ${skillId}`;
   };
@@ -97,9 +84,7 @@ export const FavoritesPage: React.FC = () => {
   const getSkillCategory = (skillId: number): SkillCategorySlug => {
     for (const category of skills) {
       const subcategory = category.subcategories.find((sub) => sub.id === skillId);
-      if (subcategory) {
-        return category.slug as SkillCategorySlug;
-      }
+      if (subcategory) return category.slug as SkillCategorySlug;
     }
     return 'other';
   };
@@ -115,15 +100,13 @@ export const FavoritesPage: React.FC = () => {
     navigate(`/profile/${userId}`);
   };
 
-  if (error) {
+  if (error)
     return (
       <div className={styles.container}>
         <div className={styles.error}>Ошибка: {error}</div>
       </div>
     );
-  }
-
-  if (isLoading) {
+  if (isLoading)
     return (
       <div className={styles.container}>
         <div className={styles.loading}>
@@ -132,7 +115,6 @@ export const FavoritesPage: React.FC = () => {
         </div>
       </div>
     );
-  }
 
   return (
     <div className={styles.container}>

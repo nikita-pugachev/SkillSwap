@@ -8,6 +8,10 @@ import { IconButton } from '@/components/ui/IconButton';
 import { InputBaseContainerUI } from '@/components/ui/InputBaseContainerUI';
 import { InputUI } from '@/components/ui/InputUI';
 
+import { SelectInput } from '@/components/SelectInput';
+import { DateInput } from '@/components/DateInput';
+import { TSelectOption } from '@/utils/types';
+
 import eyeIcon from '@/assets/icons/eye.svg';
 import eyeSlashIcon from '@/assets/icons/eye-slash.svg';
 import appleIcon from '@/assets/icons/logo/apple.svg';
@@ -15,16 +19,32 @@ import googleIcon from '@/assets/icons/logo/google.svg';
 import lightBulb from '@/assets/illustrations/light-bulb.svg';
 import UserInfo from '@/assets/illustrations/user-info.svg';
 import avatarAddIcon from '@/assets/icons/avatar-add.svg';
-import calendarIcon from '@/assets/icons/calendar.svg';
-import chevronDownIcon from '@/assets/icons/chevron-down.svg';
-import chevronUpIcon from '@/assets/icons/chevron-up.svg';
-import crossIcon from '@/assets/icons/cross.svg';
 import SchoolBoard from '@/assets/illustrations/school-board.svg';
 import galleryAddIcon from '@/assets/icons/gallery-add.svg';
+
+const GENDER_OPTIONS: TSelectOption[] = [
+  { id: 1, name: 'Мужской' },
+  { id: 2, name: 'Женский' },
+];
+
+const CITY_OPTIONS: TSelectOption[] = [
+  { id: 1, name: 'Москва' },
+  { id: 2, name: 'Санкт-Петербург' },
+  { id: 3, name: 'Казань' },
+];
+
+const CATEGORY_OPTIONS: TSelectOption[] = [
+  { id: 1, name: 'IT и программирование' },
+  { id: 2, name: 'Дизайн' },
+  { id: 3, name: 'Языки' },
+];
 
 export default function RegisterPage() {
   const [step, setStep] = useState(1);
   const [showPassword, setShowPassword] = useState(false);
+
+  const [openSelectId, setOpenSelectId] = useState<string | null>(null);
+
   // TODO: получать из состояния формы (Redux)
   const passwordError: string | undefined = undefined;
 
@@ -42,22 +62,6 @@ export default function RegisterPage() {
     if (step > 1) {
       setStep((prev) => prev - 1);
     }
-  };
-
-  const [openSelects, setOpenSelects] = useState({
-    gender: false,
-    city: false,
-    learnCategory: false,
-    learnSubcategory: false,
-    skillCategory: false,
-    skillSubcategory: false,
-  });
-
-  const toggleSelect = (selectName: keyof typeof openSelects) => {
-    setOpenSelects((prev) => ({
-      ...prev,
-      [selectName]: !prev[selectName],
-    }));
   };
 
   return (
@@ -97,7 +101,6 @@ export default function RegisterPage() {
                 onSubmit={(e) => {
                   e.preventDefault();
                   handleNextStep();
-                  // TODO: сохранить данные первого шага и перейти дальше
                 }}
               >
                 <div className={authStyles.fields}>
@@ -117,7 +120,6 @@ export default function RegisterPage() {
                         type={showPassword ? 'text' : 'password'}
                         placeholder="Придумайте надёжный пароль"
                       />
-
                       <IconButton
                         iconSrc={showPassword ? eyeSlashIcon : eyeIcon}
                         ariaLabel={showPassword ? 'Скрыть пароль' : 'Показать пароль'}
@@ -154,12 +156,7 @@ export default function RegisterPage() {
               aria-label="Форма регистрации: шаг 2"
             >
               <div className={styles.avatarBlock}>
-                <button
-                  type="button"
-                  className={styles.avatarButton}
-                  aria-label="Добавить фото"
-                  // TODO: открыть загрузку фото профиля
-                >
+                <button type="button" className={styles.avatarButton} aria-label="Добавить фото">
                   <img
                     src={avatarAddIcon}
                     alt=""
@@ -174,7 +171,6 @@ export default function RegisterPage() {
                 onSubmit={(e) => {
                   e.preventDefault();
                   handleNextStep();
-                  // TODO: сохранить данные второго шага регистрации и перейти дальше
                 }}
               >
                 <div className={authStyles.fields}>
@@ -184,106 +180,58 @@ export default function RegisterPage() {
 
                   <div className={styles.row}>
                     <div className={styles.rowItem}>
-                      <InputBaseContainerUI label="Дата рождения" id="birthDate">
-                        <button
-                          id="birthDate"
-                          type="button"
-                          className={styles.selectField}
-                          // TODO: открыть календарь
-                        >
-                          <span className={styles.selectText}>дд.мм.гггг</span>
-
-                          <img src={calendarIcon} alt="" aria-hidden="true" />
-                        </button>
-                      </InputBaseContainerUI>
+                      <DateInput
+                        id="birthDate"
+                        label="Дата рождения"
+                        placeholder="дд.мм.гггг"
+                        disabled={false}
+                      />
                     </div>
 
                     <div className={styles.rowItem}>
-                      <InputBaseContainerUI label="Пол" id="gender">
-                        <button
-                          id="gender"
-                          type="button"
-                          className={styles.selectField}
-                          onClick={() => toggleSelect('gender')}
-                        >
-                          <span className={styles.selectText}>Не указан</span>
-
-                          <img
-                            src={openSelects.gender ? chevronUpIcon : chevronDownIcon}
-                            alt=""
-                            aria-hidden="true"
-                          />
-                        </button>
-                      </InputBaseContainerUI>
+                      <SelectInput
+                        id="gender"
+                        label="Пол"
+                        placeholder="Не указан"
+                        options={GENDER_OPTIONS}
+                        isOpen={openSelectId === 'gender'}
+                        onToggle={(next) => setOpenSelectId(next ? 'gender' : null)}
+                      />
                     </div>
                   </div>
 
-                  <InputBaseContainerUI label="Город" id="city">
-                    <button
-                      id="city"
-                      type="button"
-                      className={styles.selectField}
-                      onClick={() => toggleSelect('city')}
-                      // TODO: открыть поиск и список городов
-                    >
-                      <span className={styles.selectText}>Не указан</span>
+                  <SelectInput
+                    id="city"
+                    label="Город"
+                    placeholder="Не указан"
+                    options={CITY_OPTIONS}
+                    isOpen={openSelectId === 'city'}
+                    onToggle={(next) => setOpenSelectId(next ? 'city' : null)}
+                  />
 
-                      <img
-                        src={openSelects.city ? crossIcon : chevronDownIcon}
-                        alt=""
-                        aria-hidden="true"
-                      />
-                    </button>
-                  </InputBaseContainerUI>
-
-                  <InputBaseContainerUI
-                    label="Категория навыка, которому хотите научиться"
+                  <SelectInput
                     id="learnCategory"
-                  >
-                    <button
-                      id="learnCategory"
-                      type="button"
-                      className={styles.selectField}
-                      onClick={() => toggleSelect('learnCategory')}
-                      // TODO: открыть список категорий
-                    >
-                      <span className={styles.selectText}>Выберите категорию</span>
+                    label="Категория навыка, которому хотите научиться"
+                    placeholder="Выберите категорию"
+                    options={CATEGORY_OPTIONS}
+                    isOpen={openSelectId === 'learnCategory'}
+                    onToggle={(next) => setOpenSelectId(next ? 'learnCategory' : null)}
+                  />
 
-                      <img
-                        src={openSelects.learnCategory ? chevronUpIcon : chevronDownIcon}
-                        alt=""
-                        aria-hidden="true"
-                      />
-                    </button>
-                  </InputBaseContainerUI>
-
-                  <InputBaseContainerUI
-                    label="Подкатегория навыка, которому хотите научиться"
+                  <SelectInput
                     id="learnSubcategory"
-                  >
-                    <button
-                      id="learnSubcategory"
-                      type="button"
-                      className={styles.selectField}
-                      onClick={() => toggleSelect('learnSubcategory')}
-                      // TODO: открыть список подкатегорий
-                    >
-                      <span className={styles.selectText}>Выберите подкатегорию</span>
-
-                      <img
-                        src={openSelects.learnSubcategory ? chevronUpIcon : chevronDownIcon}
-                        alt=""
-                        aria-hidden="true"
-                      />
-                    </button>
-                  </InputBaseContainerUI>
+                    label="Подкатегория навыка, которому хотите научиться"
+                    placeholder="Выберите подкатегорию"
+                    options={CATEGORY_OPTIONS}
+                    isOpen={openSelectId === 'learnSubcategory'}
+                    onToggle={(next) => setOpenSelectId(next ? 'learnSubcategory' : null)}
+                  />
                 </div>
 
                 <div className={styles.actions}>
                   <Button type="button" variant="outlined" onClick={handlePrevStep}>
                     Назад
                   </Button>
-
                   <Button type="submit" variant="primary">
                     Продолжить
                   </Button>
@@ -293,10 +241,8 @@ export default function RegisterPage() {
 
             <section className={authStyles.onboarding} aria-label="О платформе">
               <img src={UserInfo} alt="" className={authStyles.onboardingImage} />
-
               <div className={authStyles.onboardingText}>
                 <h2 className={authStyles.onboardingTitle}>Расскажите немного о себе</h2>
-
                 <p className={authStyles.onboardingSubtitle}>
                   Это поможет другим людям лучше вас узнать, чтобы выбрать для обмена
                 </p>
@@ -315,7 +261,6 @@ export default function RegisterPage() {
                 className={authStyles.formContainer}
                 onSubmit={(e) => {
                   e.preventDefault();
-                  // TODO: показать модальное окно подтверждения профиля
                 }}
               >
                 <div className={authStyles.fields}>
@@ -327,47 +272,28 @@ export default function RegisterPage() {
                     />
                   </InputBaseContainerUI>
 
-                  <InputBaseContainerUI label="Категория навыка" id="skillCategory">
-                    <button
-                      id="skillCategory"
-                      type="button"
-                      className={styles.selectField}
-                      onClick={() => toggleSelect('skillCategory')}
-                      // TODO: открыть список категорий навыков
-                    >
-                      <span className={styles.selectText}>Выберите категорию навыка</span>
+                  <SelectInput
+                    id="skillCategory"
+                    label="Категория навыка"
+                    placeholder="Выберите категорию навыка"
+                    options={CATEGORY_OPTIONS}
+                    isOpen={openSelectId === 'skillCategory'}
+                    onToggle={(next) => setOpenSelectId(next ? 'skillCategory' : null)}
+                  />
 
-                      <img
-                        src={openSelects.skillCategory ? chevronUpIcon : chevronDownIcon}
-                        alt=""
-                        aria-hidden="true"
-                      />
-                    </button>
-                  </InputBaseContainerUI>
-
-                  <InputBaseContainerUI label="Подкатегория навыка" id="skillSubcategory">
-                    <button
-                      id="skillSubcategory"
-                      type="button"
-                      className={styles.selectField}
-                      onClick={() => toggleSelect('skillSubcategory')}
-                      // TODO: открыть список подкатегорий навыков
-                    >
-                      <span className={styles.selectText}>Выберите подкатегорию навыка</span>
-
-                      <img
-                        src={openSelects.skillSubcategory ? chevronUpIcon : chevronDownIcon}
-                        alt=""
-                        aria-hidden="true"
-                      />
-                    </button>
-                  </InputBaseContainerUI>
+                  <SelectInput
+                    id="skillSubcategory"
+                    label="Подкатегория навыка"
+                    placeholder="Выберите подкатегорию навыка"
+                    options={CATEGORY_OPTIONS}
+                    isOpen={openSelectId === 'skillSubcategory'}
+                    onToggle={(next) => setOpenSelectId(next ? 'skillSubcategory' : null)}
+                  />
 
                   <div className={styles.textareaBlock}>
                     <label htmlFor="description" className={styles.textareaLabel}>
                       Описание
                     </label>
-
                     <textarea
                       id="description"
                       className={styles.textarea}
@@ -377,12 +303,7 @@ export default function RegisterPage() {
 
                   <div className={styles.uploadBlock}>
                     <p className={styles.uploadText}>Перетащите или выберите изображения навыка</p>
-
-                    <button
-                      type="button"
-                      className={styles.uploadButton}
-                      // TODO: открыть выбор изображений
-                    >
+                    <button type="button" className={styles.uploadButton}>
                       <img
                         src={galleryAddIcon}
                         alt=""
@@ -407,10 +328,8 @@ export default function RegisterPage() {
 
             <section className={authStyles.onboarding} aria-label="О платформе">
               <img src={SchoolBoard} alt="" className={authStyles.onboardingImage} />
-
               <div className={authStyles.onboardingText}>
                 <h2 className={authStyles.onboardingTitle}>Укажите, чем вы готовы поделиться</h2>
-
                 <p className={authStyles.onboardingSubtitle}>
                   Так другие люди смогут увидеть ваши предложения и предложить вам обмен!
                 </p>
