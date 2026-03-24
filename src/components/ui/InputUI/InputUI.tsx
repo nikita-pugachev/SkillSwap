@@ -1,5 +1,4 @@
-import type { InputHTMLAttributes } from 'react';
-import { forwardRef } from 'react';
+import { forwardRef, type InputHTMLAttributes } from 'react';
 import styles from './InputUI.module.scss';
 
 export const InputUI = forwardRef<HTMLInputElement, InputHTMLAttributes<HTMLInputElement>>(
