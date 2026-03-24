@@ -1,6 +1,14 @@
-import type { SkillCategorySlug, SkillType, Skill, User } from './types';
+import type { SkillCategorySlug, SkillType, Skill, SkillOffer, User } from './types';
 
 describe('types', () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  afterAll(() => {
+    jest.restoreAllMocks();
+  });
+
   it('SkillCategorySlug: тестовый объект соответствует типу', () => {
     const category: SkillCategorySlug = 'education';
     expect(category).toBe('education');
@@ -14,6 +22,17 @@ describe('types', () => {
   it('Skill: тестовый объект соответствует типу', () => {
     const skill: Skill = {
       id: 1,
+      title: 'Бизнес и карьера',
+      icon: 'icon-business-career.svg',
+      subcategories: [{ id: 101, title: 'Управление командой' }],
+    };
+    expect(skill.id).toBe(1);
+    expect(skill.subcategories).toHaveLength(1);
+  });
+
+  it('SkillOffer: тестовый объект соответствует типу', () => {
+    const offer: SkillOffer = {
+      id: 1,
       title: 'JavaScript',
       description: 'Базовый курс',
       category: 'education',
@@ -23,8 +42,8 @@ describe('types', () => {
       imageUrl: '/skills/js.jpg',
       isFavorite: false,
     };
-    expect(skill.id).toBe(1);
-    expect(skill.category).toBe('education');
+    expect(offer.id).toBe(1);
+    expect(offer.category).toBe('education');
   });
 
   it('User: тестовый объект соответствует типу', () => {
@@ -34,8 +53,11 @@ describe('types', () => {
       avatar: '/avatars/1.png',
       city: 'Москва',
       birthday: '1992-03-29',
-      skillsTeach: [1001],
-      skillsLearn: [106, 601],
+      skillsTeach: [{ name: 'JavaScript', category: 'education' }],
+      skillsLearn: [
+        { name: 'English', category: 'languages' },
+        { name: 'Negotiation', category: 'business' },
+      ],
       isFavorite: false,
     };
     expect(user.id).toBe(1);

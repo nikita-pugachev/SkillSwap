@@ -1,17 +1,18 @@
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { SkillTag } from '@/components/ui/SkillTag';
 import { Button } from '@/components/ui/ButtonUI';
 import { Avatar } from '@/components/ui/Avatar';
 import { IconButton } from '@/components/ui/IconButton';
 import likeOutline from '@/assets/icons/like-outline.svg';
 import likeFilled from '@/assets/icons/like-filled.svg';
-import { SkillCategorySlug } from '@/utils/types';
+import type { UserSkill } from '@/utils/types';
 import styles from './UserCard.module.scss';
+import { toggleFavorite } from '@/services/slices/favoritesSlice';
+import { selectIsFavorite } from '@/services/selectors';
+import { RootState } from '@/services/store';
 
-export type UserSkill = {
-  name: string;
-  category?: SkillCategorySlug;
-};
+export type { UserSkill } from '@/utils/types';
 
 export interface UserCardProps {
   id: string | number;
@@ -21,8 +22,6 @@ export interface UserCardProps {
   birthday: string;
   skillsTeach: UserSkill[];
   skillsLearn: UserSkill[];
-  isFavorite: boolean;
-  onFavoriteToggle: (id: string | number) => void;
   onDetailsClick: (id: string | number) => void;
 }
 
@@ -34,10 +33,12 @@ export const UserCard: React.FC<UserCardProps> = ({
   birthday,
   skillsTeach,
   skillsLearn,
-  isFavorite,
-  onFavoriteToggle,
   onDetailsClick,
 }) => {
+  const dispatch = useDispatch();
+  const userId = Number(id);
+  const isFavorite = useSelector((state: RootState) => selectIsFavorite(userId)(state));
+
   const calculateAge = (birthDate: string): number => {
     const today = new Date();
     const birth = new Date(birthDate);
@@ -74,7 +75,6 @@ export const UserCard: React.FC<UserCardProps> = ({
     );
   };
 
-  const handleFavoriteClick = () => onFavoriteToggle(id);
   const handleDetailsClick = () => onDetailsClick(id);
 
   return (
@@ -93,22 +93,23 @@ export const UserCard: React.FC<UserCardProps> = ({
         <IconButton
           iconSrc={isFavorite ? likeFilled : likeOutline}
           ariaLabel={isFavorite ? 'Удалить из избранного' : 'Добавить в избранное'}
-          onClick={handleFavoriteClick}
+          onClick={() => dispatch(toggleFavorite(userId))}
           className={styles.favoriteButton}
         />
       </div>
 
-      <div className={styles.skillsSection}>
-        <h4 className={styles.skillsTitle}>Может научить:</h4>
-        <div className={styles.skillsList}>{renderSkillTags(skillsTeach)}</div>
+      <div className={styles.skillsBlock}>
+        <div className={styles.skillsSection}>
+          <h4 className={styles.skillsTitle}>Может научить:</h4>
+          <div className={styles.skillsList}>{renderSkillTags(skillsTeach)}</div>
+        </div>
+        <div className={styles.skillsSection}>
+          <h4 className={styles.skillsTitle}>Хочет научиться:</h4>
+          <div className={styles.skillsList}>{renderSkillTags(skillsLearn)}</div>
+        </div>
       </div>
 
-      <div className={styles.skillsSection}>
-        <h4 className={styles.skillsTitle}>Хочет научиться:</h4>
-        <div className={styles.skillsList}>{renderSkillTags(skillsLearn)}</div>
-      </div>
-
-      <Button variant="primary" onClick={handleDetailsClick}>
+      <Button variant="primary" onClick={handleDetailsClick} className={styles.detailsButton}>
         Подробнее
       </Button>
     </article>
