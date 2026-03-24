@@ -6,7 +6,8 @@ import { isSameDate, isDateDisabled } from '../../DateInput/DateInput.utils';
 import styles from './DateInputUI.module.scss';
 import { IconButton } from '../IconButton';
 import { ChevronIcon } from '../Icons/ChevronIcon';
-import { Button } from '..';
+import { Button } from '../ButtonUI';
+import { InputUI } from '../InputUI';
 
 export interface DateInputUIProps {
   id: string;
@@ -80,7 +81,7 @@ export const DateInputUI = ({
       </label>
 
       <div className={[styles.dateFrame, error ? styles.isError : ''].filter(Boolean).join(' ')}>
-        <input
+        <InputUI
           id={id}
           ref={inputRef}
           value={inputValue}
