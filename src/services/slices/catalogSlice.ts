@@ -13,7 +13,7 @@ const initialState: CatalogState = {
   users: [],
   skills: [],
   cities: [],
-  loading: false,
+  loading: true,
   error: null,
 };
 

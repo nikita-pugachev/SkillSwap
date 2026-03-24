@@ -1,6 +1,5 @@
 import { useState, useMemo } from 'react';
 import { FilterSidebar } from '@/components/FilterSidebar';
-import type { SkillCategoryData } from '@/components/FilterSidebar';
 import { UserCard } from '@/components/user-card';
 import { useLoadCatalogData } from '@/services/hooks/useLoadCatalogData';
 import { useAppSelector } from '@/services/hooks';
@@ -67,7 +66,7 @@ export const CatalogPage = () => {
         filters={filters}
         onChange={(newFilters) => setFilters((prev) => ({ ...prev, ...newFilters }))}
         cities={cities.map((city) => city.name)}
-        categories={skills as SkillCategoryData[]}
+        categories={skills}
       />
       <div>
         {filteredUsers.map((user) => {
