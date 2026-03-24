@@ -85,7 +85,14 @@ export default function LoginPage() {
 
       const usersData: UsersResponse = await response.json();
 
-      const user = usersData.users.find(
+      const rawRegisteredUsers = localStorage.getItem('registered_users');
+      const registeredUsers: AuthUserFromJson[] = rawRegisteredUsers
+        ? JSON.parse(rawRegisteredUsers)
+        : [];
+
+      const allUsers = [...usersData.users, ...registeredUsers];
+
+      const user = allUsers.find(
         (item) => item.email === data.email && item.password === data.password
       );
 

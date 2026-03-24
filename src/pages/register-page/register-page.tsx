@@ -1,5 +1,11 @@
 import { useEffect, useState } from 'react';
 
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setToken, setStoredUser } from '@/utils/auth';
+import { login } from '@/services/slices/authSlice';
+import type { AppDispatch } from '@/services/store';
+
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
@@ -25,6 +31,7 @@ import chevronUpIcon from '@/assets/icons/chevron-up.svg';
 import crossIcon from '@/assets/icons/cross.svg';
 import SchoolBoard from '@/assets/illustrations/school-board.svg';
 import galleryAddIcon from '@/assets/icons/gallery-add.svg';
+import defaultAvatar from '@/assets/icons/user.svg';
 
 const schema = yup.object({
   name: yup
@@ -44,8 +51,6 @@ const schema = yup.object({
     .string()
     .required('Подтвердите пароль')
     .oneOf([yup.ref('password')], 'Пароли не совпадают'),
-  skillName: yup.string().required('Введите название навыка'),
-  description: yup.string().required('Добавьте описание'),
 });
 
 type FormValues = {
@@ -53,8 +58,6 @@ type FormValues = {
   email: string;
   password: string;
   confirmPassword: string;
-  skillName: string;
-  description: string;
 };
 
 type RegisterUserFromJson = {
@@ -79,6 +82,8 @@ export default function RegisterPage() {
     localStorage.setItem('registerStep', String(step));
   }, [step]);
   const [showPassword, setShowPassword] = useState(false);
+  const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
 
   const {
     register,
@@ -96,8 +101,6 @@ export default function RegisterPage() {
       email: '',
       password: '',
       confirmPassword: '',
-      skillName: '',
-      description: '',
     },
   });
 
@@ -134,7 +137,14 @@ export default function RegisterPage() {
       const usersData: RegisterUsersResponse = await response.json();
       const { email } = getValues();
 
-      const existingUser = usersData.users.find((user) => user.email === email);
+      const rawRegisteredUsers = localStorage.getItem('registered_users');
+      const registeredUsers: RegisterUserFromJson[] = rawRegisteredUsers
+        ? JSON.parse(rawRegisteredUsers)
+        : [];
+
+      const allUsers = [...usersData.users, ...registeredUsers];
+
+      const existingUser = allUsers.find((user) => user.email === email);
 
       if (existingUser) {
         setError('email', {
@@ -166,13 +176,43 @@ export default function RegisterPage() {
   };
 
   const handleStepThreeSubmit = async () => {
-    const isValid = await trigger(['skillName', 'description']);
+    const formValues = getValues();
 
-    if (!isValid) {
-      return;
-    }
-    // TODO: после подключения полей шага 3 добавить проверку обязательных полей: skillCategory, skillSubcategory, images и реализовать следующий шаг сценария — модалку подтверждения
-    // TODO: после подтверждения в модалке завершить регистрацию
+    const newUser: RegisterUserFromJson = {
+      id: Date.now(),
+      name: formValues.name,
+      email: formValues.email,
+      password: formValues.password,
+      userAvatar: defaultAvatar,
+    };
+
+    saveRegisteredUser(newUser);
+
+    const authUser = {
+      id: newUser.id,
+      name: newUser.name,
+      userAvatar: newUser.userAvatar,
+    };
+
+    setToken(`mock-token-${newUser.id}`);
+    setStoredUser(authUser);
+    dispatch(login(authUser));
+
+    localStorage.removeItem('registerStep');
+
+    // TODO: после подключения полей шага 3 добавить валидацию обязательных полей: skillName, description, skillCategory, skillSubcategory, images.
+    // TODO: по финальному сценарию после шага 3 сначала открывать модалку подтверждения, завершение регистрации и редирект выполнять только после подтверждения.
+    navigate('/', { replace: true });
+  };
+
+  const saveRegisteredUser = (user: RegisterUserFromJson) => {
+    const rawUsers = localStorage.getItem('registered_users');
+
+    const registeredUsers: RegisterUserFromJson[] = rawUsers ? JSON.parse(rawUsers) : [];
+
+    registeredUsers.push(user);
+
+    localStorage.setItem('registered_users', JSON.stringify(registeredUsers));
   };
 
   const [openSelects, setOpenSelects] = useState({
@@ -324,6 +364,7 @@ export default function RegisterPage() {
                   e.preventDefault();
                   void handleStepTwoSubmit();
                 }}
+                noValidate
               >
                 <div className={authStyles.fields}>
                   <InputBaseContainerUI label="Имя" id="name" error={errors.name?.message}>
@@ -468,20 +509,16 @@ export default function RegisterPage() {
                 className={authStyles.formContainer}
                 onSubmit={(e) => {
                   e.preventDefault();
-                  handleStepThreeSubmit();
+                  void handleStepThreeSubmit();
                 }}
+                noValidate
               >
                 <div className={authStyles.fields}>
-                  <InputBaseContainerUI
-                    label="Название навыка"
-                    id="skillName"
-                    error={errors.skillName?.message}
-                  >
+                  <InputBaseContainerUI label="Название навыка" id="skillName">
                     <InputUI
                       id="skillName"
                       type="text"
                       placeholder="Введите название вашего навыка"
-                      {...register('skillName')}
                     />
                   </InputBaseContainerUI>
 
@@ -530,12 +567,7 @@ export default function RegisterPage() {
                       id="description"
                       className={styles.textarea}
                       placeholder="Коротко опишите, чему можете научить"
-                      {...register('description')}
                     />
-
-                    {errors.description?.message && (
-                      <span className={styles.errorText}>{errors.description.message}</span>
-                    )}
                   </div>
 
                   <div className={styles.uploadBlock}>

@@ -1,6 +1,16 @@
 import type { ButtonHTMLAttributes, InputHTMLAttributes, ReactNode } from 'react';
 import { render, screen } from '@testing-library/react';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import RegisterPage from './register-page';
+
+jest.mock('react-redux', () => ({
+  useDispatch: jest.fn(),
+}));
+
+jest.mock('react-router-dom', () => ({
+  useNavigate: jest.fn(),
+}));
 
 jest.mock('@/components/ui/ButtonUI', () => ({
   Button: ({
@@ -55,6 +65,12 @@ jest.mock('@/components/ui/IconButton', () => ({
 }));
 
 describe('RegisterPage', () => {
+  beforeEach(() => {
+    (useDispatch as unknown as jest.Mock).mockReturnValue(jest.fn());
+    (useNavigate as jest.Mock).mockReturnValue(jest.fn());
+    localStorage.clear();
+  });
+
   it('renders first registration step with email and password fields', () => {
     render(<RegisterPage />);
 
