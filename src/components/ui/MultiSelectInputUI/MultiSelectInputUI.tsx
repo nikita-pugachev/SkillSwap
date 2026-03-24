@@ -1,0 +1,208 @@
+import React, { useMemo } from 'react';
+import { InputUI } from '../InputUI/InputUI';
+import { IconButton } from '../IconButton/IconButton';
+import { ChevronIcon } from '../Icons/ChevronIcon';
+import { CheckboxButton } from '../CheckboxButton/CheckboxButton';
+import styles from './MultiSelectInputUI.module.scss';
+import type { TSubcategoryOption } from '@/utils/types';
+
+type TMultiSelectInputUIProps = {
+  id: string;
+  label?: string;
+  error?: string;
+  hint?: string;
+  placeholder?: string;
+  disabled?: boolean;
+  noOptionsText?: string;
+
+  isOpen: boolean;
+  rootRef: React.RefObject<HTMLDivElement | null>;
+  inputRef: React.RefObject<HTMLInputElement | null>;
+  inputValue: string;
+  selectedOptions: TSubcategoryOption[];
+  filteredOptions: TSubcategoryOption[];
+  selectedIds: Set<number>;
+  activeOptionIndex: number;
+
+  clearIconSrc: string;
+  shouldShowClear: boolean;
+  actionAriaLabel: string;
+
+  handleInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handleInputFocus: () => void;
+  handleInputKeyDown: (event: React.KeyboardEvent<HTMLInputElement>) => void;
+  handleActionClick: () => void;
+  handleToggleOption: (option: TSubcategoryOption) => void;
+};
+
+export const MultiSelectInputUI: React.FC<TMultiSelectInputUIProps> = ({
+  id,
+  label = 'Категория навыка, которому хотите научиться',
+  error,
+  hint,
+  placeholder = 'Выберите категорию',
+  disabled = false,
+  noOptionsText = 'Ничего не найдено',
+  isOpen,
+  rootRef,
+  inputRef,
+  inputValue,
+  selectedOptions,
+  filteredOptions,
+  selectedIds,
+  activeOptionIndex,
+  clearIconSrc,
+  shouldShowClear,
+  actionAriaLabel,
+  handleInputChange,
+  handleInputFocus,
+  handleInputKeyDown,
+  handleActionClick,
+  handleToggleOption,
+}) => {
+  const listboxId = `${id}-listbox`;
+  const hintId = `${id}-hint`;
+  const errorId = `${id}-error`;
+
+  const activeOption = activeOptionIndex >= 0 ? filteredOptions[activeOptionIndex] : null;
+  const activeDescendant = isOpen && activeOption ? `${id}-option-${activeOption.id}` : undefined;
+
+  const describedBy = useMemo(() => {
+    const ids: string[] = [];
+
+    if (hint && !error) {
+      ids.push(hintId);
+    }
+
+    if (error) {
+      ids.push(errorId);
+    }
+
+    return ids.length > 0 ? ids.join(' ') : undefined;
+  }, [hint, error, hintId, errorId]);
+
+  return (
+    <div className={styles.selectBox}>
+      {label && (
+        <label htmlFor={id} className={styles.labelInput}>
+          {label}
+        </label>
+      )}
+
+      <div
+        ref={rootRef}
+        className={[
+          styles.selectFrame,
+          isOpen ? styles.selectFrameOpen : '',
+          error ? styles.isError : '',
+          disabled ? styles.isDisabled : '',
+        ]
+          .filter(Boolean)
+          .join(' ')}
+      >
+        <div
+          className={[styles.inputArea, isOpen ? styles.inputAreaOpen : '']
+            .filter(Boolean)
+            .join(' ')}
+        >
+          <InputUI
+            ref={inputRef}
+            id={id}
+            type="text"
+            value={inputValue}
+            placeholder={selectedOptions.length === 0 ? placeholder : ''}
+            onChange={handleInputChange}
+            onFocus={handleInputFocus}
+            onKeyDown={handleInputKeyDown}
+            disabled={disabled}
+            autoComplete="off"
+            role="combobox"
+            aria-autocomplete="list"
+            aria-expanded={isOpen}
+            aria-controls={listboxId}
+            aria-activedescendant={activeDescendant}
+            aria-invalid={Boolean(error)}
+            aria-describedby={describedBy}
+            readOnly={!isOpen}
+          />
+
+          {shouldShowClear ? (
+            <IconButton
+              iconSrc={clearIconSrc}
+              ariaLabel={actionAriaLabel}
+              onClick={handleActionClick}
+              className={styles.actionButton}
+              type="button"
+              disabled={disabled}
+            />
+          ) : (
+            <button
+              type="button"
+              aria-label={actionAriaLabel}
+              onClick={handleActionClick}
+              className={styles.chevronButton}
+              disabled={disabled}
+            >
+              <ChevronIcon isOpen={isOpen} />
+            </button>
+          )}
+        </div>
+
+        {isOpen && (
+          <div
+            id={listboxId}
+            className={styles.dropdown}
+            role="listbox"
+            aria-label={label || placeholder}
+            aria-multiselectable="true"
+          >
+            {filteredOptions.length > 0 ? (
+              filteredOptions.map((option, index) => {
+                const isSelected = selectedIds.has(option.id);
+                const isActive = index === activeOptionIndex;
+
+                return (
+                  <div
+                    key={option.id}
+                    id={`${id}-option-${option.id}`}
+                    className={[
+                      styles.option,
+                      isSelected ? styles.optionSelected : '',
+                      isActive ? styles.optionActive : '',
+                    ]
+                      .filter(Boolean)
+                      .join(' ')}
+                    role="option"
+                    aria-selected={isSelected}
+                  >
+                    <div className={styles.optionMain}>
+                      <CheckboxButton
+                        label={option.title}
+                        state={isSelected ? 'checked' : 'empty'}
+                        onChange={() => handleToggleOption(option)}
+                      />
+                    </div>
+                  </div>
+                );
+              })
+            ) : (
+              <div className={styles.empty} aria-live="polite">
+                {noOptionsText}
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+
+      {error ? (
+        <p id={errorId} className={styles.errorInput} aria-live="polite">
+          {error}
+        </p>
+      ) : hint ? (
+        <p id={hintId} className={styles.hintInput}>
+          {hint}
+        </p>
+      ) : null}
+    </div>
+  );
+};

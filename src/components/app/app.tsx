@@ -23,7 +23,7 @@ export default function Root() {
   return (
     <Provider store={store}>
       <BrowserRouter>
-        <Header isLogin={false} user={user} />
+        <Header isLogin={true} user={user} />
         <Suspense fallback={null}>
           <Routes>
             <Route path="/" element={<CatalogPage />} />

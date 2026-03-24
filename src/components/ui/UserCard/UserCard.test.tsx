@@ -84,7 +84,23 @@ describe('UserCard', () => {
       favorites: {
         favoriteIds: [],
       },
-    } as RootState;
+      catalog: {
+        users: [],
+        skills: [],
+        cities: [],
+        loading: false,
+        error: null,
+      },
+      auth: {
+        user: null,
+        isAuthenticated: false,
+      },
+      skills: {
+        items: [],
+        searchQuery: '',
+        selectedCategory: '',
+      },
+    };
 
     mockedUseSelector.mockImplementation((selector: (state: RootState) => unknown) =>
       selector(mockState)
