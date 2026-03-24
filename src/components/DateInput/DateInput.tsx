@@ -27,9 +27,18 @@ export interface DateInputProps {
   id: string;
   label: string;
   placeholder: string;
+  defaultValue?: string;
+  onChange?: (value: string) => void;
 }
 
-export function DateInput({ disabled, id, label, placeholder }: DateInputProps): JSX.Element {
+export function DateInput({
+  disabled,
+  id,
+  label,
+  placeholder,
+  defaultValue = '',
+  onChange,
+}: DateInputProps): JSX.Element {
   const today = useMemo<Date>(() => startOfDay(new Date()), []);
   const minDate = useMemo<Date>(() => new Date(1900, 0, 1), []);
   const maxDate = today;
@@ -38,24 +47,28 @@ export function DateInput({ disabled, id, label, placeholder }: DateInputProps):
   const inputRef = useRef<HTMLInputElement | null>(null);
   const dialogRef = useRef<HTMLDivElement | null>(null);
 
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [selectedDate, setSelectedDate] = useState<NullableDate>(null);
-  const [draftDate, setDraftDate] = useState<NullableDate>(null);
+  const initialDate = useMemo(() => {
+    const parsed = parseDate(defaultValue);
+    if (!parsed) return null;
 
-  const base = draftDate ?? selectedDate ?? today;
+    return validateDate(parsed, { minDate, maxDate }) ? null : parsed;
+  }, [defaultValue, minDate, maxDate]);
+
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [selectedDate, setSelectedDate] = useState<NullableDate>(initialDate);
+  const [draftDate, setDraftDate] = useState<NullableDate>(initialDate);
+  const base = draftDate ?? initialDate ?? today;
   const [focusedDay, setFocusedDay] = useState<NullableDate>(base);
-  const [viewDate, setViewDate] = useState<Date>(today);
-  const [inputValue, setInputValue] = useState<string>('');
+  const [viewDate, setViewDate] = useState<Date>(initialDate ?? today);
+  const [inputValue, setInputValue] = useState<string>(initialDate ? formatDate(initialDate) : '');
   const [error, setError] = useState<string>('');
   const [touched, setTouched] = useState<boolean>(false);
 
   const years = useMemo<number[]>(() => {
     const result: number[] = [];
-
     for (let year = maxDate.getFullYear(); year >= minDate.getFullYear(); year -= 1) {
       result.push(year);
     }
-
     return result;
   }, [minDate, maxDate]);
 
@@ -141,9 +154,11 @@ export function DateInput({ disabled, id, label, placeholder }: DateInputProps):
         setDraftDate(parsed);
         setFocusedDay(parsed);
         setViewDate(parsed);
-        setInputValue(formatDate(parsed));
+        const formattedDate = formatDate(parsed);
+        setInputValue(formattedDate);
         setError('');
         setIsOpen(false);
+        onChange?.(formattedDate);
         return;
       }
     }
@@ -153,9 +168,11 @@ export function DateInput({ disabled, id, label, placeholder }: DateInputProps):
 
       if (!validationError) {
         setSelectedDate(draftDate);
-        setInputValue(formatDate(draftDate));
+        const formattedDate = formatDate(draftDate);
+        setInputValue(formattedDate);
         setError('');
         setIsOpen(false);
+        onChange?.(formattedDate);
         return;
       }
     }
@@ -171,6 +188,7 @@ export function DateInput({ disabled, id, label, placeholder }: DateInputProps):
     setFocusedDay(today);
     setError('');
     setIsOpen(false);
+    onChange?.('');
   }
 
   function moveFocusedDay(diff: number): void {

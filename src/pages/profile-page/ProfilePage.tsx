@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { FormEvent, useEffect, useRef, useState } from 'react';
 import styles from './ProfilePage.module.scss';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui';
@@ -7,6 +7,12 @@ import { Footer } from '@/components/Footer/Footer';
 import { InputBaseContainerUI } from '@/components/ui/InputBaseContainerUI';
 import { InputUI } from '@/components/ui/InputUI';
 import { IconButton } from '@/components/ui/IconButton';
+import { SelectInput } from '@/components/SelectInput/SelectInput';
+import { DateInput } from '@/components/DateInput';
+import { useAppDispatch, useAppSelector } from '@/services/hooks';
+import { selectUser } from '@/services/selectors';
+import { userEdit } from '@/services/slices/authSlice';
+import type { TSelectOption } from '@/utils/types';
 
 import IconMail from '@/assets/icons/request.svg?react';
 import IconMessage from '@/assets/icons/message-text.svg?react';
@@ -16,29 +22,94 @@ import IconUser from '@/assets/icons/user.svg?react';
 import IconEdit from '@/assets/icons/edit.svg?react';
 import eyeSlashIcon from '@/assets/icons/eye-slash.svg';
 import eyeIcon from '@/assets/icons/eye.svg';
-import calendarIcon from '@/assets/icons/calendar.svg';
-import chevronDownIcon from '@/assets/icons/chevron-down.svg';
-import chevronUpIcon from '@/assets/icons/chevron-up.svg';
-import crossIcon from '@/assets/icons/cross.svg';
 import IconGalleryEdit from '@/assets/icons/gallery-edit.svg?react';
 
 export default function ProfilePage() {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
-  const [email, setEmail] = useState('#TODO почта пользователя');
-  const emailRef = useRef<HTMLInputElement>(null);
+  const user = useAppSelector(selectUser);
+
+  const [cities, setCities] = useState<TSelectOption[]>([]);
+  const [genders, setGenders] = useState<TSelectOption[]>([]);
 
   const [isOpen, setOpen] = useState(false);
 
-  const [password, setPassword] = useState('#TODO пароль пользователя');
+  const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const passwordRef = useRef<HTMLDivElement>(null);
 
-  const [name, setName] = useState('Пользователь');
+  const [name, setName] = useState('');
   const nameRef = useRef<HTMLInputElement>(null);
 
-  const [about, setAbout] = useState('#TODO о пользователе');
+  const [about, setAbout] = useState('');
+  const [birthday, setBirthday] = useState('');
+  const [gender, setGender] = useState<TSelectOption | null>(null);
+  const [city, setCity] = useState<TSelectOption | null>(null);
+  const [email, setEmail] = useState('');
+  const emailRef = useRef<HTMLInputElement>(null);
   const aboutRef = useRef<HTMLTextAreaElement>(null);
+
+  useEffect(() => {
+    const fetchCities = async () => {
+      try {
+        const response = await fetch('/db/cities.json');
+        if (!response.ok) {
+          throw new Error('Ошибка загрузки городов');
+        }
+
+        const data: TSelectOption[] = await response.json();
+        setCities(data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    const fetchGender = async () => {
+      try {
+        const response = await fetch('/db/gender.json');
+        if (!response.ok) {
+          throw new Error('Ошибка загрузки пола');
+        }
+
+        const data: TSelectOption[] = await response.json();
+        setGenders(data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchCities();
+    fetchGender();
+  }, []);
+
+  useEffect(() => {
+    if (!user) {
+      return;
+    }
+
+    setEmail(user.email ?? '');
+    setPassword(user.password ?? '');
+    setName(user.name ?? '');
+    setAbout(user.about ?? '');
+    setBirthday(user.birthday ?? '');
+  }, [user]);
+
+  useEffect(() => {
+    if (!user?.city || cities.length === 0) {
+      return;
+    }
+
+    setCity(cities.find((option) => option.name === user.city) ?? null);
+  }, [user?.city, cities]);
+
+  useEffect(() => {
+    if (!user?.gender || genders.length === 0) {
+      return;
+    }
+
+    setGender(genders.find((option) => option.name === user.gender) ?? null);
+  }, [user?.gender, genders]);
 
   const handleEditEmail = () => {
     setEmail('');
@@ -59,24 +130,24 @@ export default function ProfilePage() {
     setShowPassword((prev) => !prev);
   };
 
-  const [openSelects, setOpenSelects] = useState({
-    gender: false,
-    city: false,
-    learnCategory: false,
-    learnSubcategory: false,
-    skillCategory: false,
-    skillSubcategory: false,
-  });
-
-  const toggleSelect = (selectName: keyof typeof openSelects) => {
-    setOpenSelects((prev) => ({
-      ...prev,
-      [selectName]: !prev[selectName],
-    }));
-  };
-
   const handleFavorit = () => {
     navigate('/favorites');
+  };
+
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    dispatch(
+      userEdit({
+        email,
+        password,
+        name,
+        about,
+        birthday,
+        gender: gender?.name as 'Мужской' | 'Женский' | undefined,
+        city: city?.name,
+      })
+    );
   };
 
   return (
@@ -118,7 +189,7 @@ export default function ProfilePage() {
         </nav>
         <div className={styles.profileInfo}>
           <div>
-            <form className={styles.form} onSubmit={(e) => e.preventDefault()}>
+            <form className={styles.form} onSubmit={handleSubmit}>
               <InputBaseContainerUI className={styles.field} label="Почта" id="email">
                 <div className={styles.inputEdit}>
                   <InputUI
@@ -170,68 +241,32 @@ export default function ProfilePage() {
               </InputBaseContainerUI>
               <div className={styles.row}>
                 <div className={styles.rowItem}>
-                  <InputBaseContainerUI label="Дата рождения" id="birthDate">
-                    <button
-                      id="birthDate"
-                      type="button"
-                      className={styles.selectField}
-                      // TODO: открыть календарь
-                    >
-                      <span
-                        className={styles.selectText} //TODO Дата рождения
-                      >
-                        20.03.2026
-                      </span>
-
-                      <img src={calendarIcon} alt="" aria-hidden="true" />
-                    </button>
-                  </InputBaseContainerUI>
+                  <DateInput
+                    disabled={false}
+                    id="birthDate"
+                    label="Дата рождения"
+                    placeholder="дд.мм.гггг"
+                    defaultValue={birthday}
+                    onChange={setBirthday}
+                  />
                 </div>
-
                 <div className={styles.rowItem}>
-                  <InputBaseContainerUI label="Пол" id="gender">
-                    <button
-                      id="gender"
-                      type="button"
-                      className={styles.selectField}
-                      onClick={() => toggleSelect('gender')}
-                    >
-                      <span
-                        className={styles.selectText} //TODO Пол
-                      >
-                        Мужской
-                      </span>
-
-                      <img
-                        src={openSelects.gender ? chevronUpIcon : chevronDownIcon}
-                        alt=""
-                        aria-hidden="true"
-                      />
-                    </button>
-                  </InputBaseContainerUI>
+                  <SelectInput
+                    id="gender"
+                    label="Пол"
+                    options={genders}
+                    defaultValue={gender?.name}
+                    onChange={setGender}
+                  />
                 </div>
               </div>
-              <InputBaseContainerUI label="Город" id="city">
-                <button
-                  id="city"
-                  type="button"
-                  className={styles.selectField}
-                  onClick={() => toggleSelect('city')}
-                  // TODO: открыть поиск и список городов
-                >
-                  <span
-                    className={styles.selectText} //TODO Город
-                  >
-                    Москва
-                  </span>
-
-                  <img
-                    src={openSelects.city ? crossIcon : chevronDownIcon}
-                    alt=""
-                    aria-hidden="true"
-                  />
-                </button>
-              </InputBaseContainerUI>
+              <SelectInput
+                id="city"
+                label="Город"
+                options={cities}
+                defaultValue={city?.name}
+                onChange={setCity}
+              />
               <div>
                 <label htmlFor="about" className={styles.textareaLabel}>
                   О себе
@@ -255,7 +290,9 @@ export default function ProfilePage() {
                   </button>
                 </div>
               </div>
-              <Button variant="primary">Сохранить</Button>
+              <Button variant="primary" type="submit">
+                Сохранить
+              </Button>
             </form>
           </div>
           <div className={styles.avatarWrapper}>
