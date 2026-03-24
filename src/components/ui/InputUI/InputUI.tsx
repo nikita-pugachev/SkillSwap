@@ -5,7 +5,7 @@ export const InputUI = forwardRef<HTMLInputElement, InputHTMLAttributes<HTMLInpu
   ({ id, className = '', type = 'text', ...props }, ref) => {
     const inputClassName = [styles.input, className].filter(Boolean).join(' ');
 
-    return <input id={id} ref={ref} type={type} className={inputClassName} {...props} />;
+    return <input ref={ref} id={id} type={type} className={inputClassName} {...props} />;
   }
 );
 

@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, MouseEvent as ReactMouseEvent } from 'react';
 import styles from './IconButton.module.scss';
 
 interface IconButtonProps {
@@ -7,6 +7,8 @@ interface IconButtonProps {
   onClick?: () => void;
   className?: string;
   type?: 'button' | 'submit' | 'reset';
+  disabled?: boolean;
+  onMouseDown?: (event: ReactMouseEvent<HTMLButtonElement>) => void;
 }
 
 export const IconButton: FC<IconButtonProps> = ({
@@ -15,6 +17,8 @@ export const IconButton: FC<IconButtonProps> = ({
   onClick,
   className = '',
   type = 'button',
+  disabled = false,
+  onMouseDown,
 }) => {
   return (
     <button
@@ -22,6 +26,8 @@ export const IconButton: FC<IconButtonProps> = ({
       className={`${styles.iconButton} ${className}`}
       onClick={onClick}
       aria-label={ariaLabel}
+      disabled={disabled}
+      onMouseDown={onMouseDown}
     >
       <img className={styles.icon} src={iconSrc} alt="" aria-hidden="true" />
     </button>
