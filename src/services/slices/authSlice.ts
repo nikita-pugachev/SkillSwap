@@ -4,8 +4,8 @@ export type AuthUser = {
   id: number;
   name: string;
   userAvatar: string;
-  email?: string;
-  password?: string;
+  email: string;
+  password: string;
   city: string;
   gender?: 'Мужской' | 'Женский';
   birthday?: string;
@@ -17,8 +17,9 @@ type AuthState = {
   isAuthenticated: boolean;
 };
 
+const savedUser = localStorage.getItem('user');
 const initialState: AuthState = {
-  user: null,
+  user: savedUser ? JSON.parse(savedUser) : null,
   isAuthenticated: true,
 };
 
