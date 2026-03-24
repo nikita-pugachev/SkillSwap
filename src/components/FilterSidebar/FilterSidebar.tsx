@@ -7,32 +7,17 @@ import styles from './FilterSidebar.module.scss';
 import ChevronDown from '@/assets/icons/chevron-down.svg?react';
 import ChevronUp from '@/assets/icons/chevron-up.svg?react';
 
-type SkillSubcategory = {
-  id: number;
-  title: string;
-};
-
-export type SkillCategoryData = {
-  id: number;
-  title: string;
-  icon: string;
-  subcategories: SkillSubcategory[];
-};
+import type { Skill, Filters } from '@/utils/types';
 
 export interface FilterSidebarProps {
-  filters: {
-    mode: 'all' | 'wantToLearn' | 'canTeach';
-    skills: number[];
-    gender: 'Мужской' | 'Женский' | null;
-    city: string[];
-  };
-  onChange: (newFilters: Partial<FilterSidebarProps['filters']>) => void;
+  filters: Filters;
+  onChange: (newFilters: Partial<Filters>) => void;
   cities?: string[];
-  categories?: SkillCategoryData[];
+  categories?: Skill[];
 }
 
 // Хук для управления раскрытием категорий (без эффекта)
-const useExpandedCategories = (categories: SkillCategoryData[]) => {
+const useExpandedCategories = (categories: Skill[]) => {
   const [expanded, setExpanded] = useState<Record<number, boolean>>({});
 
   const toggleExpand = (categoryId: number) => {
@@ -66,12 +51,12 @@ export const FilterSidebar = ({
 
   // Обработчик изменения режима (роли)
   const handleModeChange = (value: string) => {
-    onChange({ mode: value as 'all' | 'wantToLearn' | 'canTeach' });
+    onChange({ mode: value as Filters['mode'] });
   };
 
   // Обработчик изменения пола
   const handleGenderChange = (value: string) => {
-    let gender: 'Мужской' | 'Женский' | null = null;
+    let gender: Filters['gender'] = null;
     if (value === 'male') gender = 'Мужской';
     else if (value === 'female') gender = 'Женский';
     onChange({ gender });
