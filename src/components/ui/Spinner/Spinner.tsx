@@ -3,7 +3,7 @@ import styles from './Spinner.module.scss';
 
 interface SpinnerProps {
   size?: 'sm' | 'md' | 'lg';
-  label?: string; // текст для скринридеров
+  label?: string;
 }
 
 const sizeMap = {
