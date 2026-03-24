@@ -17,6 +17,7 @@
   --color-input-hover: #e4e8df;
   --color-input-border: #69735d;
   --color-icon: var(--color-text-primary);
+  --icon-filter: none;
 
   /* Фокус */
   --color-focus: var(--color-accent);
@@ -70,4 +71,43 @@
   --radius-secondary: 24px;
   --radius-tag: 20px;
   --radius-circle: 50%;
+}
+
+:root[data-theme='dark'] {
+  /* Основной текст */
+  --color-text-primary: #e6edd9;
+  --color-text-secondary: #aab39e;
+  --color-text-disabled: #6d7464;
+
+  /* UI */
+  --color-toggle: #6d7464;
+  --color-disabled: #2a3023;
+  --color-surface: #1e2419;
+  --color-overlay: #0009;
+  --color-accent: #abd27a;
+  --color-accent-pressed: #86b65a;
+  --color-button-hover: #37422a;
+  --color-input-hover: #2a3023;
+  --color-input-border: #8f9b82;
+  --color-icon: var(--color-text-primary);
+  --icon-filter: brightness(0) invert(1);
+
+  /* Фокус */
+  --color-focus: #c5e79b;
+
+  /* Фон */
+  --color-bg: #12170f;
+
+  /* Системные */
+  --color-alarm: #ff9b8e;
+  --color-error: #ff7f6b;
+
+  /* Цвет тэгов */
+  --color-tag-business: #2a2f45;
+  --color-tag-art: #422c37;
+  --color-tag-languages: #404125;
+  --color-tag-education: #263947;
+  --color-tag-home: #46362d;
+  --color-tag-health: #24402c;
+  --color-tag-other: #283249;
 }
