@@ -2,7 +2,12 @@ import type { ButtonHTMLAttributes, InputHTMLAttributes, ReactNode } from 'react
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import LoginPage from './login-page';
+
+jest.mock('react-redux', () => ({
+  useDispatch: jest.fn(),
+}));
 
 jest.mock('@/components/ui/ButtonUI', () => ({
   Button: ({
@@ -63,6 +68,10 @@ describe('LoginPage', () => {
         <LoginPage />
       </MemoryRouter>
     );
+
+  beforeEach(() => {
+    (useDispatch as unknown as jest.Mock).mockReturnValue(jest.fn());
+  });
 
   it('renders page title and onboarding text', () => {
     renderPage();

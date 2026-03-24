@@ -1,4 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
 
 import authStyles from '@/assets/styles/auth.module.scss';
 import styles from './register-page.module.scss';
@@ -22,11 +26,80 @@ import crossIcon from '@/assets/icons/cross.svg';
 import SchoolBoard from '@/assets/illustrations/school-board.svg';
 import galleryAddIcon from '@/assets/icons/gallery-add.svg';
 
+const schema = yup.object({
+  name: yup
+    .string()
+    .required('Введите имя')
+    .min(2, 'Минимум 2 символа')
+    .max(30, 'Максимум 30 символов'),
+  email: yup
+    .string()
+    .required('Введите email')
+    .matches(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, 'Некорректный email'),
+  password: yup
+    .string()
+    .required('Введите пароль')
+    .min(6, 'Пароль должен содержать не менее 6 знаков'),
+  confirmPassword: yup
+    .string()
+    .required('Подтвердите пароль')
+    .oneOf([yup.ref('password')], 'Пароли не совпадают'),
+  skillName: yup.string().required('Введите название навыка'),
+  description: yup.string().required('Добавьте описание'),
+});
+
+type FormValues = {
+  name: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+  skillName: string;
+  description: string;
+};
+
+type RegisterUserFromJson = {
+  id: number;
+  name: string;
+  email: string;
+  password: string;
+  userAvatar: string;
+};
+
+type RegisterUsersResponse = {
+  users: RegisterUserFromJson[];
+};
+
 export default function RegisterPage() {
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(() => {
+    const savedStep = Number(localStorage.getItem('registerStep'));
+    return [1, 2, 3].includes(savedStep) ? savedStep : 1;
+  });
+
+  useEffect(() => {
+    localStorage.setItem('registerStep', String(step));
+  }, [step]);
   const [showPassword, setShowPassword] = useState(false);
-  // TODO: получать из состояния формы (Redux)
-  const passwordError: string | undefined = undefined;
+
+  const {
+    register,
+    trigger,
+    getValues,
+    setError,
+    formState: { errors },
+  } = useForm<FormValues>({
+    resolver: yupResolver(schema),
+    mode: 'onBlur',
+    reValidateMode: 'onBlur',
+    shouldUnregister: false,
+    defaultValues: {
+      name: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
+      skillName: '',
+      description: '',
+    },
+  });
 
   const togglePassword = () => {
     setShowPassword((prev) => !prev);
@@ -42,6 +115,64 @@ export default function RegisterPage() {
     if (step > 1) {
       setStep((prev) => prev - 1);
     }
+  };
+
+  const handleStepOneSubmit = async () => {
+    const isValid = await trigger(['email', 'password', 'confirmPassword']);
+
+    if (!isValid) {
+      return;
+    }
+
+    try {
+      const response = await fetch('/db/users.json');
+
+      if (!response.ok) {
+        throw new Error('Failed to load users');
+      }
+
+      const usersData: RegisterUsersResponse = await response.json();
+      const { email } = getValues();
+
+      const existingUser = usersData.users.find((user) => user.email === email);
+
+      if (existingUser) {
+        setError('email', {
+          type: 'manual',
+          message: 'Пользователь с таким email уже существует',
+        });
+        return;
+      }
+
+      handleNextStep();
+    } catch {
+      setError('email', {
+        type: 'manual',
+        message: 'Не удалось проверить email. Попробуйте позже',
+      });
+    }
+  };
+
+  const handleStepTwoSubmit = async () => {
+    const isValid = await trigger(['name']);
+
+    // TODO: после подключения остальных полей шага 2 к форме добавить валидацию обязательных полей: trigger(['birthDate', 'gender', 'city', 'learnCategory', 'learnSubcategory'])
+
+    if (!isValid) {
+      return;
+    }
+
+    handleNextStep();
+  };
+
+  const handleStepThreeSubmit = async () => {
+    const isValid = await trigger(['skillName', 'description']);
+
+    if (!isValid) {
+      return;
+    }
+    // TODO: после подключения полей шага 3 добавить проверку обязательных полей: skillCategory, skillSubcategory, images и реализовать следующий шаг сценария — модалку подтверждения
+    // TODO: после подтверждения в модалке завершить регистрацию
   };
 
   const [openSelects, setOpenSelects] = useState({
@@ -96,26 +227,32 @@ export default function RegisterPage() {
                 className={authStyles.formContainer}
                 onSubmit={(e) => {
                   e.preventDefault();
-                  handleNextStep();
-                  // TODO: сохранить данные первого шага и перейти дальше
+                  void handleStepOneSubmit();
                 }}
+                noValidate
               >
                 <div className={authStyles.fields}>
-                  <InputBaseContainerUI label="Email" id="email">
-                    <InputUI id="email" type="email" placeholder="Введите email" />
+                  <InputBaseContainerUI label="Email" id="email" error={errors.email?.message}>
+                    <InputUI
+                      id="email"
+                      type="email"
+                      placeholder="Введите email"
+                      {...register('email')}
+                    />
                   </InputBaseContainerUI>
 
                   <InputBaseContainerUI
                     label="Пароль"
                     id="password"
-                    error={passwordError}
-                    hint="Пароль должен содержать не менее 8 знаков"
+                    error={errors.password?.message}
+                    hint="Пароль должен содержать не менее 6 знаков"
                   >
                     <div className={authStyles.passwordField}>
                       <InputUI
                         id="password"
                         type={showPassword ? 'text' : 'password'}
                         placeholder="Придумайте надёжный пароль"
+                        {...register('password')}
                       />
 
                       <IconButton
@@ -124,6 +261,19 @@ export default function RegisterPage() {
                         onClick={togglePassword}
                       />
                     </div>
+                  </InputBaseContainerUI>
+
+                  <InputBaseContainerUI
+                    label="Подтвердите пароль"
+                    id="confirmPassword"
+                    error={errors.confirmPassword?.message}
+                  >
+                    <InputUI
+                      id="confirmPassword"
+                      type={showPassword ? 'text' : 'password'}
+                      placeholder="Повторите пароль"
+                      {...register('confirmPassword')}
+                    />
                   </InputBaseContainerUI>
                 </div>
 
@@ -168,18 +318,21 @@ export default function RegisterPage() {
                   />
                 </button>
               </div>
-
               <form
                 className={authStyles.formContainer}
                 onSubmit={(e) => {
                   e.preventDefault();
-                  handleNextStep();
-                  // TODO: сохранить данные второго шага регистрации и перейти дальше
+                  void handleStepTwoSubmit();
                 }}
               >
                 <div className={authStyles.fields}>
-                  <InputBaseContainerUI label="Имя" id="name">
-                    <InputUI id="name" type="text" placeholder="Введите ваше имя" />
+                  <InputBaseContainerUI label="Имя" id="name" error={errors.name?.message}>
+                    <InputUI
+                      id="name"
+                      type="text"
+                      placeholder="Введите ваше имя"
+                      {...register('name')}
+                    />
                   </InputBaseContainerUI>
 
                   <div className={styles.row}>
@@ -315,15 +468,20 @@ export default function RegisterPage() {
                 className={authStyles.formContainer}
                 onSubmit={(e) => {
                   e.preventDefault();
-                  // TODO: показать модальное окно подтверждения профиля
+                  handleStepThreeSubmit();
                 }}
               >
                 <div className={authStyles.fields}>
-                  <InputBaseContainerUI label="Название навыка" id="skillName">
+                  <InputBaseContainerUI
+                    label="Название навыка"
+                    id="skillName"
+                    error={errors.skillName?.message}
+                  >
                     <InputUI
                       id="skillName"
                       type="text"
                       placeholder="Введите название вашего навыка"
+                      {...register('skillName')}
                     />
                   </InputBaseContainerUI>
 
@@ -372,7 +530,12 @@ export default function RegisterPage() {
                       id="description"
                       className={styles.textarea}
                       placeholder="Коротко опишите, чему можете научить"
+                      {...register('description')}
                     />
+
+                    {errors.description?.message && (
+                      <span className={styles.errorText}>{errors.description.message}</span>
+                    )}
                   </div>
 
                   <div className={styles.uploadBlock}>

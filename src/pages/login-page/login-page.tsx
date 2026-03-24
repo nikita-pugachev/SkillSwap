@@ -1,5 +1,14 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+
+import { useDispatch } from 'react-redux';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+import { setToken, setStoredUser } from '@/utils/auth';
+
+import type { AppDispatch } from '@/services/store';
+import { login } from '@/services/slices/authSlice';
 
 import authStyles from '@/assets/styles/auth.module.scss';
 import styles from './login-page.module.scss';
@@ -15,13 +24,89 @@ import appleIcon from '@/assets/icons/logo/apple.svg';
 import googleIcon from '@/assets/icons/logo/google.svg';
 import lightBulb from '@/assets/illustrations/light-bulb.svg';
 
+const schema = yup.object({
+  email: yup
+    .string()
+    .required('Введите email')
+    .matches(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, 'Некорректный email'),
+  password: yup
+    .string()
+    .required('Введите пароль')
+    .min(6, 'Пароль должен содержать не менее 6 знаков'),
+});
+
+type FormValues = {
+  email: string;
+  password: string;
+};
+
+type AuthUserFromJson = {
+  id: number;
+  name: string;
+  email: string;
+  password: string;
+  userAvatar: string;
+};
+
+type UsersResponse = {
+  users: AuthUserFromJson[];
+};
+
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
-  // TODO: получать из состояния формы (Redux)
-  const passwordError: string | undefined = undefined;
+  const [authError, setAuthError] = useState('');
+
+  const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormValues>({
+    resolver: yupResolver(schema),
+    mode: 'onBlur',
+    reValidateMode: 'onBlur',
+  });
 
   const togglePassword = () => {
     setShowPassword((prev) => !prev);
+  };
+
+  const onSubmit = async (data: FormValues) => {
+    setAuthError('');
+
+    try {
+      const response = await fetch('/db/users.json');
+
+      if (!response.ok) {
+        throw new Error('Failed to load users');
+      }
+
+      const usersData: UsersResponse = await response.json();
+
+      const user = usersData.users.find(
+        (item) => item.email === data.email && item.password === data.password
+      );
+
+      if (!user) {
+        setAuthError('Неверный email или пароль');
+        return;
+      }
+
+      const authUser = {
+        id: user.id,
+        name: user.name,
+        userAvatar: user.userAvatar,
+      };
+
+      setToken(`mock-token-${user.id}`);
+      setStoredUser(authUser);
+      dispatch(login(authUser));
+      navigate('/', { replace: true });
+    } catch {
+      setAuthError('Не удалось выполнить вход. Попробуйте позже');
+    }
   };
 
   return (
@@ -48,27 +133,36 @@ export default function LoginPage() {
           <div className={authStyles.divider}>или</div>
 
           <div className={styles.authBlock}>
-            <form
-              className={authStyles.formContainer}
-              onSubmit={(e) => {
-                e.preventDefault();
-                // TODO: dispatch login action
-              }}
-            >
+            <form className={authStyles.formContainer} onSubmit={handleSubmit(onSubmit)} noValidate>
               <div className={authStyles.fields}>
-                <InputBaseContainerUI label="Email" id="email">
-                  <InputUI id="email" type="email" placeholder="Введите email" />
+                <InputBaseContainerUI label="Email" id="email" error={errors.email?.message}>
+                  <InputUI
+                    id="email"
+                    type="email"
+                    placeholder="Введите email"
+                    {...register('email', {
+                      onChange: () => setAuthError(''),
+                    })}
+                  />
                 </InputBaseContainerUI>
 
-                <InputBaseContainerUI label="Пароль" id="password" error={passwordError}>
+                <InputBaseContainerUI
+                  label="Пароль"
+                  id="password"
+                  error={errors.password?.message || authError}
+                >
                   <div className={authStyles.passwordField}>
                     <InputUI
                       id="password"
                       type={showPassword ? 'text' : 'password'}
                       placeholder="Введите ваш пароль"
+                      {...register('password', {
+                        onChange: () => setAuthError(''),
+                      })}
                     />
 
                     <IconButton
+                      type="button"
                       iconSrc={showPassword ? eyeSlashIcon : eyeIcon}
                       ariaLabel={showPassword ? 'Скрыть пароль' : 'Показать пароль'}
                       onClick={togglePassword}
