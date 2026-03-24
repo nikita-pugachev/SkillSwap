@@ -13,8 +13,6 @@ export const removeToken = (): void => {
   localStorage.removeItem(TOKEN_KEY);
 };
 
-export const isAuthenticated = (): boolean => Boolean(getToken());
-
 export const getStoredUser = (): AuthUser | null => {
   const rawUser = localStorage.getItem(USER_KEY);
 
