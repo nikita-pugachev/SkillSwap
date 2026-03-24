@@ -12,3 +12,6 @@ export { FormInputUI } from './FormInputUI';
 export { ErrorPageUI } from './ErrorPageUI';
 export { DateInputUI } from './DateInputUI';
 export { MultiSelectInputUI } from './MultiSelectInputUI';
+export { NavigationButton } from './NavigationButton';
+export { IconButton } from './IconButton';
+export { SkillCard } from './SkillCard';
