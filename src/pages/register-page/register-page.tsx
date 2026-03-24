@@ -101,6 +101,7 @@ export default function RegisterPage() {
                 onSubmit={(e) => {
                   e.preventDefault();
                   handleNextStep();
+                  // TODO: сохранить данные первого шага и перейти дальше
                 }}
               >
                 <div className={authStyles.fields}>
@@ -156,7 +157,12 @@ export default function RegisterPage() {
               aria-label="Форма регистрации: шаг 2"
             >
               <div className={styles.avatarBlock}>
-                <button type="button" className={styles.avatarButton} aria-label="Добавить фото">
+                <button
+                  type="button"
+                  className={styles.avatarButton}
+                  aria-label="Добавить фото"
+                  // TODO: открыть загрузку фото профиля
+                >
                   <img
                     src={avatarAddIcon}
                     alt=""
@@ -171,6 +177,7 @@ export default function RegisterPage() {
                 onSubmit={(e) => {
                   e.preventDefault();
                   handleNextStep();
+                  // TODO: сохранить данные второго шага регистрации и перейти дальше
                 }}
               >
                 <div className={authStyles.fields}>
@@ -261,6 +268,7 @@ export default function RegisterPage() {
                 className={authStyles.formContainer}
                 onSubmit={(e) => {
                   e.preventDefault();
+                  // TODO: показать модальное окно подтверждения профиля
                 }}
               >
                 <div className={authStyles.fields}>
@@ -303,7 +311,11 @@ export default function RegisterPage() {
 
                   <div className={styles.uploadBlock}>
                     <p className={styles.uploadText}>Перетащите или выберите изображения навыка</p>
-                    <button type="button" className={styles.uploadButton}>
+                    <button
+                      type="button"
+                      className={styles.uploadButton}
+                      // TODO: открыть выбор изображений
+                    >
                       <img
                         src={galleryAddIcon}
                         alt=""
