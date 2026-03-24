@@ -70,9 +70,7 @@ export const CatalogPage = () => {
         setError(err instanceof Error ? err.message : 'Неизвестная ошибка');
       }
     } finally {
-      if (requestId === latestRequest.current) {
-        setLoading(false);
-      }
+      if (requestId === latestRequest.current) setLoading(false);
     }
   }, [fetchSkills, fetchCities, fetchUsers]);
 
@@ -92,7 +90,6 @@ export const CatalogPage = () => {
           return false;
         }
       }
-
       if (filters.city.length > 0) {
         const userCityName = cities.find((city) => city.id === user.cityId)?.name;
 
@@ -100,21 +97,18 @@ export const CatalogPage = () => {
           return false;
         }
       }
-
       if (filters.mode === 'wantToLearn') {
         return (
           filters.skills.length === 0 ||
           user.skillsLearn.some((skillId) => filters.skills.includes(skillId))
         );
       }
-
       if (filters.mode === 'canTeach') {
         return (
           filters.skills.length === 0 ||
           user.skillsTeach.some((skill) => filters.skills.includes(skill.subcategoryId))
         );
       }
-
       return true;
     });
   }, [users, filters, cities]);
