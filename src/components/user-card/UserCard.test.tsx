@@ -88,6 +88,11 @@ describe('UserCard', () => {
         user: null,
         isAuthenticated: false,
       },
+      skills: {
+        items: [],
+        searchQuery: '',
+        selectedCategory: '',
+      },
     };
 
     mockedUseSelector.mockImplementation((selector: (state: RootState) => unknown) =>
