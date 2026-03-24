@@ -1,15 +1,7 @@
 import { createRef } from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-
 import { InputUI } from './InputUI';
-
-jest.mock('./InputUI.module.scss', () => ({
-  __esModule: true,
-  default: {
-    input: 'input',
-  },
-}));
 
 describe('InputUI', () => {
   it('renders input with default type="text"', () => {

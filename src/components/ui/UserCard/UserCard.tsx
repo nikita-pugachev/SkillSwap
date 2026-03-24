@@ -1,11 +1,11 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { SkillTag } from '@/components/ui/SkillTag';
-import { Button } from '@/components/ui/ButtonUI';
-import { Avatar } from '@/components/ui/Avatar';
-import { IconButton } from '@/components/ui/IconButton';
-import likeOutline from '@/assets/icons/like-outline.svg';
-import likeFilled from '@/assets/icons/like-filled.svg';
+import { Avatar } from '../Avatar';
+import { Button } from '../Button';
+import { IconButton } from '../IconButton';
+import { SkillTag } from '../SkillTag';
+import LikeOutline from '@/assets/icons/like-outline.svg';
+import LikeFilled from '@/assets/icons/like-filled.svg';
 import type { UserSkill } from '@/utils/types';
 import styles from './UserCard.module.scss';
 import { toggleFavorite } from '@/services/slices/favoritesSlice';
@@ -91,7 +91,7 @@ export const UserCard: React.FC<UserCardProps> = ({
         </div>
 
         <IconButton
-          iconSrc={isFavorite ? likeFilled : likeOutline}
+          iconSrc={isFavorite ? LikeFilled : LikeOutline}
           ariaLabel={isFavorite ? 'Удалить из избранного' : 'Добавить в избранное'}
           onClick={() => dispatch(toggleFavorite(userId))}
           className={styles.favoriteButton}

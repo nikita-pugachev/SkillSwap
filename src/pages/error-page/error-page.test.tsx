@@ -1,9 +1,9 @@
 import type { ButtonHTMLAttributes } from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { ErrorPage } from './ErrorPage';
+import { ErrorPage } from './error-page';
 import { useNavigate, useParams } from 'react-router-dom';
-import type { ErrorType } from '@/pages/ErrorPage/model/errorConfig';
+import type { ErrorType } from '@/pages/error-page/model/errorConfig';
 
 const navigateMock = jest.fn();
 
@@ -12,16 +12,13 @@ jest.mock('react-router-dom', () => ({
   useParams: jest.fn(),
 }));
 
-jest.mock('@/components/ui/ErrorPageUI', () => ({
+jest.mock('@/components/ui', () => ({
   ErrorPageUI: ({ title, description }: { title: string; description: string }) => (
     <section data-testid="error-page-ui">
       <h1>{title}</h1>
       <p>{description}</p>
     </section>
   ),
-}));
-
-jest.mock('@/components/ui', () => ({
   Button: ({ children, ...props }: ButtonHTMLAttributes<HTMLButtonElement>) => (
     <button type="button" {...props}>
       {children}
@@ -29,7 +26,7 @@ jest.mock('@/components/ui', () => ({
   ),
 }));
 
-jest.mock('@/pages/ErrorPage/model/errorConfig', () => ({
+jest.mock('@/pages/error-page/model/errorConfig', () => ({
   errorConfig: {
     notFoundError: {
       title: 'Страница не найдена',

@@ -25,11 +25,11 @@ jest.mock('@/services/selectors', () => ({
 const mockSelectIsFavorite = selectIsFavorite as unknown as jest.Mock;
 
 // --- UI mocks ---
-jest.mock('@/components/ui/Avatar', () => ({
+jest.mock('../Avatar', () => ({
   Avatar: () => <div data-testid="avatar" />,
 }));
 
-jest.mock('@/components/ui/IconButton', () => ({
+jest.mock('../IconButton', () => ({
   IconButton: ({ ariaLabel, onClick }: { ariaLabel: string; onClick: () => void }) => (
     <button aria-label={ariaLabel} onClick={onClick} data-testid="icon-button">
       icon
@@ -37,7 +37,7 @@ jest.mock('@/components/ui/IconButton', () => ({
   ),
 }));
 
-jest.mock('@/components/ui/SkillTag', () => ({
+jest.mock('../SkillTag', () => ({
   SkillTag: ({ label, count, category }: { label?: string; count?: number; category?: string }) => (
     <div data-testid="skill-tag" data-category={category}>
       {label} {count ? `+${count}` : ''}
@@ -45,7 +45,7 @@ jest.mock('@/components/ui/SkillTag', () => ({
   ),
 }));
 
-jest.mock('@/components/ui/ButtonUI', () => ({
+jest.mock('../Button', () => ({
   Button: ({ children, onClick }: { children: React.ReactNode; onClick?: () => void }) => (
     <button onClick={onClick}>{children}</button>
   ),

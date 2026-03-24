@@ -4,15 +4,15 @@
 
 .dropdownButton {
   display: flex;
-  gap: 4px;
   align-items: center;
+  gap: 4px;
+  border: none;
   color: var(--color-text-primary);
-  font-size: var(--font-size-body);
-  font-weight: var(--font-weight-regular);
   font-family: var(--font-family-base);
+  font-weight: var(--font-weight-regular);
+  font-size: var(--font-size-body);
   letter-spacing: 0.02em;
   background: none;
-  border: none;
 
   &:hover {
     color: var(--color-accent);
@@ -31,10 +31,10 @@
 .menuPanel {
   position: absolute;
   z-index: 1;
-  overflow-y: auto;
-  background: var(--color-surface);
   border: 1px solid var(--color-text-secondary);
   border-radius: var(--radius-primary);
+  overflow-y: auto;
+  background: var(--color-surface);
 }
 
 .container {
