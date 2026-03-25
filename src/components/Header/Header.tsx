@@ -1,17 +1,14 @@
 import { FC, useState } from 'react';
-import { Logo } from '../ui/Logo/Logo';
-import { SearchInput } from '../SearchInput/SearchInput';
-import { Button } from '../ui/ButtonUI/ButtonUI';
-import { Avatar } from '../ui';
-import { CategoryDropdown } from '../category-dropdown';
-import { IconButton } from '../ui/IconButton';
+import { Avatar, Logo, Button, IconButton } from '@/components/ui';
+import { SearchInput } from '../SearchInput';
+import { CategoryDropdown } from '../CategoryDropdown';
 import { useNavigate, useLocation } from 'react-router-dom';
 import styles from './Header.module.scss';
 
-import crossIcon from '@/assets/icons/cross.svg';
-import moonIcon from '@/assets/icons/moon.svg';
-import notificationIcon from '@/assets/icons/notification.svg';
-import likeOutlineIcon from '@/assets/icons/like-outline.svg';
+import CrossIcon from '@/assets/icons/cross.svg';
+import MoonIcon from '@/assets/icons/moon.svg';
+import NotificationIcon from '@/assets/icons/notification.svg';
+import LikeOutlineIcon from '@/assets/icons/like-outline.svg';
 
 const THEME_STORAGE_KEY = 'theme';
 type Theme = 'light' | 'dark';
@@ -64,7 +61,7 @@ export const Header: FC<HeaderProps> = ({ isLogin, user }) => {
         <div className={styles.right}>
           <Button variant="tertiary" onClick={handleBackSpace}>
             Закрыть
-            <img src={crossIcon} alt="" className={styles.icon} />
+            <img src={CrossIcon} alt="" className={styles.icon} />
           </Button>
         </div>
       </header>
@@ -95,22 +92,22 @@ export const Header: FC<HeaderProps> = ({ isLogin, user }) => {
         {isLogin ? (
           <div className={styles.iconContainer}>
             <IconButton
-              iconSrc={moonIcon}
+              iconSrc={MoonIcon}
               ariaLabel="Смена темы"
               className={styles.icon}
               onClick={handleToggleTheme}
             />
             <IconButton
-              iconSrc={notificationIcon}
+              iconSrc={NotificationIcon}
               ariaLabel="Уведомления"
               className={styles.icon}
             />
-            <IconButton iconSrc={likeOutlineIcon} ariaLabel="Избранное" className={styles.icon} />
+            <IconButton iconSrc={LikeOutlineIcon} ariaLabel="Избранное" className={styles.icon} />
           </div>
         ) : (
           <div className={styles.iconContainer}>
             <IconButton
-              iconSrc={moonIcon}
+              iconSrc={MoonIcon}
               ariaLabel="Смена темы"
               className={styles.icon}
               onClick={handleToggleTheme}

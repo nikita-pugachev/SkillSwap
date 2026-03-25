@@ -1,40 +1,30 @@
+import React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
-import { type ButtonProps } from '../ui/ButtonUI/ButtonUI';
 
-// ----------------------
-// Моки для всех компонентов, которые тянут ассеты
-// ----------------------
-jest.mock('../ui/Logo/Logo', () => ({
+jest.mock('@/components/ui', () => ({
+  Avatar: ({ name }: { name: string }) => <img alt={name} />,
   Logo: () => <div data-testid="logo" />,
-}));
-
-jest.mock('../SearchInput/SearchInput', () => ({
-  SearchInput: () => <input data-testid="search-input" />,
-}));
-
-jest.mock('../category-dropdown', () => ({
-  CategoryDropdown: () => <div data-testid="category-dropdown" />,
-}));
-
-jest.mock('../ui/IconButton', () => ({
-  IconButton: ({ onClick, ariaLabel }: { onClick?: () => void; ariaLabel: string }) => (
-    <button onClick={onClick} aria-label={ariaLabel} data-testid="icon-button" />
+  IconButton: ({ ariaLabel, onClick }: { ariaLabel: string; onClick?: () => void }) => (
+    <button type="button" aria-label={ariaLabel} onClick={onClick} />
+  ),
+  Button: ({ children, onClick }: { children: React.ReactNode; onClick?: () => void }) => (
+    <button onClick={onClick}>{children}</button>
   ),
 }));
 
-jest.mock('../ui', () => ({
-  Avatar: ({ name }: { name: string }) => <img alt={name} />,
+jest.mock('../SearchInput', () => ({
+  SearchInput: ({ className }: { className?: string }) => (
+    <div data-testid="search-input" className={className} />
+  ),
 }));
 
-jest.mock('../ui/ButtonUI/ButtonUI', () => ({
-  Button: ({ children, onClick }: ButtonProps) => <button onClick={onClick}>{children}</button>,
+jest.mock('../CategoryDropdown', () => ({
+  CategoryDropdown: () => <div data-testid="category-dropdown" />,
 }));
 
-// ----------------------
 // Мокаем useNavigate, чтобы проверить navigate(-1)
-// ----------------------
 const mockNavigate = jest.fn();
 
 jest.mock('react-router-dom', () => {
@@ -45,14 +35,10 @@ jest.mock('react-router-dom', () => {
   };
 });
 
-// ----------------------
 // Импорт компонента после моков
-// ----------------------
 import { Header, type HeaderProps } from './Header';
 
-// ----------------------
 // Тестовые данные
-// ----------------------
 const mockUser: HeaderProps['user'] = {
   name: 'Тест Пользователь',
   avatar: '/avatar.png',
@@ -65,9 +51,7 @@ const renderHeader = (props: HeaderProps, route = '/') =>
     </MemoryRouter>
   );
 
-// ----------------------
 // Тесты
-// ----------------------
 describe('Header component', () => {
   beforeEach(() => {
     localStorage.clear();

@@ -2,7 +2,7 @@ import type { ButtonHTMLAttributes, InputHTMLAttributes, ReactNode } from 'react
 import { render, screen } from '@testing-library/react';
 import RegisterPage from './register-page';
 
-jest.mock('@/components/ui/ButtonUI', () => ({
+jest.mock('@/components/ui', () => ({
   Button: ({
     children,
     type = 'button',
@@ -12,13 +12,7 @@ jest.mock('@/components/ui/ButtonUI', () => ({
       {children}
     </button>
   ),
-}));
-
-jest.mock('@/components/ui/InputUI', () => ({
   InputUI: (props: InputHTMLAttributes<HTMLInputElement>) => <input {...props} />,
-}));
-
-jest.mock('@/components/ui/InputBaseContainerUI', () => ({
   InputBaseContainerUI: ({
     label,
     id,
@@ -36,9 +30,6 @@ jest.mock('@/components/ui/InputBaseContainerUI', () => ({
       {error ? <span>{error}</span> : null}
     </div>
   ),
-}));
-
-jest.mock('@/components/ui/IconButton', () => ({
   IconButton: ({
     ariaLabel,
     onClick,
