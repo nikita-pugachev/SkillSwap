@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
 import { FilterSidebar } from '@/components/FilterSidebar';
-import { UserCard } from '@/components/user-card';
+import { UserCard } from '@/components/ui/UserCard';
 import { CatalogLoading, CatalogError, CatalogEmpty } from './components';
 import { useLoadCatalogData } from '@/services/hooks/useLoadCatalogData';
 import { useAppSelector } from '@/services/hooks';
