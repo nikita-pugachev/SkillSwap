@@ -20,4 +20,5 @@ export { SelectInputUI } from './SelectInputUI';
 export { SkillCard } from './SkillCard';
 export { SkillCategory } from './SkillCategory';
 export { SkillTag } from './SkillTag';
+export { Spinner } from './Spinner';
 export { UserCard } from './UserCard';
