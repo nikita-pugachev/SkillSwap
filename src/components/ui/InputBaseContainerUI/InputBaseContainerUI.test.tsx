@@ -1,19 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-
 import { InputBaseContainerUI } from './InputBaseContainerUI';
-
-jest.mock('./InputBaseContainerUI.module.scss', () => ({
-  __esModule: true,
-  default: {
-    inputBaseContainer: 'inputBaseContainer',
-    labelInput: 'labelInput',
-    inputBase: 'inputBase',
-    inputBaseSearch: 'inputBaseSearch',
-    errorInput: 'errorInput',
-    hintInput: 'hintInput',
-  },
-}));
 
 describe('InputBaseContainerUI', () => {
   it('renders label and binds it to id', () => {

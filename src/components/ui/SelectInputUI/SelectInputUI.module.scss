@@ -1,0 +1,144 @@
+.selectBox {
+  font-family: var(--font-family-base);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+}
+
+.labelInput {
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-body);
+  color: var(--color-text-primary);
+}
+
+.errorInput,
+.hintInput {
+  font-size: var(--font-size-caption);
+  line-height: var(--line-height-caption);
+}
+
+.errorInput {
+  color: var(--color-error);
+}
+
+.hintInput {
+  color: var(--color-text-secondary);
+}
+
+.selectFrame {
+  width: 100%;
+  border: 1px solid var(--color-input-border);
+  border-radius: var(--radius-primary);
+  background-color: var(--color-surface);
+  overflow: hidden;
+  transition:
+    border-color 0.15s ease,
+    background-color 0.15s ease;
+}
+
+.selectFrame:hover {
+  background-color: var(--color-input-hover);
+  border-color: var(--color-input-border);
+}
+
+.selectFrameOpen {
+  background-color: var(--color-surface);
+  border-color: var(--color-input-border);
+}
+
+.selectFrameOpen:hover {
+  background-color: var(--color-surface);
+  border-color: var(--color-input-border);
+}
+
+.inputArea {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 48px;
+  padding: 12px 20px;
+  background-color: transparent;
+}
+
+.inputAreaOpen {
+  border-bottom: 1px solid var(--color-disabled);
+  border-radius: var(--radius-primary);
+}
+
+.isError {
+  border-color: var(--color-error);
+}
+
+.actionButton {
+  flex-shrink: 0;
+}
+
+.chevronButton {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: inherit;
+}
+
+.chevronButton:disabled {
+  cursor: default;
+}
+
+.dropdown {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 8px 0;
+  max-height: 120px;
+  overflow-y: auto;
+  background-color: var(--color-surface);
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-scroll) transparent;
+
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+    margin: 8px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: var(--color-scroll);
+    border-radius: 8px;
+  }
+}
+
+.option {
+  width: 100%;
+  border: none;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  padding: 4px 20px;
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-body);
+  color: var(--color-text-primary);
+
+  &:hover {
+    background-color: var(--color-input-hover);
+  }
+}
+
+.optionSelected {
+  color: var(--color-accent-pressed);
+}
+
+.empty {
+  padding: 4px 20px;
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-body);
+  color: var(--color-text-secondary);
+}

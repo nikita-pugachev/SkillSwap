@@ -2,9 +2,8 @@ import { FC, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { SearchInput } from '@/components/SearchInput/SearchInput';
-import { CategoryDropdown } from '@/components/category-dropdown';
-import { Avatar } from '@/components/ui';
-import { Button } from '@/components/ui/ButtonUI/ButtonUI';
+import { CategoryDropdown } from '@/components/CategoryDropdown';
+import { Avatar, Button } from '@/components/ui';
 import { IconButton } from '@/components/ui/IconButton';
 import { Logo } from '@/components/ui/Logo/Logo';
 

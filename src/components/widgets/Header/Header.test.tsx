@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
 
-import { type ButtonProps } from '@/components/ui/ButtonUI/ButtonUI';
+import { type ButtonProps } from '@/components/ui/Button';
 
 jest.mock('@/components/ui/Logo/Logo', () => ({
   Logo: () => <div data-testid="logo" />,
@@ -12,7 +12,7 @@ jest.mock('@/components/SearchInput/SearchInput', () => ({
   SearchInput: () => <input data-testid="search-input" />,
 }));
 
-jest.mock('@/components/category-dropdown', () => ({
+jest.mock('@/components/CategoryDropdown', () => ({
   CategoryDropdown: () => <div data-testid="category-dropdown" />,
 }));
 
@@ -24,9 +24,6 @@ jest.mock('@/components/ui/IconButton', () => ({
 
 jest.mock('@/components/ui', () => ({
   Avatar: ({ name }: { name: string }) => <img alt={name} />,
-}));
-
-jest.mock('@/components/ui/ButtonUI/ButtonUI', () => ({
   Button: ({ children, onClick }: ButtonProps) => <button onClick={onClick}>{children}</button>,
 }));
 
@@ -41,7 +38,6 @@ jest.mock('react-router-dom', () => {
 });
 
 import { Header, type HeaderProps } from './Header';
-
 const mockUser: HeaderProps['user'] = {
   name: 'Тест Пользователь',
   avatar: '/avatar.png',
@@ -54,6 +50,7 @@ const renderHeader = (props: HeaderProps, route = '/') =>
     </MemoryRouter>
   );
 
+// Тесты
 describe('Header component', () => {
   beforeEach(() => {
     mockNavigate.mockClear();

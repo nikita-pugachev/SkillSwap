@@ -3,10 +3,7 @@ import { useState } from 'react';
 import authStyles from '@/assets/styles/auth.module.scss';
 import styles from './register-page.module.scss';
 
-import { Button } from '@/components/ui/ButtonUI';
-import { IconButton } from '@/components/ui/IconButton';
-import { InputBaseContainerUI } from '@/components/ui/InputBaseContainerUI';
-import { InputUI } from '@/components/ui/InputUI';
+import { Button, IconButton, InputBaseContainerUI, InputUI } from '@/components/ui';
 
 import eyeIcon from '@/assets/icons/eye.svg?react';
 import eyeSlashIcon from '@/assets/icons/eye-slash.svg?react';

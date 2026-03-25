@@ -1,9 +1,11 @@
-import styles from './CardSection.module.scss';
-import Icon from '@/assets/icons/chevron-right.svg?react';
-import { UserCard } from '@/components/user-card';
-import type { UserCardModel } from '@/utils/types';
-import { Button } from '@/components/ui';
 import { useNavigate } from 'react-router-dom';
+import { Button } from '@/components/ui';
+import { UserCard } from '@/components/ui/UserCard/UserCard';
+import type { UserCardModel } from '@/utils/types';
+
+import styles from './CardSection.module.scss';
+
+import Icon from '@/assets/icons/chevron-right.svg?react';
 
 export interface UsersSectionProps {
   title?: string;

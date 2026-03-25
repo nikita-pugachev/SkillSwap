@@ -1,0 +1,54 @@
+.wrapper {
+  position: relative;
+}
+
+.dropdownButton {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  border: none;
+  color: var(--color-text-primary);
+  font-family: var(--font-family-base);
+  font-weight: var(--font-weight-regular);
+  font-size: var(--font-size-body);
+  letter-spacing: 0.02em;
+  background: none;
+
+  &:hover {
+    color: var(--color-accent);
+
+    .chevron {
+      color: inherit;
+    }
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 1px;
+  }
+}
+
+.menuPanel {
+  position: absolute;
+  z-index: 1;
+  border: 1px solid var(--color-text-secondary);
+  border-radius: var(--radius-primary);
+  overflow-y: auto;
+  background: var(--color-surface);
+}
+
+.container {
+  padding: 60px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 40px;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}

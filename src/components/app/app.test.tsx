@@ -1,26 +1,28 @@
-import { render, screen } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
-import { Provider } from 'react-redux';
-import { store } from '@/services/store';
 import { Suspense } from 'react';
+import { render, screen } from '@testing-library/react';
+import { Provider } from 'react-redux';
+import { MemoryRouter } from 'react-router-dom';
+
+import { login, logout } from '@/services/slices/authSlice';
+import { store } from '@/services/store';
 
 jest.mock('@/pages/catalog-page', () => ({ default: () => <div>Catalog Page</div> }));
-jest.mock('@/pages/login-page', () => ({ default: () => <div>Login Page</div> }));
-jest.mock('@/pages/profile-page', () => ({ default: () => <div>Profile Page</div> }));
-jest.mock('@/pages/ErrorPage', () => ({
+jest.mock('@/pages/error-page', () => ({
   default: ({ defaultType }: { defaultType?: string }) => (
     <div>{defaultType === 'notFoundError' ? '404 Error Page' : 'Error Page'}</div>
   ),
 }));
+jest.mock('@/pages/login-page', () => ({ default: () => <div>Login Page</div> }));
+jest.mock('@/pages/profile-page', () => ({ default: () => <div>Profile Page</div> }));
 
 const renderAt = (path: string) => {
-  const { Routes, Route } = jest.requireActual('react-router-dom');
+  const { Route, Routes } = jest.requireActual('react-router-dom');
+  const { ProtectedRoute } = jest.requireActual('@/components/protected-route');
+
   const CatalogPage = jest.requireMock('@/pages/catalog-page').default;
+  const ErrorPage = jest.requireMock('@/pages/error-page').default;
   const LoginPage = jest.requireMock('@/pages/login-page').default;
   const ProfilePage = jest.requireMock('@/pages/profile-page').default;
-  const ErrorPage = jest.requireMock('@/pages/ErrorPage').default;
-
-  const { ProtectedRoute } = jest.requireActual('@/components/protected-route');
 
   return render(
     <Provider store={store}>
@@ -44,6 +46,7 @@ const renderAt = (path: string) => {
 describe('Routing', () => {
   beforeEach(() => {
     localStorage.clear();
+    store.dispatch(logout());
   });
 
   it('renders CatalogPage on "/"', () => {
@@ -67,9 +70,23 @@ describe('Routing', () => {
     expect(screen.getByText('Login Page')).toBeInTheDocument();
   });
 
+  it('renders ProfilePage when user is logged in via Redux', () => {
+    store.dispatch(
+      login({
+        id: 1,
+        name: 'Test User',
+        userAvatar: '/test-avatar.png',
+      })
+    );
+
+    renderAt('/profile');
+    expect(screen.getByText('Profile Page')).toBeInTheDocument();
+  });
+
   it('renders ProfilePage when token and valid userId are present', () => {
     localStorage.setItem('token', 'mock-token');
     localStorage.setItem('userId', '7');
+
     renderAt('/profile');
     expect(screen.getByText('Profile Page')).toBeInTheDocument();
   });

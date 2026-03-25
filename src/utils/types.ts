@@ -7,6 +7,19 @@ export type SkillCategorySlug =
   | 'health'
   | 'other';
 
+export interface SkillSubcategory {
+  id: number;
+  title: string;
+}
+
+export interface SkillCategory {
+  id: number;
+  title: string;
+  icon: string;
+  slug: SkillCategorySlug;
+  subcategories: SkillSubcategory[];
+}
+
 export type SkillType = 'teach' | 'learn';
 export type FilterMode = 'all' | 'wantToLearn' | 'canTeach';
 export type Gender = 'Мужской' | 'Женский';
@@ -17,7 +30,19 @@ export interface SkillAuthor {
   avatar: string;
 }
 
+export interface Subcategory {
+  id: number;
+  title: string;
+}
+
 export interface Skill {
+  id: number;
+  title: string;
+  icon: string;
+  subcategories: Subcategory[];
+}
+
+export interface SkillOffer {
   id: number;
   title: string;
   description: string;
@@ -44,18 +69,6 @@ export interface UserCardModel {
   skillsLearn: UserSkillTag[];
   isFavorite: boolean;
   likes: number;
-}
-
-export interface Subcategory {
-  id: number;
-  title: string;
-}
-
-export interface SkillCategory {
-  id: number;
-  title: string;
-  icon: string;
-  subcategories: Subcategory[];
 }
 
 export interface City {
@@ -91,3 +104,37 @@ export interface UserDb {
   likes: number;
   createdAt: string;
 }
+
+export type TSelectOption = {
+  id: number;
+  name: string;
+};
+
+export type NullableDate = Date | null;
+
+export type CalendarCell = {
+  date: Date;
+  currentMonth: boolean;
+};
+
+export type DateValidationOptions = {
+  minDate: Date;
+  maxDate: Date;
+};
+
+export type TCategoryWithSubcategories = {
+  id: number;
+  title: string;
+  icon: string;
+  subcategories: {
+    id: number;
+    title: string;
+  }[];
+};
+
+export type TSubcategoryOption = {
+  id: number;
+  title: string;
+  categoryId: number;
+  categoryTitle: string;
+};

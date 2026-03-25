@@ -1,42 +1,25 @@
 import { useState } from 'react';
-import { RadioGroup } from '@/components/ui/RadioGroup';
-import { CheckboxButton } from '@/components/ui/CheckboxButton';
-import { SkillCategory } from '@/components/ui';
-
+import { RadioGroup, CheckboxButton, SkillCategory } from '@/components/ui';
 import styles from './FilterSidebar.module.scss';
 
 import ChevronDown from '@/assets/icons/chevron-down.svg?react';
 import ChevronUp from '@/assets/icons/chevron-up.svg?react';
 import CrossIcon from '@/assets/icons/cross.svg?react';
 
-type SkillSubcategory = {
-  id: number;
-  title: string;
-};
-
-export type SkillCategoryData = {
-  id: number;
-  title: string;
-  icon: string;
-  subcategories: SkillSubcategory[];
-};
+import type { Skill, Filters } from '@/utils/types';
 
 export interface FilterSidebarProps {
-  filters: {
-    mode: 'all' | 'wantToLearn' | 'canTeach';
-    skills: number[];
-    gender: 'Мужской' | 'Женский' | null;
-    city: string[];
-  };
-  onChange: (newFilters: Partial<FilterSidebarProps['filters']>) => void;
+  filters: Filters;
+  onChange: (newFilters: Partial<Filters>) => void;
   onReset: () => void;
   activeFiltersCount: number;
   canReset?: boolean;
   cities?: string[];
-  categories?: SkillCategoryData[];
+  categories?: Skill[];
 }
 
-const useExpandedCategories = (categories: SkillCategoryData[]) => {
+// Хук для управления раскрытием категорий (без эффекта)
+const useExpandedCategories = (categories: Skill[]) => {
   const [expanded, setExpanded] = useState<Record<number, boolean>>({});
 
   const toggleExpand = (categoryId: number) => {
@@ -76,12 +59,11 @@ export const FilterSidebar = ({
   const shouldShowReset = canReset ?? activeFiltersCount > 0;
 
   const handleModeChange = (value: string) => {
-    onChange({ mode: value as 'all' | 'wantToLearn' | 'canTeach' });
+    onChange({ mode: value as Filters['mode'] });
   };
 
   const handleGenderChange = (value: string) => {
-    let gender: 'Мужской' | 'Женский' | null = null;
-
+    let gender: Filters['gender'] = null;
     if (value === 'male') gender = 'Мужской';
     else if (value === 'female') gender = 'Женский';
 

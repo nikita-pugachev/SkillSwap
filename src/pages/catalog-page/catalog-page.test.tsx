@@ -54,7 +54,16 @@ jest.mock('@/components/FilterSidebar', () => ({
   ),
 }));
 
-jest.mock('@/components/ui/CardSection', () => ({
+jest.mock('@/components/ui', () => ({
+  Button: ({
+    children,
+    type = 'button',
+    ...props
+  }: ButtonHTMLAttributes<HTMLButtonElement> & { children: ReactNode }) => (
+    <button type={type} {...props}>
+      {children}
+    </button>
+  ),
   CardSection: ({
     title,
     cards,
@@ -84,18 +93,6 @@ jest.mock('@/components/ui/CardSection', () => ({
   ),
 }));
 
-jest.mock('@/components/ui', () => ({
-  Button: ({
-    children,
-    type = 'button',
-    ...props
-  }: ButtonHTMLAttributes<HTMLButtonElement> & { children: ReactNode }) => (
-    <button type={type} {...props}>
-      {children}
-    </button>
-  ),
-}));
-
 const mockedGetSkills = getSkills as jest.MockedFunction<typeof getSkills>;
 const mockedGetCities = getCities as jest.MockedFunction<typeof getCities>;
 const mockedGetUsers = getUsers as jest.MockedFunction<typeof getUsers>;
@@ -105,6 +102,7 @@ const skills: SkillCategory[] = [
     id: 1,
     title: 'Иностранные языки',
     icon: 'languages',
+    slug: 'languages',
     subcategories: [
       { id: 10, title: 'Английский' },
       { id: 11, title: 'Испанский' },
@@ -114,6 +112,7 @@ const skills: SkillCategory[] = [
     id: 2,
     title: 'Творчество и искусство',
     icon: 'art',
+    slug: 'art',
     subcategories: [{ id: 20, title: 'Рисование' }],
   },
 ];

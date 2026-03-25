@@ -12,7 +12,7 @@ const RegisterPage = lazy(() => import('@/pages/register-page'));
 const ProfilePage = lazy(() => import('@/pages/profile-page'));
 const FavoritesPage = lazy(() => import('@/pages/favorites-page'));
 const CreatePage = lazy(() => import('@/pages/create-page'));
-const ErrorPage = lazy(() => import('@/pages/ErrorPage'));
+const ErrorPage = lazy(() => import('@/pages/error-page'));
 
 export default function Root() {
   return (

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { InputBaseContainerUI } from '../ui/InputBaseContainerUI';
-import { FormInputUI } from '../ui/FormInputUI/FormInputUI';
+import { InputBaseContainerUI, FormInputUI } from '@/components/ui';
 
 export interface FormInputProps {
   type: string;

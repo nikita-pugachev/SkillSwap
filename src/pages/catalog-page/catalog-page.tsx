@@ -1,15 +1,17 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useOutletContext } from 'react-router-dom';
+import { FilterSidebar } from '@/components/FilterSidebar';
+import { Button, CardSection } from '@/components/ui';
+import { getAuthenticatedUserId } from '@/utils/auth';
+import { getCities, getSkills, getUsers } from '@/utils/api';
+import type { City, Filters, SkillCategory, UserCardModel, UserDb } from '@/utils/types';
+import { CatalogEmpty } from './components/CatalogEmpty';
+import { CatalogLoading } from './components/CatalogLoading';
+import { CatalogError } from './components/CatalogError';
 
 import ChevronLeftIcon from '@/assets/icons/chevron-left.svg?react';
 import CrossIcon from '@/assets/icons/cross.svg?react';
 import SortIcon from '@/assets/icons/sort.svg?react';
-import { FilterSidebar } from '@/components/FilterSidebar';
-import { Button } from '@/components/ui';
-import { CardSection } from '@/components/ui/CardSection';
-import { getAuthenticatedUserId } from '@/utils/auth';
-import { getCities, getSkills, getUsers } from '@/utils/api';
-import type { City, Filters, SkillCategory, UserCardModel, UserDb } from '@/utils/types';
 
 import {
   type FilterChip,
@@ -364,11 +366,11 @@ export const CatalogPage = () => {
   ]);
 
   if (loading) {
-    return <div>Загрузка...</div>;
+    return <CatalogLoading />;
   }
 
   if (error) {
-    return <div>Ошибка: {error}</div>;
+    return <CatalogError message={error} onRetry={() => window.location.reload()} />;
   }
 
   return (
@@ -445,20 +447,28 @@ export const CatalogPage = () => {
               )}
             </div>
 
-            <CardSection cards={collectionCards} isLogin={isAuthenticated} />
+            {collectionCards.length === 0 ? (
+              <CatalogEmpty />
+            ) : (
+              <CardSection cards={collectionCards} isLogin={isAuthenticated} />
+            )}
           </>
         ) : (
           <>
-            {homeSections.map((section) => (
-              <CardSection
-                key={section.title}
-                title={section.title}
-                buttonText={section.buttonText}
-                cards={section.cards}
-                onActionClick={section.onActionClick}
-                isLogin={isAuthenticated}
-              />
-            ))}
+            {recommendedCards.length === 0 ? (
+              <CatalogEmpty />
+            ) : (
+              homeSections.map((section) => (
+                <CardSection
+                  key={section.title}
+                  title={section.title}
+                  buttonText={section.buttonText}
+                  cards={section.cards}
+                  onActionClick={section.onActionClick}
+                  isLogin={isAuthenticated}
+                />
+              ))
+            )}
           </>
         )}
       </section>
