@@ -64,6 +64,33 @@ export function DateInput({
   const [error, setError] = useState<string>('');
   const [touched, setTouched] = useState<boolean>(false);
 
+  const defaultSyncRef = useRef<{
+    selectedDate: NullableDate;
+    draftDate: NullableDate;
+    focusedDay: NullableDate;
+    viewDate: Date;
+    inputValue: string;
+    error: string;
+    touched: boolean;
+  } | null>(null);
+
+  const defaultSyncValues = useMemo(() => {
+    const nextBase = initialDate ?? today;
+
+    return {
+      selectedDate: initialDate,
+      draftDate: initialDate,
+      focusedDay: nextBase,
+      viewDate: nextBase,
+      inputValue: initialDate ? formatDate(initialDate) : '',
+      error: '',
+      touched: false,
+    };
+  }, [initialDate, today]);
+  useEffect(() => {
+    defaultSyncRef.current = defaultSyncValues;
+  }, [defaultSyncValues]);
+
   const years = useMemo<number[]>(() => {
     const result: number[] = [];
     for (let year = maxDate.getFullYear(); year >= minDate.getFullYear(); year -= 1) {
@@ -82,11 +109,12 @@ export function DateInput({
         setViewDate(selectedDate ?? today);
         setFocusedDay(selectedDate ?? today);
         setError('');
+        onChange?.(selectedDate ? formatDate(selectedDate) : '');
       }
 
       setIsOpen(false);
     },
-    [selectedDate, today]
+    [selectedDate, today, onChange]
   );
 
   function openCalendar(): void {
@@ -141,6 +169,7 @@ export function DateInput({
     setViewDate(date);
     setInputValue(formatDate(date));
     setError('');
+    onChange?.(formatDate(date));
   }
 
   function applyDate(): void {
@@ -210,6 +239,12 @@ export function DateInput({
     setInputValue(masked);
     setTouched(true);
     syncFromTypedValue(masked);
+    if (masked.length >= 10) {
+      const parsed = parseDate(masked);
+      if (parsed && !validateDate(parsed, { minDate, maxDate })) {
+        onChange?.(formatDate(parsed));
+      }
+    }
   }
 
   function handleInputBlur(event: React.FocusEvent<HTMLInputElement>): void {
@@ -402,7 +437,7 @@ export function DateInput({
       }
 
       if (wrapperRef.current && !wrapperRef.current.contains(target)) {
-        closeCalendar(true);
+        closeCalendar(false);
       }
     }
 
@@ -412,6 +447,28 @@ export function DateInput({
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [selectedDate, today, closeCalendar]);
+  useEffect(() => {
+    if (isOpen) return;
+
+    const sync = defaultSyncRef.current;
+    if (!sync) return;
+
+    const nextSelectedDate = sync.selectedDate;
+    const nextDraftDate = sync.draftDate;
+    const nextFocusedDay = sync.focusedDay;
+    const nextViewDate = sync.viewDate;
+    const nextInputValue = sync.inputValue;
+    const nextError = sync.error;
+    const nextTouched = sync.touched;
+
+    setSelectedDate(nextSelectedDate);
+    setDraftDate(nextDraftDate);
+    setFocusedDay(nextFocusedDay);
+    setViewDate(nextViewDate);
+    setInputValue(nextInputValue);
+    setError(nextError);
+    setTouched(nextTouched);
+  }, [defaultValue, isOpen]);
 
   return (
     <DateInputUI

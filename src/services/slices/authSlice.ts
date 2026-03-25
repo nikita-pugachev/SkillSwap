@@ -20,7 +20,7 @@ type AuthState = {
 const savedUser = localStorage.getItem('user');
 const initialState: AuthState = {
   user: savedUser ? JSON.parse(savedUser) : null,
-  isAuthenticated: false,
+  isAuthenticated: true,
 };
 
 const authSlice = createSlice({

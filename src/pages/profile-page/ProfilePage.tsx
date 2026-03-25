@@ -264,6 +264,7 @@ export default function ProfilePage() {
               <div className={styles.row}>
                 <div className={styles.rowItem}>
                   <DateInput
+                    key={user?.birthday || 'empty-birthday'}
                     disabled={false}
                     id="birthDate"
                     label="Дата рождения"
