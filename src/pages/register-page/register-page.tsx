@@ -144,8 +144,11 @@ export default function RegisterPage() {
 
       const allUsers = [...usersData.users, ...registeredUsers];
 
-      const existingUser = allUsers.find((user) => user.email === email);
+      const normalizedEmail = email.trim().toLowerCase();
 
+      const existingUser = allUsers.find(
+        (user) => user.email.trim().toLowerCase() === normalizedEmail
+      );
       if (existingUser) {
         setError('email', {
           type: 'manual',
@@ -175,7 +178,7 @@ export default function RegisterPage() {
     handleNextStep();
   };
 
-  const handleStepThreeSubmit = async () => {
+  const handleStepThreeSubmit = () => {
     const formValues = getValues();
 
     const newUser: RegisterUserFromJson = {
@@ -199,10 +202,9 @@ export default function RegisterPage() {
     dispatch(login(authUser));
 
     localStorage.removeItem('registerStep');
-
+    navigate('/', { replace: true });
     // TODO: после подключения полей шага 3 добавить валидацию обязательных полей: skillName, description, skillCategory, skillSubcategory, images.
     // TODO: по финальному сценарию после шага 3 сначала открывать модалку подтверждения, завершение регистрации и редирект выполнять только после подтверждения.
-    navigate('/', { replace: true });
   };
 
   const saveRegisteredUser = (user: RegisterUserFromJson) => {

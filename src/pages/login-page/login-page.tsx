@@ -92,8 +92,11 @@ export default function LoginPage() {
 
       const allUsers = [...usersData.users, ...registeredUsers];
 
+      const normalizedEmail = data.email.trim().toLowerCase();
+
       const user = allUsers.find(
-        (item) => item.email === data.email && item.password === data.password
+        (item) =>
+          item.email.trim().toLowerCase() === normalizedEmail && item.password === data.password
       );
 
       if (!user) {
