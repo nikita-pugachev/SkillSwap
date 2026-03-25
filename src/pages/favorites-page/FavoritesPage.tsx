@@ -3,14 +3,14 @@ import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { UserCard } from '@/components/user-card';
 import { selectFavoriteIds } from '@/services/selectors';
-import type { SkillCategorySlug, UserFromDb, City, SkillCategoryFromDb } from '@/utils/types';
+import type { SkillCategorySlug, UserFromDb, City, SkillCategory } from '@/utils/types';
 import styles from './FavoritesPage.module.scss';
 
 export const FavoritesPage: React.FC = () => {
   const favoriteIds = useSelector(selectFavoriteIds);
   const navigate = useNavigate();
   const [cities, setCities] = useState<City[]>([]);
-  const [skills, setSkills] = useState<SkillCategoryFromDb[]>([]);
+  const [skills, setSkills] = useState<SkillCategory[]>([]);
   const [users, setUsers] = useState<UserFromDb[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
