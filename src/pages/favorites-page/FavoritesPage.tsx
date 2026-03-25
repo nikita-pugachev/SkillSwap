@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { UserCard } from '@/components/user-card';
+import { UserCard } from '@/components/ui/UserCard';
 import { selectFavoriteIds } from '@/services/selectors';
 import type {
   SkillCategorySlug,

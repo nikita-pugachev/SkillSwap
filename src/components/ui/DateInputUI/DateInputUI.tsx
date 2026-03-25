@@ -6,7 +6,7 @@ import { isSameDate, isDateDisabled } from '../../DateInput/DateInput.utils';
 import styles from './DateInputUI.module.scss';
 import { IconButton } from '../IconButton';
 import { ChevronIcon } from '../Icons/ChevronIcon';
-import { Button } from '../ButtonUI';
+import { Button } from '../Button';
 import { InputUI } from '../InputUI';
 
 export interface DateInputUIProps {
