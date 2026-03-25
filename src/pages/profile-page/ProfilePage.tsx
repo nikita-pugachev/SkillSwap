@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useRef, useState } from 'react';
+import { ChangeEvent, FormEvent, useEffect, useRef, useState } from 'react';
 import styles from './ProfilePage.module.scss';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui';
@@ -49,6 +49,8 @@ export default function ProfilePage() {
   const [email, setEmail] = useState('');
   const emailRef = useRef<HTMLInputElement>(null);
   const aboutRef = useRef<HTMLTextAreaElement>(null);
+  const [avatarSrc, setAvatarSrc] = useState<string>('');
+  const avatarInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     const fetchCities = async () => {
@@ -93,6 +95,7 @@ export default function ProfilePage() {
     setName(user.name ?? '');
     setAbout(user.about ?? '');
     setBirthday(user.birthday ?? '');
+    setAvatarSrc(user.userAvatar ?? '');
   }, [user]);
 
   useEffect(() => {
@@ -146,8 +149,27 @@ export default function ProfilePage() {
         birthday,
         gender: gender?.name as 'Мужской' | 'Женский' | undefined,
         city: city?.name,
+        userAvatar: avatarSrc,
       })
     );
+  };
+
+  const handleAvatarButtonClick = () => {
+    avatarInputRef.current?.click();
+  };
+
+  const handleAvatarChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) {
+      return;
+    }
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      if (typeof reader.result === 'string') {
+        setAvatarSrc(reader.result);
+      }
+    };
+    reader.readAsDataURL(file);
   };
 
   return (
@@ -296,10 +318,17 @@ export default function ProfilePage() {
             </form>
           </div>
           <div className={styles.avatarWrapper}>
-            <Avatar name={name} size="lg" />
-            <div className={styles.avatarEdit}>
+            <Avatar src={avatarSrc || undefined} name={name} size="lg" />
+            <button type="button" className={styles.avatarEdit} onClick={handleAvatarButtonClick}>
               <IconGalleryEdit />
-            </div>
+            </button>
+            <input
+              ref={avatarInputRef}
+              type="file"
+              className={styles.avatarInput}
+              accept="image/*"
+              onChange={handleAvatarChange}
+            />
           </div>
         </div>
       </main>

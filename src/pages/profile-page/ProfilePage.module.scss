@@ -156,4 +156,9 @@
   height: 56px;
   background-color: var(--color-input-hover);
   cursor: pointer;
+  border: none;
+}
+
+.avatarInput {
+  display: none;
 }
