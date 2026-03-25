@@ -20,6 +20,9 @@ export interface SkillCategory {
   subcategories: SkillSubcategory[];
 }
 
+/** Элемент массива из `public/db/skills.json` (ответ `fetch('/db/skills.json')`). */
+export type SkillCategoryFromDb = SkillCategory;
+
 export type SkillType = 'teach' | 'learn';
 
 export interface UserSkill {
