@@ -1,6 +1,6 @@
 import { RootState } from '../store';
 import { AuthUser } from '../slices/authSlice';
-import { SkillRequest } from '../slices/requestsSlice';
+import { SkillRequest } from '../types/requests';
 
 export const selectIsAuthenticated = (state: RootState): boolean => state.auth.isAuthenticated;
 

@@ -1,15 +1,5 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-
-export type RequestStatus = 'pending' | 'accepted' | 'rejected' | 'inProgress' | 'done';
-
-export type SkillRequest = {
-  id: string;
-  skillId: string;
-  fromUserId: string;
-  toUserId: string;
-  status: RequestStatus;
-  createdAt: string;
-};
+import { SkillRequest } from '../types/requests';
+import { createSlice, PayloadAction, UnknownAction } from '@reduxjs/toolkit';
 
 type RequestsState = {
   requests: SkillRequest[];
@@ -38,7 +28,7 @@ const saveToStorage = (requests: SkillRequest[]) => {
 };
 
 const initialState: RequestsState = {
-  requests: loadFromStorage(),
+  requests: [],
 };
 
 const requestsSlice = createSlice({
@@ -51,7 +41,7 @@ const requestsSlice = createSlice({
     ) => {
       const newRequest: SkillRequest = {
         ...action.payload,
-        id: `req_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+        id: `req_${crypto.randomUUID()}`,
         status: 'pending',
         createdAt: new Date().toISOString(),
       };
@@ -86,6 +76,14 @@ const requestsSlice = createSlice({
   },
 });
 
+const reducer = (state: RequestsState | undefined, action: UnknownAction) => {
+  if (state === undefined) {
+    return requestsSlice.reducer({ requests: loadFromStorage() }, action);
+  }
+  return requestsSlice.reducer(state, action);
+};
+
 export const { createRequest, acceptRequest, rejectRequest, completeRequest } =
   requestsSlice.actions;
-export default requestsSlice.reducer;
+
+export default reducer;

@@ -1,9 +1,9 @@
+import { SkillRequest } from '../types/requests';
 import requestsReducer, {
   createRequest,
   acceptRequest,
   rejectRequest,
   completeRequest,
-  SkillRequest,
 } from './requestsSlice';
 
 const STORAGE_KEY = 'skillswap_requests';
@@ -34,7 +34,7 @@ describe('requestsSlice', () => {
 
     const state = requestsReducer(undefined, { type: 'unknown' });
 
-    expect(state.requests);
+    expect(state.requests).toEqual(existing);
   });
 
   it('createRequest создаёт заявку со статусом pending и уникальным id', () => {
