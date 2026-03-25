@@ -1,5 +1,5 @@
 import React from 'react';
-import { RadioButton } from '@/components/ui/RadioButton';
+import { RadioButton } from '../RadioButton';
 import styles from './RadioGroup.module.scss';
 
 export interface RadioGroupProps extends Omit<
