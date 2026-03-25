@@ -7,11 +7,14 @@ import styles from './SkillPage.module.scss';
 import type { UserFromDb, City, SkillCategory, SkillCategorySlug } from '@/utils/types';
 import scrollNavigate from '@/assets/icons/scroll-navigate.svg';
 import { IconButton } from '@/components/ui/IconButton';
+import { useDispatch } from 'react-redux';
+import { setSkills } from '@/services/slices/skillsSlice';
 
 export const SkillPage: React.FC = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const getSkillData = (id: string) => ({
     id: id,
@@ -45,7 +48,7 @@ export const SkillPage: React.FC = () => {
 
   const [similarUsers, setSimilarUsers] = useState<UserFromDb[]>([]);
   const [cities, setCities] = useState<City[]>([]);
-  const [skills, setSkills] = useState<SkillCategory[]>([]);
+  const [skillsData, setSkillsData] = useState<SkillCategory[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [showLeftButton, setShowLeftButton] = useState<boolean>(false);
@@ -114,13 +117,22 @@ export const SkillPage: React.FC = () => {
         }
 
         const data = await response.json();
-        setSkills(data);
+        setSkillsData(data);
+
+        const skillsForStore = data.flatMap((category: SkillCategory) =>
+          category.subcategories.map((sub: { id: number; title: string }) => ({
+            id: sub.id,
+            title: sub.title,
+            category: category.slug,
+          }))
+        );
+        dispatch(setSkills(skillsForStore));
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Ошибка загрузки навыков');
       }
     };
     fetchSkills();
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -175,7 +187,7 @@ export const SkillPage: React.FC = () => {
   };
 
   const getSkillName = (skillId: number): string => {
-    for (const category of skills) {
+    for (const category of skillsData) {
       const subcategory = category.subcategories.find((sub) => sub.id === skillId);
       if (subcategory) {
         return subcategory.title;
@@ -185,7 +197,7 @@ export const SkillPage: React.FC = () => {
   };
 
   const getSkillCategory = (skillId: number): SkillCategorySlug => {
-    for (const category of skills) {
+    for (const category of skillsData) {
       const subcategory = category.subcategories.find((sub) => sub.id === skillId);
       if (subcategory) {
         return category.slug as SkillCategorySlug;
@@ -195,7 +207,7 @@ export const SkillPage: React.FC = () => {
   };
 
   const getSkillCategoryBySubcategoryId = (subcategoryId: number): SkillCategorySlug => {
-    const category = skills.find((cat) =>
+    const category = skillsData.find((cat) =>
       cat.subcategories.some((sub) => sub.id === subcategoryId)
     );
     return category ? (category.slug as SkillCategorySlug) : 'other';

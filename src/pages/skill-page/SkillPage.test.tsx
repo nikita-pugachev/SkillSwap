@@ -4,6 +4,12 @@ import { BrowserRouter } from 'react-router-dom';
 import { SkillPage } from './SkillPage';
 import '@testing-library/jest-dom';
 
+const mockDispatch = jest.fn();
+jest.mock('react-redux', () => ({
+  useDispatch: () => mockDispatch,
+  useSelector: () => [], // если понадобится в будущем
+}));
+
 jest.mock('@/components/ui/SkillCard/SkillCard', () => ({
   SkillCard: ({
     onExchangeClick,
@@ -103,6 +109,7 @@ describe('SkillPage', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     mockNavigate.mockClear();
+    mockDispatch.mockClear();
   });
 
   const mockCities = [
@@ -189,6 +196,8 @@ describe('SkillPage', () => {
       expect(screen.getByText('Похожие предложения')).toBeInTheDocument();
       expect(screen.getByText('Анна')).toBeInTheDocument();
       expect(screen.getByText('Петр')).toBeInTheDocument();
+
+      expect(mockDispatch).toHaveBeenCalledTimes(1);
     });
 
     test('отображает ошибку при неудачной загрузке', async () => {
