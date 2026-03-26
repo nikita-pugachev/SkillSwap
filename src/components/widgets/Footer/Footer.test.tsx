@@ -18,9 +18,7 @@ describe('Footer', () => {
   it('renders copyright text correctly', () => {
     render(<Footer />);
 
-    // Проверяем точное совпадение текста
-    const copyright = screen.getByText('SkillSwap - 2026');
-    expect(copyright).toBeInTheDocument();
+    expect(screen.getByText('SkillSwap - 2026')).toBeInTheDocument();
   });
 
   // Отображает все навигационные ссылки
@@ -28,18 +26,19 @@ describe('Footer', () => {
     render(<Footer />);
 
     const expectedLinks = [
-      'О проекте',
-      'Все навыки',
-      'Контакты',
-      'Блог',
-      'Политика конфиденциальности',
-      'Пользовательское соглашение',
-    ];
+      ['О проекте', '/about'],
+      ['Все навыки', '/all-skills'],
+      ['Контакты', '/contact-information'],
+      ['Блог', '/blog'],
+      ['Политика конфиденциальности', '/privacy-policy'],
+      ['Пользовательское соглашение', '/terms-of-service'],
+    ] as const;
 
-    expectedLinks.forEach((linkText) => {
+    expectedLinks.forEach(([linkText, href]) => {
       const link = screen.getByText(linkText);
+
       expect(link).toBeInTheDocument();
-      expect(link.closest('a')).toHaveAttribute('href', '#');
+      expect(link.closest('a')).toHaveAttribute('href', href);
     });
   });
 
@@ -54,7 +53,6 @@ describe('Footer', () => {
     expect(screen.getByText('SkillSwap')).toBeInTheDocument();
 
     // Проверяем количество списков
-    const lists = screen.getAllByRole('list');
-    expect(lists).toHaveLength(3);
+    expect(screen.getAllByRole('list')).toHaveLength(3);
   });
 });
