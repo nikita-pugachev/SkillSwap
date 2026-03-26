@@ -1,5 +1,8 @@
 import { FC, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useAppSelector } from '@/services/hooks';
+import { selectUser } from '@/services/selectors';
+import { selectIsAuthenticated } from '@/services/selectors';
 
 import { SearchInput } from '@/components/SearchInput/SearchInput';
 import { CategoryDropdown } from '@/components/CategoryDropdown';
@@ -17,24 +20,15 @@ import SunIcon from '@/assets/icons/sun.svg?react';
 
 export interface HeaderProps {
   isAuthPage?: boolean;
-  isAuthenticated?: boolean;
-  user?: {
-    name: string;
-    avatar: string;
-  };
   searchValue?: string;
   onSearch?: (value: string) => void;
 }
 
-export const Header: FC<HeaderProps> = ({
-  isAuthPage = false,
-  isAuthenticated = false,
-  user,
-  searchValue,
-  onSearch,
-}) => {
+export const Header: FC<HeaderProps> = ({ isAuthPage = false, searchValue, onSearch }) => {
   const navigate = useNavigate();
   const [isDarkTheme, setIsDarkTheme] = useState(false);
+  const isAuthenticated = useAppSelector(selectIsAuthenticated);
+  const user = useAppSelector(selectUser);
 
   const handleThemeToggle = () => setIsDarkTheme((prev) => !prev);
   const handleClose = () => navigate(-1);
@@ -102,10 +96,10 @@ export const Header: FC<HeaderProps> = ({
           )}
         </div>
 
-        {isAuthenticated ? (
+        {isAuthenticated && user ? (
           <button type="button" onClick={handleProfile} className={styles.profileContainer}>
             <span className={styles.link}>{user?.name ?? 'Профиль'}</span>
-            {user && <Avatar src={user.avatar} name={user.name} size="sm" />}
+            {user && <Avatar src={user.userAvatar} name={user.name} size="sm" />}
           </button>
         ) : (
           <div className={styles.buttonContainer}>
