@@ -30,12 +30,11 @@ export default function Root() {
             <Route path="/skill/:id" element={<SkillPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
-            <Route path="/create" element={<CreatePage />} />
 
             <Route element={<ProtectedRoute />}>
               <Route path="/profile" element={<ProfilePage />} />
               <Route path="/favorites" element={<FavoritesPage />} />
-              {/* <Route path="/create" element={<CreatePage />} /> */}
+              <Route path="/create" element={<CreatePage />} />
             </Route>
 
             <Route path="*" element={<ErrorPage />} />
