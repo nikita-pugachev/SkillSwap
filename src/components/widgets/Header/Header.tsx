@@ -1,8 +1,9 @@
 import { FC, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAppSelector } from '@/services/hooks';
+import { useAppDispatch, useAppSelector } from '@/services/hooks';
 import { selectUser } from '@/services/selectors';
 import { selectIsAuthenticated } from '@/services/selectors';
+import { logout } from '@/services/slices/authSlice';
 
 import { SearchInput } from '@/components/SearchInput/SearchInput';
 import { CategoryDropdown } from '@/components/CategoryDropdown';
@@ -17,6 +18,7 @@ import LikeOutlineIcon from '@/assets/icons/like-outline.svg?react';
 import MoonIcon from '@/assets/icons/moon.svg?react';
 import NotificationIcon from '@/assets/icons/notification.svg?react';
 import SunIcon from '@/assets/icons/sun.svg?react';
+import LogoutIcon from '@/assets/icons/logout.svg?react';
 
 export interface HeaderProps {
   isAuthPage?: boolean;
@@ -26,7 +28,9 @@ export interface HeaderProps {
 
 export const Header: FC<HeaderProps> = ({ isAuthPage = false, searchValue, onSearch }) => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const [isDarkTheme, setIsDarkTheme] = useState(false);
+  const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const isAuthenticated = useAppSelector(selectIsAuthenticated);
   const user = useAppSelector(selectUser);
 
@@ -36,6 +40,7 @@ export const Header: FC<HeaderProps> = ({ isAuthPage = false, searchValue, onSea
   const handleRegister = () => navigate('/register');
   const handleFavorites = () => navigate('/favorites');
   const handleProfile = () => navigate('/profile');
+  const handleLogout = () => dispatch(logout());
 
   if (isAuthPage) {
     return (
@@ -97,10 +102,38 @@ export const Header: FC<HeaderProps> = ({ isAuthPage = false, searchValue, onSea
         </div>
 
         {isAuthenticated && user ? (
-          <button type="button" onClick={handleProfile} className={styles.profileContainer}>
-            <span className={styles.link}>{user?.name ?? 'Профиль'}</span>
-            {user && <Avatar src={user.userAvatar} name={user.name} size="sm" />}
-          </button>
+          <div
+            className={styles.profileMenuWrapper}
+            onMouseEnter={() => setIsProfileMenuOpen(true)}
+            onMouseLeave={() => setIsProfileMenuOpen(false)}
+          >
+            <button type="button" className={styles.profileContainer}>
+              <span className={styles.link}>{user?.name ?? 'Профиль'}</span>
+              <Avatar src={user.userAvatar} name={user.name} size="sm" />
+            </button>
+
+            {isProfileMenuOpen && (
+              <div className={styles.profileDropdown}>
+                <Button
+                  variant="tertiary"
+                  type="button"
+                  className={styles.dropdownButton}
+                  onClick={handleProfile}
+                >
+                  Личный кабинет
+                </Button>
+                <Button
+                  variant="tertiary"
+                  type="button"
+                  className={styles.dropdownButton}
+                  onClick={handleLogout}
+                >
+                  Выйти из аккаунта
+                  <LogoutIcon />
+                </Button>
+              </div>
+            )}
+          </div>
         ) : (
           <div className={styles.buttonContainer}>
             <Button variant="outlined" onClick={handleLogin}>

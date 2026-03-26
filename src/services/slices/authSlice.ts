@@ -11,9 +11,15 @@ type AuthState = {
   isAuthenticated: boolean;
 };
 
+const testUser: AuthUser = {
+  id: 1,
+  name: 'Иван',
+  userAvatar: '/src/assets/user-avatars/ivan.png',
+};
+
 const initialState: AuthState = {
-  user: null,
-  isAuthenticated: false,
+  user: testUser,
+  isAuthenticated: true,
 };
 
 const authSlice = createSlice({
