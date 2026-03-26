@@ -211,6 +211,10 @@ describe('LoginPage', () => {
             email: 'ivan@example.com',
             password: 'pass1234',
             userAvatar: '/src/assets/user-avatars/ivan.png',
+            cityId: 2,
+            gender: 'male',
+            birthday: '1992-03-29',
+            about: 'Люблю ритм и кофе по утрам.',
           },
         ],
       }),
@@ -233,6 +237,12 @@ describe('LoginPage', () => {
       id: 1,
       name: 'Иван',
       userAvatar: '/src/assets/user-avatars/ivan.png',
+      email: 'ivan@example.com',
+      password: 'pass1234',
+      cityId: 2,
+      gender: 'Мужской',
+      birthday: '1992-03-29',
+      about: 'Люблю ритм и кофе по утрам.',
     });
   });
 });

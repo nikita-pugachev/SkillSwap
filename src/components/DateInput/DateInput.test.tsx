@@ -253,7 +253,7 @@ describe('DateInput', () => {
 
   it('синхронизирует draftDate и viewDate для валидной даты', () => {
     mockedMaskDateInput.mockReturnValue('15.05.2024');
-    mockedParseDate.mockReturnValue(validDate);
+    mockedParseDate.mockImplementation((value) => (value === '15.05.2024' ? validDate : null));
     mockedValidateDate.mockReturnValue('');
 
     renderComponent();
@@ -285,13 +285,13 @@ describe('DateInput', () => {
 
     fireEvent.click(screen.getByTestId('select-date-button'));
 
-    expect(screen.getByTestId('input-value')).toHaveTextContent('');
+    expect(screen.getByTestId('input-value')).toBeEmptyDOMElement();
     expect(screen.getByTestId('draft-date')).toHaveTextContent('null');
   });
 
   it('применяет дату из input по apply', () => {
     mockedMaskDateInput.mockReturnValue('15.05.2024');
-    mockedParseDate.mockReturnValue(validDate);
+    mockedParseDate.mockImplementation((value) => (value === '15.05.2024' ? validDate : null));
     mockedValidateDate.mockReturnValue('');
 
     renderComponent();
@@ -319,7 +319,7 @@ describe('DateInput', () => {
 
   it('сбрасывает состояние через cancelSelection', () => {
     mockedMaskDateInput.mockReturnValue('15.05.2024');
-    mockedParseDate.mockReturnValue(validDate);
+    mockedParseDate.mockImplementation((value) => (value === '15.05.2024' ? validDate : null));
     mockedValidateDate.mockReturnValue('');
 
     renderComponent();
