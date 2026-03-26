@@ -22,7 +22,7 @@ export interface SkillCategory {
 
 export type SkillType = 'teach' | 'learn';
 export type FilterMode = 'all' | 'wantToLearn' | 'canTeach';
-export type Gender = 'Мужской' | 'Женский';
+export type Gender = 'male' | 'female' | 'Мужской' | 'Женский';
 
 export interface SkillAuthor {
   id: number;
@@ -39,6 +39,7 @@ export interface Skill {
   id: number;
   title: string;
   icon: string;
+  slug?: SkillCategorySlug;
   subcategories: Subcategory[];
 }
 
@@ -94,6 +95,8 @@ export interface UserTeachSkillDb {
 export interface UserDb {
   id: number;
   name: string;
+  email?: string;
+  password?: string;
   userAvatar: string;
   cityId: number;
   gender: Gender;
@@ -103,6 +106,17 @@ export interface UserDb {
   skillsLearn: number[];
   likes: number;
   createdAt: string;
+}
+
+export type UserFromDb = UserDb;
+
+export interface UserTeachSkillEntry {
+  userId: number;
+  teachSkillId: number;
+  title: string;
+  subcategoryId: number;
+  categoryTitle: string;
+  subcategoryTitle: string;
 }
 
 export type TSelectOption = {

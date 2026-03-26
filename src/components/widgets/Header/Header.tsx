@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { SearchInput } from '@/components/SearchInput/SearchInput';
@@ -14,6 +14,9 @@ import LikeOutlineIcon from '@/assets/icons/like-outline.svg?react';
 import MoonIcon from '@/assets/icons/moon.svg?react';
 import NotificationIcon from '@/assets/icons/notification.svg?react';
 import SunIcon from '@/assets/icons/sun.svg?react';
+
+const THEME_STORAGE_KEY = 'theme';
+type Theme = 'light' | 'dark';
 
 export interface HeaderProps {
   isAuthPage?: boolean;
@@ -34,9 +37,26 @@ export const Header: FC<HeaderProps> = ({
   onSearch,
 }) => {
   const navigate = useNavigate();
-  const [isDarkTheme, setIsDarkTheme] = useState(false);
+  const [theme, setTheme] = useState<Theme>(() => {
+    const currentTheme = document.documentElement.dataset.theme;
 
-  const handleThemeToggle = () => setIsDarkTheme((prev) => !prev);
+    if (currentTheme === 'dark' || currentTheme === 'light') {
+      return currentTheme;
+    }
+
+    const savedTheme = localStorage.getItem(THEME_STORAGE_KEY);
+    return savedTheme === 'dark' || savedTheme === 'light' ? savedTheme : 'light';
+  });
+  const isDarkTheme = theme === 'dark';
+
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme;
+    localStorage.setItem(THEME_STORAGE_KEY, theme);
+  }, [theme]);
+
+  const handleThemeToggle = () => {
+    setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
+  };
   const handleClose = () => navigate(-1);
   const handleLogin = () => navigate('/login');
   const handleRegister = () => navigate('/register');

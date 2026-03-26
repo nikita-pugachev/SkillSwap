@@ -38,6 +38,7 @@ jest.mock('react-router-dom', () => {
 });
 
 import { Header, type HeaderProps } from './Header';
+
 const mockUser: HeaderProps['user'] = {
   name: 'Тест Пользователь',
   avatar: '/avatar.png',
@@ -50,9 +51,10 @@ const renderHeader = (props: HeaderProps, route = '/') =>
     </MemoryRouter>
   );
 
-// Тесты
 describe('Header component', () => {
   beforeEach(() => {
+    localStorage.clear();
+    document.documentElement.dataset.theme = 'light';
     mockNavigate.mockClear();
   });
 
@@ -111,5 +113,17 @@ describe('Header component', () => {
     await user.click(screen.getByRole('button', { name: 'Избранное' }));
 
     expect(mockNavigate).toHaveBeenCalledWith('/favorites');
+  });
+
+  test('clicking theme button toggles theme and saves to localStorage', async () => {
+    const user = userEvent.setup();
+
+    renderHeader({ isAuthenticated: false });
+
+    const toggleButton = screen.getByRole('button', { name: /смена темы/i });
+    await user.click(toggleButton);
+
+    expect(document.documentElement).toHaveAttribute('data-theme', 'dark');
+    expect(localStorage.getItem('theme')).toBe('dark');
   });
 });

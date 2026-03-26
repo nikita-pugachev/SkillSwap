@@ -114,6 +114,10 @@ html {
   scrollbar-gutter: stable;
 }
 
+:root[data-theme='dark'] {
+  color-scheme: dark;
+}
+
 body {
   /**
     Пригодится в большинстве ситуаций
@@ -125,6 +129,7 @@ body {
     Унифицированный интерлиньяж
    */
   line-height: 1.5;
+  color: var(--color-text-primary);
 
   /**
   Фоновый цвет страницы

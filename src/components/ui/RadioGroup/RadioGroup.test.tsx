@@ -64,4 +64,10 @@ describe('RadioGroup', () => {
 
     expect(onChange).toHaveBeenCalledWith('2');
   });
+
+  test('supports horizontal orientation', () => {
+    render(<RadioGroup {...defaultProps} orientation="horizontal" />);
+
+    expect(screen.getByRole('group')).toHaveAttribute('data-orientation', 'horizontal');
+  });
 });

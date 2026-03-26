@@ -3,7 +3,13 @@ import {
   AUTH_USER_ID_STORAGE_KEY,
   createHeaderUser,
   getAuthenticatedUserId,
+  getToken,
+  getStoredUser,
   isStoredUserAuthenticated,
+  removeStoredUser,
+  removeToken,
+  setStoredUser,
+  setToken,
 } from './auth';
 import type { UserDb } from './types';
 
@@ -60,5 +66,49 @@ describe('auth utils', () => {
       name: 'Анна',
       avatar: '/anna.png',
     });
+  });
+
+  it('sets and gets token', () => {
+    setToken('test-token');
+
+    expect(getToken()).toBe('test-token');
+  });
+
+  it('removes token', () => {
+    setToken('test-token');
+    removeToken();
+
+    expect(getToken()).toBeNull();
+  });
+
+  it('sets and gets user', () => {
+    const user = {
+      id: 1,
+      name: 'Иван',
+      userAvatar: 'avatar.png',
+    };
+
+    setStoredUser(user);
+
+    expect(getStoredUser()).toEqual(user);
+  });
+
+  it('removes user', () => {
+    const user = {
+      id: 1,
+      name: 'Иван',
+      userAvatar: 'avatar.png',
+    };
+
+    setStoredUser(user);
+    removeStoredUser();
+
+    expect(getStoredUser()).toBeNull();
+  });
+
+  it('returns null if stored user is invalid JSON', () => {
+    localStorage.setItem('auth_user', 'invalid-json');
+
+    expect(getStoredUser()).toBeNull();
   });
 });

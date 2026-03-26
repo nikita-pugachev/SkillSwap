@@ -1,8 +1,7 @@
-/* global global */
-import { getSkills } from './api';
+import { getSkills, getUsersFromDb } from './api';
 
 const mockFetch = jest.fn();
-global.fetch = mockFetch;
+globalThis.fetch = mockFetch as typeof fetch;
 
 describe('API Service - getSkills', () => {
   beforeEach(() => {
@@ -40,5 +39,41 @@ describe('API Service - getSkills', () => {
 
     await expect(getSkills()).rejects.toThrow('Network error');
     expect(mockFetch).toHaveBeenCalledWith('/db/skills.json', undefined);
+  });
+});
+
+describe('API Service - getUsersFromDb', () => {
+  beforeEach(() => {
+    mockFetch.mockClear();
+  });
+
+  test('успешно загружает пользователей', async () => {
+    const mockUsers = {
+      users: [
+        {
+          id: 1,
+          name: 'Иван',
+          userAvatar: '/a.png',
+          cityId: 1,
+          gender: 'male',
+          birthday: '',
+          about: '',
+          skillsTeach: [],
+          skillsLearn: [],
+          likes: 0,
+          createdAt: '',
+        },
+      ],
+    };
+
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => mockUsers,
+    });
+
+    const result = await getUsersFromDb();
+
+    expect(mockFetch).toHaveBeenCalledWith('/db/users.json');
+    expect(result).toEqual(mockUsers.users);
   });
 });
