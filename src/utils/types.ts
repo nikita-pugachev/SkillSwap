@@ -7,6 +7,19 @@ export type SkillCategorySlug =
   | 'health'
   | 'other';
 
+export interface SkillSubcategory {
+  id: number;
+  title: string;
+}
+
+export interface SkillCategory {
+  id: number;
+  title: string;
+  icon: string;
+  slug: SkillCategorySlug;
+  subcategories: SkillSubcategory[];
+}
+
 export type SkillType = 'teach' | 'learn';
 
 export interface UserSkill {
@@ -88,3 +101,37 @@ export interface UserFromDb {
   likes: number;
   createdAt: string;
 }
+
+export type TSelectOption = {
+  id: number;
+  name: string;
+};
+
+export type NullableDate = Date | null;
+
+export type CalendarCell = {
+  date: Date;
+  currentMonth: boolean;
+};
+
+export type DateValidationOptions = {
+  minDate: Date;
+  maxDate: Date;
+};
+
+export type TCategoryWithSubcategories = {
+  id: number;
+  title: string;
+  icon: string;
+  subcategories: {
+    id: number;
+    title: string;
+  }[];
+};
+
+export type TSubcategoryOption = {
+  id: number;
+  title: string;
+  categoryId: number;
+  categoryTitle: string;
+};
