@@ -1,9 +1,9 @@
 import { lazy, Suspense, useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { Provider, useDispatch, useSelector } from 'react-redux';
+import { Provider, useDispatch } from 'react-redux';
 
 import { store } from '@/services/store';
-import type { RootState, AppDispatch } from '@/services/store';
+import type { AppDispatch } from '@/services/store';
 import { login } from '@/services/slices/authSlice';
 import { getToken, getStoredUser } from '@/utils/auth';
 
@@ -23,7 +23,6 @@ const ErrorPage = lazy(() => import('@/pages/error-page'));
 
 function AppContent() {
   const dispatch = useDispatch<AppDispatch>();
-  const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
 
   useEffect(() => {
     const token = getToken();
@@ -38,7 +37,7 @@ function AppContent() {
     <BrowserRouter>
       <Suspense fallback={null}>
         <Routes>
-          <Route element={<Layout variant="main" withFooter isAuthenticated={isAuthenticated} />}>
+          <Route element={<Layout variant="main" withFooter />}>
             <Route path="/" element={<CatalogPage />} />
             <Route path="/skill/:id" element={<SkillPage />} />
             <Route path="/error/:type" element={<ErrorPage />} />

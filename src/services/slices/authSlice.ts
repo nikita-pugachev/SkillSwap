@@ -28,6 +28,7 @@ type AuthState = {
 };
 
 const savedUser = getStoredUser();
+
 const initialState: AuthState = {
   user: savedUser,
   isAuthenticated: Boolean(savedUser && getToken()),

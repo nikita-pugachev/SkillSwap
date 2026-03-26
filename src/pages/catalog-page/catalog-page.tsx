@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import { FilterSidebar } from '@/components/FilterSidebar';
 import { Button, CardSection } from '@/components/ui';
@@ -42,6 +42,7 @@ type HomeSection = {
 };
 
 const CATALOG_FILTERS_STORAGE_KEY = 'catalogFilters';
+const RECOMMENDED_CARDS_PAGE_SIZE = 6;
 
 const getPersistedFilters = (): Filters => {
   const storedFilters = localStorage.getItem(CATALOG_FILTERS_STORAGE_KEY);
@@ -92,6 +93,10 @@ export const CatalogPage = () => {
   const [filters, setFilters] = useState<Filters>(getPersistedFilters);
   const [selectedCollection, setSelectedCollection] = useState<SelectedCollection>('all');
   const [sortOrder, setSortOrder] = useState<SortOrder>('newest');
+  const [visibleRecommendedCount, setVisibleRecommendedCount] = useState(
+    RECOMMENDED_CARDS_PAGE_SIZE
+  );
+  const recommendedLoadTriggerRef = useRef<HTMLDivElement | null>(null);
 
   const { skills, cities, users, loading, error } = useAppSelector((state) => state.catalog);
   const isAuthenticated = useAppSelector(selectIsAuthenticated);
@@ -142,6 +147,12 @@ export const CatalogPage = () => {
   const recommendedCards = useMemo(() => {
     return filteredUsers.map(({ card }) => card);
   }, [filteredUsers]);
+
+  const visibleRecommendedCards = useMemo(() => {
+    return recommendedCards.slice(0, visibleRecommendedCount);
+  }, [recommendedCards, visibleRecommendedCount]);
+
+  const hasMoreRecommendedCards = visibleRecommendedCount < recommendedCards.length;
 
   const popularUsers = useMemo(() => {
     return [...filteredUsers].sort(
@@ -207,6 +218,39 @@ export const CatalogPage = () => {
 
     localStorage.setItem(CATALOG_FILTERS_STORAGE_KEY, JSON.stringify(filters));
   }, [filters]);
+
+  useEffect(() => {
+    if (hasActiveFilters || !hasMoreRecommendedCards) {
+      return;
+    }
+
+    const triggerNode = recommendedLoadTriggerRef.current;
+
+    if (!triggerNode) {
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const [entry] = entries;
+
+        if (entry?.isIntersecting) {
+          setVisibleRecommendedCount((prevCount) =>
+            Math.min(prevCount + RECOMMENDED_CARDS_PAGE_SIZE, recommendedCards.length)
+          );
+        }
+      },
+      {
+        rootMargin: '200px 0px',
+      }
+    );
+
+    observer.observe(triggerNode);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [hasActiveFilters, hasMoreRecommendedCards, recommendedCards.length]);
 
   const handleFiltersChange = useCallback((newFilters: Partial<Filters>) => {
     setFilters((prev) => ({
@@ -299,7 +343,7 @@ export const CatalogPage = () => {
       },
       {
         title: 'Рекомендуем',
-        cards: recommendedCards,
+        cards: visibleRecommendedCards,
       },
     ];
   }, [
@@ -310,7 +354,7 @@ export const CatalogPage = () => {
     isAuthenticated,
     newUsersPreview,
     popularUsersPreview,
-    recommendedCards,
+    visibleRecommendedCards,
   ]);
 
   if (loading) {
@@ -407,14 +451,23 @@ export const CatalogPage = () => {
               <CatalogEmpty />
             ) : (
               homeSections.map((section) => (
-                <CardSection
-                  key={section.title}
-                  title={section.title}
-                  buttonText={section.buttonText}
-                  cards={section.cards}
-                  onActionClick={section.onActionClick}
-                  isLogin={isAuthenticated}
-                />
+                <div key={section.title} className={styles.homeSection}>
+                  <CardSection
+                    title={section.title}
+                    buttonText={section.buttonText}
+                    cards={section.cards}
+                    onActionClick={section.onActionClick}
+                    isLogin={isAuthenticated}
+                  />
+
+                  {section.title === 'Рекомендуем' && hasMoreRecommendedCards && (
+                    <div
+                      ref={recommendedLoadTriggerRef}
+                      className={styles.recommendedLoadTrigger}
+                      aria-hidden="true"
+                    />
+                  )}
+                </div>
               ))
             )}
           </>
