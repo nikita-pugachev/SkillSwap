@@ -1,15 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { UserCard } from '@/components/user-card';
+import { UserCard } from '@/components/ui/UserCard';
 import { selectFavoriteIds } from '@/services/selectors';
-import type {
-  SkillCategorySlug,
-  UserFromDb,
-  City,
-  SkillCategory,
-  SkillSubcategory,
-} from '@/utils/types';
+import type { SkillCategorySlug, UserFromDb, City, SkillCategory } from '@/utils/types';
 import styles from './FavoritesPage.module.scss';
 
 export const FavoritesPage: React.FC = () => {
@@ -92,9 +86,7 @@ export const FavoritesPage: React.FC = () => {
 
   const getSkillName = (skillId: number): string => {
     for (const category of skills) {
-      const subcategory = category.subcategories.find(
-        (sub: SkillSubcategory) => sub.id === skillId
-      );
+      const subcategory = category.subcategories.find((sub) => sub.id === skillId);
       if (subcategory) {
         return subcategory.title;
       }
@@ -104,9 +96,7 @@ export const FavoritesPage: React.FC = () => {
 
   const getSkillCategory = (skillId: number): SkillCategorySlug => {
     for (const category of skills) {
-      const subcategory = category.subcategories.find(
-        (sub: SkillSubcategory) => sub.id === skillId
-      );
+      const subcategory = category.subcategories.find((sub) => sub.id === skillId);
       if (subcategory) {
         return category.slug as SkillCategorySlug;
       }
@@ -116,7 +106,7 @@ export const FavoritesPage: React.FC = () => {
 
   const getSkillCategoryBySubcategoryId = (subcategoryId: number): SkillCategorySlug => {
     const category = skills.find((cat) =>
-      cat.subcategories.some((sub: SkillSubcategory) => sub.id === subcategoryId)
+      cat.subcategories.some((sub) => sub.id === subcategoryId)
     );
     return category ? (category.slug as SkillCategorySlug) : 'other';
   };
