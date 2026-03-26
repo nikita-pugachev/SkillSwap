@@ -52,7 +52,7 @@ export const CatalogPage = () => {
       }
       return true;
     });
-  }, [users, filters, cities, skills]);
+  }, [users, filters, cities]);
 
   if (loading) {
     return <CatalogLoading />;
