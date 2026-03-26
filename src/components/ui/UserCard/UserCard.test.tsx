@@ -100,6 +100,13 @@ describe('UserCard', () => {
         searchQuery: '',
         selectedCategory: '',
       },
+      requests: {
+        requests: [],
+      },
+      profileSkills: {
+        items: [],
+        loaded: false,
+      },
     };
 
     mockedUseSelector.mockImplementation((selector: (state: RootState) => unknown) =>

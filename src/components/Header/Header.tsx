@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { Avatar, Logo, Button, IconButton } from '@/components/ui';
 import { SearchInput } from '../SearchInput';
 import { CategoryDropdown } from '../CategoryDropdown';
@@ -9,6 +9,9 @@ import CrossIcon from '@/assets/icons/cross.svg';
 import MoonIcon from '@/assets/icons/moon.svg';
 import NotificationIcon from '@/assets/icons/notification.svg';
 import LikeOutlineIcon from '@/assets/icons/like-outline.svg';
+
+const THEME_STORAGE_KEY = 'theme';
+type Theme = 'light' | 'dark';
 
 export interface HeaderProps {
   isLogin: boolean;
@@ -21,6 +24,19 @@ export interface HeaderProps {
 export const Header: FC<HeaderProps> = ({ isLogin, user }) => {
   const navigate = useNavigate();
   const location = useLocation();
+  const [theme, setTheme] = useState<Theme>(() => {
+    const currentTheme = document.documentElement.dataset.theme;
+    if (currentTheme === 'dark' || currentTheme === 'light') {
+      return currentTheme;
+    }
+
+    const savedTheme = localStorage.getItem(THEME_STORAGE_KEY);
+    if (savedTheme === 'dark' || savedTheme === 'light') {
+      return savedTheme;
+    }
+
+    return 'light';
+  });
 
   const handleClickLogin = () => navigate('/login');
   const handleClickRegister = () => navigate('/register');
@@ -28,6 +44,13 @@ export const Header: FC<HeaderProps> = ({ isLogin, user }) => {
   const handleBackSpace = () => navigate(-1);
 
   const isAuthPage = location.pathname === '/login' || location.pathname === '/register';
+
+  const handleToggleTheme = () => {
+    const nextTheme: Theme = theme === 'light' ? 'dark' : 'light';
+    setTheme(nextTheme);
+    document.documentElement.dataset.theme = nextTheme;
+    localStorage.setItem(THEME_STORAGE_KEY, nextTheme);
+  };
 
   if (isAuthPage) {
     return (
@@ -68,7 +91,12 @@ export const Header: FC<HeaderProps> = ({ isLogin, user }) => {
       <div className={styles.right}>
         {isLogin ? (
           <div className={styles.iconContainer}>
-            <IconButton iconSrc={MoonIcon} ariaLabel="Смена темы" className={styles.icon} />
+            <IconButton
+              iconSrc={MoonIcon}
+              ariaLabel="Смена темы"
+              className={styles.icon}
+              onClick={handleToggleTheme}
+            />
             <IconButton
               iconSrc={NotificationIcon}
               ariaLabel="Уведомления"
@@ -78,7 +106,12 @@ export const Header: FC<HeaderProps> = ({ isLogin, user }) => {
           </div>
         ) : (
           <div className={styles.iconContainer}>
-            <IconButton iconSrc={MoonIcon} ariaLabel="Смена темы" className={styles.icon} />
+            <IconButton
+              iconSrc={MoonIcon}
+              ariaLabel="Смена темы"
+              className={styles.icon}
+              onClick={handleToggleTheme}
+            />
           </div>
         )}
 
