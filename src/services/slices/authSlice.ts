@@ -11,14 +11,8 @@ type AuthState = {
   isAuthenticated: boolean;
 };
 
-const testUser: AuthUser = {
-  id: 1,
-  name: 'Иван',
-  userAvatar: '/src/assets/user-avatars/ivan.png',
-};
-
 const initialState: AuthState = {
-  user: testUser,
+  user: null,
   isAuthenticated: true,
 };
 
