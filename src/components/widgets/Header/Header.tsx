@@ -1,8 +1,7 @@
 import { FC, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '@/services/hooks';
-import { selectUser } from '@/services/selectors';
-import { selectIsAuthenticated } from '@/services/selectors';
+import { selectIsAuthenticated, selectUser } from '@/services/selectors';
 import { logout } from '@/services/slices/authSlice';
 
 import { SearchInput } from '@/components/SearchInput/SearchInput';
@@ -15,10 +14,10 @@ import styles from './Header.module.scss';
 
 import CrossIcon from '@/assets/icons/cross.svg?react';
 import LikeOutlineIcon from '@/assets/icons/like-outline.svg?react';
+import LogoutIcon from '@/assets/icons/logout.svg?react';
 import MoonIcon from '@/assets/icons/moon.svg?react';
 import NotificationIcon from '@/assets/icons/notification.svg?react';
 import SunIcon from '@/assets/icons/sun.svg?react';
-import LogoutIcon from '@/assets/icons/logout.svg?react';
 
 const THEME_STORAGE_KEY = 'theme';
 type Theme = 'light' | 'dark';
@@ -48,6 +47,7 @@ export const Header: FC<HeaderProps> = ({ isAuthPage = false, searchValue, onSea
   });
 
   const isDarkTheme = theme === 'dark';
+  const profileName = user?.name ?? 'Профиль';
 
   useEffect(() => {
     document.documentElement.dataset.theme = theme;
@@ -124,15 +124,17 @@ export const Header: FC<HeaderProps> = ({ isAuthPage = false, searchValue, onSea
           )}
         </div>
 
-        {isAuthenticated && user ? (
+        {isAuthenticated ? (
           <div
             className={styles.profileMenuWrapper}
             onMouseEnter={() => setIsProfileMenuOpen(true)}
             onMouseLeave={() => setIsProfileMenuOpen(false)}
           >
             <button type="button" className={styles.profileContainer}>
-              <span className={styles.link}>{user.name ?? 'Профиль'}</span>
-              <Avatar src={user.userAvatar} name={user.name} size="sm" />
+              <span className={styles.link}>{profileName}</span>
+              <span aria-hidden="true">
+                <Avatar src={user?.userAvatar} name={profileName} size="sm" />
+              </span>
             </button>
 
             {isProfileMenuOpen && (
