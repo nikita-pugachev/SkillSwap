@@ -5,6 +5,7 @@ import { CatalogLoading, CatalogError, CatalogEmpty } from './components';
 import { useLoadCatalogData } from '@/services/hooks/useLoadCatalogData';
 import { useAppSelector } from '@/services/hooks';
 import type { Filters } from '@/utils/types';
+import { filterUsers } from '@/utils/filterUsers';
 
 export const CatalogPage = () => {
   const [filters, setFilters] = useState<Filters>({
@@ -25,34 +26,10 @@ export const CatalogPage = () => {
     return `Навык ${id}`;
   };
 
-  const filteredUsers = useMemo(() => {
-    return users.filter((user) => {
-      if (filters.gender) {
-        const genderMap = {
-          Мужской: 'male',
-          Женский: 'female',
-        } as const;
-        if (user.gender !== genderMap[filters.gender]) return false;
-      }
-      if (filters.city.length > 0) {
-        const userCityName = cities.find((city) => city.id === user.cityId)?.name;
-        if (!userCityName || !filters.city.includes(userCityName)) return false;
-      }
-      if (filters.mode === 'wantToLearn') {
-        return (
-          filters.skills.length === 0 ||
-          user.skillsLearn.some((skillId) => filters.skills.includes(skillId))
-        );
-      }
-      if (filters.mode === 'canTeach') {
-        return (
-          filters.skills.length === 0 ||
-          user.skillsTeach.some((skill) => filters.skills.includes(skill.subcategoryId))
-        );
-      }
-      return true;
-    });
-  }, [users, filters, cities]);
+  const filteredUsers = useMemo(
+    () => filterUsers(users, filters, cities),
+    [users, filters, cities]
+  );
 
   if (loading) {
     return <CatalogLoading />;
