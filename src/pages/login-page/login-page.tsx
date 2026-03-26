@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+
 import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
@@ -21,6 +22,8 @@ import eyeSlashIcon from '@/assets/icons/eye-slash.svg';
 import appleIcon from '@/assets/icons/logo/apple.svg';
 import googleIcon from '@/assets/icons/logo/google.svg';
 import lightBulb from '@/assets/illustrations/light-bulb.svg';
+
+import type { LocationState } from '@/types/location';
 
 type FormValues = {
   email: string;
@@ -49,6 +52,7 @@ export default function LoginPage() {
 
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
+  const location = useLocation();
   const {
     control,
     handleSubmit,
@@ -88,7 +92,19 @@ export default function LoginPage() {
       setToken(createMockToken(user.id));
       setStoredUser(authUser);
       dispatch(login(authUser));
-      navigate('/', { replace: true });
+
+      const state = location.state as LocationState | null;
+      const from = state?.from;
+
+      if (from?.pathname && from.pathname !== '/login' && from.pathname !== '/') {
+        const redirectTo = from.pathname + (from.search || '') + (from.hash || '');
+        navigate(redirectTo, {
+          replace: true,
+          state: from.state,
+        });
+      } else {
+        navigate('/', { replace: true });
+      }
     } catch {
       setError('root', {
         type: 'manual',

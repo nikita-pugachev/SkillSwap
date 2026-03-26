@@ -9,6 +9,8 @@ import { getToken, getStoredUser } from '@/utils/auth';
 import { ProtectedRoute } from '@/components/protected-route';
 import { Header } from '@/components/Header';
 
+import { ToastProvider } from '@/components/providers/ToastProvider';
+
 const CatalogPage = lazy(() => import('@/pages/catalog-page'));
 const SkillPage = lazy(() => import('@/pages/skill-page'));
 const LoginPage = lazy(() => import('@/pages/login-page'));
@@ -59,6 +61,7 @@ function AppContent() {
           <Route path="*" element={<ErrorPage />} />
         </Routes>
       </Suspense>
+      <ToastProvider />
     </BrowserRouter>
   );
 }

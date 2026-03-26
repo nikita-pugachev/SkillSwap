@@ -7,14 +7,19 @@ import styles from './SkillPage.module.scss';
 import type { UserFromDb, City, SkillCategory, SkillCategorySlug } from '@/utils/types';
 import scrollNavigate from '@/assets/icons/scroll-navigate.svg';
 import { IconButton } from '@/components/ui/IconButton';
-import { useDispatch } from 'react-redux';
 import { setSkills } from '@/services/slices/skillsSlice';
+import { selectIsAuthenticated, selectUser } from '@/services/selectors';
+import { createRequest } from '@/services/slices/requestsSlice';
+import toast from 'react-hot-toast';
+import { useAppSelector, useAppDispatch } from '@/services/hooks';
 
 export const SkillPage: React.FC = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
+  const isAuthenticated = useAppSelector(selectIsAuthenticated);
+  const currentUser = useAppSelector(selectUser);
 
   const getSkillData = (id: string) => ({
     id: id,
@@ -229,7 +234,35 @@ export const SkillPage: React.FC = () => {
   };
 
   const handleExchangeClick = () => {
-    console.log('Exchange offer', skillData.id);
+    if (!isAuthenticated || !currentUser) {
+      navigate('/login', {
+        state: {
+          from: {
+            pathname: location.pathname,
+            search: location.search,
+            hash: location.hash,
+          },
+        },
+        replace: true,
+      });
+      return;
+    }
+
+    const fromUserId = currentUser.id.toString();
+    const toUserId = skillData.user.id.toString();
+
+    dispatch(
+      createRequest({
+        skillId: skillData.id,
+        fromUserId,
+        toUserId,
+      })
+    );
+
+    toast.success('Заявка на обмен успешно отправлена!', {
+      duration: 3000,
+    });
+
     setIsExchangeModalOpen(true);
   };
 
