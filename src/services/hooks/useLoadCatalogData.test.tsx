@@ -28,6 +28,8 @@ const mockCity: City = {
 const mockUser: UserFromDb = {
   id: 1,
   name: 'Test User',
+  email: 'test@example.com',
+  password: 'password123',
   userAvatar: '/avatar.png',
   cityId: 1,
   gender: 'male',

@@ -15,13 +15,27 @@ export function formatDate(date: NullableDate): string {
 }
 
 export function parseDate(value: string): NullableDate {
-  const match = value.match(/^(\d{2})\.(\d{2})\.(\d{4})$/);
-  if (!match) return null;
+  if (!value) return null;
 
-  const [, ddStr, mmStr, yyyyStr] = match;
-  const day = Number(ddStr);
-  const month = Number(mmStr) - 1;
-  const year = Number(yyyyStr);
+  let day: number;
+  let month: number;
+  let year: number;
+
+  const isoMatch = value.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if (isoMatch) {
+    const [, yyyyStr, mmStr, ddStr] = isoMatch;
+    day = Number(ddStr);
+    month = Number(mmStr) - 1;
+    year = Number(yyyyStr);
+  } else {
+    const ruMatch = value.match(/^(\d{2})\.(\d{2})\.(\d{4})$/);
+    if (!ruMatch) return null;
+
+    const [, ddStr, mmStr, yyyyStr] = ruMatch;
+    day = Number(ddStr);
+    month = Number(mmStr) - 1;
+    year = Number(yyyyStr);
+  }
 
   const date = new Date(year, month, day);
 

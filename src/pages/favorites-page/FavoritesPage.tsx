@@ -3,8 +3,13 @@ import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { UserCard } from '@/components/ui/UserCard';
 import { selectFavoriteIds } from '@/services/selectors';
-import type { SkillCategorySlug, UserFromDb, City, SkillCategory } from '@/utils/types';
+import type { SkillCategorySlug, UserFromDb, City } from '@/utils/types';
 import styles from './FavoritesPage.module.scss';
+
+type SkillCategory = {
+  slug: SkillCategorySlug;
+  subcategories: { id: number; title: string }[];
+};
 
 export const FavoritesPage: React.FC = () => {
   const favoriteIds = useSelector(selectFavoriteIds);
