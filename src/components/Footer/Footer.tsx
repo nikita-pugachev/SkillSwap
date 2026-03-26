@@ -1,6 +1,5 @@
 import type { FC } from 'react';
-import { Logo } from '@/components/ui/Logo';
-import { MenuLink } from '@/components/ui/MenuLink/MenuLink';
+import { Logo, MenuLink } from '@/components/ui';
 import styles from './Footer.module.scss';
 
 export const Footer: FC = () => (

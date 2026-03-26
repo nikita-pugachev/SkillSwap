@@ -1,18 +1,8 @@
-jest.mock('@/components/ui/CheckboxButton', () => ({
+jest.mock('@/components/ui', () => ({
   __esModule: true,
   CheckboxButton: ({ label, onChange }: { label: string; onChange?: () => void }) => (
     <input type="checkbox" aria-label={label} onChange={onChange} />
   ),
-}));
-
-jest.mock('@/assets/icons/chevron-down.svg?react', () => ({
-  __esModule: true,
-  default: () => <svg data-testid="chevron-down" />,
-}));
-
-jest.mock('@/assets/icons/chevron-up.svg?react', () => ({
-  __esModule: true,
-  default: () => <svg data-testid="chevron-up" />,
 }));
 
 import { render, screen, fireEvent } from '@testing-library/react';

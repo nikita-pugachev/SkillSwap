@@ -1,10 +1,24 @@
 import type { ButtonHTMLAttributes, InputHTMLAttributes, ReactNode } from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import LoginPage from './login-page';
 
-jest.mock('@/components/ui/ButtonUI', () => ({
+jest.mock('react-redux', () => ({
+  useDispatch: jest.fn(),
+}));
+
+jest.mock('react-router-dom', () => {
+  const actual = jest.requireActual('react-router-dom');
+
+  return {
+    ...actual,
+    useNavigate: jest.fn(),
+  };
+});
+
+jest.mock('@/components/ui', () => ({
   Button: ({
     children,
     type = 'button',
@@ -14,13 +28,7 @@ jest.mock('@/components/ui/ButtonUI', () => ({
       {children}
     </button>
   ),
-}));
-
-jest.mock('@/components/ui/InputUI', () => ({
   InputUI: (props: InputHTMLAttributes<HTMLInputElement>) => <input {...props} />,
-}));
-
-jest.mock('@/components/ui/InputBaseContainerUI', () => ({
   InputBaseContainerUI: ({
     label,
     id,
@@ -38,9 +46,6 @@ jest.mock('@/components/ui/InputBaseContainerUI', () => ({
       {error ? <span>{error}</span> : null}
     </div>
   ),
-}));
-
-jest.mock('@/components/ui/IconButton', () => ({
   IconButton: ({
     ariaLabel,
     onClick,
@@ -57,12 +62,31 @@ jest.mock('@/components/ui/IconButton', () => ({
 }));
 
 describe('LoginPage', () => {
+  const mockDispatch = jest.fn();
+  const mockNavigate = jest.fn();
+
   const renderPage = () =>
     render(
       <MemoryRouter>
         <LoginPage />
       </MemoryRouter>
     );
+
+  beforeEach(() => {
+    (useDispatch as unknown as jest.Mock).mockReturnValue(mockDispatch);
+    (useNavigate as jest.Mock).mockReturnValue(mockNavigate);
+
+    mockDispatch.mockClear();
+    mockNavigate.mockClear();
+    localStorage.clear();
+
+    globalThis.fetch = jest.fn();
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+    jest.restoreAllMocks();
+  });
 
   it('renders page title and onboarding text', () => {
     renderPage();
@@ -129,5 +153,86 @@ describe('LoginPage', () => {
     await user.click(screen.getByRole('button', { name: 'Скрыть пароль' }));
     expect(screen.getByLabelText('Пароль')).toHaveAttribute('type', 'password');
     expect(screen.getByRole('button', { name: 'Показать пароль' })).toBeInTheDocument();
+  });
+
+  it('shows inline validation errors on submit', async () => {
+    const user = userEvent.setup();
+
+    renderPage();
+
+    await user.click(screen.getByRole('button', { name: 'Войти' }));
+
+    expect(await screen.findByText('Введите email')).toBeInTheDocument();
+    expect(await screen.findByText('Введите пароль')).toBeInTheDocument();
+  });
+
+  it('shows auth error with invalid credentials', async () => {
+    const user = userEvent.setup();
+
+    (globalThis.fetch as jest.Mock).mockResolvedValue({
+      ok: true,
+      json: async () => ({
+        users: [
+          {
+            id: 1,
+            name: 'Иван',
+            email: 'ivan@example.com',
+            password: 'pass1234',
+            userAvatar: '/src/assets/user-avatars/ivan.png',
+          },
+        ],
+      }),
+    });
+
+    renderPage();
+
+    await user.type(screen.getByLabelText('Email'), 'ivan@example.com');
+    await user.type(screen.getByLabelText('Пароль'), 'wrongpass');
+    await user.click(screen.getByRole('button', { name: 'Войти' }));
+
+    await waitFor(() => {
+      expect(screen.getByRole('alert')).toHaveTextContent('Неверный email или пароль');
+    });
+
+    expect(mockDispatch).not.toHaveBeenCalled();
+    expect(mockNavigate).not.toHaveBeenCalled();
+  });
+
+  it('logs in successfully with valid email and password', async () => {
+    const user = userEvent.setup();
+
+    (globalThis.fetch as jest.Mock).mockResolvedValue({
+      ok: true,
+      json: async () => ({
+        users: [
+          {
+            id: 1,
+            name: 'Иван',
+            email: 'ivan@example.com',
+            password: 'pass1234',
+            userAvatar: '/src/assets/user-avatars/ivan.png',
+          },
+        ],
+      }),
+    });
+
+    renderPage();
+
+    await user.type(screen.getByLabelText('Email'), 'ivan@example.com');
+    await user.type(screen.getByLabelText('Пароль'), 'pass1234');
+    await user.click(screen.getByRole('button', { name: 'Войти' }));
+
+    await waitFor(() => {
+      expect(globalThis.fetch).toHaveBeenCalledWith('/db/users.json');
+      expect(mockDispatch).toHaveBeenCalled();
+      expect(mockNavigate).toHaveBeenCalledWith('/', { replace: true });
+    });
+
+    expect(localStorage.getItem('token')).toBe('mock-token-1');
+    expect(JSON.parse(localStorage.getItem('auth_user') ?? 'null')).toEqual({
+      id: 1,
+      name: 'Иван',
+      userAvatar: '/src/assets/user-avatars/ivan.png',
+    });
   });
 });

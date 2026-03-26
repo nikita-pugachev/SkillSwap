@@ -7,6 +7,19 @@ export type SkillCategorySlug =
   | 'health'
   | 'other';
 
+export interface SkillSubcategory {
+  id: number;
+  title: string;
+}
+
+export interface SkillCategory {
+  id: number;
+  title: string;
+  icon: string;
+  slug: SkillCategorySlug;
+  subcategories: SkillSubcategory[];
+}
+
 export type SkillType = 'teach' | 'learn';
 
 export interface UserSkill {
@@ -78,6 +91,8 @@ export interface UserSkillTeach {
 export interface UserFromDb {
   id: number;
   name: string;
+  email: string;
+  password: string;
   userAvatar: string;
   cityId: number;
   gender: string;

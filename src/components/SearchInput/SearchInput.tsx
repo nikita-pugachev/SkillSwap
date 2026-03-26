@@ -1,6 +1,5 @@
 import React, { FC, useEffect, useRef, useState } from 'react';
-import { SearchInputUI } from '../ui/SearchInputUI';
-import { InputBaseContainerUI } from '../ui/InputBaseContainerUI';
+import { SearchInputUI, InputBaseContainerUI } from '@/components/ui';
 import { useDebounce } from '@/hooks/useDebounce';
 
 interface SearchInputProp {

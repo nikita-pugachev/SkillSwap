@@ -1,7 +1,7 @@
 import styles from './CardSection.module.scss';
 import Icon from '@/assets/icons/chevron-right.svg?react';
 import { Link } from 'react-router-dom';
-import { UserCard } from '@/components/user-card';
+import { UserCard } from '@/components/ui/UserCard';
 import type { User } from '@/utils/types';
 
 export interface UsersSectionProps {
