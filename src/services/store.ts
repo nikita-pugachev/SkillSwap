@@ -3,6 +3,8 @@ import favoritesReducer from './slices/favoritesSlice';
 import catalogReducer from './slices/catalogSlice';
 import authReducer from './slices/authSlice';
 import skillsReducer from './slices/skillsSlice';
+import requestsReducer from './slices/requestsSlice';
+import profileSkillsReducer from './slices/profileSkillsSlice';
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +12,8 @@ export const store = configureStore({
     catalog: catalogReducer,
     auth: authReducer,
     skills: skillsReducer,
+    requests: requestsReducer,
+    profileSkills: profileSkillsReducer,
   },
 });
 

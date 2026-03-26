@@ -53,6 +53,12 @@ const renderHeader = (props: HeaderProps, route = '/') =>
 
 // Тесты
 describe('Header component', () => {
+  beforeEach(() => {
+    localStorage.clear();
+    document.documentElement.dataset.theme = 'light';
+    mockNavigate.mockClear();
+  });
+
   test('renders header', () => {
     renderHeader({ isLogin: false });
     expect(screen.getByRole('banner')).toBeInTheDocument();
@@ -86,5 +92,16 @@ describe('Header component', () => {
     await user.click(closeButton);
 
     expect(mockNavigate).toHaveBeenCalledWith(-1);
+  });
+
+  test('clicking theme button toggles theme and saves to localStorage', async () => {
+    const user = userEvent.setup();
+    renderHeader({ isLogin: false });
+
+    const toggleButton = screen.getByRole('button', { name: /смена темы/i });
+    await user.click(toggleButton);
+
+    expect(document.documentElement).toHaveAttribute('data-theme', 'dark');
+    expect(localStorage.getItem('theme')).toBe('dark');
   });
 });

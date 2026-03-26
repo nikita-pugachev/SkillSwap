@@ -45,9 +45,12 @@ describe('DateInput.utils', () => {
     });
 
     it('возвращает null для строки в неверном формате', () => {
-      expect(parseDate('2024-01-05')).toBeNull();
       expect(parseDate('5.1.2024')).toBeNull();
       expect(parseDate('')).toBeNull();
+    });
+
+    it('поддерживает ISO-дату yyyy-mm-dd для initial value', () => {
+      expect(parseDate('2024-01-05')).toEqual(new Date(2024, 0, 5));
     });
 
     it('возвращает null для несуществующей календарной даты', () => {

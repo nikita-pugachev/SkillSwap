@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
 import { FilterSidebar } from '@/components/FilterSidebar';
-import { UserCard } from '@/components/ui/UserCard';
+import { UserCard } from '@/components/ui';
 import { CatalogLoading, CatalogError, CatalogEmpty } from './components';
 import { useLoadCatalogData } from '@/services/hooks/useLoadCatalogData';
 import { useAppSelector } from '@/services/hooks';
@@ -52,7 +52,7 @@ export const CatalogPage = () => {
       }
       return true;
     });
-  }, [users, filters, cities, skills]);
+  }, [users, filters, cities]);
 
   if (loading) {
     return <CatalogLoading />;

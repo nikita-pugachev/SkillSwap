@@ -1,4 +1,11 @@
-import React, { MouseEvent as ReactMouseEvent, KeyboardEvent, ChangeEvent } from 'react';
+import {
+  useState,
+  type RefObject,
+  type MouseEvent as ReactMouseEvent,
+  type KeyboardEvent,
+  type ChangeEvent,
+  type FocusEvent,
+} from 'react';
 
 import { MONTHS, WEEK_DAYS } from '../../DateInput/DateInput.constants';
 import { CalendarCell, NullableDate } from '@/utils/types';
@@ -13,9 +20,9 @@ export interface DateInputUIProps {
   id: string;
   label: string;
   placeholder: string;
-  wrapperRef: React.RefObject<HTMLDivElement | null>;
-  inputRef: React.RefObject<HTMLInputElement | null>;
-  dialogRef: React.RefObject<HTMLDivElement | null>;
+  wrapperRef: RefObject<HTMLDivElement | null>;
+  inputRef: RefObject<HTMLInputElement | null>;
+  dialogRef: RefObject<HTMLDivElement | null>;
 
   inputValue: string;
   error?: string;
@@ -28,10 +35,10 @@ export interface DateInputUIProps {
   disabled: boolean;
   calendarDays: CalendarCell[];
 
-  handleInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handleInputChange: (event: ChangeEvent<HTMLInputElement>) => void;
   handleInputFocus: () => void;
-  handleInputKeyDown: (event: React.KeyboardEvent<HTMLInputElement>) => void;
-  handleInputBlur: (event: React.FocusEvent<HTMLInputElement>) => void;
+  handleInputKeyDown: (event: KeyboardEvent<HTMLInputElement>) => void;
+  handleInputBlur: (event: FocusEvent<HTMLInputElement>) => void;
   handleIconClick: () => void;
   handleIconMouseDown: (event: ReactMouseEvent<HTMLButtonElement>) => void;
   handleCalendarKeyDown: (event: KeyboardEvent<HTMLDivElement>) => void;
@@ -73,7 +80,7 @@ export const DateInputUI = ({
   applyDate,
 }: DateInputUIProps) => {
   const errorId = `${id}-error`;
-  const [activeSelect, setActiveSelect] = React.useState<'month' | 'year' | null>(null);
+  const [activeSelect, setActiveSelect] = useState<'month' | 'year' | null>(null);
   return (
     <div ref={wrapperRef} className={styles.dateInputContainer}>
       <label htmlFor={id} className={styles.label}>
