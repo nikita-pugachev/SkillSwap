@@ -1,22 +1,25 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
 import { SkillCard } from '@/components/ui/SkillCard/SkillCard';
-import { UserCard } from '@/components/ui/UserCard/UserCard';
+import { UserCard } from '@/components/ui/UserCard';
 import { Modal } from '@/components/ui/Modal/Modal';
 import styles from './SkillPage.module.scss';
 import type { UserDb, City, SkillCategory, SkillCategorySlug } from '@/utils/types';
 import ScrollNavigateIcon from '@/assets/icons/scroll-navigate.svg?react';
 import { IconButton } from '@/components/ui/IconButton';
 import { setSkills } from '@/services/slices/skillsSlice';
-import { selectIsAuthenticated } from '@/services/selectors';
+import { selectIsAuthenticated, selectUser } from '@/services/selectors';
+import { createRequest } from '@/services/slices/requestsSlice';
+import toast from 'react-hot-toast';
+import { useAppSelector, useAppDispatch } from '@/services/hooks';
 
 export const SkillPage: React.FC = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const isAuthenticated = useSelector(selectIsAuthenticated);
+  const dispatch = useAppDispatch();
+  const isAuthenticated = useAppSelector(selectIsAuthenticated);
+  const currentUser = useAppSelector(selectUser);
 
   const getSkillData = (id: string) => ({
     id: id,
@@ -120,15 +123,7 @@ export const SkillPage: React.FC = () => {
 
         const data = await response.json();
         setSkillsData(data);
-
-        const skillsForStore = data.flatMap((category: SkillCategory) =>
-          category.subcategories.map((sub: { id: number; title: string }) => ({
-            id: sub.id,
-            title: sub.title,
-            category: category.slug,
-          }))
-        );
-        dispatch(setSkills(skillsForStore));
+        dispatch(setSkills(data));
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Ошибка загрузки навыков');
       }
@@ -231,7 +226,35 @@ export const SkillPage: React.FC = () => {
   };
 
   const handleExchangeClick = () => {
-    console.log('Exchange offer', skillData.id);
+    if (!isAuthenticated || !currentUser) {
+      navigate('/login', {
+        state: {
+          from: {
+            pathname: location.pathname,
+            search: location.search,
+            hash: location.hash,
+          },
+        },
+        replace: true,
+      });
+      return;
+    }
+
+    const fromUserId = currentUser.id.toString();
+    const toUserId = skillData.user.id.toString();
+
+    dispatch(
+      createRequest({
+        skillId: skillData.id,
+        fromUserId,
+        toUserId,
+      })
+    );
+
+    toast.success('Заявка на обмен успешно отправлена!', {
+      duration: 3000,
+    });
+
     setIsExchangeModalOpen(true);
   };
 

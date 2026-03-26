@@ -18,3 +18,8 @@
   gap: 12px;
   list-style: none;
 }
+
+.fieldset[data-orientation='horizontal'] .list {
+  flex-flow: row wrap;
+  gap: 24px;
+}

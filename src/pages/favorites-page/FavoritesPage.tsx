@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { UserCard } from '@/components/ui/UserCard/UserCard';
+import { UserCard } from '@/components/ui/UserCard';
 import { selectFavoriteIds } from '@/services/selectors';
-import type {
-  SkillCategorySlug,
-  UserDb,
-  City,
-  SkillCategory,
-  SkillSubcategory,
-} from '@/utils/types';
+import type { SkillCategorySlug, UserDb, City } from '@/utils/types';
 import styles from './FavoritesPage.module.scss';
+
+type SkillCategory = {
+  slug: SkillCategorySlug;
+  subcategories: { id: number; title: string }[];
+};
 
 export const FavoritesPage: React.FC = () => {
   const favoriteIds = useSelector(selectFavoriteIds);
@@ -92,9 +91,7 @@ export const FavoritesPage: React.FC = () => {
 
   const getSkillName = (skillId: number): string => {
     for (const category of skills) {
-      const subcategory = category.subcategories.find(
-        (sub: SkillSubcategory) => sub.id === skillId
-      );
+      const subcategory = category.subcategories.find((sub) => sub.id === skillId);
       if (subcategory) {
         return subcategory.title;
       }
@@ -104,11 +101,9 @@ export const FavoritesPage: React.FC = () => {
 
   const getSkillCategory = (skillId: number): SkillCategorySlug => {
     for (const category of skills) {
-      const subcategory = category.subcategories.find(
-        (sub: SkillSubcategory) => sub.id === skillId
-      );
+      const subcategory = category.subcategories.find((sub) => sub.id === skillId);
       if (subcategory) {
-        return category.slug as SkillCategorySlug;
+        return category.slug;
       }
     }
     return 'other';
@@ -116,13 +111,13 @@ export const FavoritesPage: React.FC = () => {
 
   const getSkillCategoryBySubcategoryId = (subcategoryId: number): SkillCategorySlug => {
     const category = skills.find((cat) =>
-      cat.subcategories.some((sub: SkillSubcategory) => sub.id === subcategoryId)
+      cat.subcategories.some((sub) => sub.id === subcategoryId)
     );
-    return category ? (category.slug as SkillCategorySlug) : 'other';
+    return category ? category.slug : 'other';
   };
 
   const handleDetailsClick = (userId: string | number) => {
-    navigate(`/profile/${userId}`);
+    navigate(`/skill/${userId}`);
   };
 
   if (error) {

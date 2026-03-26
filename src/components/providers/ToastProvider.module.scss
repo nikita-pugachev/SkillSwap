@@ -1,0 +1,27 @@
+.toast {
+  background: var(--color-bg, #fff);
+  color: var(--color-text-primary, #1f1f1f);
+  border-radius: var(--radius-primary, 12px);
+  padding: 14px 16px;
+  box-shadow: var(--color-text-primary, 0 10px 15px -3px rgb(0 0 0 / 10%));
+  border: 1px solid var(--color-text-primary, #374151);
+  font-size: var(--font-size-caption, 12px);
+  font-family: var(--font-family-base);
+  font-weight: var(--font-weight-regular);
+  max-width: 360px;
+  width: fit-content;
+}
+
+.success {
+  border-color: var(--color-accent, #4ade80);
+  background: var(--color-accent-pressed, #052e16);
+}
+
+.error {
+  border-color: var(--color-error, #ef4444);
+  background: var(--color-bg, #450a0a);
+}
+
+.loading {
+  border-color: var(--color-accent, #3b82f6);
+}

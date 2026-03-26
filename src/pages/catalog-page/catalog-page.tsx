@@ -7,9 +7,7 @@ import { useLoadCatalogData } from '@/services/hooks/useLoadCatalogData';
 import { selectIsAuthenticated, selectUser } from '@/services/selectors';
 import { getAuthenticatedUserId } from '@/utils/auth';
 import type { Filters, UserCardModel } from '@/utils/types';
-import { CatalogEmpty } from './components/CatalogEmpty';
-import { CatalogLoading } from './components/CatalogLoading';
-import { CatalogError } from './components/CatalogError';
+import { CatalogEmpty, CatalogError, CatalogLoading } from './components';
 
 import ChevronLeftIcon from '@/assets/icons/chevron-left.svg?react';
 import CrossIcon from '@/assets/icons/cross.svg?react';

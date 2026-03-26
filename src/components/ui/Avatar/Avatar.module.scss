@@ -3,7 +3,7 @@
   width: 100%;
   height: auto;
   aspect-ratio: 1 / 1;
-  border-radius: var(--boreder-circle);
+  border-radius: var(--radius-circle);
   object-fit: cover;
   overflow: hidden;
   flex-shrink: 0;
@@ -13,7 +13,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: var(--boreder-circle);
+  border-radius: var(--radius-circle);
   flex-shrink: 0;
   color: var(--color-surface);
   font-family: var(--font-family-base);

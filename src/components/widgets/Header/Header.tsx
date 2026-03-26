@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '@/services/hooks';
 import { selectUser } from '@/services/selectors';
@@ -20,6 +20,9 @@ import NotificationIcon from '@/assets/icons/notification.svg?react';
 import SunIcon from '@/assets/icons/sun.svg?react';
 import LogoutIcon from '@/assets/icons/logout.svg?react';
 
+const THEME_STORAGE_KEY = 'theme';
+type Theme = 'light' | 'dark';
+
 export interface HeaderProps {
   isAuthPage?: boolean;
   searchValue?: string;
@@ -29,12 +32,32 @@ export interface HeaderProps {
 export const Header: FC<HeaderProps> = ({ isAuthPage = false, searchValue, onSearch }) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const [isDarkTheme, setIsDarkTheme] = useState(false);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const isAuthenticated = useAppSelector(selectIsAuthenticated);
   const user = useAppSelector(selectUser);
 
-  const handleThemeToggle = () => setIsDarkTheme((prev) => !prev);
+  const [theme, setTheme] = useState<Theme>(() => {
+    const currentTheme = document.documentElement.dataset.theme;
+
+    if (currentTheme === 'dark' || currentTheme === 'light') {
+      return currentTheme;
+    }
+
+    const savedTheme = localStorage.getItem(THEME_STORAGE_KEY);
+    return savedTheme === 'dark' || savedTheme === 'light' ? savedTheme : 'light';
+  });
+
+  const isDarkTheme = theme === 'dark';
+
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme;
+    localStorage.setItem(THEME_STORAGE_KEY, theme);
+  }, [theme]);
+
+  const handleThemeToggle = () => {
+    setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
+  };
+
   const handleClose = () => navigate(-1);
   const handleLogin = () => navigate('/login');
   const handleRegister = () => navigate('/register');
@@ -108,7 +131,7 @@ export const Header: FC<HeaderProps> = ({ isAuthPage = false, searchValue, onSea
             onMouseLeave={() => setIsProfileMenuOpen(false)}
           >
             <button type="button" className={styles.profileContainer}>
-              <span className={styles.link}>{user?.name ?? 'Профиль'}</span>
+              <span className={styles.link}>{user.name ?? 'Профиль'}</span>
               <Avatar src={user.userAvatar} name={user.name} size="sm" />
             </button>
 

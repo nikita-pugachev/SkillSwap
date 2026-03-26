@@ -25,3 +25,11 @@ export const getUsers = async (init?: FetchOptions): Promise<UserDb[]> => {
   const response = await fetchJson<{ users: UserDb[] }>('/db/users.json', init);
   return response.users;
 };
+
+export const getUsersFromDb = async (init?: FetchOptions): Promise<UserDb[]> => {
+  const response =
+    init === undefined ? await fetch('/db/users.json') : await fetch('/db/users.json', init);
+
+  const data = await handleResponse<{ users: UserDb[] }>(response);
+  return data.users;
+};

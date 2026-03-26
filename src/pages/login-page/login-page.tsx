@@ -1,5 +1,16 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+
+import { Controller, useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+
+import { useDispatch } from 'react-redux';
+import { setToken, setStoredUser } from '@/utils/auth';
+import { createMockToken, findUserByCredentials, toAuthUser } from '@/utils/mock-users';
+
+import type { AppDispatch } from '@/services/store';
+import { login } from '@/services/slices/authSlice';
 
 import authStyles from '@/assets/styles/auth.module.scss';
 import styles from './login-page.module.scss';
@@ -12,14 +23,97 @@ import appleIcon from '@/assets/icons/logo/apple.svg';
 import googleIcon from '@/assets/icons/logo/google.svg';
 import lightBulb from '@/assets/illustrations/light-bulb.svg';
 
+import type { LocationState } from '@/types/location';
+
+type FormValues = {
+  email: string;
+  password: string;
+};
+
+const loginSchema: yup.ObjectSchema<FormValues> = yup
+  .object({
+    email: yup.string().trim().required('Введите email').email('Некорректный email'),
+    password: yup
+      .string()
+      .required('Введите пароль')
+      .min(6, 'Пароль должен содержать не менее 6 символов'),
+  })
+  .required();
+
+const getInputFieldProps = <T extends { ref: unknown }>(field: T): Omit<T, 'ref'> => {
+  const { ref, ...rest } = field;
+  void ref;
+
+  return rest;
+};
+
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
-  // TODO: получать из состояния формы (Redux)
-  const passwordError: string | undefined = undefined;
+
+  const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const {
+    control,
+    handleSubmit,
+    clearErrors,
+    setError,
+    formState: { errors },
+  } = useForm<FormValues>({
+    resolver: yupResolver(loginSchema),
+    mode: 'onBlur',
+    reValidateMode: 'onChange',
+    defaultValues: {
+      email: '',
+      password: '',
+    },
+  });
 
   const togglePassword = () => {
     setShowPassword((prev) => !prev);
   };
+
+  const onSubmit = handleSubmit(async ({ email, password }) => {
+    clearErrors('root');
+
+    try {
+      const user = await findUserByCredentials(email, password);
+
+      if (!user) {
+        setError('root', {
+          type: 'manual',
+          message: 'Неверный email или пароль',
+        });
+        return;
+      }
+
+      const authUser = toAuthUser(user);
+
+      setToken(createMockToken(user.id));
+      setStoredUser(authUser);
+      dispatch(login(authUser));
+
+      const state = location.state as LocationState | null;
+      const from = state?.from;
+
+      if (from?.pathname && from.pathname !== '/login' && from.pathname !== '/') {
+        const redirectTo = from.pathname + (from.search || '') + (from.hash || '');
+        navigate(redirectTo, {
+          replace: true,
+          state: from.state,
+        });
+      } else {
+        navigate('/', { replace: true });
+      }
+    } catch {
+      setError('root', {
+        type: 'manual',
+        message: 'Не удалось выполнить вход. Попробуйте позже',
+      });
+    }
+  });
+
+  const authError = typeof errors.root?.message === 'string' ? errors.root.message : undefined;
 
   return (
     <main className={authStyles.main}>
@@ -45,28 +139,57 @@ export default function LoginPage() {
           <div className={authStyles.divider}>или</div>
 
           <div className={styles.authBlock}>
-            <form
-              className={authStyles.formContainer}
-              onSubmit={(e) => {
-                e.preventDefault();
-                // TODO: dispatch login action
-              }}
-            >
+            <form className={authStyles.formContainer} onSubmit={onSubmit} noValidate>
               <div className={authStyles.fields}>
-                <InputBaseContainerUI label="Email" id="email">
-                  <InputUI id="email" type="email" placeholder="Введите email" />
+                <InputBaseContainerUI label="Email" id="email" error={errors.email?.message}>
+                  <Controller
+                    name="email"
+                    control={control}
+                    render={({ field }) => {
+                      const inputField = getInputFieldProps(field);
+
+                      return (
+                        <InputUI
+                          {...inputField}
+                          id="email"
+                          type="email"
+                          placeholder="Введите email"
+                          onChange={(event) => {
+                            clearErrors('root');
+                            inputField.onChange(event);
+                          }}
+                        />
+                      );
+                    }}
+                  />
                 </InputBaseContainerUI>
 
-                <InputBaseContainerUI label="Пароль" id="password" error={passwordError}>
+                <InputBaseContainerUI label="Пароль" id="password" error={errors.password?.message}>
                   <div className={authStyles.passwordField}>
-                    <InputUI
-                      id="password"
-                      type={showPassword ? 'text' : 'password'}
-                      placeholder="Введите ваш пароль"
+                    <Controller
+                      name="password"
+                      control={control}
+                      render={({ field }) => {
+                        const inputField = getInputFieldProps(field);
+
+                        return (
+                          <InputUI
+                            {...inputField}
+                            id="password"
+                            type={showPassword ? 'text' : 'password'}
+                            placeholder="Введите ваш пароль"
+                            onChange={(event) => {
+                              clearErrors('root');
+                              inputField.onChange(event);
+                            }}
+                          />
+                        );
+                      }}
                     />
 
                     <IconButton
                       icon={showPassword ? eyeSlashIcon : eyeIcon}
+                      type="button"
                       ariaLabel={showPassword ? 'Скрыть пароль' : 'Показать пароль'}
                       onClick={togglePassword}
                     />
@@ -78,6 +201,12 @@ export default function LoginPage() {
                 Войти
               </Button>
             </form>
+
+            {authError ? (
+              <p className={styles.authError} role="alert">
+                {authError}
+              </p>
+            ) : null}
 
             <Link to="/register" className={styles.registerLink}>
               Зарегистрироваться
