@@ -1,8 +1,10 @@
-import type { AuthUser } from '@/services/slices/authSlice';
+import type { AuthUser, AuthUserGender } from '@/services/slices/authSlice';
 
 const USERS_ENDPOINT = '/db/users.json';
 const REGISTERED_USERS_KEY = 'registered_users';
 const GENERATED_USER_ID_START = 1000;
+
+type MockUserGender = 'male' | 'female';
 
 export type MockUser = {
   id: number;
@@ -10,10 +12,26 @@ export type MockUser = {
   email: string;
   password: string;
   userAvatar: string;
+  city?: string;
+  cityId?: number;
+  gender?: MockUserGender;
+  birthday?: string;
+  about?: string;
 };
 
 type UsersResponse = {
   users: MockUser[];
+};
+
+const mapGenderToAuthUser = (gender?: MockUserGender): AuthUserGender | undefined => {
+  switch (gender) {
+    case 'male':
+      return 'Мужской';
+    case 'female':
+      return 'Женский';
+    default:
+      return undefined;
+  }
 };
 
 export const normalizeEmail = (email: string): string => email.trim().toLowerCase();
@@ -24,6 +42,13 @@ export const toAuthUser = (user: MockUser): AuthUser => ({
   id: user.id,
   name: user.name,
   userAvatar: user.userAvatar,
+  email: user.email,
+  password: user.password,
+  city: user.city,
+  cityId: user.cityId,
+  gender: mapGenderToAuthUser(user.gender),
+  birthday: user.birthday,
+  about: user.about,
 });
 
 export const getRegisteredUsers = (): MockUser[] => {
@@ -90,4 +115,10 @@ export const findUserByCredentials = async (
       (user) => normalizeEmail(user.email) === normalizedEmail && user.password === password
     ) ?? null
   );
+};
+
+export const findUserById = async (id: number): Promise<MockUser | null> => {
+  const users = await getAllUsers();
+
+  return users.find((user) => user.id === id) ?? null;
 };

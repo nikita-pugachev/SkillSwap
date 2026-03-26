@@ -48,6 +48,8 @@ export function DateInput({
   const dialogRef = useRef<HTMLDivElement | null>(null);
 
   const initialDate = useMemo(() => {
+    if (!defaultValue) return null;
+
     const parsed = parseDate(defaultValue);
     if (!parsed) return null;
 

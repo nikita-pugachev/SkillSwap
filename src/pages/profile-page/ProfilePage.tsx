@@ -1,47 +1,43 @@
 import { ChangeEvent, FormEvent, useEffect, useRef, useState } from 'react';
-import styles from './ProfilePage.module.scss';
 import { useNavigate } from 'react-router-dom';
-import { Button } from '@/components/ui';
-import { Avatar } from '@/components/ui';
+import styles from './ProfilePage.module.scss';
+
 import { Footer } from '@/components/Footer/Footer';
+import { DateInput } from '@/components/DateInput';
+import { SelectInput } from '@/components/SelectInput/SelectInput';
+import { Avatar, Button } from '@/components/ui';
+import { IconButton } from '@/components/ui/IconButton';
 import { InputBaseContainerUI } from '@/components/ui/InputBaseContainerUI';
 import { InputUI } from '@/components/ui/InputUI';
-import { IconButton } from '@/components/ui/IconButton';
-import { SelectInput } from '@/components/SelectInput/SelectInput';
-import { DateInput } from '@/components/DateInput';
 import { useAppDispatch, useAppSelector } from '@/services/hooks';
 import { selectUser } from '@/services/selectors';
-import { userEdit } from '@/services/slices/authSlice';
+import { userEdit, type AuthUserGender } from '@/services/slices/authSlice';
+import { findUserById, toAuthUser } from '@/utils/mock-users';
 import type { TSelectOption } from '@/utils/types';
 
+import IconEdit from '@/assets/icons/edit.svg?react';
+import IconGalleryEdit from '@/assets/icons/gallery-edit.svg?react';
+import IconIdea from '@/assets/icons/idea.svg?react';
+import IconLike from '@/assets/icons/like-outline.svg?react';
 import IconMail from '@/assets/icons/request.svg?react';
 import IconMessage from '@/assets/icons/message-text.svg?react';
-import IconLike from '@/assets/icons/like-outline.svg?react';
-import IconIdea from '@/assets/icons/idea.svg?react';
 import IconUser from '@/assets/icons/user.svg?react';
-import IconEdit from '@/assets/icons/edit.svg?react';
-import eyeSlashIcon from '@/assets/icons/eye-slash.svg';
 import eyeIcon from '@/assets/icons/eye.svg';
-import IconGalleryEdit from '@/assets/icons/gallery-edit.svg?react';
+import eyeSlashIcon from '@/assets/icons/eye-slash.svg';
 
 export default function ProfilePage() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-
   const user = useAppSelector(selectUser);
 
   const [cities, setCities] = useState<TSelectOption[]>([]);
   const [genders, setGenders] = useState<TSelectOption[]>([]);
-
   const [isOpen, setOpen] = useState(false);
-
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const passwordRef = useRef<HTMLDivElement>(null);
-
   const [name, setName] = useState('');
   const nameRef = useRef<HTMLInputElement>(null);
-
   const [about, setAbout] = useState('');
   const [birthday, setBirthday] = useState('');
   const [gender, setGender] = useState<TSelectOption | null>(null);
@@ -49,7 +45,7 @@ export default function ProfilePage() {
   const [email, setEmail] = useState('');
   const emailRef = useRef<HTMLInputElement>(null);
   const aboutRef = useRef<HTMLTextAreaElement>(null);
-  const [avatarSrc, setAvatarSrc] = useState<string>('');
+  const [avatarSrc, setAvatarSrc] = useState('');
   const avatarInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -81,9 +77,31 @@ export default function ProfilePage() {
       }
     };
 
-    fetchCities();
-    fetchGender();
+    void fetchCities();
+    void fetchGender();
   }, []);
+
+  useEffect(() => {
+    const hydrateUserProfile = async () => {
+      if (!user?.id || user.email) {
+        return;
+      }
+
+      try {
+        const fullUser = await findUserById(user.id);
+
+        if (!fullUser) {
+          return;
+        }
+
+        dispatch(userEdit(toAuthUser(fullUser)));
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    void hydrateUserProfile();
+  }, [dispatch, user?.email, user?.id]);
 
   useEffect(() => {
     if (!user) {
@@ -99,20 +117,35 @@ export default function ProfilePage() {
   }, [user]);
 
   useEffect(() => {
-    if (!user?.city || cities.length === 0) {
+    if (cities.length === 0) {
       return;
     }
 
-    setCity(cities.find((option) => option.name === user.city) ?? null);
-  }, [user?.city, cities]);
+    if (user?.city) {
+      setCity(cities.find((option) => option.name === user.city) ?? null);
+      return;
+    }
+
+    if (user?.cityId) {
+      setCity(cities.find((option) => option.id === user.cityId) ?? null);
+      return;
+    }
+
+    setCity(null);
+  }, [cities, user?.city, user?.cityId]);
 
   useEffect(() => {
-    if (!user?.gender || genders.length === 0) {
+    if (genders.length === 0) {
+      return;
+    }
+
+    if (!user?.gender) {
+      setGender(null);
       return;
     }
 
     setGender(genders.find((option) => option.name === user.gender) ?? null);
-  }, [user?.gender, genders]);
+  }, [genders, user?.gender]);
 
   const handleEditEmail = () => {
     setEmail('');
@@ -147,8 +180,9 @@ export default function ProfilePage() {
         name,
         about,
         birthday,
-        gender: gender?.name as 'Мужской' | 'Женский' | undefined,
+        gender: gender?.name as AuthUserGender | undefined,
         city: city?.name,
+        cityId: city?.id,
         userAvatar: avatarSrc,
       })
     );
@@ -163,6 +197,7 @@ export default function ProfilePage() {
     if (!file) {
       return;
     }
+
     const reader = new FileReader();
     reader.onloadend = () => {
       if (typeof reader.result === 'string') {
@@ -209,6 +244,7 @@ export default function ProfilePage() {
             </li>
           </ul>
         </nav>
+
         <div className={styles.profileInfo}>
           <div>
             <form className={styles.form} onSubmit={handleSubmit}>
@@ -220,16 +256,18 @@ export default function ProfilePage() {
                     value={email}
                     ref={emailRef}
                     placeholder="Введите ваш новый email"
-                    onChange={(e) => setEmail(e.target.value)}
+                    onChange={(event) => setEmail(event.target.value)}
                   />
                   <IconEdit onClick={handleEditEmail} />
                 </div>
               </InputBaseContainerUI>
+
               <div>
                 <p className={styles.editPassword} onClick={() => setOpen(!isOpen)}>
                   Изменить пароль
                 </p>
               </div>
+
               <div ref={passwordRef} className={!isOpen ? styles.passwordContainerState : ''}>
                 <InputBaseContainerUI label="Пароль" id="password">
                   <div className={styles.inputEdit}>
@@ -238,7 +276,7 @@ export default function ProfilePage() {
                       type={showPassword ? 'text' : 'password'}
                       value={password}
                       placeholder="Введите ваш новый пароль"
-                      onChange={(e) => setPassword(e.target.value)}
+                      onChange={(event) => setPassword(event.target.value)}
                     />
                     <IconButton
                       iconSrc={showPassword ? eyeSlashIcon : eyeIcon}
@@ -248,6 +286,7 @@ export default function ProfilePage() {
                   </div>
                 </InputBaseContainerUI>
               </div>
+
               <InputBaseContainerUI label="Имя" id="name">
                 <div className={styles.inputEdit}>
                   <InputUI
@@ -256,11 +295,12 @@ export default function ProfilePage() {
                     value={name}
                     ref={nameRef}
                     placeholder="Введите ваше имя"
-                    onChange={(e) => setName(e.target.value)}
+                    onChange={(event) => setName(event.target.value)}
                   />
                   <IconEdit onClick={handleEditName} />
                 </div>
               </InputBaseContainerUI>
+
               <div className={styles.row}>
                 <div className={styles.rowItem}>
                   <DateInput
@@ -273,6 +313,7 @@ export default function ProfilePage() {
                     onChange={setBirthday}
                   />
                 </div>
+
                 <div className={styles.rowItem}>
                   <SelectInput
                     id="gender"
@@ -283,6 +324,7 @@ export default function ProfilePage() {
                   />
                 </div>
               </div>
+
               <SelectInput
                 id="city"
                 label="Город"
@@ -290,6 +332,7 @@ export default function ProfilePage() {
                 defaultValue={city?.name}
                 onChange={setCity}
               />
+
               <div>
                 <label htmlFor="about" className={styles.textareaLabel}>
                   О себе
@@ -300,7 +343,7 @@ export default function ProfilePage() {
                     className={styles.textarea}
                     placeholder="Расскажите о себе"
                     value={about}
-                    onChange={(e) => setAbout(e.target.value)}
+                    onChange={(event) => setAbout(event.target.value)}
                     ref={aboutRef}
                   />
                   <button
@@ -313,11 +356,13 @@ export default function ProfilePage() {
                   </button>
                 </div>
               </div>
+
               <Button variant="primary" type="submit">
                 Сохранить
               </Button>
             </form>
           </div>
+
           <div className={styles.avatarWrapper}>
             <Avatar src={avatarSrc || undefined} name={name} size="lg" />
             <button type="button" className={styles.avatarEdit} onClick={handleAvatarButtonClick}>
@@ -333,6 +378,7 @@ export default function ProfilePage() {
           </div>
         </div>
       </main>
+
       <Footer />
     </>
   );

@@ -67,6 +67,7 @@ jest.mock('@/components/ui', () => ({
 describe('RegisterPage', () => {
   const mockDispatch = jest.fn();
   const mockNavigate = jest.fn();
+
   const renderPage = () => render(<RegisterPage />);
 
   const fillStepOne = async (user: ReturnType<typeof userEvent.setup>) => {
@@ -118,15 +119,15 @@ describe('RegisterPage', () => {
   it('toggles the password visibility', () => {
     renderPage();
     const passwordInput = screen.getByLabelText('Пароль') as HTMLInputElement;
-    const toggleButton = screen.getByRole('button', { name: /Показать пароль/i });
+    const toggleButton = screen.getByRole('button', { name: /показать пароль/i });
 
     expect(passwordInput).toHaveAttribute('type', 'password');
 
     fireEvent.click(toggleButton);
     expect(passwordInput).toHaveAttribute('type', 'text');
-    expect(screen.getByRole('button', { name: /Скрыть пароль/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /скрыть пароль/i })).toBeInTheDocument();
 
-    fireEvent.click(screen.getByRole('button', { name: /Скрыть пароль/i }));
+    fireEvent.click(screen.getByRole('button', { name: /скрыть пароль/i }));
     expect(passwordInput).toHaveAttribute('type', 'password');
   });
 
@@ -305,6 +306,8 @@ describe('RegisterPage', () => {
       id: 1001,
       name: 'Иван',
       userAvatar: 'test-file-stub',
+      email: 'test@example.com',
+      password: 'password123',
     });
     expect(JSON.parse(localStorage.getItem('registered_users') ?? '[]')).toEqual([
       expect.objectContaining({
