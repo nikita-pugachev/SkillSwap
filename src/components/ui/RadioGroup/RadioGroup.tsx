@@ -12,6 +12,7 @@ export interface RadioGroupProps extends Omit<
   value: string | null;
   onChange: (value: string) => void;
   className?: string;
+  orientation?: 'vertical' | 'horizontal';
 }
 
 export const RadioGroup = ({
@@ -21,10 +22,15 @@ export const RadioGroup = ({
   value,
   onChange,
   className = '',
+  orientation = 'vertical',
   ...rest
 }: RadioGroupProps) => {
   return (
-    <fieldset className={`${styles.fieldset} ${className}`} {...rest}>
+    <fieldset
+      className={`${styles.fieldset} ${className}`}
+      data-orientation={orientation}
+      {...rest}
+    >
       {legend && <legend className={styles.legend}>{legend}</legend>}
       <ul className={styles.list}>
         {items.map((item) => (

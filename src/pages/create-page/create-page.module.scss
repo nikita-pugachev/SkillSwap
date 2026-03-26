@@ -1,27 +1,28 @@
 .container {
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   min-height: 100vh;
   padding: 40px 20px;
 }
 
 .content {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: stretch;
   gap: 24px;
-  max-width: 1200px;
   width: 100%;
+  max-width: 1136px;
   margin: 0 auto;
 }
 
 .formSection {
-  width: 556px;
-  height: 692px;
+  box-sizing: border-box;
+  min-width: 0;
+  min-height: 692px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 20px;
+  justify-content: flex-start;
   padding: 40px 60px;
   background: var(--color-surface);
   border-radius: 12px;
@@ -32,7 +33,7 @@
   flex-direction: column;
   gap: 24px;
   width: 100%;
-  height: 100%;
+  min-height: 100%;
 }
 
 .fields {
@@ -40,14 +41,14 @@
   flex-direction: column;
   gap: 20px;
   flex: 1;
+  min-width: 0;
 }
 
-// ДОБАВЛЕНО: стили для отображения ошибок
 .errorMessage {
-  color: #ff4d4f;
-  font-size: 12px;
   margin-top: 4px;
   margin-bottom: 0;
+  color: #ff4d4f;
+  font-size: 12px;
 }
 
 .textareaError {
@@ -60,74 +61,23 @@
 }
 
 .uploadHint {
-  font-size: 12px;
-  color: #8c8c8c;
   margin-top: 4px;
   margin-bottom: 12px;
+  color: #8c8c8c;
+  font-size: 12px;
 }
 
 .submitError {
-  background-color: #fff2f0;
+  padding: 12px 16px;
   border: 1px solid #ffccc7;
   border-radius: 8px;
-  padding: 12px 16px;
-  margin-bottom: 20px;
   color: #ff4d4f;
   font-size: 14px;
+  background-color: #fff2f0;
 
   p {
     margin: 0;
   }
-}
-
-.radioGroup {
-  display: flex;
-  gap: 24px;
-  padding: 8px 0;
-}
-
-.radioLabel {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  cursor: pointer;
-}
-
-.radioInput {
-  width: 16px;
-  height: 16px;
-  cursor: pointer;
-}
-
-.radioText {
-  color: var(--color-text-primary);
-  font-family: var(--font-family-base);
-  font-size: var(--font-size-body);
-  line-height: var(--line-height-body);
-  letter-spacing: 0.02em;
-}
-
-.selectField {
-  width: 100%;
-  padding: 12px;
-  border: 1px solid var(--color-input-border);
-  border-radius: var(--radius-primary);
-  outline: none;
-  color: var(--color-text-primary);
-  font-family: var(--font-family-base);
-  font-size: var(--font-size-body);
-  line-height: var(--line-height-body);
-  background-color: var(--color-surface);
-  cursor: pointer;
-  transition: border-color 0.15s ease;
-}
-
-.selectField:hover {
-  border-color: var(--color-accent);
-}
-
-.selectField:focus {
-  border-color: var(--color-focus);
 }
 
 .textareaBlock {
@@ -181,12 +131,10 @@
 .uploadBlock {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  gap: 12px;
   box-sizing: border-box;
   width: 100%;
-  min-height: 140px;
+  max-height: 92px;
   border: 1px dashed var(--color-input-border);
   border-radius: var(--radius-primary);
   padding: 20px;
@@ -260,26 +208,32 @@
 .submitButton {
   width: 100%;
   margin-top: auto;
+  flex-shrink: 0;
 }
 
 .infoSection {
-  width: 556px;
-  height: 692px;
+  box-sizing: border-box;
+  min-width: 0;
+  min-height: 692px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  gap: 40px;
   padding: 40px;
   background: var(--color-surface);
   border-radius: 12px;
 }
 
 .infoText {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
   text-align: center;
 }
 
 .infoTitle {
-  margin: 0 0 12px;
+  margin: 0;
   color: var(--color-text-primary);
   font-family: var(--font-family-heading);
   font-weight: var(--font-weight-medium);
@@ -301,4 +255,33 @@
 .infoImage {
   width: 300px;
   height: 300px;
+}
+
+@media (width <= 1160px) {
+  .content {
+    grid-template-columns: minmax(0, 556px);
+    justify-content: center;
+  }
+}
+
+@media (width <= 767px) {
+  .container {
+    min-height: auto;
+    padding: 24px 16px;
+  }
+
+  .formSection,
+  .infoSection {
+    min-height: auto;
+    padding: 24px 20px;
+  }
+
+  .infoSection {
+    gap: 24px;
+  }
+
+  .infoImage {
+    width: 220px;
+    height: 220px;
+  }
 }

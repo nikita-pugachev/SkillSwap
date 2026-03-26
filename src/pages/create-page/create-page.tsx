@@ -1,129 +1,133 @@
-import React, { useState, useRef, useMemo } from 'react';
-import { useForm, Controller } from 'react-hook-form';
+import { useState, type ChangeEvent } from 'react';
+import { Controller, useForm, useWatch } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-//import { useDispatch } from 'react-redux';
-//import { useNavigate } from 'react-router-dom';
 import styles from './create-page.module.scss';
-import { Button, InputBaseContainerUI, InputUI, SelectInputUI } from '@/components/ui';
+import { Button, InputBaseContainerUI, InputUI, RadioGroup } from '@/components/ui';
+import { SelectInput } from '@/components/SelectInput';
+import { CATEGORIES } from '@/data/categories';
 import galleryAddIcon from '@/assets/icons/gallery-add.svg';
 import type { TSelectOption } from '@/utils/types';
-import crossIcon from '@/assets/icons/cross.svg';
 import SchoolBoard from '@/assets/illustrations/school-board.svg';
 
-interface IFormData {
+type FormData = {
   skillName: string;
   skillType: 'teach' | 'learn';
   category: TSelectOption | null;
+  subcategory: TSelectOption | null;
   description: string;
   image: File | null;
-}
+};
 
-const validationSchema = yup.object({
-  skillName: yup
-    .string()
-    .required('Название навыка обязательно')
-    .min(3, 'Название должно содержать минимум 3 символа')
-    .max(50, 'Название должно содержать максимум 50 символов'),
-  skillType: yup.string().oneOf(['teach', 'learn']).required('Выберите тип навыка'),
-  category: yup.object().nullable().required('Выберите категорию'),
-  description: yup.string().max(500, 'Описание не должно превышать 500 символов'),
-  image: yup
-    .mixed<File>()
-    .nullable()
-    .test('fileType', 'Допустимы только JPEG и PNG изображения', (value) => {
-      if (!value) return true;
-      if (!(value instanceof File)) return false;
-      const isValid = ['image/jpeg', 'image/png'].includes(value.type);
-      return isValid;
-    })
-    .test('fileSize', 'Размер изображения не должен превышать 2 МБ', (value) => {
-      if (!value) return true;
-      if (!(value instanceof File)) return false;
-      const isValid = value.size <= 2 * 1024 * 1024;
-      return isValid;
-    }),
-});
+type CategoryOption = TSelectOption & {
+  subcategories: TSelectOption[];
+};
+
+const SKILL_TYPE_OPTIONS = [
+  { label: 'Могу научить', value: 'teach' },
+  { label: 'Хочу научиться', value: 'learn' },
+] as const;
+
+const CATEGORY_OPTIONS: CategoryOption[] = CATEGORIES.map((category, categoryIndex) => ({
+  id: categoryIndex + 1,
+  name: category.title,
+  subcategories: category.subs.map((subcategory, subcategoryIndex) => ({
+    id: (categoryIndex + 1) * 100 + subcategoryIndex + 1,
+    name: subcategory,
+  })),
+}));
+
+const validationSchema: yup.ObjectSchema<FormData> = yup
+  .object({
+    skillName: yup
+      .string()
+      .required('Название навыка обязательно')
+      .min(3, 'Название должно содержать минимум 3 символа')
+      .max(50, 'Название должно содержать максимум 50 символов'),
+    skillType: yup
+      .mixed<FormData['skillType']>()
+      .oneOf(['teach', 'learn'])
+      .required('Выберите тип навыка'),
+    category: yup.mixed<TSelectOption>().nullable().required('Выберите категорию'),
+    subcategory: yup
+      .mixed<TSelectOption>()
+      .nullable()
+      .defined()
+      .test('subcategory-required', 'Выберите подкатегорию', function validateSubcategory(value) {
+        const { category } = this.parent as FormData;
+
+        if (!category) {
+          return true;
+        }
+
+        return value !== null;
+      }),
+    description: yup.string().defined().max(500, 'Описание не должно превышать 500 символов'),
+    image: yup
+      .mixed<File>()
+      .nullable()
+      .defined()
+      .test('fileType', 'Допустимы только JPEG и PNG изображения', (value) => {
+        if (!value) {
+          return true;
+        }
+
+        return ['image/jpeg', 'image/png'].includes(value.type);
+      })
+      .test('fileSize', 'Размер изображения не должен превышать 2 МБ', (value) => {
+        if (!value) {
+          return true;
+        }
+
+        return value.size <= 2 * 1024 * 1024;
+      }),
+  })
+  .required();
 
 export default function CreatePage() {
-  //const dispatch = useDispatch();
-  //const navigate = useNavigate();
-
   const [submitError, setSubmitError] = useState<string | null>(null);
-
-  const [imageError, setImageError] = useState<string | null>(null);
-
-  const [isCategoryOpen, setIsCategoryOpen] = useState(false);
-  const [categoryInputValue, setCategoryInputValue] = useState('');
-  const [activeCategoryIndex, setActiveCategoryIndex] = useState(-1);
-
-  const categoryRootRef = useRef<HTMLDivElement>(null);
-  const categoryInputRef = useRef<HTMLInputElement>(null);
+  const [openSelectId, setOpenSelectId] = useState<string | null>(null);
 
   const {
     control,
     handleSubmit,
-    formState: { errors, isSubmitting, isValid },
-    setValue,
+    resetField,
     setError,
     clearErrors,
-    watch,
-  } = useForm<IFormData>({
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    resolver: yupResolver(validationSchema) as any,
+    formState: { isSubmitting, isValid },
+  } = useForm<FormData>({
+    resolver: yupResolver(validationSchema),
     defaultValues: {
       skillName: '',
       skillType: 'teach',
       category: null,
+      subcategory: null,
       description: '',
       image: null,
     },
     mode: 'onChange',
   });
 
-  const watchImage = watch('image');
-  const watchCategory = watch('category');
+  const selectedCategory = useWatch({ control, name: 'category' });
+  const selectedImage = useWatch({ control, name: 'image' });
 
-  const isSubmitDisabled = !isValid || isSubmitting;
-
-  const categoryOptions: TSelectOption[] = [
-    { id: 1, name: 'Бизнес и карьера' },
-    { id: 2, name: 'Иностранные языки' },
-    { id: 3, name: 'Дом и уют' },
-    { id: 4, name: 'Творчество и искусство' },
-    { id: 5, name: 'Образование и развитие' },
-    { id: 6, name: 'Здоровье и лайфстайл' },
-  ];
-
-  const filteredCategoryOptions = useMemo(() => {
-    if (!categoryInputValue.trim()) {
-      return categoryOptions;
-    }
-    return categoryOptions.filter((option) =>
-      option.name.toLowerCase().includes(categoryInputValue.toLowerCase())
-    );
-  }, [categoryInputValue, categoryOptions]);
+  const subcategoryOptions =
+    CATEGORY_OPTIONS.find((category) => category.id === selectedCategory?.id)?.subcategories ?? [];
 
   const handleImageChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
+    event: ChangeEvent<HTMLInputElement>,
     onChange: (file: File | null) => void
   ) => {
-    const file = e.target.files?.[0] || null;
-
-    setImageError(null);
+    const file = event.target.files?.[0] ?? null;
 
     if (file && !['image/jpeg', 'image/png'].includes(file.type)) {
-      const errorMessage = 'Допустимы только JPEG и PNG изображения';
-      setImageError(errorMessage);
-      setError('image', { message: errorMessage });
+      setError('image', { message: 'Допустимы только JPEG и PNG изображения' });
       onChange(null);
       return;
     }
 
     if (file && file.size > 2 * 1024 * 1024) {
-      const errorMessage = 'Размер изображения не должен превышать 2 МБ';
-      setImageError(errorMessage);
-      setError('image', { message: errorMessage });
+      setError('image', { message: 'Размер изображения не должен превышать 2 МБ' });
       onChange(null);
       return;
     }
@@ -132,77 +136,11 @@ export default function CreatePage() {
     onChange(file);
   };
 
-  const handleCategoryInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCategoryInputValue(e.target.value);
-    setIsCategoryOpen(true);
-    setActiveCategoryIndex(-1);
-  };
-
-  const handleCategoryInputFocus = () => {
-    setIsCategoryOpen(true);
-  };
-
-  const handleCategoryInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (!isCategoryOpen) {
-      if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
-        setIsCategoryOpen(true);
-      }
-      return;
-    }
-
-    switch (e.key) {
-      case 'ArrowDown':
-        e.preventDefault();
-        setActiveCategoryIndex((prev) =>
-          prev < filteredCategoryOptions.length - 1 ? prev + 1 : prev
-        );
-        break;
-      case 'ArrowUp':
-        e.preventDefault();
-        setActiveCategoryIndex((prev) => (prev > 0 ? prev - 1 : -1));
-        break;
-      case 'Enter':
-        e.preventDefault();
-        if (activeCategoryIndex >= 0 && filteredCategoryOptions[activeCategoryIndex]) {
-          handleSelectCategory(filteredCategoryOptions[activeCategoryIndex]);
-        }
-        break;
-      case 'Escape':
-        setIsCategoryOpen(false);
-        setActiveCategoryIndex(-1);
-        break;
-    }
-  };
-
-  const handleSelectCategory = (option: TSelectOption) => {
-    setValue('category', option, { shouldValidate: true });
-    setCategoryInputValue(option.name);
-    setIsCategoryOpen(false);
-    setActiveCategoryIndex(-1);
-    clearErrors('category');
-  };
-
-  const handleCategoryActionClick = () => {
-    if (watchCategory) {
-      setValue('category', null, { shouldValidate: true });
-      setCategoryInputValue('');
-      setIsCategoryOpen(false);
-      setActiveCategoryIndex(-1);
-      categoryInputRef.current?.focus();
-    } else {
-      setIsCategoryOpen(!isCategoryOpen);
-      if (!isCategoryOpen) {
-        categoryInputRef.current?.focus();
-      }
-    }
-  };
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: FormData) => {
     setSubmitError(null);
 
     try {
-      if (!data.skillName || !data.skillType || !data.category) {
+      if (!data.category || !data.subcategory) {
         return;
       }
 
@@ -211,29 +149,23 @@ export default function CreatePage() {
         type: data.skillType,
         categoryId: data.category.id,
         categoryName: data.category.name,
+        subcategoryId: data.subcategory.id,
+        subcategoryName: data.subcategory.name,
         description: data.description,
         imageFile: data.image,
       };
 
-      // TODO: Интеграция с Redux skillsSlice (сейчас в skillsSlice этого нет)
-      // 1. Создать асинхронный action в skillsSlice (createSkill)
-      // 2. Импортировать createSkill из skillsSlice
-      // 3. Заменить console.log на dispatch(createSkill(skillData)).unwrap()
-      // 4. После успешного создания добавить новый навык в state.items
-
       console.log('Form data prepared for Redux:', skillData);
 
-      // TODO: Временная имитация успешной отправки (удалить после интеграции с Redux)
       await new Promise((resolve) => setTimeout(resolve, 500));
-
-      // TODO: Раскомментировать после интеграции с Redux
-      // navigate('/catalog');
     } catch (error) {
       if (error instanceof Error) {
         setSubmitError(error.message);
 
-        if (error.message.toLowerCase().includes('категори')) {
+        if (error.message.toLowerCase().includes('категор')) {
           setError('category', { message: 'Выбранная категория недоступна' });
+        } else if (error.message.toLowerCase().includes('подкатегор')) {
+          setError('subcategory', { message: 'Выбранная подкатегория недоступна' });
         } else if (
           error.message.toLowerCase().includes('название') ||
           error.message.toLowerCase().includes('name')
@@ -247,14 +179,6 @@ export default function CreatePage() {
       }
     }
   };
-
-  React.useEffect(() => {
-    if (errors.image?.message) {
-      setImageError(errors.image.message);
-    } else if (!errors.image && watchImage) {
-      setImageError(null);
-    }
-  }, [errors.image, watchImage]);
 
   return (
     <main className={styles.container}>
@@ -293,63 +217,72 @@ export default function CreatePage() {
                 name="skillType"
                 control={control}
                 render={({ field }) => (
-                  <>
-                    <div className={styles.radioGroup}>
-                      <label className={styles.radioLabel}>
-                        <input
-                          type="radio"
-                          value="teach"
-                          checked={field.value === 'teach'}
-                          onChange={() => field.onChange('teach')}
-                          className={styles.radioInput}
-                        />
-                        <span className={styles.radioText}>Могу научить</span>
-                      </label>
-
-                      <label className={styles.radioLabel}>
-                        <input
-                          type="radio"
-                          value="learn"
-                          checked={field.value === 'learn'}
-                          onChange={() => field.onChange('learn')}
-                          className={styles.radioInput}
-                        />
-                        <span className={styles.radioText}>Хочу научиться</span>
-                      </label>
-                    </div>
-                    {errors.skillType && (
-                      <p className={styles.errorMessage}>{errors.skillType.message}</p>
-                    )}
-                  </>
+                  <RadioGroup
+                    aria-label="Тип навыка"
+                    name={field.name}
+                    items={[...SKILL_TYPE_OPTIONS]}
+                    value={field.value}
+                    onChange={(value) => field.onChange(value as FormData['skillType'])}
+                    orientation="horizontal"
+                  />
                 )}
               />
 
               <Controller
                 name="category"
                 control={control}
-                render={({ fieldState }) => (
-                  <SelectInputUI
+                render={({ field, fieldState }) => (
+                  <SelectInput
                     id="category"
-                    label="Категория"
-                    placeholder="Выберите категорию"
-                    isOpen={isCategoryOpen}
-                    rootRef={categoryRootRef}
-                    inputRef={categoryInputRef}
-                    inputValue={categoryInputValue}
-                    selectedOption={watchCategory}
-                    filteredOptions={filteredCategoryOptions}
-                    activeOptionIndex={activeCategoryIndex}
-                    clearIconSrc={crossIcon}
-                    shouldShowClear={Boolean(watchCategory)}
-                    actionAriaLabel={
-                      watchCategory ? 'Очистить категорию' : 'Открыть список категорий'
-                    }
+                    label="Категория навыка"
+                    placeholder="Выберите категорию навыка"
+                    options={CATEGORY_OPTIONS}
+                    defaultValue={field.value?.name ?? ''}
                     error={fieldState.error?.message}
-                    handleInputChange={handleCategoryInputChange}
-                    handleInputFocus={handleCategoryInputFocus}
-                    handleInputKeyDown={handleCategoryInputKeyDown}
-                    handleActionClick={handleCategoryActionClick}
-                    handleSelectOption={handleSelectCategory}
+                    isOpen={openSelectId === 'category'}
+                    onToggle={(next) => setOpenSelectId(next ? 'category' : null)}
+                    onChange={(option) => {
+                      const selectedOption = option as CategoryOption | null;
+
+                      field.onChange(selectedOption);
+
+                      if (selectedOption) {
+                        clearErrors('category');
+                      }
+
+                      if (selectedOption?.id !== field.value?.id) {
+                        resetField('subcategory', { defaultValue: null });
+                      }
+                    }}
+                  />
+                )}
+              />
+
+              <Controller
+                name="subcategory"
+                control={control}
+                render={({ field, fieldState }) => (
+                  <SelectInput
+                    id="subcategory"
+                    label="Подкатегория навыка"
+                    placeholder={
+                      selectedCategory
+                        ? 'Выберите подкатегорию навыка'
+                        : 'Сначала выберите категорию'
+                    }
+                    options={subcategoryOptions}
+                    defaultValue={field.value?.name ?? ''}
+                    error={fieldState.error?.message}
+                    disabled={!selectedCategory}
+                    isOpen={openSelectId === 'subcategory'}
+                    onToggle={(next) => setOpenSelectId(next ? 'subcategory' : null)}
+                    onChange={(option) => {
+                      field.onChange(option);
+
+                      if (option) {
+                        clearErrors('subcategory');
+                      }
+                    }}
                   />
                 )}
               />
@@ -383,13 +316,12 @@ export default function CreatePage() {
                 render={({ field, fieldState }) => (
                   <div className={styles.uploadBlock}>
                     <p className={styles.uploadText}>Перетащите или выберите изображение навыка</p>
-                    <p className={styles.uploadHint}>JPEG или PNG, до 2 МБ</p>
 
                     <input
                       type="file"
                       id="imageUpload"
                       accept="image/jpeg,image/png"
-                      onChange={(e) => handleImageChange(e, field.onChange)}
+                      onChange={(event) => handleImageChange(event, field.onChange)}
                       className={styles.fileInput}
                     />
 
@@ -401,18 +333,16 @@ export default function CreatePage() {
                         className={styles.uploadIcon}
                       />
                       <span className={styles.uploadButtonText}>
-                        {watchImage ? watchImage.name : 'Выбрать изображение'}
+                        {selectedImage ? selectedImage.name : 'Выбрать изображение'}
                       </span>
                     </label>
 
-                    {watchImage && (
-                      <p className={styles.fileInfo}>Выбран файл: {watchImage.name}</p>
+                    {selectedImage && (
+                      <p className={styles.fileInfo}>Выбран файл: {selectedImage.name}</p>
                     )}
 
-                    {(fieldState.error || imageError) && (
-                      <p className={styles.errorMessage}>
-                        {fieldState.error?.message || imageError}
-                      </p>
+                    {fieldState.error && (
+                      <p className={styles.errorMessage}>{fieldState.error.message}</p>
                     )}
                   </div>
                 )}
@@ -423,7 +353,7 @@ export default function CreatePage() {
               type="submit"
               variant="primary"
               className={styles.submitButton}
-              disabled={isSubmitDisabled}
+              disabled={!isValid || isSubmitting}
             >
               {isSubmitting ? 'Создание...' : 'Создать навык'}
             </Button>
