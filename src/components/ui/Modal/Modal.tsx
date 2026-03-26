@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './Modal.module.scss';
-import { Button } from '@/components/ui/ButtonUI';
+import { Button } from '@/components/ui/Button';
 import bellIcon from '@/assets/icons/bell.svg';
 
 interface ModalProps {

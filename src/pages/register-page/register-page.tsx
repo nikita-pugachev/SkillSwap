@@ -1,4 +1,21 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+
+import { useNavigate } from 'react-router-dom';
+import { Controller, useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+import { useDispatch } from 'react-redux';
+import { setToken, setStoredUser } from '@/utils/auth';
+import {
+  createMockToken,
+  getNextRegisteredUserId,
+  isEmailTaken,
+  saveRegisteredUser,
+  toAuthUser,
+  type MockUser,
+} from '@/utils/mock-users';
+import { login } from '@/services/slices/authSlice';
+import type { AppDispatch } from '@/services/store';
 
 import authStyles from '@/assets/styles/auth.module.scss';
 import styles from './register-page.module.scss';
@@ -7,7 +24,7 @@ import { Button, IconButton, InputBaseContainerUI, InputUI } from '@/components/
 
 import { SelectInput } from '@/components/SelectInput';
 import { DateInput } from '@/components/DateInput';
-import { TSelectOption } from '@/utils/types';
+import type { TSelectOption } from '@/utils/types';
 
 import eyeIcon from '@/assets/icons/eye.svg';
 import eyeSlashIcon from '@/assets/icons/eye-slash.svg';
@@ -18,6 +35,14 @@ import UserInfo from '@/assets/illustrations/user-info.svg';
 import avatarAddIcon from '@/assets/icons/avatar-add.svg';
 import SchoolBoard from '@/assets/illustrations/school-board.svg';
 import galleryAddIcon from '@/assets/icons/gallery-add.svg';
+import defaultAvatar from '@/assets/icons/user.svg';
+
+type FormValues = {
+  name: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+};
 
 const GENDER_OPTIONS: TSelectOption[] = [
   { id: 1, name: 'Мужской' },
@@ -36,14 +61,66 @@ const CATEGORY_OPTIONS: TSelectOption[] = [
   { id: 3, name: 'Языки' },
 ];
 
-export default function RegisterPage() {
-  const [step, setStep] = useState(1);
-  const [showPassword, setShowPassword] = useState(false);
+const registerSchema: yup.ObjectSchema<FormValues> = yup
+  .object({
+    name: yup
+      .string()
+      .trim()
+      .required('Введите имя')
+      .min(2, 'Имя должно содержать минимум 2 символа')
+      .max(30, 'Имя должно содержать максимум 30 символов'),
+    email: yup.string().trim().required('Введите email').email('Некорректный email'),
+    password: yup
+      .string()
+      .required('Введите пароль')
+      .min(6, 'Пароль должен содержать не менее 6 символов'),
+    confirmPassword: yup
+      .string()
+      .required('Подтвердите пароль')
+      .oneOf([yup.ref('password')], 'Пароли не совпадают'),
+  })
+  .required();
 
+const getInputFieldProps = <T extends { ref: unknown }>(field: T): Omit<T, 'ref'> => {
+  const { ref, ...rest } = field;
+  void ref;
+
+  return rest;
+};
+
+export default function RegisterPage() {
+  const [step, setStep] = useState(() => {
+    const savedStep = Number(localStorage.getItem('registerStep'));
+    return [1, 2, 3].includes(savedStep) ? savedStep : 1;
+  });
+  const [showPassword, setShowPassword] = useState(false);
   const [openSelectId, setOpenSelectId] = useState<string | null>(null);
 
-  // TODO: получать из состояния формы (Redux)
-  const passwordError: string | undefined = undefined;
+  const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
+  const {
+    control,
+    getValues,
+    trigger,
+    clearErrors,
+    setError,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormValues>({
+    resolver: yupResolver(registerSchema),
+    mode: 'onBlur',
+    reValidateMode: 'onChange',
+    defaultValues: {
+      name: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
+    },
+  });
+
+  useEffect(() => {
+    localStorage.setItem('registerStep', String(step));
+  }, [step]);
 
   const togglePassword = () => {
     setShowPassword((prev) => !prev);
@@ -60,6 +137,66 @@ export default function RegisterPage() {
       setStep((prev) => prev - 1);
     }
   };
+
+  const handleStepOneSubmit = async () => {
+    const isValid = await trigger(['email', 'password', 'confirmPassword']);
+
+    if (!isValid) {
+      return;
+    }
+
+    clearErrors('email');
+
+    try {
+      const emailTaken = await isEmailTaken(getValues('email'));
+
+      if (emailTaken) {
+        setError('email', {
+          type: 'manual',
+          message: 'Пользователь с таким email уже существует',
+        });
+        return;
+      }
+
+      handleNextStep();
+    } catch {
+      setError('email', {
+        type: 'manual',
+        message: 'Не удалось проверить email. Попробуйте позже',
+      });
+    }
+  };
+
+  const handleStepTwoSubmit = async () => {
+    const isValid = await trigger('name');
+
+    if (!isValid) {
+      return;
+    }
+
+    handleNextStep();
+  };
+
+  const handleStepThreeSubmit = handleSubmit((values) => {
+    const newUser: MockUser = {
+      id: getNextRegisteredUserId(),
+      name: values.name.trim(),
+      email: values.email.trim(),
+      password: values.password,
+      userAvatar: defaultAvatar,
+    };
+
+    saveRegisteredUser(newUser);
+
+    const authUser = toAuthUser(newUser);
+
+    setToken(createMockToken(newUser.id));
+    setStoredUser(authUser);
+    dispatch(login(authUser));
+
+    localStorage.removeItem('registerStep');
+    navigate('/', { replace: true });
+  });
 
   return (
     <main className={authStyles.main}>
@@ -95,35 +232,99 @@ export default function RegisterPage() {
 
               <form
                 className={authStyles.formContainer}
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  handleNextStep();
-                  // TODO: сохранить данные первого шага и перейти дальше
+                onSubmit={(event) => {
+                  event.preventDefault();
+                  void handleStepOneSubmit();
                 }}
+                noValidate
               >
                 <div className={authStyles.fields}>
-                  <InputBaseContainerUI label="Email" id="email">
-                    <InputUI id="email" type="email" placeholder="Введите email" />
+                  <InputBaseContainerUI label="Email" id="email" error={errors.email?.message}>
+                    <Controller
+                      name="email"
+                      control={control}
+                      render={({ field }) => {
+                        const inputField = getInputFieldProps(field);
+
+                        return (
+                          <InputUI
+                            {...inputField}
+                            id="email"
+                            type="email"
+                            placeholder="Введите email"
+                            onChange={(event) => {
+                              if (errors.email?.type === 'manual') {
+                                clearErrors('email');
+                              }
+
+                              inputField.onChange(event);
+                            }}
+                          />
+                        );
+                      }}
+                    />
                   </InputBaseContainerUI>
 
                   <InputBaseContainerUI
                     label="Пароль"
                     id="password"
-                    error={passwordError}
-                    hint="Пароль должен содержать не менее 8 знаков"
+                    error={errors.password?.message}
+                    hint="Пароль должен содержать не менее 6 символов"
                   >
                     <div className={authStyles.passwordField}>
-                      <InputUI
-                        id="password"
-                        type={showPassword ? 'text' : 'password'}
-                        placeholder="Придумайте надёжный пароль"
+                      <Controller
+                        name="password"
+                        control={control}
+                        render={({ field }) => {
+                          const inputField = getInputFieldProps(field);
+
+                          return (
+                            <InputUI
+                              {...inputField}
+                              id="password"
+                              type={showPassword ? 'text' : 'password'}
+                              placeholder="Придумайте надёжный пароль"
+                              onChange={(event) => {
+                                inputField.onChange(event);
+
+                                if (getValues('confirmPassword')) {
+                                  void trigger('confirmPassword');
+                                }
+                              }}
+                            />
+                          );
+                        }}
                       />
                       <IconButton
+                        type="button"
                         iconSrc={showPassword ? eyeSlashIcon : eyeIcon}
                         ariaLabel={showPassword ? 'Скрыть пароль' : 'Показать пароль'}
                         onClick={togglePassword}
                       />
                     </div>
+                  </InputBaseContainerUI>
+
+                  <InputBaseContainerUI
+                    label="Подтвердите пароль"
+                    id="confirmPassword"
+                    error={errors.confirmPassword?.message}
+                  >
+                    <Controller
+                      name="confirmPassword"
+                      control={control}
+                      render={({ field }) => {
+                        const inputField = getInputFieldProps(field);
+
+                        return (
+                          <InputUI
+                            {...inputField}
+                            id="confirmPassword"
+                            type={showPassword ? 'text' : 'password'}
+                            placeholder="Повторите пароль"
+                          />
+                        );
+                      }}
+                    />
                   </InputBaseContainerUI>
                 </div>
 
@@ -154,12 +355,7 @@ export default function RegisterPage() {
               aria-label="Форма регистрации: шаг 2"
             >
               <div className={styles.avatarBlock}>
-                <button
-                  type="button"
-                  className={styles.avatarButton}
-                  aria-label="Добавить фото"
-                  // TODO: открыть загрузку фото профиля
-                >
+                <button type="button" className={styles.avatarButton} aria-label="Добавить фото">
                   <img
                     src={avatarAddIcon}
                     alt=""
@@ -171,15 +367,30 @@ export default function RegisterPage() {
 
               <form
                 className={authStyles.formContainer}
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  handleNextStep();
-                  // TODO: сохранить данные второго шага регистрации и перейти дальше
+                onSubmit={(event) => {
+                  event.preventDefault();
+                  void handleStepTwoSubmit();
                 }}
+                noValidate
               >
                 <div className={authStyles.fields}>
-                  <InputBaseContainerUI label="Имя" id="name">
-                    <InputUI id="name" type="text" placeholder="Введите ваше имя" />
+                  <InputBaseContainerUI label="Имя" id="name" error={errors.name?.message}>
+                    <Controller
+                      name="name"
+                      control={control}
+                      render={({ field }) => {
+                        const inputField = getInputFieldProps(field);
+
+                        return (
+                          <InputUI
+                            {...inputField}
+                            id="name"
+                            type="text"
+                            placeholder="Введите ваше имя"
+                          />
+                        );
+                      }}
+                    />
                   </InputBaseContainerUI>
 
                   <div className={styles.row}>
@@ -263,10 +474,8 @@ export default function RegisterPage() {
             >
               <form
                 className={authStyles.formContainer}
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  // TODO: показать модальное окно подтверждения профиля
-                }}
+                onSubmit={handleStepThreeSubmit}
+                noValidate
               >
                 <div className={authStyles.fields}>
                   <InputBaseContainerUI label="Название навыка" id="skillName">
@@ -308,11 +517,7 @@ export default function RegisterPage() {
 
                   <div className={styles.uploadBlock}>
                     <p className={styles.uploadText}>Перетащите или выберите изображения навыка</p>
-                    <button
-                      type="button"
-                      className={styles.uploadButton}
-                      // TODO: открыть выбор изображений
-                    >
+                    <button type="button" className={styles.uploadButton}>
                       <img
                         src={galleryAddIcon}
                         alt=""

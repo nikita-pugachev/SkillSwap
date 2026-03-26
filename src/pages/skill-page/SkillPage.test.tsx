@@ -39,7 +39,7 @@ jest.mock('@/components/ui/SkillCard/SkillCard', () => ({
   ),
 }));
 
-jest.mock('@/components/user-card', () => ({
+jest.mock('@/components/ui/UserCard', () => ({
   UserCard: ({
     name,
     onDetailsClick,

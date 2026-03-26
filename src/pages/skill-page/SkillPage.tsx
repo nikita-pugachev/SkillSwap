@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { SkillCard } from '@/components/ui/SkillCard/SkillCard';
-import { UserCard } from '@/components/user-card';
+import { UserCard } from '@/components/ui';
 import { Modal } from '@/components/ui/Modal/Modal';
 import styles from './SkillPage.module.scss';
 import type { UserFromDb, City, SkillCategory, SkillCategorySlug } from '@/utils/types';

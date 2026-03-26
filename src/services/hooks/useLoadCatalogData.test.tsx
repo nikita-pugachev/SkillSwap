@@ -15,6 +15,7 @@ const mockSubcategories: Subcategory[] = [];
 const mockSkill: SkillCategory = {
   id: 1,
   title: 'Programming',
+  slug: 'education',
   icon: 'code',
   subcategories: mockSubcategories,
 };
@@ -27,6 +28,8 @@ const mockCity: City = {
 const mockUser: UserFromDb = {
   id: 1,
   name: 'Test User',
+  email: 'test@example.com',
+  password: 'password123',
   userAvatar: '/avatar.png',
   cityId: 1,
   gender: 'male',
