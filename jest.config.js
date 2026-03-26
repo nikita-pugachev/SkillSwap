@@ -7,6 +7,8 @@ const config = {
     '^.+\\.tsx?$': ['ts-jest', { tsconfig: 'tsconfig.test.json' }],
   },
   moduleNameMapper: {
+    '^swiper/react$': '<rootDir>/src/__mocks__/swiperReactMock.tsx',
+    '^swiper/modules$': '<rootDir>/src/__mocks__/swiperModulesMock.ts',
     '^swiper/css$': '<rootDir>/src/__mocks__/styleMock.ts',
     '^swiper/css/navigation$': '<rootDir>/src/__mocks__/styleMock.ts',
 

@@ -42,6 +42,7 @@ export interface Skill {
   id: number;
   title: string;
   icon: string;
+  slug?: SkillCategorySlug;
   subcategories: Subcategory[];
 }
 
@@ -91,6 +92,8 @@ export interface UserSkillTeach {
 export interface UserFromDb {
   id: number;
   name: string;
+  email: string;
+  password: string;
   userAvatar: string;
   cityId: number;
   gender: string;
@@ -100,6 +103,15 @@ export interface UserFromDb {
   skillsLearn: number[];
   likes: number;
   createdAt: string;
+}
+
+export interface UserTeachSkillEntry {
+  userId: number;
+  teachSkillId: number;
+  title: string;
+  subcategoryId: number;
+  categoryTitle: string;
+  subcategoryTitle: string;
 }
 
 export type TSelectOption = {
