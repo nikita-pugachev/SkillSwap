@@ -2,9 +2,11 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useOutletContext } from 'react-router-dom';
 import { FilterSidebar } from '@/components/FilterSidebar';
 import { Button, CardSection } from '@/components/ui';
+import { useAppSelector } from '@/services/hooks';
+import { useLoadCatalogData } from '@/services/hooks/useLoadCatalogData';
+import { selectIsAuthenticated, selectUser } from '@/services/selectors';
 import { getAuthenticatedUserId } from '@/utils/auth';
-import { getCities, getSkills, getUsers } from '@/utils/api';
-import type { City, Filters, SkillCategory, UserCardModel, UserDb } from '@/utils/types';
+import type { Filters, UserCardModel } from '@/utils/types';
 import { CatalogEmpty } from './components/CatalogEmpty';
 import { CatalogLoading } from './components/CatalogLoading';
 import { CatalogError } from './components/CatalogError';
@@ -32,14 +34,6 @@ import styles from './catalog-page.module.scss';
 type LayoutOutletContext = {
   searchQuery: string;
   setSearchQuery: (value: string) => void;
-};
-
-type CatalogDataState = {
-  skills: SkillCategory[];
-  cities: City[];
-  users: UserDb[];
-  loading: boolean;
-  error: string | null;
 };
 
 type HomeSection = {
@@ -92,63 +86,19 @@ const getPersistedFilters = (): Filters => {
   }
 };
 
-const useCatalogData = (): CatalogDataState => {
-  const [skills, setSkills] = useState<SkillCategory[]>([]);
-  const [cities, setCities] = useState<City[]>([]);
-  const [users, setUsers] = useState<UserDb[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const abortController = new AbortController();
-
-    const loadData = async () => {
-      try {
-        setLoading(true);
-        setError(null);
-
-        const [skillsData, citiesData, usersData] = await Promise.all([
-          getSkills({ signal: abortController.signal }),
-          getCities({ signal: abortController.signal }),
-          getUsers({ signal: abortController.signal }),
-        ]);
-
-        setSkills(skillsData);
-        setCities(citiesData);
-        setUsers(usersData);
-      } catch (err) {
-        if (err instanceof DOMException && err.name === 'AbortError') {
-          return;
-        }
-
-        setError(err instanceof Error ? err.message : 'Ошибка загрузки данных');
-      } finally {
-        if (!abortController.signal.aborted) {
-          setLoading(false);
-        }
-      }
-    };
-
-    loadData();
-
-    return () => {
-      abortController.abort();
-    };
-  }, []);
-
-  return { skills, cities, users, loading, error };
-};
-
 export const CatalogPage = () => {
   const { searchQuery, setSearchQuery } = useOutletContext<LayoutOutletContext>();
+
+  useLoadCatalogData();
 
   const [filters, setFilters] = useState<Filters>(getPersistedFilters);
   const [selectedCollection, setSelectedCollection] = useState<SelectedCollection>('all');
   const [sortOrder, setSortOrder] = useState<SortOrder>('newest');
-  const { skills, cities, users, loading, error } = useCatalogData();
 
-  const authenticatedUserId = getAuthenticatedUserId();
-  const isAuthenticated = authenticatedUserId !== null;
+  const { skills, cities, users, loading, error } = useAppSelector((state) => state.catalog);
+  const isAuthenticated = useAppSelector(selectIsAuthenticated);
+  const authUser = useAppSelector(selectUser);
+  const authenticatedUserId = authUser?.id ?? getAuthenticatedUserId();
   const hasSearchQuery = searchQuery.trim().length > 0;
 
   const cityNameById = useMemo(() => {
@@ -168,7 +118,7 @@ export const CatalogPage = () => {
   }, [users, cityNameById, subcategoryMetaById]);
 
   const authenticatedUser = useMemo(() => {
-    if (!authenticatedUserId) {
+    if (authenticatedUserId === null) {
       return null;
     }
 

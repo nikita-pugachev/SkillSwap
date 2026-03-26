@@ -1,9 +1,16 @@
 import type { ButtonHTMLAttributes, ReactNode } from 'react';
+import { configureStore } from '@reduxjs/toolkit';
 import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { Provider } from 'react-redux';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 
 import Layout from '@/components/layout/layout';
+import authReducer from '@/services/slices/authSlice';
+import catalogReducer from '@/services/slices/catalogSlice';
+import favoritesReducer from '@/services/slices/favoritesSlice';
+import requestsReducer from '@/services/slices/requestsSlice';
+import skillsReducer from '@/services/slices/skillsSlice';
 import { getCities, getSkills, getUsers } from '@/utils/api';
 import type { City, SkillCategory, UserDb } from '@/utils/types';
 
@@ -209,15 +216,28 @@ const users: UserDb[] = [
   },
 ];
 
+const createTestStore = () =>
+  configureStore({
+    reducer: {
+      favorites: favoritesReducer,
+      catalog: catalogReducer,
+      auth: authReducer,
+      skills: skillsReducer,
+      requests: requestsReducer,
+    },
+  });
+
 const renderPage = () =>
   render(
-    <MemoryRouter initialEntries={['/']}>
-      <Routes>
-        <Route element={<Layout variant="main" withFooter />}>
-          <Route path="/" element={<CatalogPage />} />
-        </Route>
-      </Routes>
-    </MemoryRouter>
+    <Provider store={createTestStore()}>
+      <MemoryRouter initialEntries={['/']}>
+        <Routes>
+          <Route element={<Layout variant="main" withFooter />}>
+            <Route path="/" element={<CatalogPage />} />
+          </Route>
+        </Routes>
+      </MemoryRouter>
+    </Provider>
   );
 
 const getCardNames = (sectionTestId: string) =>
