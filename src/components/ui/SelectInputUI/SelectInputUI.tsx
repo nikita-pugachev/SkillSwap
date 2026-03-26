@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import type { FC, SVGProps } from 'react';
 import { InputUI } from '../InputUI/InputUI';
 import { IconButton } from '../IconButton/IconButton';
 import { ChevronIcon } from '../Icons/ChevronIcon';
@@ -22,7 +23,7 @@ type TSelectInputUIProps = {
   filteredOptions: TSelectOption[];
   activeOptionIndex: number;
 
-  clearIconSrc: string;
+  clearIcon: FC<SVGProps<SVGSVGElement>>;
   shouldShowClear: boolean;
   actionAriaLabel: string;
 
@@ -48,7 +49,7 @@ export const SelectInputUI: React.FC<TSelectInputUIProps> = ({
   selectedOption,
   filteredOptions,
   activeOptionIndex,
-  clearIconSrc,
+  clearIcon,
   shouldShowClear,
   actionAriaLabel,
   handleInputChange,
@@ -124,7 +125,7 @@ export const SelectInputUI: React.FC<TSelectInputUIProps> = ({
 
           {shouldShowClear ? (
             <IconButton
-              iconSrc={clearIconSrc}
+              icon={clearIcon}
               ariaLabel={actionAriaLabel}
               onClick={handleActionClick}
               className={styles.actionButton}

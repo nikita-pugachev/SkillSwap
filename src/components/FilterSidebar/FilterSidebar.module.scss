@@ -3,10 +3,44 @@
   border-radius: var(--radius-primary);
   padding: 20px;
   background-color: var(--color-surface);
+  box-sizing: border-box;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 40px;
 }
 
 .title {
-  padding-bottom: 40px;
+  color: var(--color-text-primary);
+  font-family: var(--font-family-heading);
+  font-weight: var(--font-weight-medium);
+  font-size: var(--font-size-h2);
+  line-height: 28px;
+}
+
+.resetButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border: none;
+  background: none;
+  color: var(--color-accent);
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-body);
+  white-space: nowrap;
+
+  &:hover {
+    color: var(--color-accent-pressed);
+  }
+}
+
+.resetIcon {
+  width: 24px;
+  height: 24px;
 }
 
 .filterGroup {

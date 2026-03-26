@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { UserCard } from '@/components/ui/UserCard';
 import { selectFavoriteIds } from '@/services/selectors';
-import type { SkillCategorySlug, UserFromDb, City } from '@/utils/types';
+import type { SkillCategorySlug, UserDb, City } from '@/utils/types';
 import styles from './FavoritesPage.module.scss';
 
 type SkillCategory = {
@@ -16,7 +16,7 @@ export const FavoritesPage: React.FC = () => {
   const navigate = useNavigate();
   const [cities, setCities] = useState<City[]>([]);
   const [skills, setSkills] = useState<SkillCategory[]>([]);
-  const [users, setUsers] = useState<UserFromDb[]>([]);
+  const [users, setUsers] = useState<UserDb[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
@@ -68,7 +68,7 @@ export const FavoritesPage: React.FC = () => {
         }
 
         const data = await response.json();
-        const allUsers: UserFromDb[] = data.users;
+        const allUsers: UserDb[] = data.users;
 
         const favoriteUsers = allUsers.filter((user) => favoriteIds.includes(Number(user.id)));
 
@@ -117,7 +117,7 @@ export const FavoritesPage: React.FC = () => {
   };
 
   const handleDetailsClick = (userId: string | number) => {
-    navigate(`/profile/${userId}`);
+    navigate(`/skill/${userId}`);
   };
 
   if (error) {
@@ -161,6 +161,8 @@ export const FavoritesPage: React.FC = () => {
                 name: getSkillName(skillId),
                 category: getSkillCategory(skillId),
               }))}
+              likes={user.likes}
+              isLogin
               onDetailsClick={handleDetailsClick}
             />
           ))}

@@ -74,14 +74,10 @@ p:where(:not([class], :last-child)) {
   margin-bottom: var(--paragraph-margin-bottom);
 }
 
-/**
-  Упрощаем работу с изображениями и видео
- */
 img,
 video {
   display: block;
   max-width: 100%;
-  height: auto;
 }
 
 /**
@@ -162,24 +158,6 @@ a {
  */
 button {
   -webkit-tap-highlight-color: transparent;
-}
-
-/**
-  Приводим к единому цвету svg-элементы
-  (за исключением тех, у которых уже указан
-  атрибут fill со значением 'none' или начинается с 'url')
- */
-:where([fill]:not([fill='none'], [fill^='url'])) {
-  fill: currentcolor;
-}
-
-/**
-  Приводим к единому цвету svg-элементы
-  (за исключением тех, у которых уже указан
-  атрибут stroke со значением 'none')
- */
-:where([stroke]:not([stroke='none'], [stroke^='url'])) {
-  stroke: currentcolor;
 }
 
 /**

@@ -18,7 +18,7 @@ type SelectInputUIMockProps = {
   selectedOption: TSelectOption | null;
   filteredOptions: TSelectOption[];
   activeOptionIndex: number;
-  clearIconSrc: string;
+  clearIcon: React.FC<React.SVGProps<SVGSVGElement>>;
   shouldShowClear: boolean;
   actionAriaLabel: string;
   handleInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;

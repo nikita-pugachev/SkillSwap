@@ -7,47 +7,62 @@ import {
   setLoading,
   setError,
 } from '@/services/slices/catalogSlice';
-import { UserFromDb, City, SkillCategory } from '@/utils/types';
+import { getCities, getSkills, getUsers } from '@/utils/api';
 
 export const useLoadCatalogData = () => {
   const dispatch = useAppDispatch();
   const { users, skills, cities } = useAppSelector((state) => state.catalog);
   const isLoaded = users.length > 0 && skills.length > 0 && cities.length > 0;
   const isLoadingRef = useRef(false);
+  const requestIdRef = useRef(0);
 
   useEffect(() => {
     if (isLoaded || isLoadingRef.current) return;
+
+    const abortController = new AbortController();
+    const requestId = requestIdRef.current + 1;
+    requestIdRef.current = requestId;
 
     const loadData = async () => {
       isLoadingRef.current = true;
       dispatch(setLoading(true));
       dispatch(setError(null));
+
       try {
-        const [usersRes, citiesRes, skillsRes] = await Promise.all([
-          fetch('/db/users.json'),
-          fetch('/db/cities.json'),
-          fetch('/db/skills.json'),
+        const [usersData, citiesData, skillsData] = await Promise.all([
+          getUsers({ signal: abortController.signal }),
+          getCities({ signal: abortController.signal }),
+          getSkills({ signal: abortController.signal }),
         ]);
 
-        if (!usersRes.ok) throw new Error('Ошибка загрузки пользователей');
-        if (!citiesRes.ok) throw new Error('Ошибка загрузки городов');
-        if (!skillsRes.ok) throw new Error('Ошибка загрузки навыков');
-
-        const usersData: { users: UserFromDb[] } = await usersRes.json();
-        const citiesData: City[] = await citiesRes.json();
-        const skillsData: SkillCategory[] = await skillsRes.json();
-
-        dispatch(setUsers(usersData.users));
+        dispatch(setUsers(usersData));
         dispatch(setCities(citiesData));
         dispatch(setSkills(skillsData));
       } catch (err) {
+        if (err instanceof DOMException && err.name === 'AbortError') {
+          return;
+        }
+
         dispatch(setError(err instanceof Error ? err.message : 'Неизвестная ошибка'));
       } finally {
-        dispatch(setLoading(false));
-        isLoadingRef.current = false;
+        if (requestIdRef.current === requestId) {
+          isLoadingRef.current = false;
+        }
+
+        if (!abortController.signal.aborted) {
+          dispatch(setLoading(false));
+        }
       }
     };
 
     loadData();
+
+    return () => {
+      if (requestIdRef.current === requestId) {
+        isLoadingRef.current = false;
+      }
+
+      abortController.abort();
+    };
   }, [dispatch, isLoaded]);
 };

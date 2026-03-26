@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './SearchInputUI.module.scss';
 import { InputUI } from '../InputUI/InputUI';
 import { IconButton } from '../IconButton';
-import CrossIcon from '@/assets/icons/cross.svg';
+import CrossIcon from '@/assets/icons/cross.svg?react';
 import SearchIcon from '@/assets/icons/search.svg?react';
 
 export interface SearchInputUIProps {
@@ -33,7 +33,7 @@ export const SearchInputUI: React.FC<SearchInputUIProps> = ({
       />
 
       {hasValue && (
-        <IconButton type="button" onClick={onClear} ariaLabel="Очистить" iconSrc={CrossIcon} />
+        <IconButton type="button" onClick={onClear} ariaLabel="Очистить" icon={CrossIcon} />
       )}
     </div>
   );

@@ -1,5 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { getStoredUser, getToken, removeStoredUser, setStoredUser } from '@/utils/auth';
+import {
+  getStoredUser,
+  getToken,
+  removeStoredUser,
+  removeToken,
+  setStoredUser,
+} from '@/utils/auth';
 
 export type AuthUserGender = 'Мужской' | 'Женский' | 'Не указан';
 
@@ -22,6 +28,7 @@ type AuthState = {
 };
 
 const savedUser = getStoredUser();
+
 const initialState: AuthState = {
   user: savedUser,
   isAuthenticated: Boolean(savedUser && getToken()),
@@ -47,6 +54,7 @@ const authSlice = createSlice({
     logout: (state) => {
       state.user = null;
       state.isAuthenticated = false;
+      removeToken();
       removeStoredUser();
     },
   },

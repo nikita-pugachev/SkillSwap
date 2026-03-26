@@ -15,7 +15,7 @@ type InputUIProps = {
 type IconButtonProps = {
   onClick: () => void;
   type: 'button';
-  iconSrc: string;
+  icon: unknown;
   ariaLabel: string;
 };
 

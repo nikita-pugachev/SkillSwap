@@ -104,18 +104,21 @@ describe('FilterSidebar', () => {
 
   const setup = (overrides?: Partial<React.ComponentProps<typeof FilterSidebar>>) => {
     const onChange = jest.fn();
+    const onReset = jest.fn();
 
     render(
       <FilterSidebar
         filters={defaultFilters}
         onChange={onChange}
+        onReset={onReset}
+        activeFiltersCount={0}
         cities={cities}
         categories={categories}
         {...overrides}
       />
     );
 
-    return { onChange };
+    return { onChange, onReset };
   };
 
   // Проверяем, что рендерятся заголовок и все основные секции

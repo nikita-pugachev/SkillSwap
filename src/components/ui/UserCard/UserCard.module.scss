@@ -20,6 +20,8 @@
   display: flex;
   align-items: center;
   gap: 12px;
+  flex: 1;
+  min-width: 0;
 }
 
 .userMeta {
@@ -27,6 +29,14 @@
   flex-direction: column;
   justify-content: center;
   gap: 4px;
+  min-width: 0;
+}
+
+.favoriteWrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
 }
 
 .favoriteButton {
@@ -34,13 +44,19 @@
   transition: transform 0.2s;
 
   &:hover {
-    color: var(--color-accent);
+    color: var(--color-accent-pressed);
     transform: scale(1.1);
   }
 
   &:focus-visible {
     outline: 1px solid var(--color-focus);
   }
+}
+
+.likesCount {
+  color: var(--color-text-primary);
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-caption);
 }
 
 .name {
@@ -54,6 +70,7 @@
   color: var(--color-text-primary);
   font-family: var(--font-family-base);
   font-size: var(--font-size-caption);
+  white-space: nowrap;
 }
 
 .skillsBlock {

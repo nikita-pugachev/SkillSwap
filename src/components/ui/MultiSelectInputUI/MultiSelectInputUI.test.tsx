@@ -21,6 +21,8 @@ const optionTwo: TOption = {
   categoryTitle: 'Frontend',
 };
 
+const ClearIcon: React.FC<React.SVGProps<SVGSVGElement>> = () => <svg />;
+
 const createProps = (overrides: Partial<TProps> = {}): TProps => ({
   id: 'skills',
   label: 'Навыки',
@@ -39,7 +41,7 @@ const createProps = (overrides: Partial<TProps> = {}): TProps => ({
   selectedIds: new Set<number>(),
   activeOptionIndex: -1,
 
-  clearIconSrc: '/icons/clear.svg',
+  clearIcon: ClearIcon,
   shouldShowClear: false,
   actionAriaLabel: 'Открыть список',
 

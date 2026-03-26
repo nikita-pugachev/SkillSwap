@@ -7,6 +7,11 @@ const genderMap = {
 
 export function filterByGender(user: UserFromDb, gender: Filters['gender']): boolean {
   if (!gender) return true;
+
+  if (gender !== 'Мужской' && gender !== 'Женский') {
+    return true;
+  }
+
   return user.gender === genderMap[gender];
 }
 

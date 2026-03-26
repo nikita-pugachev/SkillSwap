@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { UserFromDb, City, SkillCategory } from '@/utils/types';
+import { UserDb, City, SkillCategory } from '@/utils/types';
 
 interface CatalogState {
-  users: UserFromDb[];
+  users: UserDb[];
   skills: SkillCategory[];
   cities: City[];
   loading: boolean;
@@ -21,7 +21,7 @@ const catalogSlice = createSlice({
   name: 'catalog',
   initialState,
   reducers: {
-    setUsers: (state, action: PayloadAction<UserFromDb[]>) => {
+    setUsers: (state, action: PayloadAction<UserDb[]>) => {
       state.users = action.payload;
     },
     setSkills: (state, action: PayloadAction<SkillCategory[]>) => {

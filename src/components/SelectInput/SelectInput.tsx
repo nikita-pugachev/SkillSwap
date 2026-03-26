@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import clearIconSrc from '../../assets/icons/cross.svg';
+import ClearIcon from '../../assets/icons/cross.svg?react';
 import { SelectInputUI } from '../ui/SelectInputUI';
 import { TSelectOption } from '@/utils/types';
 
@@ -320,7 +320,7 @@ export const SelectInput: React.FC<TSelectInputProps> = ({
       selectedOption={selectedOption}
       filteredOptions={filteredOptions}
       activeOptionIndex={activeOptionIndex}
-      clearIconSrc={clearIconSrc}
+      clearIcon={ClearIcon}
       shouldShowClear={shouldShowClear}
       actionAriaLabel={actionAriaLabel}
       handleInputChange={handleInputChange}

@@ -67,6 +67,7 @@ jest.mock('../Icons/ChevronIcon', () => ({
 }));
 
 describe('SelectInputUI', () => {
+  const ClearIcon: React.FC<React.SVGProps<SVGSVGElement>> = () => <svg />;
   const options: TSelectOption[] = [
     { id: 1, name: 'Москва' },
     { id: 2, name: 'Санкт-Петербург' },
@@ -87,7 +88,7 @@ describe('SelectInputUI', () => {
     selectedOption: null as TSelectOption | null,
     filteredOptions: options,
     activeOptionIndex: -1,
-    clearIconSrc: '/icons/clear.svg',
+    clearIcon: ClearIcon,
     shouldShowClear: false,
     actionAriaLabel: 'Открыть список',
     handleInputChange: jest.fn(),

@@ -9,7 +9,7 @@ import favoritesReducer from '@/services/slices/favoritesSlice';
 import profileSkillsReducer from '@/services/slices/profileSkillsSlice';
 import requestsReducer from '@/services/slices/requestsSlice';
 import skillsReducer from '@/services/slices/skillsSlice';
-import type { Skill, UserFromDb } from '@/utils/types';
+import type { SkillCategory, UserFromDb } from '@/utils/types';
 import * as api from '@/utils/api';
 
 jest.mock('@/components/ui', () => ({
@@ -48,10 +48,6 @@ jest.mock('@/components/ui', () => ({
       icon
     </button>
   ),
-}));
-
-jest.mock('@/components/Footer/Footer', () => ({
-  Footer: () => null,
 }));
 
 jest.mock('@/components/DateInput', () => ({
@@ -150,7 +146,7 @@ const mockUserIvanWithSkill: UserFromDb = {
   createdAt: '',
 };
 
-const mockSkillsCatalog: Skill[] = [
+const mockSkillsCatalog: SkillCategory[] = [
   {
     id: 4,
     title: 'Творчество и искусство',

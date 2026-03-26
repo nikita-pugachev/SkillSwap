@@ -18,7 +18,7 @@ describe('API Service - getSkills', () => {
 
     const result = await getSkills();
 
-    expect(mockFetch).toHaveBeenCalledWith('/db/skills.json');
+    expect(mockFetch).toHaveBeenCalledWith('/db/skills.json', undefined);
     expect(result).toEqual(mockSkills);
   });
 
@@ -30,7 +30,7 @@ describe('API Service - getSkills', () => {
     });
 
     await expect(getSkills()).rejects.toThrow('Not found');
-    expect(mockFetch).toHaveBeenCalledWith('/db/skills.json');
+    expect(mockFetch).toHaveBeenCalledWith('/db/skills.json', undefined);
   });
 
   test('обрабатывает ошибку при reject у fetch', async () => {
@@ -38,7 +38,7 @@ describe('API Service - getSkills', () => {
     mockFetch.mockRejectedValueOnce(networkError);
 
     await expect(getSkills()).rejects.toThrow('Network error');
-    expect(mockFetch).toHaveBeenCalledWith('/db/skills.json');
+    expect(mockFetch).toHaveBeenCalledWith('/db/skills.json', undefined);
   });
 });
 

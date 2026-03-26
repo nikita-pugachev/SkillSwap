@@ -1,18 +1,16 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Avatar } from '../Avatar';
-import { Button } from '../Button';
-import { IconButton } from '../IconButton';
-import { SkillTag } from '../SkillTag';
-import LikeOutline from '@/assets/icons/like-outline.svg';
-import LikeFilled from '@/assets/icons/like-filled.svg';
-import type { UserSkill } from '@/utils/types';
-import styles from './UserCard.module.scss';
+import { useNavigate } from 'react-router-dom';
+import { Avatar, Button, IconButton, SkillTag } from '@/components/ui';
 import { toggleFavorite } from '@/services/slices/favoritesSlice';
 import { selectIsFavorite } from '@/services/selectors';
 import { RootState } from '@/services/store';
+import type { UserSkillTag } from '@/utils/types';
 
-export type { UserSkill } from '@/utils/types';
+import styles from './UserCard.module.scss';
+
+import LikeOutline from '@/assets/icons/like-outline.svg?react';
+import LikeFilled from '@/assets/icons/like-filled.svg?react';
 
 export interface UserCardProps {
   id: string | number;
@@ -20,9 +18,11 @@ export interface UserCardProps {
   avatar?: string;
   city: string;
   birthday: string;
-  skillsTeach: UserSkill[];
-  skillsLearn: UserSkill[];
+  skillsTeach: UserSkillTag[];
+  skillsLearn: UserSkillTag[];
+  likes: number;
   onDetailsClick: (id: string | number) => void;
+  isLogin: boolean;
 }
 
 export const UserCard: React.FC<UserCardProps> = ({
@@ -33,9 +33,12 @@ export const UserCard: React.FC<UserCardProps> = ({
   birthday,
   skillsTeach,
   skillsLearn,
+  likes,
   onDetailsClick,
+  isLogin,
 }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const userId = Number(id);
   const isFavorite = useSelector((state: RootState) => selectIsFavorite(userId)(state));
 
@@ -44,9 +47,11 @@ export const UserCard: React.FC<UserCardProps> = ({
     const birth = new Date(birthDate);
     let age = today.getFullYear() - birth.getFullYear();
     const monthDiff = today.getMonth() - birth.getMonth();
+
     if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
       age--;
     }
+
     return age;
   };
 
@@ -58,9 +63,10 @@ export const UserCard: React.FC<UserCardProps> = ({
     return 'лет';
   };
 
-  const renderSkillTags = (skills: UserSkill[]) => {
+  const renderSkillTags = (skills: UserSkillTag[]) => {
     const visibleSkills = skills.slice(0, 2);
     const remainingCount = skills.length - visibleSkills.length;
+
     return (
       <>
         {visibleSkills.map((skill, index) => (
@@ -77,6 +83,15 @@ export const UserCard: React.FC<UserCardProps> = ({
 
   const handleDetailsClick = () => onDetailsClick(id);
 
+  const handleFavoriteClick = () => {
+    if (!isLogin) {
+      navigate('/login');
+      return;
+    }
+
+    dispatch(toggleFavorite(userId));
+  };
+
   return (
     <article className={styles.card}>
       <div className={styles.header}>
@@ -90,12 +105,16 @@ export const UserCard: React.FC<UserCardProps> = ({
           </div>
         </div>
 
-        <IconButton
-          iconSrc={isFavorite ? LikeFilled : LikeOutline}
-          ariaLabel={isFavorite ? 'Удалить из избранного' : 'Добавить в избранное'}
-          onClick={() => dispatch(toggleFavorite(userId))}
-          className={styles.favoriteButton}
-        />
+        <div className={styles.favoriteWrapper}>
+          <span className={styles.likesCount}>{likes}</span>
+          <IconButton
+            icon={isFavorite ? LikeFilled : LikeOutline}
+            ariaLabel={isFavorite ? 'Удалить из избранного' : 'Добавить в избранное'}
+            onClick={handleFavoriteClick}
+            isActive={isFavorite}
+            className={styles.favoriteButton}
+          />
+        </div>
       </div>
 
       <div className={styles.skillsBlock}>
@@ -103,6 +122,7 @@ export const UserCard: React.FC<UserCardProps> = ({
           <h4 className={styles.skillsTitle}>Может научить:</h4>
           <div className={styles.skillsList}>{renderSkillTags(skillsTeach)}</div>
         </div>
+
         <div className={styles.skillsSection}>
           <h4 className={styles.skillsTitle}>Хочет научиться:</h4>
           <div className={styles.skillsList}>{renderSkillTags(skillsLearn)}</div>

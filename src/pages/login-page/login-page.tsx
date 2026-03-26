@@ -17,8 +17,8 @@ import styles from './login-page.module.scss';
 
 import { Button, IconButton, InputBaseContainerUI, InputUI } from '@/components/ui';
 
-import eyeIcon from '@/assets/icons/eye.svg';
-import eyeSlashIcon from '@/assets/icons/eye-slash.svg';
+import eyeIcon from '@/assets/icons/eye.svg?react';
+import eyeSlashIcon from '@/assets/icons/eye-slash.svg?react';
 import appleIcon from '@/assets/icons/logo/apple.svg';
 import googleIcon from '@/assets/icons/logo/google.svg';
 import lightBulb from '@/assets/illustrations/light-bulb.svg';
@@ -188,8 +188,8 @@ export default function LoginPage() {
                     />
 
                     <IconButton
+                      icon={showPassword ? eyeSlashIcon : eyeIcon}
                       type="button"
-                      iconSrc={showPassword ? eyeSlashIcon : eyeIcon}
                       ariaLabel={showPassword ? 'Скрыть пароль' : 'Показать пароль'}
                       onClick={togglePassword}
                     />

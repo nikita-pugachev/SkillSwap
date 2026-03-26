@@ -8,10 +8,10 @@ import 'swiper/css/navigation';
 import styles from './SkillCard.module.scss';
 import { Button, IconButton, NavigationButton, SkillTag } from '@/components/ui';
 import { SkillCategorySlug } from '@/utils/types';
-import heartOutlineSrc from '@/assets/icons/like-outline.svg';
-import heartFilledSrc from '@/assets/icons/like-filled.svg';
-import shareSrc from '@/assets/icons/share.svg';
-import moreSrc from '@/assets/icons/more-square.svg';
+import HeartOutlineIcon from '@/assets/icons/like-outline.svg?react';
+import HeartFilledIcon from '@/assets/icons/like-filled.svg?react';
+import ShareIcon from '@/assets/icons/share.svg?react';
+import MoreIcon from '@/assets/icons/more-square.svg?react';
 
 export type SkillCardProps = {
   id: string;
@@ -120,12 +120,13 @@ export const SkillCard: FC<SkillCardProps> = ({
       <div className={styles.rightContent}>
         <div className={styles.actions}>
           <IconButton
-            iconSrc={isLiked ? heartFilledSrc : heartOutlineSrc}
+            icon={isLiked ? HeartFilledIcon : HeartOutlineIcon}
             ariaLabel={isLiked ? 'Убрать из избранного' : 'Добавить в избранное'}
             onClick={onLikeToggle}
+            isActive={isLiked}
           />
-          <IconButton iconSrc={shareSrc} ariaLabel="Поделиться карточкой" onClick={onShare} />
-          <IconButton iconSrc={moreSrc} ariaLabel="Больше действий" onClick={onMoreClick} />
+          <IconButton icon={ShareIcon} ariaLabel="Поделиться карточкой" onClick={onShare} />
+          <IconButton icon={MoreIcon} ariaLabel="Больше действий" onClick={onMoreClick} />
         </div>
 
         <div className={styles.middleColumn}>

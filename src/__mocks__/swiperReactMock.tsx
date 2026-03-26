@@ -1,18 +1,29 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 
-type SwiperProps = {
-  children?: React.ReactNode;
-  onSwiper?: (swiper: { slideTo: (index: number) => void }) => void;
+type SwiperInstance = {
+  slideTo: (index: number) => void;
 };
 
-export const Swiper = ({ children, onSwiper }: SwiperProps) => {
+type SwiperMockProps = {
+  children?: React.ReactNode;
+  className?: string;
+  onSwiper?: (swiper: SwiperInstance) => void;
+};
+
+export const Swiper = ({ children, className, onSwiper }: SwiperMockProps) => {
+  const swiperRef = useRef<SwiperInstance>({
+    slideTo: () => undefined,
+  });
+
   useEffect(() => {
-    onSwiper?.({
-      slideTo: () => undefined,
-    });
+    onSwiper?.(swiperRef.current);
   }, [onSwiper]);
 
-  return <div data-testid="swiper">{children}</div>;
+  return (
+    <div className={className} data-testid="swiper">
+      {children}
+    </div>
+  );
 };
 
 export const SwiperSlide = ({ children }: { children?: React.ReactNode }) => (

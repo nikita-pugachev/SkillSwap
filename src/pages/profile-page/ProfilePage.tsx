@@ -8,8 +8,8 @@ import {
   type ReactNode,
 } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+
 import { DateInput } from '@/components/DateInput';
-import { Footer } from '@/components/Footer/Footer';
 import { SelectInput } from '@/components/SelectInput/SelectInput';
 import { Avatar, Button, IconButton, InputBaseContainerUI, InputUI } from '@/components/ui';
 import { CategoryIcon } from '@/components/ui/Icons/CategoryIcon';
@@ -667,8 +667,6 @@ export default function ProfilePage() {
           )}
         </div>
       </main>
-
-      <Footer />
     </>
   );
 }

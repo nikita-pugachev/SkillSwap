@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import type { FC, SVGProps } from 'react';
 import { InputUI } from '../InputUI/InputUI';
 import { IconButton } from '../IconButton/IconButton';
 import { ChevronIcon } from '../Icons/ChevronIcon';
@@ -24,7 +25,7 @@ type TMultiSelectInputUIProps = {
   selectedIds: Set<number>;
   activeOptionIndex: number;
 
-  clearIconSrc: string;
+  clearIcon: FC<SVGProps<SVGSVGElement>>;
   shouldShowClear: boolean;
   actionAriaLabel: string;
 
@@ -51,7 +52,7 @@ export const MultiSelectInputUI: React.FC<TMultiSelectInputUIProps> = ({
   filteredOptions,
   selectedIds,
   activeOptionIndex,
-  clearIconSrc,
+  clearIcon,
   shouldShowClear,
   actionAriaLabel,
   handleInputChange,
@@ -128,7 +129,7 @@ export const MultiSelectInputUI: React.FC<TMultiSelectInputUIProps> = ({
 
           {shouldShowClear ? (
             <IconButton
-              iconSrc={clearIconSrc}
+              icon={clearIcon}
               ariaLabel={actionAriaLabel}
               onClick={handleActionClick}
               className={styles.actionButton}

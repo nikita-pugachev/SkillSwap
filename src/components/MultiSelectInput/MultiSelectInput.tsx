@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import clearIconSrc from '../../assets/icons/cross.svg';
+import ClearIcon from '../../assets/icons/cross.svg?react';
 import { MultiSelectInputUI } from '../ui';
 import type { TSubcategoryOption } from '@/utils/types';
 
@@ -274,7 +274,7 @@ export const MultiSelectInput: React.FC<TMultiSelectInputProps> = ({
       filteredOptions={filteredOptions}
       selectedIds={selectedIds}
       activeOptionIndex={activeOptionIndex}
-      clearIconSrc={clearIconSrc}
+      clearIcon={ClearIcon}
       shouldShowClear={shouldShowClear}
       actionAriaLabel={actionAriaLabel}
       handleInputChange={handleInputChange}

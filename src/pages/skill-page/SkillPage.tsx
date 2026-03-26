@@ -1,11 +1,11 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { SkillCard } from '@/components/ui/SkillCard/SkillCard';
-import { UserCard } from '@/components/ui';
+import { UserCard } from '@/components/ui/UserCard';
 import { Modal } from '@/components/ui/Modal/Modal';
 import styles from './SkillPage.module.scss';
-import type { UserFromDb, City, SkillCategory, SkillCategorySlug } from '@/utils/types';
-import scrollNavigate from '@/assets/icons/scroll-navigate.svg';
+import type { UserDb, City, SkillCategory, SkillCategorySlug } from '@/utils/types';
+import ScrollNavigateIcon from '@/assets/icons/scroll-navigate.svg?react';
 import { IconButton } from '@/components/ui/IconButton';
 import { setSkills } from '@/services/slices/skillsSlice';
 import { selectIsAuthenticated, selectUser } from '@/services/selectors';
@@ -51,7 +51,7 @@ export const SkillPage: React.FC = () => {
     },
   });
 
-  const [similarUsers, setSimilarUsers] = useState<UserFromDb[]>([]);
+  const [similarUsers, setSimilarUsers] = useState<UserDb[]>([]);
   const [cities, setCities] = useState<City[]>([]);
   const [skillsData, setSkillsData] = useState<SkillCategory[]>([]);
   const [error, setError] = useState<string | null>(null);
@@ -123,15 +123,7 @@ export const SkillPage: React.FC = () => {
 
         const data = await response.json();
         setSkillsData(data);
-
-        const skillsForStore = data.flatMap((category: SkillCategory) =>
-          category.subcategories.map((sub: { id: number; title: string }) => ({
-            id: sub.id,
-            title: sub.title,
-            category: category.slug,
-          }))
-        );
-        dispatch(setSkills(skillsForStore));
+        dispatch(setSkills(data));
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Ошибка загрузки навыков');
       }
@@ -147,7 +139,7 @@ export const SkillPage: React.FC = () => {
         const response = await fetch('/db/users.json');
         if (!response.ok) throw new Error('Ошибка загрузки пользователей');
         const data = await response.json();
-        const users: UserFromDb[] = data.users;
+        const users: UserDb[] = data.users;
 
         const otherUsers = users.filter((user) => user.id !== 1);
         //setSimilarUsers(otherUsers.slice(0, 7));
@@ -345,6 +337,8 @@ export const SkillPage: React.FC = () => {
                       name: getSkillName(learnId),
                       category: getSkillCategory(learnId),
                     }))}
+                    likes={user.likes}
+                    isLogin={isAuthenticated}
                     onDetailsClick={handleUserCardClick}
                   />
                 ))}
@@ -354,7 +348,7 @@ export const SkillPage: React.FC = () => {
               <div className={styles.scrollButtons}>
                 {showLeftButton && (
                   <IconButton
-                    iconSrc={scrollNavigate}
+                    icon={ScrollNavigateIcon}
                     ariaLabel="Прокрутить влево"
                     onClick={scrollLeft}
                     className={`${styles.scrollButton} ${styles.scrollButtonLeft}`}
@@ -362,7 +356,7 @@ export const SkillPage: React.FC = () => {
                 )}
                 {showRightButton && (
                   <IconButton
-                    iconSrc={scrollNavigate}
+                    icon={ScrollNavigateIcon}
                     ariaLabel="Прокрутить вправо"
                     onClick={scrollRight}
                     className={`${styles.scrollButton} ${styles.scrollButtonRight}`}

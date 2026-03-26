@@ -2,13 +2,20 @@ import type { ButtonHTMLAttributes, InputHTMLAttributes, ReactNode } from 'react
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
+
 import ProfilePage from './ProfilePage';
 import { useAppDispatch, useAppSelector } from '@/services/hooks';
 import { userEdit } from '@/services/slices/authSlice';
+import * as api from '@/utils/api';
 
 jest.mock('@/services/hooks', () => ({
   useAppDispatch: jest.fn(),
   useAppSelector: jest.fn(),
+}));
+
+jest.mock('@/utils/api', () => ({
+  getUsersFromDb: jest.fn(),
+  getSkills: jest.fn(),
 }));
 
 jest.mock('@/components/ui', () => ({
@@ -42,10 +49,6 @@ jest.mock('@/components/ui', () => ({
       icon
     </button>
   ),
-}));
-
-jest.mock('@/components/Footer/Footer', () => ({
-  Footer: () => <footer>Footer</footer>,
 }));
 
 jest.mock('@/components/DateInput', () => ({
@@ -93,8 +96,56 @@ jest.mock('@/components/SelectInput/SelectInput', () => ({
   ),
 }));
 
+type MockState = {
+  auth: {
+    user: {
+      id: number;
+      name: string;
+      userAvatar: string;
+      email?: string;
+      password?: string;
+      cityId?: number;
+      gender?: 'Мужской' | 'Женский' | 'Не указан';
+      birthday?: string;
+      about?: string;
+    } | null;
+    isAuthenticated: boolean;
+  };
+  favorites: {
+    favoriteIds: number[];
+  };
+  profileSkills: {
+    items: Array<{
+      userId: number;
+      teachSkillId: number;
+      title: string;
+      subcategoryId: number;
+      categoryTitle: string;
+      subcategoryTitle: string;
+    }>;
+    loaded: boolean;
+  };
+  requests: {
+    requests: Array<{
+      id: string;
+      skillId: string;
+      fromUserId: string;
+      toUserId: string;
+      status: 'pending' | 'accepted' | 'rejected' | 'inProgress' | 'done';
+      createdAt: string;
+    }>;
+  };
+  skills: {
+    items: [];
+    searchQuery: string;
+    selectedCategory: string;
+  };
+};
+
 describe('ProfilePage', () => {
   const mockDispatch = jest.fn();
+  const mockGetUsersFromDb = api.getUsersFromDb as jest.MockedFunction<typeof api.getUsersFromDb>;
+  const mockGetSkills = api.getSkills as jest.MockedFunction<typeof api.getSkills>;
   const fullUser = {
     id: 1,
     name: 'Иван',
@@ -105,6 +156,14 @@ describe('ProfilePage', () => {
     gender: 'Мужской' as const,
     birthday: '1992-03-29',
     about: 'Люблю ритм, кофе по утрам и новые знакомства.',
+  };
+
+  let mockState: MockState;
+
+  const bindSelectors = () => {
+    (useAppSelector as unknown as jest.Mock).mockImplementation(
+      (selector: (state: MockState) => unknown) => selector(mockState)
+    );
   };
 
   const renderPage = async () => {
@@ -120,9 +179,33 @@ describe('ProfilePage', () => {
   };
 
   beforeEach(() => {
+    mockState = {
+      auth: {
+        user: fullUser,
+        isAuthenticated: true,
+      },
+      favorites: {
+        favoriteIds: [],
+      },
+      profileSkills: {
+        items: [],
+        loaded: true,
+      },
+      requests: {
+        requests: [],
+      },
+      skills: {
+        items: [],
+        searchQuery: '',
+        selectedCategory: '',
+      },
+    };
+
     (useAppDispatch as unknown as jest.Mock).mockReturnValue(mockDispatch);
-    (useAppSelector as unknown as jest.Mock).mockReturnValue(fullUser);
+    bindSelectors();
     mockDispatch.mockClear();
+    mockGetUsersFromDb.mockResolvedValue([]);
+    mockGetSkills.mockResolvedValue([]);
 
     globalThis.fetch = jest.fn((input: string | URL) => {
       const url = String(input);
@@ -163,6 +246,10 @@ describe('ProfilePage', () => {
                 gender: 'male',
                 birthday: '1992-03-29',
                 about: 'Люблю ритм, кофе по утрам и новые знакомства.',
+                skillsTeach: [],
+                skillsLearn: [],
+                likes: 0,
+                createdAt: '2026-01-01',
               },
             ],
           }),
@@ -222,11 +309,18 @@ describe('ProfilePage', () => {
   });
 
   it('hydrates stale authenticated user data by id', async () => {
-    (useAppSelector as unknown as jest.Mock).mockReturnValue({
-      id: 1,
-      name: 'Иван',
-      userAvatar: '/src/assets/user-avatars/ivan.png',
-    });
+    mockState = {
+      ...mockState,
+      auth: {
+        user: {
+          id: 1,
+          name: 'Иван',
+          userAvatar: '/src/assets/user-avatars/ivan.png',
+        },
+        isAuthenticated: true,
+      },
+    };
+    bindSelectors();
 
     await renderPage();
 

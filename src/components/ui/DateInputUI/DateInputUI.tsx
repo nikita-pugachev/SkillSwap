@@ -1,10 +1,10 @@
 import {
-  useState,
-  type RefObject,
   type MouseEvent as ReactMouseEvent,
   type KeyboardEvent,
   type ChangeEvent,
   type FocusEvent,
+  type RefObject,
+  useState,
 } from 'react';
 
 import { MONTHS, WEEK_DAYS } from '../../DateInput/DateInput.constants';
@@ -15,6 +15,7 @@ import { IconButton } from '../IconButton';
 import { ChevronIcon } from '../Icons/ChevronIcon';
 import { Button } from '../Button';
 import { InputUI } from '../InputUI';
+import CalendarIcon from '@/assets/icons/calendar.svg?react';
 
 export interface DateInputUIProps {
   id: string;
@@ -111,7 +112,7 @@ export const DateInputUI = ({
           onClick={handleIconClick}
           ariaLabel="Открыть календарь"
           disabled={disabled}
-          iconSrc="src/assets/icons/calendar.svg"
+          icon={CalendarIcon}
         />
       </div>
 

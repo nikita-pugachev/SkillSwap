@@ -82,17 +82,17 @@
   padding: 0;
   pointer-events: auto;
 
-  img {
+  svg {
     width: 20px;
     height: 20px;
-    transition: filter 0.2s ease;
+    transition: transform 0.2s ease;
   }
 }
 
 .scrollButtonLeft {
   left: -20px;
 
-  img {
+  svg {
     transform: rotate(180deg);
   }
 }
