@@ -18,7 +18,7 @@ jest.mock('react-router-dom', () => {
   };
 });
 
-jest.mock('@/components/ui/ButtonUI', () => ({
+jest.mock('@/components/ui', () => ({
   Button: ({
     children,
     type = 'button',
@@ -28,13 +28,7 @@ jest.mock('@/components/ui/ButtonUI', () => ({
       {children}
     </button>
   ),
-}));
-
-jest.mock('@/components/ui/InputUI', () => ({
   InputUI: (props: InputHTMLAttributes<HTMLInputElement>) => <input {...props} />,
-}));
-
-jest.mock('@/components/ui/InputBaseContainerUI', () => ({
   InputBaseContainerUI: ({
     label,
     id,
@@ -52,9 +46,6 @@ jest.mock('@/components/ui/InputBaseContainerUI', () => ({
       {error ? <span>{error}</span> : null}
     </div>
   ),
-}));
-
-jest.mock('@/components/ui/IconButton', () => ({
   IconButton: ({
     ariaLabel,
     onClick,
@@ -87,12 +78,14 @@ describe('LoginPage', () => {
 
     mockDispatch.mockClear();
     mockNavigate.mockClear();
+    localStorage.clear();
 
     globalThis.fetch = jest.fn();
   });
 
   afterEach(() => {
     jest.clearAllMocks();
+    jest.restoreAllMocks();
   });
 
   it('renders page title and onboarding text', () => {
@@ -162,6 +155,49 @@ describe('LoginPage', () => {
     expect(screen.getByRole('button', { name: 'Показать пароль' })).toBeInTheDocument();
   });
 
+  it('shows inline validation errors on submit', async () => {
+    const user = userEvent.setup();
+
+    renderPage();
+
+    await user.click(screen.getByRole('button', { name: 'Войти' }));
+
+    expect(await screen.findByText('Введите email')).toBeInTheDocument();
+    expect(await screen.findByText('Введите пароль')).toBeInTheDocument();
+  });
+
+  it('shows auth error with invalid credentials', async () => {
+    const user = userEvent.setup();
+
+    (globalThis.fetch as jest.Mock).mockResolvedValue({
+      ok: true,
+      json: async () => ({
+        users: [
+          {
+            id: 1,
+            name: 'Иван',
+            email: 'ivan@example.com',
+            password: 'pass1234',
+            userAvatar: '/src/assets/user-avatars/ivan.png',
+          },
+        ],
+      }),
+    });
+
+    renderPage();
+
+    await user.type(screen.getByLabelText('Email'), 'ivan@example.com');
+    await user.type(screen.getByLabelText('Пароль'), 'wrongpass');
+    await user.click(screen.getByRole('button', { name: 'Войти' }));
+
+    await waitFor(() => {
+      expect(screen.getByRole('alert')).toHaveTextContent('Неверный email или пароль');
+    });
+
+    expect(mockDispatch).not.toHaveBeenCalled();
+    expect(mockNavigate).not.toHaveBeenCalled();
+  });
+
   it('logs in successfully with valid email and password', async () => {
     const user = userEvent.setup();
 
@@ -190,6 +226,13 @@ describe('LoginPage', () => {
       expect(globalThis.fetch).toHaveBeenCalledWith('/db/users.json');
       expect(mockDispatch).toHaveBeenCalled();
       expect(mockNavigate).toHaveBeenCalledWith('/', { replace: true });
+    });
+
+    expect(localStorage.getItem('token')).toBe('mock-token-1');
+    expect(JSON.parse(localStorage.getItem('auth_user') ?? 'null')).toEqual({
+      id: 1,
+      name: 'Иван',
+      userAvatar: '/src/assets/user-avatars/ivan.png',
     });
   });
 });

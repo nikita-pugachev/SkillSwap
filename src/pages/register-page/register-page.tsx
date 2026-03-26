@@ -1,22 +1,30 @@
 import { useEffect, useState } from 'react';
 
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { setToken, setStoredUser } from '@/utils/auth';
-import { login } from '@/services/slices/authSlice';
-import type { AppDispatch } from '@/services/store';
-
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import { useDispatch } from 'react-redux';
+import { setToken, setStoredUser } from '@/utils/auth';
+import {
+  createMockToken,
+  getNextRegisteredUserId,
+  isEmailTaken,
+  saveRegisteredUser,
+  toAuthUser,
+  type MockUser,
+} from '@/utils/mock-users';
+import { login } from '@/services/slices/authSlice';
+import type { AppDispatch } from '@/services/store';
 
 import authStyles from '@/assets/styles/auth.module.scss';
 import styles from './register-page.module.scss';
 
-import { Button } from '@/components/ui/ButtonUI';
-import { IconButton } from '@/components/ui/IconButton';
-import { InputBaseContainerUI } from '@/components/ui/InputBaseContainerUI';
-import { InputUI } from '@/components/ui/InputUI';
+import { Button, IconButton, InputBaseContainerUI, InputUI } from '@/components/ui';
+
+import { SelectInput } from '@/components/SelectInput';
+import { DateInput } from '@/components/DateInput';
+import type { TSelectOption } from '@/utils/types';
 
 import eyeIcon from '@/assets/icons/eye.svg';
 import eyeSlashIcon from '@/assets/icons/eye-slash.svg';
@@ -25,33 +33,9 @@ import googleIcon from '@/assets/icons/logo/google.svg';
 import lightBulb from '@/assets/illustrations/light-bulb.svg';
 import UserInfo from '@/assets/illustrations/user-info.svg';
 import avatarAddIcon from '@/assets/icons/avatar-add.svg';
-import calendarIcon from '@/assets/icons/calendar.svg';
-import chevronDownIcon from '@/assets/icons/chevron-down.svg';
-import chevronUpIcon from '@/assets/icons/chevron-up.svg';
-import crossIcon from '@/assets/icons/cross.svg';
 import SchoolBoard from '@/assets/illustrations/school-board.svg';
 import galleryAddIcon from '@/assets/icons/gallery-add.svg';
 import defaultAvatar from '@/assets/icons/user.svg';
-
-const schema = yup.object({
-  name: yup
-    .string()
-    .required('Введите имя')
-    .min(2, 'Минимум 2 символа')
-    .max(30, 'Максимум 30 символов'),
-  email: yup
-    .string()
-    .required('Введите email')
-    .matches(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, 'Некорректный email'),
-  password: yup
-    .string()
-    .required('Введите пароль')
-    .min(6, 'Пароль должен содержать не менее 6 знаков'),
-  confirmPassword: yup
-    .string()
-    .required('Подтвердите пароль')
-    .oneOf([yup.ref('password')], 'Пароли не совпадают'),
-});
 
 type FormValues = {
   name: string;
@@ -60,16 +44,48 @@ type FormValues = {
   confirmPassword: string;
 };
 
-type RegisterUserFromJson = {
-  id: number;
-  name: string;
-  email: string;
-  password: string;
-  userAvatar: string;
-};
+const GENDER_OPTIONS: TSelectOption[] = [
+  { id: 1, name: 'Мужской' },
+  { id: 2, name: 'Женский' },
+];
 
-type RegisterUsersResponse = {
-  users: RegisterUserFromJson[];
+const CITY_OPTIONS: TSelectOption[] = [
+  { id: 1, name: 'Москва' },
+  { id: 2, name: 'Санкт-Петербург' },
+  { id: 3, name: 'Казань' },
+];
+
+const CATEGORY_OPTIONS: TSelectOption[] = [
+  { id: 1, name: 'IT и программирование' },
+  { id: 2, name: 'Дизайн' },
+  { id: 3, name: 'Языки' },
+];
+
+const registerSchema: yup.ObjectSchema<FormValues> = yup
+  .object({
+    name: yup
+      .string()
+      .trim()
+      .required('Введите имя')
+      .min(2, 'Имя должно содержать минимум 2 символа')
+      .max(30, 'Имя должно содержать максимум 30 символов'),
+    email: yup.string().trim().required('Введите email').email('Некорректный email'),
+    password: yup
+      .string()
+      .required('Введите пароль')
+      .min(6, 'Пароль должен содержать не менее 6 символов'),
+    confirmPassword: yup
+      .string()
+      .required('Подтвердите пароль')
+      .oneOf([yup.ref('password')], 'Пароли не совпадают'),
+  })
+  .required();
+
+const getInputFieldProps = <T extends { ref: unknown }>(field: T): Omit<T, 'ref'> => {
+  const { ref, ...rest } = field;
+  void ref;
+
+  return rest;
 };
 
 export default function RegisterPage() {
@@ -77,25 +93,23 @@ export default function RegisterPage() {
     const savedStep = Number(localStorage.getItem('registerStep'));
     return [1, 2, 3].includes(savedStep) ? savedStep : 1;
   });
-
-  useEffect(() => {
-    localStorage.setItem('registerStep', String(step));
-  }, [step]);
   const [showPassword, setShowPassword] = useState(false);
+  const [openSelectId, setOpenSelectId] = useState<string | null>(null);
+
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-
   const {
-    register,
-    trigger,
+    control,
     getValues,
+    trigger,
+    clearErrors,
     setError,
+    handleSubmit,
     formState: { errors },
   } = useForm<FormValues>({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(registerSchema),
     mode: 'onBlur',
-    reValidateMode: 'onBlur',
-    shouldUnregister: false,
+    reValidateMode: 'onChange',
     defaultValues: {
       name: '',
       email: '',
@@ -103,6 +117,10 @@ export default function RegisterPage() {
       confirmPassword: '',
     },
   });
+
+  useEffect(() => {
+    localStorage.setItem('registerStep', String(step));
+  }, [step]);
 
   const togglePassword = () => {
     setShowPassword((prev) => !prev);
@@ -127,29 +145,12 @@ export default function RegisterPage() {
       return;
     }
 
+    clearErrors('email');
+
     try {
-      const response = await fetch('/db/users.json');
+      const emailTaken = await isEmailTaken(getValues('email'));
 
-      if (!response.ok) {
-        throw new Error('Failed to load users');
-      }
-
-      const usersData: RegisterUsersResponse = await response.json();
-      const { email } = getValues();
-
-      const rawRegisteredUsers = localStorage.getItem('registered_users');
-      const registeredUsers: RegisterUserFromJson[] = rawRegisteredUsers
-        ? JSON.parse(rawRegisteredUsers)
-        : [];
-
-      const allUsers = [...usersData.users, ...registeredUsers];
-
-      const normalizedEmail = email.trim().toLowerCase();
-
-      const existingUser = allUsers.find(
-        (user) => user.email.trim().toLowerCase() === normalizedEmail
-      );
-      if (existingUser) {
+      if (emailTaken) {
         setError('email', {
           type: 'manual',
           message: 'Пользователь с таким email уже существует',
@@ -167,9 +168,7 @@ export default function RegisterPage() {
   };
 
   const handleStepTwoSubmit = async () => {
-    const isValid = await trigger(['name']);
-
-    // TODO: после подключения остальных полей шага 2 к форме добавить валидацию обязательных полей: trigger(['birthDate', 'gender', 'city', 'learnCategory', 'learnSubcategory'])
+    const isValid = await trigger('name');
 
     if (!isValid) {
       return;
@@ -178,60 +177,26 @@ export default function RegisterPage() {
     handleNextStep();
   };
 
-  const handleStepThreeSubmit = () => {
-    const formValues = getValues();
-
-    const newUser: RegisterUserFromJson = {
-      id: Date.now(),
-      name: formValues.name,
-      email: formValues.email,
-      password: formValues.password,
+  const handleStepThreeSubmit = handleSubmit((values) => {
+    const newUser: MockUser = {
+      id: getNextRegisteredUserId(),
+      name: values.name.trim(),
+      email: values.email.trim(),
+      password: values.password,
       userAvatar: defaultAvatar,
     };
 
     saveRegisteredUser(newUser);
 
-    const authUser = {
-      id: newUser.id,
-      name: newUser.name,
-      userAvatar: newUser.userAvatar,
-    };
+    const authUser = toAuthUser(newUser);
 
-    setToken(`mock-token-${newUser.id}`);
+    setToken(createMockToken(newUser.id));
     setStoredUser(authUser);
     dispatch(login(authUser));
 
     localStorage.removeItem('registerStep');
     navigate('/', { replace: true });
-    // TODO: после подключения полей шага 3 добавить валидацию обязательных полей: skillName, description, skillCategory, skillSubcategory, images.
-    // TODO: по финальному сценарию после шага 3 сначала открывать модалку подтверждения, завершение регистрации и редирект выполнять только после подтверждения.
-  };
-
-  const saveRegisteredUser = (user: RegisterUserFromJson) => {
-    const rawUsers = localStorage.getItem('registered_users');
-
-    const registeredUsers: RegisterUserFromJson[] = rawUsers ? JSON.parse(rawUsers) : [];
-
-    registeredUsers.push(user);
-
-    localStorage.setItem('registered_users', JSON.stringify(registeredUsers));
-  };
-
-  const [openSelects, setOpenSelects] = useState({
-    gender: false,
-    city: false,
-    learnCategory: false,
-    learnSubcategory: false,
-    skillCategory: false,
-    skillSubcategory: false,
   });
-
-  const toggleSelect = (selectName: keyof typeof openSelects) => {
-    setOpenSelects((prev) => ({
-      ...prev,
-      [selectName]: !prev[selectName],
-    }));
-  };
 
   return (
     <main className={authStyles.main}>
@@ -267,19 +232,36 @@ export default function RegisterPage() {
 
               <form
                 className={authStyles.formContainer}
-                onSubmit={(e) => {
-                  e.preventDefault();
+                onSubmit={(event) => {
+                  event.preventDefault();
                   void handleStepOneSubmit();
                 }}
                 noValidate
               >
                 <div className={authStyles.fields}>
                   <InputBaseContainerUI label="Email" id="email" error={errors.email?.message}>
-                    <InputUI
-                      id="email"
-                      type="email"
-                      placeholder="Введите email"
-                      {...register('email')}
+                    <Controller
+                      name="email"
+                      control={control}
+                      render={({ field }) => {
+                        const inputField = getInputFieldProps(field);
+
+                        return (
+                          <InputUI
+                            {...inputField}
+                            id="email"
+                            type="email"
+                            placeholder="Введите email"
+                            onChange={(event) => {
+                              if (errors.email?.type === 'manual') {
+                                clearErrors('email');
+                              }
+
+                              inputField.onChange(event);
+                            }}
+                          />
+                        );
+                      }}
                     />
                   </InputBaseContainerUI>
 
@@ -287,17 +269,34 @@ export default function RegisterPage() {
                     label="Пароль"
                     id="password"
                     error={errors.password?.message}
-                    hint="Пароль должен содержать не менее 6 знаков"
+                    hint="Пароль должен содержать не менее 6 символов"
                   >
                     <div className={authStyles.passwordField}>
-                      <InputUI
-                        id="password"
-                        type={showPassword ? 'text' : 'password'}
-                        placeholder="Придумайте надёжный пароль"
-                        {...register('password')}
-                      />
+                      <Controller
+                        name="password"
+                        control={control}
+                        render={({ field }) => {
+                          const inputField = getInputFieldProps(field);
 
+                          return (
+                            <InputUI
+                              {...inputField}
+                              id="password"
+                              type={showPassword ? 'text' : 'password'}
+                              placeholder="Придумайте надёжный пароль"
+                              onChange={(event) => {
+                                inputField.onChange(event);
+
+                                if (getValues('confirmPassword')) {
+                                  void trigger('confirmPassword');
+                                }
+                              }}
+                            />
+                          );
+                        }}
+                      />
                       <IconButton
+                        type="button"
                         iconSrc={showPassword ? eyeSlashIcon : eyeIcon}
                         ariaLabel={showPassword ? 'Скрыть пароль' : 'Показать пароль'}
                         onClick={togglePassword}
@@ -310,11 +309,21 @@ export default function RegisterPage() {
                     id="confirmPassword"
                     error={errors.confirmPassword?.message}
                   >
-                    <InputUI
-                      id="confirmPassword"
-                      type={showPassword ? 'text' : 'password'}
-                      placeholder="Повторите пароль"
-                      {...register('confirmPassword')}
+                    <Controller
+                      name="confirmPassword"
+                      control={control}
+                      render={({ field }) => {
+                        const inputField = getInputFieldProps(field);
+
+                        return (
+                          <InputUI
+                            {...inputField}
+                            id="confirmPassword"
+                            type={showPassword ? 'text' : 'password'}
+                            placeholder="Повторите пароль"
+                          />
+                        );
+                      }}
                     />
                   </InputBaseContainerUI>
                 </div>
@@ -346,12 +355,7 @@ export default function RegisterPage() {
               aria-label="Форма регистрации: шаг 2"
             >
               <div className={styles.avatarBlock}>
-                <button
-                  type="button"
-                  className={styles.avatarButton}
-                  aria-label="Добавить фото"
-                  // TODO: открыть загрузку фото профиля
-                >
+                <button type="button" className={styles.avatarButton} aria-label="Добавить фото">
                   <img
                     src={avatarAddIcon}
                     alt=""
@@ -360,126 +364,89 @@ export default function RegisterPage() {
                   />
                 </button>
               </div>
+
               <form
                 className={authStyles.formContainer}
-                onSubmit={(e) => {
-                  e.preventDefault();
+                onSubmit={(event) => {
+                  event.preventDefault();
                   void handleStepTwoSubmit();
                 }}
                 noValidate
               >
                 <div className={authStyles.fields}>
                   <InputBaseContainerUI label="Имя" id="name" error={errors.name?.message}>
-                    <InputUI
-                      id="name"
-                      type="text"
-                      placeholder="Введите ваше имя"
-                      {...register('name')}
+                    <Controller
+                      name="name"
+                      control={control}
+                      render={({ field }) => {
+                        const inputField = getInputFieldProps(field);
+
+                        return (
+                          <InputUI
+                            {...inputField}
+                            id="name"
+                            type="text"
+                            placeholder="Введите ваше имя"
+                          />
+                        );
+                      }}
                     />
                   </InputBaseContainerUI>
 
                   <div className={styles.row}>
                     <div className={styles.rowItem}>
-                      <InputBaseContainerUI label="Дата рождения" id="birthDate">
-                        <button
-                          id="birthDate"
-                          type="button"
-                          className={styles.selectField}
-                          // TODO: открыть календарь
-                        >
-                          <span className={styles.selectText}>дд.мм.гггг</span>
-
-                          <img src={calendarIcon} alt="" aria-hidden="true" />
-                        </button>
-                      </InputBaseContainerUI>
+                      <DateInput
+                        id="birthDate"
+                        label="Дата рождения"
+                        placeholder="дд.мм.гггг"
+                        disabled={false}
+                      />
                     </div>
 
                     <div className={styles.rowItem}>
-                      <InputBaseContainerUI label="Пол" id="gender">
-                        <button
-                          id="gender"
-                          type="button"
-                          className={styles.selectField}
-                          onClick={() => toggleSelect('gender')}
-                        >
-                          <span className={styles.selectText}>Не указан</span>
-
-                          <img
-                            src={openSelects.gender ? chevronUpIcon : chevronDownIcon}
-                            alt=""
-                            aria-hidden="true"
-                          />
-                        </button>
-                      </InputBaseContainerUI>
+                      <SelectInput
+                        id="gender"
+                        label="Пол"
+                        placeholder="Не указан"
+                        options={GENDER_OPTIONS}
+                        isOpen={openSelectId === 'gender'}
+                        onToggle={(next) => setOpenSelectId(next ? 'gender' : null)}
+                      />
                     </div>
                   </div>
 
-                  <InputBaseContainerUI label="Город" id="city">
-                    <button
-                      id="city"
-                      type="button"
-                      className={styles.selectField}
-                      onClick={() => toggleSelect('city')}
-                      // TODO: открыть поиск и список городов
-                    >
-                      <span className={styles.selectText}>Не указан</span>
+                  <SelectInput
+                    id="city"
+                    label="Город"
+                    placeholder="Не указан"
+                    options={CITY_OPTIONS}
+                    isOpen={openSelectId === 'city'}
+                    onToggle={(next) => setOpenSelectId(next ? 'city' : null)}
+                  />
 
-                      <img
-                        src={openSelects.city ? crossIcon : chevronDownIcon}
-                        alt=""
-                        aria-hidden="true"
-                      />
-                    </button>
-                  </InputBaseContainerUI>
-
-                  <InputBaseContainerUI
-                    label="Категория навыка, которому хотите научиться"
+                  <SelectInput
                     id="learnCategory"
-                  >
-                    <button
-                      id="learnCategory"
-                      type="button"
-                      className={styles.selectField}
-                      onClick={() => toggleSelect('learnCategory')}
-                      // TODO: открыть список категорий
-                    >
-                      <span className={styles.selectText}>Выберите категорию</span>
+                    label="Категория навыка, которому хотите научиться"
+                    placeholder="Выберите категорию"
+                    options={CATEGORY_OPTIONS}
+                    isOpen={openSelectId === 'learnCategory'}
+                    onToggle={(next) => setOpenSelectId(next ? 'learnCategory' : null)}
+                  />
 
-                      <img
-                        src={openSelects.learnCategory ? chevronUpIcon : chevronDownIcon}
-                        alt=""
-                        aria-hidden="true"
-                      />
-                    </button>
-                  </InputBaseContainerUI>
-
-                  <InputBaseContainerUI
-                    label="Подкатегория навыка, которому хотите научиться"
+                  <SelectInput
                     id="learnSubcategory"
-                  >
-                    <button
-                      id="learnSubcategory"
-                      type="button"
-                      className={styles.selectField}
-                      onClick={() => toggleSelect('learnSubcategory')}
-                      // TODO: открыть список подкатегорий
-                    >
-                      <span className={styles.selectText}>Выберите подкатегорию</span>
-
-                      <img
-                        src={openSelects.learnSubcategory ? chevronUpIcon : chevronDownIcon}
-                        alt=""
-                        aria-hidden="true"
-                      />
-                    </button>
-                  </InputBaseContainerUI>
+                    label="Подкатегория навыка, которому хотите научиться"
+                    placeholder="Выберите подкатегорию"
+                    options={CATEGORY_OPTIONS}
+                    isOpen={openSelectId === 'learnSubcategory'}
+                    onToggle={(next) => setOpenSelectId(next ? 'learnSubcategory' : null)}
+                  />
                 </div>
 
                 <div className={styles.actions}>
                   <Button type="button" variant="outlined" onClick={handlePrevStep}>
                     Назад
                   </Button>
-
                   <Button type="submit" variant="primary">
                     Продолжить
                   </Button>
@@ -489,10 +456,8 @@ export default function RegisterPage() {
 
             <section className={authStyles.onboarding} aria-label="О платформе">
               <img src={UserInfo} alt="" className={authStyles.onboardingImage} />
-
               <div className={authStyles.onboardingText}>
                 <h2 className={authStyles.onboardingTitle}>Расскажите немного о себе</h2>
-
                 <p className={authStyles.onboardingSubtitle}>
                   Это поможет другим людям лучше вас узнать, чтобы выбрать для обмена
                 </p>
@@ -509,10 +474,7 @@ export default function RegisterPage() {
             >
               <form
                 className={authStyles.formContainer}
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  void handleStepThreeSubmit();
-                }}
+                onSubmit={handleStepThreeSubmit}
                 noValidate
               >
                 <div className={authStyles.fields}>
@@ -524,47 +486,28 @@ export default function RegisterPage() {
                     />
                   </InputBaseContainerUI>
 
-                  <InputBaseContainerUI label="Категория навыка" id="skillCategory">
-                    <button
-                      id="skillCategory"
-                      type="button"
-                      className={styles.selectField}
-                      onClick={() => toggleSelect('skillCategory')}
-                      // TODO: открыть список категорий навыков
-                    >
-                      <span className={styles.selectText}>Выберите категорию навыка</span>
+                  <SelectInput
+                    id="skillCategory"
+                    label="Категория навыка"
+                    placeholder="Выберите категорию навыка"
+                    options={CATEGORY_OPTIONS}
+                    isOpen={openSelectId === 'skillCategory'}
+                    onToggle={(next) => setOpenSelectId(next ? 'skillCategory' : null)}
+                  />
 
-                      <img
-                        src={openSelects.skillCategory ? chevronUpIcon : chevronDownIcon}
-                        alt=""
-                        aria-hidden="true"
-                      />
-                    </button>
-                  </InputBaseContainerUI>
-
-                  <InputBaseContainerUI label="Подкатегория навыка" id="skillSubcategory">
-                    <button
-                      id="skillSubcategory"
-                      type="button"
-                      className={styles.selectField}
-                      onClick={() => toggleSelect('skillSubcategory')}
-                      // TODO: открыть список подкатегорий навыков
-                    >
-                      <span className={styles.selectText}>Выберите подкатегорию навыка</span>
-
-                      <img
-                        src={openSelects.skillSubcategory ? chevronUpIcon : chevronDownIcon}
-                        alt=""
-                        aria-hidden="true"
-                      />
-                    </button>
-                  </InputBaseContainerUI>
+                  <SelectInput
+                    id="skillSubcategory"
+                    label="Подкатегория навыка"
+                    placeholder="Выберите подкатегорию навыка"
+                    options={CATEGORY_OPTIONS}
+                    isOpen={openSelectId === 'skillSubcategory'}
+                    onToggle={(next) => setOpenSelectId(next ? 'skillSubcategory' : null)}
+                  />
 
                   <div className={styles.textareaBlock}>
                     <label htmlFor="description" className={styles.textareaLabel}>
                       Описание
                     </label>
-
                     <textarea
                       id="description"
                       className={styles.textarea}
@@ -574,12 +517,7 @@ export default function RegisterPage() {
 
                   <div className={styles.uploadBlock}>
                     <p className={styles.uploadText}>Перетащите или выберите изображения навыка</p>
-
-                    <button
-                      type="button"
-                      className={styles.uploadButton}
-                      // TODO: открыть выбор изображений
-                    >
+                    <button type="button" className={styles.uploadButton}>
                       <img
                         src={galleryAddIcon}
                         alt=""
@@ -604,10 +542,8 @@ export default function RegisterPage() {
 
             <section className={authStyles.onboarding} aria-label="О платформе">
               <img src={SchoolBoard} alt="" className={authStyles.onboardingImage} />
-
               <div className={authStyles.onboardingText}>
                 <h2 className={authStyles.onboardingTitle}>Укажите, чем вы готовы поделиться</h2>
-
                 <p className={authStyles.onboardingSubtitle}>
                   Так другие люди смогут увидеть ваши предложения и предложить вам обмен!
                 </p>
