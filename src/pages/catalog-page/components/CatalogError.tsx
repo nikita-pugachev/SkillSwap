@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from '@/components/ui/ButtonUI';
+import { Button } from '@/components/ui/Button';
 import styles from './CatalogError.module.scss';
 
 interface CatalogErrorProps {

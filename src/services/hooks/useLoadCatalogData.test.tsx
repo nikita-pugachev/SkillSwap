@@ -15,6 +15,7 @@ const mockSubcategories: Subcategory[] = [];
 const mockSkill: SkillCategory = {
   id: 1,
   title: 'Programming',
+  slug: 'education',
   icon: 'code',
   subcategories: mockSubcategories,
 };

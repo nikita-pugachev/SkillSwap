@@ -135,11 +135,3 @@ export type TSubcategoryOption = {
   categoryId: number;
   categoryTitle: string;
 };
-
-export interface SkillCategory {
-  id: number;
-  title: string;
-  slug: string;
-  icon: string;
-  subcategories: Subcategory[];
-}
