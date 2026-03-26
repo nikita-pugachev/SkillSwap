@@ -91,6 +91,8 @@ export interface UserSkillTeach {
 export interface UserFromDb {
   id: number;
   name: string;
+  email: string;
+  password: string;
   userAvatar: string;
   cityId: number;
   gender: string;
