@@ -103,7 +103,7 @@ export const FavoritesPage: React.FC = () => {
     for (const category of skills) {
       const subcategory = category.subcategories.find((sub) => sub.id === skillId);
       if (subcategory) {
-        return category.slug as SkillCategorySlug;
+        return category.slug;
       }
     }
     return 'other';
@@ -113,7 +113,7 @@ export const FavoritesPage: React.FC = () => {
     const category = skills.find((cat) =>
       cat.subcategories.some((sub) => sub.id === subcategoryId)
     );
-    return category ? (category.slug as SkillCategorySlug) : 'other';
+    return category ? category.slug : 'other';
   };
 
   const handleDetailsClick = (userId: string | number) => {
