@@ -1,8 +1,12 @@
-import { useState, type ChangeEvent, type FocusEvent, type FormEvent } from 'react';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { Controller, useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
 
 import { useDispatch } from 'react-redux';
 import { setToken, setStoredUser } from '@/utils/auth';
+import { createMockToken, findUserByCredentials, toAuthUser } from '@/utils/mock-users';
 
 import type { AppDispatch } from '@/services/store';
 import { login } from '@/services/slices/authSlice';
@@ -23,175 +27,77 @@ type FormValues = {
   password: string;
 };
 
-type FieldName = keyof FormValues;
-type FormErrors = Partial<Record<FieldName, string>>;
+const loginSchema: yup.ObjectSchema<FormValues> = yup
+  .object({
+    email: yup.string().trim().required('Введите email').email('Некорректный email'),
+    password: yup
+      .string()
+      .required('Введите пароль')
+      .min(6, 'Пароль должен содержать не менее 6 символов'),
+  })
+  .required();
 
-type AuthUserFromJson = {
-  id: number;
-  name: string;
-  email: string;
-  password: string;
-  userAvatar: string;
-};
+const getInputFieldProps = <T extends { ref: unknown }>(field: T): Omit<T, 'ref'> => {
+  const { ref, ...rest } = field;
+  void ref;
 
-type UsersResponse = {
-  users: AuthUserFromJson[];
-};
-
-const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-const validateField = (field: FieldName, value: string): string | undefined => {
-  if (field === 'email') {
-    const normalizedValue = value.trim();
-
-    if (!normalizedValue) {
-      return 'Введите email';
-    }
-
-    if (!EMAIL_PATTERN.test(normalizedValue)) {
-      return 'Некорректный email';
-    }
-
-    return undefined;
-  }
-
-  if (!value) {
-    return 'Введите пароль';
-  }
-
-  if (value.length < 6) {
-    return 'Пароль должен содержать не менее 6 знаков';
-  }
-
-  return undefined;
-};
-
-const validateForm = (values: FormValues): FormErrors => {
-  const nextErrors: FormErrors = {};
-
-  (Object.keys(values) as FieldName[]).forEach((field) => {
-    const error = validateField(field, values[field]);
-
-    if (error) {
-      nextErrors[field] = error;
-    }
-  });
-
-  return nextErrors;
+  return rest;
 };
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
-  const [authError, setAuthError] = useState('');
-  const [formValues, setFormValues] = useState<FormValues>({
-    email: '',
-    password: '',
-  });
-  const [errors, setErrors] = useState<FormErrors>({});
 
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
+  const {
+    control,
+    handleSubmit,
+    clearErrors,
+    setError,
+    formState: { errors },
+  } = useForm<FormValues>({
+    resolver: yupResolver(loginSchema),
+    mode: 'onBlur',
+    reValidateMode: 'onChange',
+    defaultValues: {
+      email: '',
+      password: '',
+    },
+  });
 
   const togglePassword = () => {
     setShowPassword((prev) => !prev);
   };
 
-  const handleInputChange = (field: FieldName) => (event: ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value;
-
-    setFormValues((prev) => ({
-      ...prev,
-      [field]: value,
-    }));
-    setAuthError('');
-    setErrors((prev) => {
-      if (!prev[field]) {
-        return prev;
-      }
-
-      const next = { ...prev };
-      const nextError = validateField(field, value);
-
-      if (nextError) {
-        next[field] = nextError;
-      } else {
-        delete next[field];
-      }
-
-      return next;
-    });
-  };
-
-  const handleBlur = (field: FieldName) => (event: FocusEvent<HTMLInputElement>) => {
-    const nextError = validateField(field, event.target.value);
-
-    setErrors((prev) => {
-      const next = { ...prev };
-
-      if (nextError) {
-        next[field] = nextError;
-      } else {
-        delete next[field];
-      }
-
-      return next;
-    });
-  };
-
-  const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    setAuthError('');
-
-    const nextErrors = validateForm(formValues);
-    setErrors(nextErrors);
-
-    if (Object.keys(nextErrors).length > 0) {
-      return;
-    }
+  const onSubmit = handleSubmit(async ({ email, password }) => {
+    clearErrors('root');
 
     try {
-      const response = await fetch('/db/users.json');
-
-      if (!response.ok) {
-        throw new Error('Failed to load users');
-      }
-
-      const usersData: UsersResponse = await response.json();
-
-      const rawRegisteredUsers = localStorage.getItem('registered_users');
-      const registeredUsers: AuthUserFromJson[] = rawRegisteredUsers
-        ? JSON.parse(rawRegisteredUsers)
-        : [];
-
-      const allUsers = [...usersData.users, ...registeredUsers];
-
-      const normalizedEmail = formValues.email.trim().toLowerCase();
-
-      const user = allUsers.find(
-        (item) =>
-          item.email.trim().toLowerCase() === normalizedEmail &&
-          item.password === formValues.password
-      );
+      const user = await findUserByCredentials(email, password);
 
       if (!user) {
-        setAuthError('Неверный email или пароль');
+        setError('root', {
+          type: 'manual',
+          message: 'Неверный email или пароль',
+        });
         return;
       }
 
-      const authUser = {
-        id: user.id,
-        name: user.name,
-        userAvatar: user.userAvatar,
-      };
+      const authUser = toAuthUser(user);
 
-      setToken(`mock-token-${user.id}`);
+      setToken(createMockToken(user.id));
       setStoredUser(authUser);
       dispatch(login(authUser));
       navigate('/', { replace: true });
     } catch {
-      setAuthError('Не удалось выполнить вход. Попробуйте позже');
+      setError('root', {
+        type: 'manual',
+        message: 'Не удалось выполнить вход. Попробуйте позже',
+      });
     }
-  };
+  });
+
+  const authError = typeof errors.root?.message === 'string' ? errors.root.message : undefined;
 
   return (
     <main className={authStyles.main}>
@@ -219,32 +125,50 @@ export default function LoginPage() {
           <div className={styles.authBlock}>
             <form className={authStyles.formContainer} onSubmit={onSubmit} noValidate>
               <div className={authStyles.fields}>
-                <InputBaseContainerUI label="Email" id="email" error={errors.email}>
-                  <InputUI
-                    id="email"
+                <InputBaseContainerUI label="Email" id="email" error={errors.email?.message}>
+                  <Controller
                     name="email"
-                    type="email"
-                    placeholder="Введите email"
-                    value={formValues.email}
-                    onChange={handleInputChange('email')}
-                    onBlur={handleBlur('email')}
+                    control={control}
+                    render={({ field }) => {
+                      const inputField = getInputFieldProps(field);
+
+                      return (
+                        <InputUI
+                          {...inputField}
+                          id="email"
+                          type="email"
+                          placeholder="Введите email"
+                          onChange={(event) => {
+                            clearErrors('root');
+                            inputField.onChange(event);
+                          }}
+                        />
+                      );
+                    }}
                   />
                 </InputBaseContainerUI>
 
-                <InputBaseContainerUI
-                  label="Пароль"
-                  id="password"
-                  error={errors.password || authError}
-                >
+                <InputBaseContainerUI label="Пароль" id="password" error={errors.password?.message}>
                   <div className={authStyles.passwordField}>
-                    <InputUI
-                      id="password"
+                    <Controller
                       name="password"
-                      type={showPassword ? 'text' : 'password'}
-                      placeholder="Введите ваш пароль"
-                      value={formValues.password}
-                      onChange={handleInputChange('password')}
-                      onBlur={handleBlur('password')}
+                      control={control}
+                      render={({ field }) => {
+                        const inputField = getInputFieldProps(field);
+
+                        return (
+                          <InputUI
+                            {...inputField}
+                            id="password"
+                            type={showPassword ? 'text' : 'password'}
+                            placeholder="Введите ваш пароль"
+                            onChange={(event) => {
+                              clearErrors('root');
+                              inputField.onChange(event);
+                            }}
+                          />
+                        );
+                      }}
                     />
 
                     <IconButton
@@ -261,6 +185,12 @@ export default function LoginPage() {
                 Войти
               </Button>
             </form>
+
+            {authError ? (
+              <p className={styles.authError} role="alert">
+                {authError}
+              </p>
+            ) : null}
 
             <Link to="/register" className={styles.registerLink}>
               Зарегистрироваться

@@ -9,6 +9,16 @@
   gap: 12px;
 }
 
+.authError {
+  margin: 0;
+  color: var(--color-error);
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-body);
+  letter-spacing: 0.02em;
+  text-align: center;
+}
+
 .registerLink {
   align-self: center;
   color: var(--color-accent-pressed);

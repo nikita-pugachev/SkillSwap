@@ -1,7 +1,22 @@
 import type { ButtonHTMLAttributes, InputHTMLAttributes, ReactNode } from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import RegisterPage from './register-page';
+
+jest.mock('react-redux', () => ({
+  useDispatch: jest.fn(),
+}));
+
+jest.mock('react-router-dom', () => {
+  const actual = jest.requireActual('react-router-dom');
+
+  return {
+    ...actual,
+    useNavigate: jest.fn(),
+  };
+});
 
 jest.mock('@/components/ui', () => ({
   Button: ({
@@ -50,77 +65,112 @@ jest.mock('@/components/ui', () => ({
 }));
 
 describe('RegisterPage', () => {
-  const renderPage = () =>
-    render(
-      <MemoryRouter>
-        <RegisterPage />
-      </MemoryRouter>
-    );
+  const mockDispatch = jest.fn();
+  const mockNavigate = jest.fn();
+  const renderPage = () => render(<RegisterPage />);
 
-  it('рендерит страницу без ошибок', () => {
-    renderPage();
-    expect(screen.getByRole('heading', { name: 'Шаг 1 из 3' })).toBeInTheDocument();
+  const fillStepOne = async (user: ReturnType<typeof userEvent.setup>) => {
+    await user.type(screen.getByLabelText('Email'), 'test@example.com');
+    await user.type(screen.getByLabelText('Пароль'), 'password123');
+    await user.type(screen.getByLabelText('Подтвердите пароль'), 'password123');
+  };
+
+  beforeEach(() => {
+    (useDispatch as unknown as jest.Mock).mockReturnValue(mockDispatch);
+    (useNavigate as jest.Mock).mockReturnValue(mockNavigate);
+    mockDispatch.mockClear();
+    mockNavigate.mockClear();
+    localStorage.clear();
+    globalThis.fetch = jest.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({ users: [] }),
+    }) as jest.Mock;
   });
 
-  it('отображает поля Email и Пароль на первом шаге', () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+    jest.restoreAllMocks();
+  });
+
+  it('renders first registration step with email and password fields', () => {
     renderPage();
+
+    expect(screen.getByRole('heading', { name: 'Шаг 1 из 3' })).toBeInTheDocument();
     expect(screen.getByLabelText('Email')).toBeInTheDocument();
     expect(screen.getByLabelText('Пароль')).toBeInTheDocument();
+    expect(screen.getByLabelText('Подтвердите пароль')).toBeInTheDocument();
   });
 
-  it('поле Пароль имеет подсказку', () => {
+  it('shows password hint on the first step', () => {
     renderPage();
-    expect(screen.getByText('Пароль должен содержать не менее 8 знаков')).toBeInTheDocument();
+
+    expect(screen.getByText('Пароль должен содержать не менее 6 символов')).toBeInTheDocument();
   });
 
-  it('кнопка "Далее" присутствует', () => {
+  it('renders social buttons and the next action', () => {
     renderPage();
+
+    expect(screen.getByRole('button', { name: 'Продолжить с Google' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Продолжить с Apple' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Далее' })).toBeInTheDocument();
   });
 
-  it('кнопки соцсетей присутствуют', () => {
-    renderPage();
-    expect(screen.getByRole('button', { name: 'Продолжить с Google' })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Продолжить с Apple' })).toBeInTheDocument();
-  });
-
-  it('пароль можно показать/скрыть', () => {
+  it('toggles the password visibility', () => {
     renderPage();
     const passwordInput = screen.getByLabelText('Пароль') as HTMLInputElement;
-    const toggleButton = screen.getByRole('button', { name: /показать пароль/i });
+    const toggleButton = screen.getByRole('button', { name: /Показать пароль/i });
 
     expect(passwordInput).toHaveAttribute('type', 'password');
 
     fireEvent.click(toggleButton);
     expect(passwordInput).toHaveAttribute('type', 'text');
-    expect(screen.getByRole('button', { name: /скрыть пароль/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Скрыть пароль/i })).toBeInTheDocument();
 
-    fireEvent.click(screen.getByRole('button', { name: /скрыть пароль/i }));
+    fireEvent.click(screen.getByRole('button', { name: /Скрыть пароль/i }));
     expect(passwordInput).toHaveAttribute('type', 'password');
-    expect(screen.getByRole('button', { name: /показать пароль/i })).toBeInTheDocument();
   });
 
-  it('переход к следующему шагу по кнопке "Далее"', () => {
+  it('moves to the second step after valid first-step data', async () => {
+    const user = userEvent.setup();
+
     renderPage();
-    const nextButton = screen.getByRole('button', { name: 'Далее' });
-    fireEvent.click(nextButton);
-    expect(screen.getByText('Шаг 2 из 3')).toBeInTheDocument();
+    await fillStepOne(user);
+
+    await user.click(screen.getByRole('button', { name: 'Далее' }));
+
+    await waitFor(() => {
+      expect(screen.getByRole('heading', { name: 'Шаг 2 из 3' })).toBeInTheDocument();
+    });
   });
 
-  it('переход на предыдущий шаг по кнопке "Назад" на шаге 2', () => {
-    renderPage();
-    fireEvent.click(screen.getByRole('button', { name: 'Далее' }));
-    expect(screen.getByText('Шаг 2 из 3')).toBeInTheDocument();
+  it('moves back to the first step from step two', async () => {
+    const user = userEvent.setup();
 
-    const backButton = screen.getByRole('button', { name: 'Назад' });
-    fireEvent.click(backButton);
-    expect(screen.getByText('Шаг 1 из 3')).toBeInTheDocument();
+    renderPage();
+    await fillStepOne(user);
+
+    await user.click(screen.getByRole('button', { name: 'Далее' }));
+
+    await waitFor(() => {
+      expect(screen.getByRole('heading', { name: 'Шаг 2 из 3' })).toBeInTheDocument();
+    });
+
+    await user.click(screen.getByRole('button', { name: 'Назад' }));
+    expect(screen.getByRole('heading', { name: 'Шаг 1 из 3' })).toBeInTheDocument();
   });
 
-  it('отображает поля шага 2', () => {
+  it('renders step two fields after completing step one', async () => {
+    const user = userEvent.setup();
+
     renderPage();
-    fireEvent.click(screen.getByRole('button', { name: 'Далее' }));
-    expect(screen.getByLabelText('Имя')).toBeInTheDocument();
+    await fillStepOne(user);
+
+    await user.click(screen.getByRole('button', { name: 'Далее' }));
+
+    await waitFor(() => {
+      expect(screen.getByLabelText('Имя')).toBeInTheDocument();
+    });
+
     expect(screen.getByLabelText('Дата рождения')).toBeInTheDocument();
     expect(screen.getByLabelText('Пол')).toBeInTheDocument();
     expect(screen.getByLabelText('Город')).toBeInTheDocument();
@@ -132,14 +182,138 @@ describe('RegisterPage', () => {
     ).toBeInTheDocument();
   });
 
-  it('отображает поля шага 3', () => {
+  it('renders step three fields after completing step two', async () => {
+    const user = userEvent.setup();
+
     renderPage();
-    fireEvent.click(screen.getByRole('button', { name: 'Далее' }));
-    fireEvent.click(screen.getByRole('button', { name: 'Продолжить' }));
-    expect(screen.getByText('Шаг 3 из 3')).toBeInTheDocument();
+    await fillStepOne(user);
+
+    await user.click(screen.getByRole('button', { name: 'Далее' }));
+
+    await waitFor(() => {
+      expect(screen.getByLabelText('Имя')).toBeInTheDocument();
+    });
+
+    await user.type(screen.getByLabelText('Имя'), 'Иван');
+    await user.click(screen.getByRole('button', { name: 'Продолжить' }));
+
+    await waitFor(() => {
+      expect(screen.getByRole('heading', { name: 'Шаг 3 из 3' })).toBeInTheDocument();
+    });
+
     expect(screen.getByLabelText('Название навыка')).toBeInTheDocument();
     expect(screen.getByLabelText('Категория навыка')).toBeInTheDocument();
     expect(screen.getByLabelText('Подкатегория навыка')).toBeInTheDocument();
     expect(screen.getByLabelText('Описание')).toBeInTheDocument();
+  });
+
+  it('shows inline validation errors for empty first-step fields', async () => {
+    const user = userEvent.setup();
+
+    renderPage();
+
+    await user.click(screen.getByRole('button', { name: 'Далее' }));
+
+    expect(await screen.findByText('Введите email')).toBeInTheDocument();
+    expect(await screen.findByText('Введите пароль')).toBeInTheDocument();
+    expect(await screen.findByText('Подтвердите пароль', { selector: 'span' })).toBeInTheDocument();
+  });
+
+  it('shows mismatch error when passwords are different', async () => {
+    const user = userEvent.setup();
+
+    renderPage();
+
+    await user.type(screen.getByLabelText('Email'), 'test@example.com');
+    await user.type(screen.getByLabelText('Пароль'), 'password123');
+    await user.type(screen.getByLabelText('Подтвердите пароль'), 'password321');
+    await user.click(screen.getByRole('button', { name: 'Далее' }));
+
+    expect(await screen.findByText('Пароли не совпадают')).toBeInTheDocument();
+  });
+
+  it('shows duplicate email error when user already exists', async () => {
+    const user = userEvent.setup();
+
+    (globalThis.fetch as jest.Mock).mockResolvedValue({
+      ok: true,
+      json: async () => ({
+        users: [
+          {
+            id: 1,
+            name: 'Иван',
+            email: 'test@example.com',
+            password: 'password123',
+            userAvatar: '/src/assets/user-avatars/ivan.png',
+          },
+        ],
+      }),
+    });
+
+    renderPage();
+    await fillStepOne(user);
+    await user.click(screen.getByRole('button', { name: 'Далее' }));
+
+    expect(
+      await screen.findByText('Пользователь с таким email уже существует')
+    ).toBeInTheDocument();
+  });
+
+  it('shows name validation error on the second step', async () => {
+    const user = userEvent.setup();
+
+    renderPage();
+    await fillStepOne(user);
+    await user.click(screen.getByRole('button', { name: 'Далее' }));
+
+    await waitFor(() => {
+      expect(screen.getByLabelText('Имя')).toBeInTheDocument();
+    });
+
+    await user.click(screen.getByRole('button', { name: 'Продолжить' }));
+
+    expect(await screen.findByText('Введите имя')).toBeInTheDocument();
+  });
+
+  it('creates account, logs in user and redirects after successful registration', async () => {
+    const user = userEvent.setup();
+
+    renderPage();
+    await fillStepOne(user);
+    await user.click(screen.getByRole('button', { name: 'Далее' }));
+
+    await waitFor(() => {
+      expect(screen.getByLabelText('Имя')).toBeInTheDocument();
+    });
+
+    await user.type(screen.getByLabelText('Имя'), 'Иван');
+    await user.click(screen.getByRole('button', { name: 'Продолжить' }));
+
+    await waitFor(() => {
+      expect(screen.getByRole('heading', { name: 'Шаг 3 из 3' })).toBeInTheDocument();
+    });
+
+    await user.click(screen.getByRole('button', { name: 'Продолжить' }));
+
+    await waitFor(() => {
+      expect(mockDispatch).toHaveBeenCalled();
+      expect(mockNavigate).toHaveBeenCalledWith('/', { replace: true });
+    });
+
+    expect(localStorage.getItem('token')).toBe('mock-token-1001');
+    expect(JSON.parse(localStorage.getItem('auth_user') ?? 'null')).toEqual({
+      id: 1001,
+      name: 'Иван',
+      userAvatar: 'test-file-stub',
+    });
+    expect(JSON.parse(localStorage.getItem('registered_users') ?? '[]')).toEqual([
+      expect.objectContaining({
+        id: 1001,
+        name: 'Иван',
+        email: 'test@example.com',
+        password: 'password123',
+        userAvatar: 'test-file-stub',
+      }),
+    ]);
   });
 });
