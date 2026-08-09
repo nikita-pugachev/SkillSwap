@@ -1,10 +1,9 @@
-# SkillSwap
+# 🎓 Платформа обмена навыками SkillSwap
 
-Платформа обмена навыками: пользователи предлагают свои умения и находят тех, кто может помочь им в ответ.
+## О проекте
+SkillSwap - это проект командной разработки. Он предназначен для обмена навыками между людьми, это можно назвать некой фриланс площадкой. Моими задачами в команде были: разработка части UI компонентов, внедрение логики авторизации пользователя и возможности смены данных, создание некоторых страниц, написание тестов.
 
----
-
-## Стек
+## 💻 Используемые технологии
 
 - **React 19** + **TypeScript**
 - **Redux Toolkit** + **React-Redux** — управление состоянием
@@ -13,8 +12,6 @@
 - **Jest 30** + **React Testing Library** — unit-тесты
 - **Husky** + **commitlint** — git-хуки, Conventional Commits
 - **GitHub Actions** — CI (lint + тесты на каждый PR/push)
-
----
 
 ## Структура проекта
 
@@ -32,122 +29,16 @@ src/
 └── pages/        # Страницы: Home, Profile, Skill, Favorites
 ```
 
----
-
-## Установка
-
+## ▶️ Установка и запуск 
+**1. Клонирование репозитория**
 ```bash
-npm install
+git clone git@github.com:nikita-pugachev/SkillSwap.git
 ```
+**2. Запуск**
+* Открыть проект в VS code или другом IDE.
+* Установить зависимости 'npm install'
+* Запустить проект с помощью комадны для терминала 'npm run dev'
 
-## Запуск
-
-```bash
-npm run dev
-```
-
----
-
-## Команды
-
-### Разработка
-
-| Команда          | Описание               |
-| ---------------- | ---------------------- |
-| `npm run dev`    | Запуск dev-сервера     |
-| `npm run build`  | Production-сборка      |
-| `npm run preview`| Предпросмотр сборки    |
-
-### Тесты
-
-| Команда                   | Описание                          |
-| ------------------------- | --------------------------------- |
-| `npm test`                | Запуск тестов (Jest)              |
-| `npm run test:coverage`   | Тесты с отчётом о покрытии        |
-
-### Линтинг и форматирование
-
-| Команда                 | Описание                                          |
-| ----------------------- | ------------------------------------------------- |
-| `npm run lint`          | Проверка TS/TSX через ESLint                      |
-| `npm run lint:fix`      | Автоисправление ESLint                            |
-| `npm run format`        | Форматирование Prettier                           |
-| `npm run format:check`  | Проверка форматирования без изменений             |
-| `npm run stylelint`     | Проверка CSS/SCSS                                 |
-| `npm run stylelint:fix` | Автоисправление стилей                            |
-| `npm run check`         | Полная проверка (lint + stylelint + format:check) |
-
----
-
-## Git-воркфлоу
-
-```
-main
- └── dev         <- вся разработка ведётся здесь
-      ├── feature/auth
-      ├── feature/skills
-      ├── fix/some-bug
-      └── ...
-```
-
-### Правила
-
-- **`main`** — стабильная версия. Прямые коммиты запрещены.
-- **`dev`** — основная ветка для разработки. Все PR открываются в `dev`.
-- Для каждой задачи создаётся отдельная ветка от `dev`:
-  ```bash
-  git checkout dev
-  git pull origin dev
-  git checkout -b feature/название-задачи
-  ```
-- После завершения — открыть PR в `dev`, пройти код-ревью тимлида.
-- Называть ветки по шаблону: `feature/`, `fix/`, `refactor/`
-
----
-
-## Соглашения
-
-- Каждая фича — изолированный модуль в `features/`
-- Общие компоненты без бизнес-логики — в `widgets/`
-- Типы и интерфейсы моделей — в `entities/`
-- Все API-запросы — только через `api/`
-
----
-
-## Тестирование
-
-Тесты пишутся рядом с тестируемым модулем в файлах `*.test.tsx` / `*.test.ts`.
-
-```bash
-npm test                 # запустить все тесты
-npm run test:coverage    # с отчётом о покрытии
-```
-
-Цель — покрытие **≥ 70%**.
-
----
-
-## CI
-
-GitHub Actions запускает два job-а на каждый push/PR в `main`:
-
-1. **lint** — `npm run check`
-2. **test** — `npm test -- --coverage`
-
-Статус пайплайна виден в PR перед мержем.
-
----
-
-## Conventional Commits
-
-Формат сообщений коммитов проверяется автоматически (Husky + commitlint):
-
-```
-<type>(<scope>): <описание>
-
-feat: add skill card component
-fix: correct avatar upload validation
-chore: update dependencies
-```
-
-Допустимые типы: `feat`, `fix`, `refactor`, `chore`, `docs`, `test`, `style`, `ci`.
+## ✉️ Контакты автора
+[![Telegram](https://img.shields.io/badge/-Telegram-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white)](https://t.me/RUSSS1NG)
+[![Gmail](https://img.shields.io/badge/Gmail-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:RUSSSSing@yandex.ru)
