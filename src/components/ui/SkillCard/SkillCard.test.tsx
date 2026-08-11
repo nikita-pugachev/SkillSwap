@@ -52,7 +52,7 @@ describe('SkillCard Component', () => {
   it('renders custom author block matching mockup', () => {
     render(<SkillCard {...mockProps} />);
     expect(screen.getByText('Александр Афанасьев')).toBeInTheDocument();
-    expect(screen.getByText(/Москва, \d+ лет/)).toBeInTheDocument();
+    expect(screen.getByText(/Москва, \d+ (год|года|лет)/)).toBeInTheDocument();
     expect(screen.getAllByTestId('skill-tag').length).toBe(2);
   });
 

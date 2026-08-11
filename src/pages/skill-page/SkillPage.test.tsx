@@ -151,6 +151,15 @@ const mockSkills = [
 const mockUsers = {
   users: [
     {
+      id: 1,
+      name: 'Иван',
+      userAvatar: '/avatar-ivan.jpg',
+      cityId: 2,
+      birthday: '1992-03-29',
+      skillsTeach: [{ subcategoryId: 404, customTitle: 'Барабаны' }],
+      skillsLearn: [106],
+    },
+    {
       id: 2,
       name: 'Анна',
       userAvatar: '/avatar.jpg',
