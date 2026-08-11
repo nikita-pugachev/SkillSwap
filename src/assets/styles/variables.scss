@@ -1,0 +1,114 @@
+:root {
+  /* Цветовая палитра */
+
+  /* Основной текст */
+  --color-text-primary: #253017;
+  --color-text-secondary: #69735d;
+  --color-text-disabled: #9ca197;
+
+  /* UI */
+  --color-toggle: #b2b9a9;
+  --color-disabled: #e4e8df;
+  --color-surface: #fff;
+  --color-overlay: #8e8e8e99;
+  --color-accent: #abd27a;
+  --color-accent-pressed: #508826;
+  --color-button-hover: #deebc5;
+  --color-input-hover: #e4e8df;
+  --color-input-border: #69735d;
+  --color-scroll: #e4e8df;
+  --color-icon: var(--color-text-primary);
+  --icon-filter: none;
+
+  /* Фокус */
+  --color-focus: var(--color-accent);
+
+  /* Фон */
+  --color-bg: #f9faf7;
+
+  /* Системные */
+  --color-alarm: #e0796e;
+  --color-error: #bf3920;
+
+  /* Цвет тэгов */
+  --color-tag-business: #eeeff7;
+  --color-tag-art: #f7eff2;
+  --color-tag-languages: #ebebc5;
+  --color-tag-education: #e7f2f6;
+  --color-tag-home: #f7ebe5;
+  --color-tag-health: #e9f7e7;
+  --color-tag-other: #e8ecf7;
+
+  /* Типографика */
+
+  /* Шрифты */
+  --font-family-base: 'Roboto', sans-serif;
+  --font-family-heading: 'Jost', sans-serif;
+  --font-family-other: 'Open Sans', sans-serif;
+
+  /* Размеры шрифтов */
+  --font-size-caption: 12px;
+  --font-size-body: 16px;
+  --font-size-h4: 16px;
+  --font-size-h3: 20px;
+  --font-size-h2: 24px;
+  --font-size-h1: 32px;
+
+  /* Межстрочные интервалы */
+  --line-height-caption: 16px;
+  --line-height-body: 24px;
+  --line-height-h4: 24px;
+  --line-height-h3: 24px;
+  --line-height-h2: 32px;
+  --line-height-h1: 40px;
+
+  /* Начертания */
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+
+  /* Радиусы */
+  --radius-primary: 12px;
+  --radius-secondary: 24px;
+  --radius-tag: 20px;
+  --radius-circle: 50%;
+}
+
+:root[data-theme='dark'] {
+  /* Основной текст */
+  --color-text-primary: #e6edd9;
+  --color-text-secondary: #aab39e;
+  --color-text-disabled: #6d7464;
+
+  /* UI */
+  --color-toggle: #6d7464;
+  --color-disabled: #2a3023;
+  --color-surface: #1e2419;
+  --color-overlay: #0009;
+  --color-accent: #abd27a;
+  --color-accent-pressed: #86b65a;
+  --color-button-hover: #37422a;
+  --color-input-hover: #2a3023;
+  --color-input-border: #8f9b82;
+  --color-icon: var(--color-text-primary);
+  --icon-filter: brightness(0) invert(1);
+
+  /* Фокус */
+  --color-focus: #c5e79b;
+
+  /* Фон */
+  --color-bg: #12170f;
+
+  /* Системные */
+  --color-alarm: #ff9b8e;
+  --color-error: #ff7f6b;
+
+  /* Цвет тэгов */
+  --color-tag-business: rgb(238 239 247 / 14%);
+  --color-tag-art: rgb(247 239 242 / 14%);
+  --color-tag-languages: rgb(235 235 197 / 14%);
+  --color-tag-education: rgb(231 242 246 / 14%);
+  --color-tag-home: rgb(247 235 229 / 14%);
+  --color-tag-health: rgb(233 247 231 / 14%);
+  --color-tag-other: rgb(232 236 247 / 14%);
+}

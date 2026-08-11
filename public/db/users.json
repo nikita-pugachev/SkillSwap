@@ -1,0 +1,1136 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "Иван",
+      "email": "ivan92@gmail.com",
+      "password": "748291",
+      "userAvatar": "/src/assets/user-avatars/ivan.png",
+      "cityId": 2,
+      "gender": "male",
+      "birthday": "1992-03-29",
+      "about": "Привет! Люблю ритм, кофе по утрам и людей, которые не боятся пробовать новое.",
+      "skillsTeach": [
+        {
+          "id": 1001,
+          "customTitle": "Игра на барабанах",
+          "subcategoryId": 404,
+          "description": "Привет! Я играю на барабанах уже больше 10 лет — от репетиций в гараже до выступлений на сцене с живыми группами. Научу основам техники (и как не отбить себе пальцы), играть любимые ритмы и разбирать песни, импровизировать и звучать уверенно даже без партитуры.",
+          "images": [
+            "https://i.pinimg.com/736x/83/b3/01/83b30199926253130693af35f6f55ba8.jpg",
+            "https://i.pinimg.com/736x/ea/c3/e8/eac3e85e8c4ce2abfaf009fb12b2fbf8.jpg",
+            "https://i.pinimg.com/1200x/b7/da/b2/b7dab2be7395412771b7e768f780b437.jpg",
+            "https://i.pinimg.com/736x/f2/da/db/f2dadbd54d3792cd8d82497385600997.jpg",
+            "https://i.pinimg.com/736x/03/4b/9f/034b9ff09e91c5655f976206da0dcee5.jpg"
+          ]
+        }
+      ],
+      "skillsLearn": [106, 601, 201, 501],
+      "likes": 50,
+      "createdAt": "2026-01-01"
+    },
+    {
+      "id": 2,
+      "name": "Анна",
+      "email": "anna.way@mail.ru",
+      "password": "an2047",
+      "userAvatar": "/src/assets/user-avatars/anna.png",
+      "cityId": 5,
+      "gender": "female",
+      "birthday": "2000-07-15",
+      "about": "Обожаю языки и путешествия. Помогу разговориться на английском без зубрежки таблиц.",
+      "skillsTeach": [
+        {
+          "id": 1002,
+          "customTitle": "Английский язык",
+          "subcategoryId": 201,
+          "description": "Помогу преодолеть языковой барьер. Обсуждаем сериалы, мемы и реальные жизненные ситуации на английском.",
+          "images": [
+            "https://i.pinimg.com/736x/95/49/21/954921f2d4fc1db1832761f2a3ec8863.jpg",
+            "https://i.pinimg.com/736x/44/c9/6a/44c96a2e2d4619b0e7909048e1f4007e.jpg",
+            "https://i.pinimg.com/736x/19/e6/84/19e684e8ce8bdf6491a6495f56c60b11.jpg",
+            "https://i.pinimg.com/736x/24/bb/2e/24bb2eb2614d6ada57d2100c2dab521d.jpg"
+          ]
+        }
+      ],
+      "skillsLearn": [106, 601],
+      "likes": 42,
+      "createdAt": "2026-01-05"
+    },
+    {
+      "id": 3,
+      "name": "Михаил",
+      "email": "mikhail@yandex.ru",
+      "password": "562819",
+      "userAvatar": "/src/assets/user-avatars/michael.png",
+      "cityId": 3,
+      "gender": "male",
+      "birthday": "1997-11-02",
+      "about": "IT-специалист, диджитал номад. Знаю, как важно уметь доносить свои мысли четко.",
+      "skillsTeach": [
+        {
+          "id": 1003,
+          "customTitle": "Английский язык",
+          "subcategoryId": 201,
+          "description": "Технический английский для IT-специалистов. Подготовка к собеседованиям в зарубежные компании.",
+          "images": [
+            "https://i.pinimg.com/736x/95/49/21/954921f2d4fc1db1832761f2a3ec8863.jpg",
+            "https://i.pinimg.com/736x/44/c9/6a/44c96a2e2d4619b0e7909048e1f4007e.jpg",
+            "https://i.pinimg.com/736x/19/e6/84/19e684e8ce8bdf6491a6495f56c60b11.jpg",
+            "https://i.pinimg.com/736x/24/bb/2e/24bb2eb2614d6ada57d2100c2dab521d.jpg"
+          ]
+        }
+      ],
+      "skillsLearn": [106, 601],
+      "likes": 15,
+      "createdAt": "2026-01-10"
+    },
+    {
+      "id": 4,
+      "name": "Екатерина",
+      "email": "katya.ek@icloud.com",
+      "password": "ek84mn2",
+      "userAvatar": "/src/assets/user-avatars/ekaterina.png",
+      "cityId": 35,
+      "gender": "female",
+      "birthday": "1993-05-20",
+      "about": "Преподаватель со стажем. Верю, что учиться никогда не поздно.",
+      "skillsTeach": [
+        {
+          "id": 1004,
+          "customTitle": "Английский язык",
+          "subcategoryId": 201,
+          "description": "Грамматика по полочкам. Объясню времена так, что вы их больше никогда не перепутаете.",
+          "images": [
+            "https://i.pinimg.com/736x/95/49/21/954921f2d4fc1db1832761f2a3ec8863.jpg",
+            "https://i.pinimg.com/736x/44/c9/6a/44c96a2e2d4619b0e7909048e1f4007e.jpg",
+            "https://i.pinimg.com/736x/19/e6/84/19e684e8ce8bdf6491a6495f56c60b11.jpg",
+            "https://i.pinimg.com/736x/24/bb/2e/24bb2eb2614d6ada57d2100c2dab521d.jpg"
+          ]
+        }
+      ],
+      "skillsLearn": [106, 601, 301, 302],
+      "likes": 88,
+      "createdAt": "2026-01-12"
+    },
+    {
+      "id": 5,
+      "name": "Илона",
+      "email": "ilona.voice@bk.ru",
+      "password": "993420",
+      "userAvatar": "/src/assets/user-avatars/ilona.png",
+      "cityId": 4,
+      "gender": "female",
+      "birthday": "1993-09-10",
+      "about": "Помогаю людям найти свой голос на иностранном языке.",
+      "skillsTeach": [
+        {
+          "id": 1005,
+          "customTitle": "Английский язык",
+          "subcategoryId": 201,
+          "description": "Разговорный клуб: практика речи, постановка произношения, избавление от акцента.",
+          "images": [
+            "https://i.pinimg.com/736x/95/49/21/954921f2d4fc1db1832761f2a3ec8863.jpg",
+            "https://i.pinimg.com/736x/44/c9/6a/44c96a2e2d4619b0e7909048e1f4007e.jpg",
+            "https://i.pinimg.com/736x/19/e6/84/19e684e8ce8bdf6491a6495f56c60b11.jpg",
+            "https://i.pinimg.com/736x/24/bb/2e/24bb2eb2614d6ada57d2100c2dab521d.jpg"
+          ]
+        }
+      ],
+      "skillsLearn": [106, 601],
+      "likes": 55,
+      "createdAt": "2026-01-14"
+    },
+    {
+      "id": 6,
+      "name": "Мария",
+      "email": "maria30@outlook.com",
+      "password": "mari305",
+      "userAvatar": "/src/assets/user-avatars/maria.png",
+      "cityId": 24,
+      "gender": "female",
+      "birthday": "2005-01-30",
+      "about": "Студентка лингвистического. Много общаюсь с нейтивами и готова делиться сленгом.",
+      "skillsTeach": [
+        {
+          "id": 1006,
+          "customTitle": "Английский язык",
+          "subcategoryId": 201,
+          "description": "Современный английский. Учимся понимать носителей, подкасты и YouTube без субтитров.",
+          "images": [
+            "https://i.pinimg.com/736x/95/49/21/954921f2d4fc1db1832761f2a3ec8863.jpg",
+            "https://i.pinimg.com/736x/44/c9/6a/44c96a2e2d4619b0e7909048e1f4007e.jpg",
+            "https://i.pinimg.com/736x/19/e6/84/19e684e8ce8bdf6491a6495f56c60b11.jpg",
+            "https://i.pinimg.com/736x/24/bb/2e/24bb2eb2614d6ada57d2100c2dab521d.jpg"
+          ]
+        }
+      ],
+      "skillsLearn": [106, 601, 301, 302],
+      "likes": 112,
+      "createdAt": "2026-01-15"
+    },
+    {
+      "id": 7,
+      "name": "Константин",
+      "email": "kostya.biz@inbox.ru",
+      "password": "847201",
+      "userAvatar": "/src/assets/user-avatars/konstantin.png",
+      "cityId": 18,
+      "gender": "male",
+      "birthday": "1990-12-05",
+      "about": "Бизнес-аналитик. Часто езжу в командировки. Научу вас питчить идеи на инглише.",
+      "skillsTeach": [
+        {
+          "id": 1007,
+          "customTitle": "Английский язык",
+          "subcategoryId": 201,
+          "description": "Бизнес-английский. Как вести переписку, составлять отчеты и не краснеть на созвонах с партнерами.",
+          "images": [
+            "https://i.pinimg.com/736x/95/49/21/954921f2d4fc1db1832761f2a3ec8863.jpg",
+            "https://i.pinimg.com/736x/44/c9/6a/44c96a2e2d4619b0e7909048e1f4007e.jpg",
+            "https://i.pinimg.com/736x/19/e6/84/19e684e8ce8bdf6491a6495f56c60b11.jpg",
+            "https://i.pinimg.com/736x/24/bb/2e/24bb2eb2614d6ada57d2100c2dab521d.jpg"
+          ]
+        }
+      ],
+      "skillsLearn": [106, 601, 408],
+      "likes": 34,
+      "createdAt": "2026-01-18"
+    },
+    {
+      "id": 8,
+      "name": "Елена",
+      "email": "elena.travel@mail.ru",
+      "password": "elen882",
+      "userAvatar": "/src/assets/user-avatars/elena.png",
+      "cityId": 25,
+      "gender": "female",
+      "birthday": "1998-08-22",
+      "about": "Всегда в движении. Считаю, что обмен знаниями — это лучший нетворкинг.",
+      "skillsTeach": [
+        {
+          "id": 1008,
+          "customTitle": "Английский язык",
+          "subcategoryId": 201,
+          "description": "Английский для путешествий: аэропорт, отель, ресторан. Выживем в любой стране!",
+          "images": [
+            "https://i.pinimg.com/736x/95/49/21/954921f2d4fc1db1832761f2a3ec8863.jpg",
+            "https://i.pinimg.com/736x/44/c9/6a/44c96a2e2d4619b0e7909048e1f4007e.jpg",
+            "https://i.pinimg.com/736x/19/e6/84/19e684e8ce8bdf6491a6495f56c60b11.jpg",
+            "https://i.pinimg.com/736x/24/bb/2e/24bb2eb2614d6ada57d2100c2dab521d.jpg"
+          ]
+        }
+      ],
+      "skillsLearn": [106, 601],
+      "likes": 67,
+      "createdAt": "2026-01-20"
+    },
+    {
+      "id": 9,
+      "name": "Елизавета",
+      "email": "liza14@gmail.com",
+      "password": "651290",
+      "userAvatar": "/src/assets/user-avatars/elizaveta.png",
+      "cityId": 12,
+      "gender": "female",
+      "birthday": "2001-04-14",
+      "about": "Читаю Шекспира в оригинале. Готова стать вашим проводником в мир языков.",
+      "skillsTeach": [
+        {
+          "id": 1009,
+          "customTitle": "Английский язык",
+          "subcategoryId": 201,
+          "description": "Подтягиваем уровень с нуля до уверенного B1. Только полезная лексика и никакой скуки.",
+          "images": [
+            "https://i.pinimg.com/736x/95/49/21/954921f2d4fc1db1832761f2a3ec8863.jpg",
+            "https://i.pinimg.com/736x/44/c9/6a/44c96a2e2d4619b0e7909048e1f4007e.jpg",
+            "https://i.pinimg.com/736x/19/e6/84/19e684e8ce8bdf6491a6495f56c60b11.jpg",
+            "https://i.pinimg.com/736x/24/bb/2e/24bb2eb2614d6ada57d2100c2dab521d.jpg"
+          ]
+        }
+      ],
+      "skillsLearn": [404, 204, 101],
+      "likes": 21,
+      "createdAt": "2026-01-22"
+    },
+    {
+      "id": 10,
+      "name": "Дарья",
+      "email": "daria.crea@icloud.com",
+      "password": "dari218",
+      "userAvatar": "/src/assets/user-avatars/daria.png",
+      "cityId": 60,
+      "gender": "female",
+      "birthday": "2000-02-18",
+      "about": "Креатор, дизайнер. Ищу людей, с которыми можно развиваться вместе.",
+      "skillsTeach": [
+        {
+          "id": 1010,
+          "customTitle": "Английский язык",
+          "subcategoryId": 201,
+          "description": "Учим язык по любимым песням и фильмам. Разбираем идиомы и скрытые смыслы текстов.",
+          "images": [
+            "https://i.pinimg.com/736x/95/49/21/954921f2d4fc1db1832761f2a3ec8863.jpg",
+            "https://i.pinimg.com/736x/44/c9/6a/44c96a2e2d4619b0e7909048e1f4007e.jpg",
+            "https://i.pinimg.com/736x/19/e6/84/19e684e8ce8bdf6491a6495f56c60b11.jpg",
+            "https://i.pinimg.com/736x/24/bb/2e/24bb2eb2614d6ada57d2100c2dab521d.jpg"
+          ]
+        }
+      ],
+      "skillsLearn": [106, 601],
+      "likes": 95,
+      "createdAt": "2026-01-25"
+    },
+    {
+      "id": 11,
+      "name": "Максим",
+      "email": "max.start@outlook.com",
+      "password": "max11103",
+      "userAvatar": "/src/assets/user-avatars/maxim.png",
+      "cityId": 1,
+      "gender": "male",
+      "birthday": "2003-11-11",
+      "about": "Молодой предприниматель. Запустил два стартапа, сейчас ищу дзен и баланс.",
+      "skillsTeach": [
+        {
+          "id": 1011,
+          "customTitle": "Бизнес-план",
+          "subcategoryId": 108,
+          "description": "Помогу превратить идею в пошаговый бизнес-план. Разберем юнит-экономику, целевую аудиторию и стратегию выхода на рынок.",
+          "images": [
+            "https://i.pinimg.com/736x/cf/d5/8e/cfd58ec52156c7161f46dd27edf9a7c9.jpg",
+            "https://i.pinimg.com/736x/7c/53/72/7c5372dcda2da9e159bbeda983ec8379.jpg",
+            "https://i.pinimg.com/1200x/11/51/22/115122a251fecf8a1261ee2858abe4c7.jpg",
+            "https://i.pinimg.com/736x/9a/dd/7d/9add7dd2c439d577371632b2a95394fa.jpg",
+            "https://i.pinimg.com/736x/1d/5d/95/1d5d95d6301bca0800a5d9b932d3199a.jpg"
+          ]
+        }
+      ],
+      "skillsLearn": [106, 603],
+      "likes": 113,
+      "createdAt": "2026-01-27"
+    },
+    {
+      "id": 12,
+      "name": "Виктория",
+      "email": "vika.teacher@yandex.ru",
+      "password": "vika630",
+      "userAvatar": "/src/assets/user-avatars/viktoria-1.png",
+      "cityId": 21,
+      "gender": "female",
+      "birthday": "1996-06-30",
+      "about": "Учительница, которая любит общаться с людьми из других сфер.",
+      "skillsTeach": [
+        {
+          "id": 1012,
+          "customTitle": "Английский язык",
+          "subcategoryId": 201,
+          "description": "Помогаю взрослым начать говорить. Моя методика снимает страх сделать ошибку.",
+          "images": [
+            "https://i.pinimg.com/736x/95/49/21/954921f2d4fc1db1832761f2a3ec8863.jpg",
+            "https://i.pinimg.com/736x/44/c9/6a/44c96a2e2d4619b0e7909048e1f4007e.jpg",
+            "https://i.pinimg.com/736x/19/e6/84/19e684e8ce8bdf6491a6495f56c60b11.jpg",
+            "https://i.pinimg.com/736x/24/bb/2e/24bb2eb2614d6ada57d2100c2dab521d.jpg"
+          ]
+        }
+      ],
+      "skillsLearn": [106, 601],
+      "likes": 44,
+      "createdAt": "2026-01-28"
+    },
+    {
+      "id": 13,
+      "name": "Виктория",
+      "email": "viktoria2@gmail.com",
+      "password": "vika8802",
+      "userAvatar": "/src/assets/user-avatars/viktoria-2.png",
+      "cityId": 43,
+      "gender": "female",
+      "birthday": "1995-03-08",
+      "about": "Живу у моря, много читаю, преподаю языки онлайн.",
+      "skillsTeach": [
+        {
+          "id": 1013,
+          "customTitle": "Английский язык",
+          "subcategoryId": 201,
+          "description": "Письменный английский. Учимся писать эссе, красивые письма и посты в соцсетях как нейтивы.",
+          "images": [
+            "https://i.pinimg.com/736x/95/49/21/954921f2d4fc1db1832761f2a3ec8863.jpg",
+            "https://i.pinimg.com/736x/44/c9/6a/44c96a2e2d4619b0e7909048e1f4007e.jpg",
+            "https://i.pinimg.com/736x/19/e6/84/19e684e8ce8bdf6491a6495f56c60b11.jpg",
+            "https://i.pinimg.com/736x/24/bb/2e/24bb2eb2614d6ada57d2100c2dab521d.jpg"
+          ]
+        }
+      ],
+      "skillsLearn": [305, 306, 101],
+      "likes": 76,
+      "createdAt": "2026-01-29"
+    },
+    {
+      "id": 14,
+      "name": "София",
+      "email": "sofia@icloud.com",
+      "password": "sofia2211",
+      "userAvatar": "/src/assets/user-avatars/sofia.png",
+      "cityId": 6,
+      "gender": "female",
+      "birthday": "2002-10-12",
+      "about": "Считаю, что лучшие инвестиции — это инвестиции в себя и свои навыки.",
+      "skillsTeach": [
+        {
+          "id": 1014,
+          "customTitle": "Английский язык",
+          "subcategoryId": 201,
+          "description": "Интенсивная практика разговорной речи. Созвоны по 30 минут, где мы обсуждаем заданную тему полностью на английском.",
+          "images": [
+            "https://i.pinimg.com/736x/95/49/21/954921f2d4fc1db1832761f2a3ec8863.jpg",
+            "https://i.pinimg.com/736x/44/c9/6a/44c96a2e2d4619b0e7909048e1f4007e.jpg",
+            "https://i.pinimg.com/736x/19/e6/84/19e684e8ce8bdf6491a6495f56c60b11.jpg",
+            "https://i.pinimg.com/736x/24/bb/2e/24bb2eb2614d6ada57d2100c2dab521d.jpg"
+          ]
+        }
+      ],
+      "skillsLearn": [106, 601],
+      "likes": 150,
+      "createdAt": "2026-02-01"
+    },
+    {
+      "id": 15,
+      "name": "Алла",
+      "email": "alla@bk.ru",
+      "password": "alla7255",
+      "userAvatar": "/src/assets/user-avatars/alla.png",
+      "cityId": 7,
+      "gender": "female",
+      "birthday": "2004-07-25",
+      "about": "Люблю север, холод и горячий чай за изучением новых языков.",
+      "skillsTeach": [
+        {
+          "id": 1015,
+          "customTitle": "Английский язык",
+          "subcategoryId": 201,
+          "description": "Английский по карточкам и ассоциациям. Помогу расширить словарный запас на 1000 слов за месяц.",
+          "images": [
+            "https://i.pinimg.com/736x/95/49/21/954921f2d4fc1db1832761f2a3ec8863.jpg",
+            "https://i.pinimg.com/736x/44/c9/6a/44c96a2e2d4619b0e7909048e1f4007e.jpg",
+            "https://i.pinimg.com/736x/19/e6/84/19e684e8ce8bdf6491a6495f56c60b11.jpg",
+            "https://i.pinimg.com/736x/24/bb/2e/24bb2eb2614d6ada57d2100c2dab521d.jpg"
+          ]
+        }
+      ],
+      "skillsLearn": [102, 103, 206, 207],
+      "likes": 81,
+      "createdAt": "2026-02-03"
+    },
+    {
+      "id": 16,
+      "name": "Роман",
+      "email": "roman@gmail.com",
+      "password": "roma1616",
+      "userAvatar": "/src/assets/user-avatars/maxim.png",
+      "cityId": 1,
+      "gender": "male",
+      "birthday": "1994-11-20",
+      "about": "Фотограф и видеомейкер. Снимаю коммерцию и стрит.",
+      "skillsTeach": [
+        {
+          "id": 1016,
+          "customTitle": "Основы фотографии",
+          "subcategoryId": 402,
+          "description": "Расскажу про экспозицию, композицию и свет. Научу выжимать максимум из вашей камеры или телефона.",
+          "images": [
+            "https://i.pinimg.com/736x/d2/91/58/d29158c2bb8c2a5d89b885eef79092f1.jpg",
+            "https://i.pinimg.com/736x/e2/ab/37/e2ab371f00ce7c782a458f0edf496491.jpg",
+            "https://i.pinimg.com/736x/ff/19/e5/ff19e5d817c4bad396d3c25fca9f0607.jpg",
+            "https://i.pinimg.com/736x/5e/c6/a4/5ec6a4423cc0517b49a5faffeb91b884.jpg"
+          ]
+        }
+      ],
+      "skillsLearn": [104, 102],
+      "likes": 205,
+      "createdAt": "2026-02-04"
+    },
+    {
+      "id": 17,
+      "name": "Ксения",
+      "email": "kseniya@inbox.ru",
+      "password": "ksen17171",
+      "userAvatar": "/src/assets/user-avatars/ekaterina.png",
+      "cityId": 14,
+      "gender": "female",
+      "birthday": "1997-02-15",
+      "about": "Дизайнер интерьеров. Знаю толк в уюте.",
+      "skillsTeach": [
+        {
+          "id": 1017,
+          "customTitle": "Декор и DIY",
+          "subcategoryId": 408,
+          "description": "Мастер-класс по созданию декора для дома своими руками. Обновляем старую мебель и создаем уют без больших затрат.",
+          "images": [
+            "https://i.pinimg.com/736x/22/d2/95/22d295c284d1cbd3d0741c919e1b19b4.jpg",
+            "https://i.pinimg.com/736x/52/48/7a/52487a778a7b51211fa24f9bab54953f.jpg",
+            "https://i.pinimg.com/736x/f3/95/8f/f3958f5d1ef2c56ba253603f5f865a66.jpg",
+            "https://i.pinimg.com/736x/e7/89/70/e78970a3ffbf08fe5838b33cc4683bf0.jpg"
+          ]
+        }
+      ],
+      "skillsLearn": [203, 204],
+      "likes": 64,
+      "createdAt": "2026-02-05"
+    },
+    {
+      "id": 18,
+      "name": "Артём",
+      "email": "artem@list.ru",
+      "password": "art890111",
+      "userAvatar": "/src/assets/user-avatars/michael.png",
+      "cityId": 22,
+      "gender": "male",
+      "birthday": "1989-06-11",
+      "about": "Коуч, наставник, тренер по личной эффективности.",
+      "skillsTeach": [
+        {
+          "id": 1018,
+          "customTitle": "Тайм-менеджмент",
+          "subcategoryId": 106,
+          "description": "Методики планирования GTD и Pomodoro. Как перестать прокрастинировать и начать делать.",
+          "images": [
+            "https://i.pinimg.com/1200x/b3/3b/66/b33b66ebf0da1c3f123be1b8e6c27872.jpg",
+            "https://i.pinimg.com/1200x/fd/68/c5/fd68c55059ac147be0933155013068d8.jpg",
+            "https://i.pinimg.com/736x/53/59/b5/5359b5c21c19c5cd9f0d35566001eaac.jpg",
+            "https://i.pinimg.com/1200x/b0/7d/68/b07d68ccae322d4c4d3543bd3081eb55.jpg"
+          ]
+        }
+      ],
+      "skillsLearn": [404, 401],
+      "likes": 128,
+      "createdAt": "2026-02-06"
+    },
+    {
+      "id": 19,
+      "name": "Полина",
+      "email": "polina@rambler.ru",
+      "password": "poli1919",
+      "userAvatar": "/src/assets/user-avatars/anna.png",
+      "cityId": 33,
+      "gender": "female",
+      "birthday": "2001-09-08",
+      "about": "Увлекаюсь нейробиологией и психологией обучения.",
+      "skillsTeach": [
+        {
+          "id": 1019,
+          "customTitle": "Когнитивные техники",
+          "subcategoryId": 503,
+          "description": "Научу техникам быстрого запоминания, мнемонике и построению дворцов памяти.",
+          "images": [
+            "https://i.pinimg.com/1200x/74/4b/47/744b47a3d11ee79d44a1b2e61dfa7bda.jpg",
+            "https://i.pinimg.com/736x/5f/34/a5/5f34a588b05edaae299f61f262a9bcc2.jpg",
+            "https://i.pinimg.com/1200x/7d/14/fc/7d14fc0fddcb71022c8b336515a16f6d.jpg",
+            "https://i.pinimg.com/736x/57/fb/5c/57fb5c88581f9c9c31b9424ce2542940.jpg"
+          ]
+        }
+      ],
+      "skillsLearn": [206, 207],
+      "likes": 47,
+      "createdAt": "2026-02-07"
+    },
+    {
+      "id": 20,
+      "name": "Тимур",
+      "email": "timur@gmail.com",
+      "password": "timur258",
+      "userAvatar": "/src/assets/user-avatars/ivan.png",
+      "cityId": 50,
+      "gender": "male",
+      "birthday": "1995-12-25",
+      "about": "Шеф-повар небольшого уютного ресторана. Люблю готовить и учить этому других.",
+      "skillsTeach": [
+        {
+          "id": 1020,
+          "customTitle": "Приготовление еды",
+          "subcategoryId": 303,
+          "description": "Базовые кулинарные техники. Как готовить ресторанные блюда дома за 30 минут из обычных продуктов.",
+          "images": [
+            "https://i.pinimg.com/1200x/19/eb/b9/19ebb91c9e20f811ae0c9eec7a7d4f3b.jpg",
+            "https://i.pinimg.com/1200x/e7/04/1b/e7041b40938b2e07110ec055c5021792.jpg",
+            "https://i.pinimg.com/736x/23/6e/81/236e81f0c9450dfaaa0468c4c162efaf.jpg",
+            "https://i.pinimg.com/736x/7a/fd/f8/7afdf803bad985a858e03d3d1afd429f.jpg",
+            "https://i.pinimg.com/1200x/4e/00/81/4e0081e39eba9e34a4a573758f5238de.jpg"
+          ]
+        }
+      ],
+      "skillsLearn": [401, 501, 601],
+      "likes": 310,
+      "createdAt": "2026-02-08"
+    },
+    {
+      "id": 21,
+      "name": "Светлана",
+      "email": "svetlana@yandex.ru",
+      "password": "sveta8833",
+      "userAvatar": "/src/assets/user-avatars/maria.png",
+      "cityId": 2,
+      "gender": "female",
+      "birthday": "1988-04-03",
+      "about": "HR-директор. За свою карьеру провела больше 1000 собеседований.",
+      "skillsTeach": [
+        {
+          "id": 1021,
+          "customTitle": "Резюме и собеседование",
+          "subcategoryId": 105,
+          "description": "Проведу мок-интервью, помогу составить продающее резюме и расскажу, на что реально смотрят рекрутеры.",
+          "images": [
+            "https://i.pinimg.com/736x/50/8f/6f/508f6f461340b0fcb94fdc77348bd749.jpg",
+            "https://i.pinimg.com/736x/ae/ee/bc/aeeebc4d159ff2851ffe5c600be872ce.jpg",
+            "https://i.pinimg.com/1200x/c4/4c/82/c44c828b7b8015d978f208cf251c2c6a.jpg",
+            "https://i.pinimg.com/736x/85/11/28/851128725578e4c5a105d544e1fbcb66.jpg",
+            "https://i.pinimg.com/736x/09/b3/31/09b331d6bd92177c20c2b22f6995c7f3.jpg"
+          ]
+        }
+      ],
+      "skillsLearn": [602, 603],
+      "likes": 88,
+      "createdAt": "2026-02-09"
+    },
+    {
+      "id": 22,
+      "name": "Илья",
+      "email": "ilya@gmail.com",
+      "password": "ilya2200",
+      "userAvatar": "/src/assets/user-avatars/konstantin.png",
+      "cityId": 5,
+      "gender": "male",
+      "birthday": "1998-07-17",
+      "about": "Фрилансер, моушн-дизайнер. Делаю ролики, которые досматривают до конца.",
+      "skillsTeach": [
+        {
+          "id": 1022,
+          "customTitle": "Видеомонтаж",
+          "subcategoryId": 403,
+          "description": "Основы Premiere Pro и After Effects. Базовый монтаж, цветокоррекция, работа со звуком и простые анимации.",
+          "images": [
+            "https://i.pinimg.com/1200x/e3/2c/42/e32c424d05d713cdf01909efd3e451bb.jpg",
+            "https://i.pinimg.com/736x/d5/d8/be/d5d8bec0b6ec58a250b99b861fdef0da.jpg",
+            "https://i.pinimg.com/1200x/d1/d3/6d/d1d36dbd8871cdbd46eabb5e0fcdc25f.jpg",
+            "https://i.pinimg.com/1200x/b7/34/09/b7340914d1430e4bde48825143a07ccc.jpg",
+            "https://i.pinimg.com/736x/99/fe/f7/99fef7fbbf48d750aae711baead1e576.jpg"
+          ]
+        }
+      ],
+      "skillsLearn": [201, 104],
+      "likes": 142,
+      "createdAt": "2026-02-10"
+    },
+    {
+      "id": 23,
+      "name": "Алиса",
+      "email": "alisa@mail.ru",
+      "password": "alisa2333",
+      "userAvatar": "/src/assets/user-avatars/daria.png",
+      "cityId": 11,
+      "gender": "female",
+      "birthday": "2000-01-22",
+      "about": "Сертифицированный инструктор. Живу йогой и хочу делиться этим состоянием.",
+      "skillsTeach": [
+        {
+          "id": 1023,
+          "customTitle": "Йога и медитация",
+          "subcategoryId": 601,
+          "description": "Хатха-йога для начинающих. Помогу избавиться от болей в спине, научу правильно дышать и расслабляться.",
+          "images": [
+            "https://i.pinimg.com/736x/c8/8b/02/c88b02d92a2f240ed6d61d5bf842d68b.jpg",
+            "https://i.pinimg.com/736x/55/60/6b/55606bf2944ef06023d0d574ccdd9c96.jpg",
+            "https://i.pinimg.com/736x/75/ab/8c/75ab8c2aa384bbf1f271c04e28e9799b.jpg",
+            "https://i.pinimg.com/1200x/f3/5f/fa/f35ffacd27276c699ac81bae4800b804.jpg",
+            "https://i.pinimg.com/736x/fb/3f/08/fb3f08cfeb430cef11b61485f7bc771f.jpg"
+          ]
+        }
+      ],
+      "skillsLearn": [102, 104, 106],
+      "likes": 204,
+      "createdAt": "2026-02-11"
+    },
+    {
+      "id": 24,
+      "name": "Денис",
+      "email": "denis@outlook.com",
+      "password": "den240202",
+      "userAvatar": "/src/assets/user-avatars/maxim.png",
+      "cityId": 3,
+      "gender": "male",
+      "birthday": "1993-05-14",
+      "about": "SMM-специалист. Знаю, как алгоритмы соцсетей работают изнутри.",
+      "skillsTeach": [
+        {
+          "id": 1024,
+          "customTitle": "Личный бренд",
+          "subcategoryId": 104,
+          "description": "Стратегия продвижения личного бренда. Как упаковать профиль, писать тексты и привлекать лояльную аудиторию.",
+          "images": [
+            "https://i.pinimg.com/736x/fd/79/1c/fd791c1b14304971b9b348dd87d46e02.jpg",
+            "https://i.pinimg.com/1200x/9a/a4/92/9aa4924dbea99a81ee537faa100d0ecf.jpg",
+            "https://i.pinimg.com/736x/e0/7a/c9/e07ac9892033652bae811bd074c0262a.jpg",
+            "https://i.pinimg.com/1200x/3a/0b/47/3a0b47f2882ec28060bd8e6acedd0957.jpg",
+            "https://i.pinimg.com/736x/dc/2d/02/dc2d02d4bd18bc1fd57b330aa2b7d0ce.jpg"
+          ]
+        }
+      ],
+      "skillsLearn": [402, 403],
+      "likes": 56,
+      "createdAt": "2026-02-12"
+    },
+    {
+      "id": 25,
+      "name": "Олеся",
+      "email": "olesya@gmail.com",
+      "password": "ole251325",
+      "userAvatar": "/src/assets/user-avatars/elena.png",
+      "cityId": 19,
+      "gender": "female",
+      "birthday": "1996-10-29",
+      "about": "Профессиональный иллюстратор. Рисую детские книги и комиксы.",
+      "skillsTeach": [
+        {
+          "id": 1025,
+          "customTitle": "Рисование на планшете",
+          "subcategoryId": 401,
+          "description": "Основы работы в Procreate. Изучаем кисти, слои, режимы наложения и рисуем первую крутую иллюстрацию.",
+          "images": [
+            "https://i.pinimg.com/736x/53/71/d2/5371d25584aba88d805dabee5e74da79.jpg",
+            "https://i.pinimg.com/736x/b3/b8/f3/b3b8f3fa7f87b66f92da1b940e74e58c.jpg",
+            "https://i.pinimg.com/1200x/e3/8f/f5/e38ff55c4ca0275914294724a46cd88b.jpg",
+            "https://i.pinimg.com/736x/2e/17/99/2e1799853ef83cbc4e25466be2d9163c.jpg",
+            "https://i.pinimg.com/736x/d1/3e/03/d13e034a4ea23fec90f8304a4690494c.jpg"
+          ]
+        }
+      ],
+      "skillsLearn": [202, 204],
+      "likes": 189,
+      "createdAt": "2026-02-13"
+    },
+    {
+      "id": 26,
+      "name": "Глеб",
+      "email": "gleb@yahoo.com",
+      "password": "gleb261416",
+      "userAvatar": "/src/assets/user-avatars/michael.png",
+      "cityId": 45,
+      "gender": "male",
+      "birthday": "1991-03-18",
+      "about": "Инвестор, экономист. Считаю деньги и учу этому других.",
+      "skillsTeach": [
+        {
+          "id": 1026,
+          "customTitle": "Домашние финансы",
+          "subcategoryId": 302,
+          "description": "Основы финансовой грамотности. Как вести бюджет, копить, инвестировать и закрывать кредиты быстрее.",
+          "images": [
+            "https://i.pinimg.com/736x/a1/9b/2e/a19b2e811d326e69e313233a0c16cbe5.jpg",
+            "https://i.pinimg.com/736x/cc/26/fb/cc26fb797fc3a2ba0d6cb2dcf14d2dfc.jpg",
+            "https://i.pinimg.com/736x/aa/58/11/aa5811cf0478c8e96ba0b077c6bedf4e.jpg",
+            "https://i.pinimg.com/736x/ef/ab/9b/efab9b3f592326cb93ddeae2f49785d9.jpg",
+            "https://i.pinimg.com/736x/6f/e8/8b/6fe88b2c59e6bf10d2ccead12935c0c1.jpg"
+          ]
+        }
+      ],
+      "skillsLearn": [404, 601],
+      "likes": 92,
+      "createdAt": "2026-02-14"
+    },
+    {
+      "id": 27,
+      "name": "Яна",
+      "email": "yana.music@mail.ru",
+      "password": "yana8044",
+      "userAvatar": "/src/assets/user-avatars/ilona.png",
+      "cityId": 7,
+      "gender": "female",
+      "birthday": "2003-08-04",
+      "about": "Студентка консерватории. Музыка — моя жизнь.",
+      "skillsTeach": [
+        {
+          "id": 1027,
+          "customTitle": "Актёрское мастерство",
+          "subcategoryId": 405,
+          "description": "Снятие телесных зажимов, постановка голоса, базовые упражнения на внимание и фантазию.",
+          "images": [
+            "https://i.pinimg.com/736x/92/7d/a3/927da30b6db93a391f431f4d2d6c8d61.jpg",
+            "https://i.pinimg.com/736x/0d/b4/10/0db410c1dd1d643d1a7bc02f6910559a.jpg",
+            "https://i.pinimg.com/1200x/0e/e7/7e/0ee77ed40fc791aed96856a989ca5ce6.jpg",
+            "https://i.pinimg.com/736x/8b/68/cf/8b68cf5c7602a0a9bfab12371888b271.jpg",
+            "https://i.pinimg.com/736x/97/70/bb/9770bbdae5fe5f3968dda0ab66758980.jpg"
+          ]
+        }
+      ],
+      "skillsLearn": [502, 503, 601, 602],
+      "likes": 37,
+      "createdAt": "2026-02-15"
+    },
+    {
+      "id": 28,
+      "name": "Виктор",
+      "email": "viktor.pm@bk.ru",
+      "password": "vik2811",
+      "userAvatar": "/src/assets/user-avatars/ivan.png",
+      "cityId": 29,
+      "gender": "male",
+      "birthday": "1987-12-11",
+      "about": "Менеджер проектов в крупной IT-компании. Люблю порядок во всем.",
+      "skillsTeach": [
+        {
+          "id": 1028,
+          "customTitle": "Управление проектами",
+          "subcategoryId": 107,
+          "description": "Agile, Scrum, Kanban простыми словами. Как запустить проект с нуля и довести его до конца, не сорвав дедлайны.",
+          "images": [
+            "https://i.pinimg.com/736x/a1/21/ae/a121aeea9c637fff69508cea5c4e3b0d.jpg",
+            "https://i.pinimg.com/736x/96/51/4b/96514ba3a779371a6a3658810f7402b9.jpg",
+            "https://i.pinimg.com/736x/58/0d/fc/580dfc09546d79bf75e0d2e560cf55b7.jpg",
+            "https://i.pinimg.com/1200x/93/c0/ee/93c0ee1707b653ee7255113522a5a896.jpg"
+          ]
+        }
+      ],
+      "skillsLearn": [203, 604],
+      "likes": 115,
+      "createdAt": "2026-02-16"
+    },
+    {
+      "id": 29,
+      "name": "Надежда",
+      "email": "nadezhda@list.ru",
+      "password": "nad2917",
+      "userAvatar": "/src/assets/user-avatars/alla.png",
+      "cityId": 12,
+      "gender": "female",
+      "birthday": "1995-02-27",
+      "about": "Писательница, копирайтер. Помогаю словам обретать смысл.",
+      "skillsTeach": [
+        {
+          "id": 1029,
+          "customTitle": "Креативное письмо",
+          "subcategoryId": 406,
+          "description": "Как избавиться от страха чистого листа. Пишем сторителлинг, придумываем сюжеты и прорабатываем персонажей.",
+          "images": [
+            "https://i.pinimg.com/1200x/26/7c/10/267c10a935e818c6b5f1eeb128b29425.jpg",
+            "https://i.pinimg.com/736x/df/73/cd/df73cdb5ef50ed7d225b474fa6a5942c.jpg",
+            "https://i.pinimg.com/736x/06/ae/ea/06aeea8de147713da3f6d9d83992553b.jpg",
+            "https://i.pinimg.com/736x/96/24/12/96241280b35270afc71f38603b156c7f.jpg"
+          ]
+        }
+      ],
+      "skillsLearn": [402, 303],
+      "likes": 88,
+      "createdAt": "2026-02-17"
+    },
+    {
+      "id": 30,
+      "name": "Олег",
+      "email": "oleg.fit@inbox.ru",
+      "password": "oleg3002",
+      "userAvatar": "/src/assets/user-avatars/konstantin.png",
+      "cityId": 38,
+      "gender": "male",
+      "birthday": "1999-07-02",
+      "about": "Спортивный нутрициолог. Знаю, как вкусно есть и хорошо выглядеть.",
+      "skillsTeach": [
+        {
+          "id": 1030,
+          "customTitle": "Питание и ЗОЖ",
+          "subcategoryId": 602,
+          "description": "Разберем КБЖУ, научимся читать этикетки в магазине и составим индивидуальный план питания без строгих диет.",
+          "images": [
+            "https://i.pinimg.com/736x/c2/3a/e3/c23ae3003b8ad758b4a462ecdbaecee6.jpg",
+            "https://i.pinimg.com/736x/79/9b/b9/799bb941b1405c338b860083e41a6f7c.jpg",
+            "https://i.pinimg.com/1200x/83/79/e5/8379e5be74710e703d438d442b1b2795.jpg",
+            "https://i.pinimg.com/736x/e1/0e/69/e10e692771148306af5fa0c521ba2652.jpg"
+          ]
+        }
+      ],
+      "skillsLearn": [108, 102],
+      "likes": 156,
+      "createdAt": "2026-02-18"
+    },
+    {
+      "id": 31,
+      "name": "Валерия",
+      "email": "valeria.green@gmail.com",
+      "password": "val3115",
+      "userAvatar": "/src/assets/user-avatars/viktoria-1.png",
+      "cityId": 1,
+      "gender": "female",
+      "birthday": "1992-11-15",
+      "about": "Коллекционер комнатных растений. В моей квартире больше 100 горшков.",
+      "skillsTeach": [
+        {
+          "id": 1031,
+          "customTitle": "Домашние растения",
+          "subcategoryId": 304,
+          "description": "Как спасти засыхающий фикус. Основы ухода, пересадки, подбора грунта и освещения для джунглей дома.",
+          "images": [
+            "https://i.pinimg.com/736x/1c/42/ae/1c42ae14f33b6ea0774c7b1ad475d45a.jpg",
+            "https://i.pinimg.com/736x/02/0d/9d/020d9dae4344e7b4aa886420e38244d2.jpg",
+            "https://i.pinimg.com/736x/31/06/ec/3106ec72e73b1a8030aa376bfbe5254f.jpg",
+            "https://i.pinimg.com/1200x/a9/0b/07/a90b0795ed90eb24d5adede3b4e3ebbb.jpg"
+          ]
+        }
+      ],
+      "skillsLearn": [402, 408],
+      "likes": 73,
+      "createdAt": "2026-02-19"
+    },
+    {
+      "id": 32,
+      "name": "Евгений",
+      "email": "evgeniy@rambler.ru",
+      "password": "evg3220",
+      "userAvatar": "/src/assets/user-avatars/maxim.png",
+      "cityId": 55,
+      "gender": "male",
+      "birthday": "1990-09-21",
+      "about": "Мастер на все руки. Считаю, что мужчина должен уметь починить розетку.",
+      "skillsTeach": [
+        {
+          "id": 1032,
+          "customTitle": "Ремонт",
+          "subcategoryId": 305,
+          "description": "Базовые навыки мелкого ремонта: как повесить полку, заменить смеситель и работать с дрелью без травм.",
+          "images": [
+            "https://i.pinimg.com/1200x/97/01/40/970140592d0357e538812a4ee3522676.jpg",
+            "https://i.pinimg.com/736x/9c/1d/23/9c1d23bad4784aef5aadf2397fb9384e.jpg",
+            "https://i.pinimg.com/736x/50/35/83/5035834442923d75510cd6945866a4f6.jpg",
+            "https://i.pinimg.com/1200x/4c/f7/e0/4cf7e08c7634341a437f4b7ae5b00c30.jpg"
+          ]
+        }
+      ],
+      "skillsLearn": [201, 106],
+      "likes": 99,
+      "createdAt": "2026-02-20"
+    },
+    {
+      "id": 33,
+      "name": "Таисия",
+      "email": "taisiya@icloud.com",
+      "password": "tai3312",
+      "userAvatar": "/src/assets/user-avatars/elizaveta.png",
+      "cityId": 2,
+      "gender": "female",
+      "birthday": "2004-03-12",
+      "about": "Студентка-полиглот. Изучаю азиатские языки.",
+      "skillsTeach": [
+        {
+          "id": 1033,
+          "customTitle": "Китайский язык",
+          "subcategoryId": 205,
+          "description": "Основы пиньинь и тонов. Учим базовые иероглифы и фразы для поездки в Поднебесную или заказа на Taobao.",
+          "images": [
+            "https://i.pinimg.com/736x/0c/1c/02/0c1c021d6690af4ee2fb6b67e41da10e.jpg",
+            "https://i.pinimg.com/736x/c0/24/21/c0242184a44e7df5043d6b5ffb8345d0.jpg",
+            "https://i.pinimg.com/736x/73/80/40/73804096c6123c0ce7284304783f9546.jpg",
+            "https://i.pinimg.com/1200x/24/3f/46/243f46408bb4328149f8216575126256.jpg"
+          ]
+        }
+      ],
+      "skillsLearn": [405, 408, 501],
+      "likes": 140,
+      "createdAt": "2026-02-21"
+    },
+    {
+      "id": 34,
+      "name": "Борис",
+      "email": "boris@mail.ru",
+      "password": "bor34223",
+      "userAvatar": "/src/assets/user-avatars/michael.png",
+      "cityId": 17,
+      "gender": "male",
+      "birthday": "1985-05-09",
+      "about": "Бизнес-тренер с 15-летним опытом в продажах.",
+      "skillsTeach": [
+        {
+          "id": 1034,
+          "customTitle": "Продажи и переговоры",
+          "subcategoryId": 103,
+          "description": "Экологичные продажи без впаривания. Отработка возражений, техника спин-продаж и уверенность на встречах.",
+          "images": [
+            "https://i.pinimg.com/1200x/9c/43/7a/9c437a6a69bfa7843ce75a61d38315b7.jpg",
+            "https://i.pinimg.com/1200x/c4/38/7f/c4387f6f2c17d8663d345b88b84236b5.jpg",
+            "https://i.pinimg.com/1200x/32/98/04/3298048c71e12034d36bf4bcdcec787c.jpg",
+            "https://i.pinimg.com/736x/61/b9/94/61b994e93fe4c60a9d699b290e46c658.jpg",
+            "https://i.pinimg.com/1200x/b5/5c/0d/b55c0d2229285a0886332b0b4e23268a.jpg"
+          ]
+        }
+      ],
+      "skillsLearn": [201, 203],
+      "likes": 211,
+      "createdAt": "2026-02-22"
+    },
+    {
+      "id": 35,
+      "name": "Вероника",
+      "email": "veronika@outlook.com",
+      "password": "vero3503",
+      "userAvatar": "/src/assets/user-avatars/viktoria-2.png",
+      "cityId": 61,
+      "gender": "female",
+      "birthday": "1997-12-03",
+      "about": "Арт-терапевт. Помогаю справиться со стрессом через творчество.",
+      "skillsTeach": [
+        {
+          "id": 1035,
+          "customTitle": "Арт-терапия",
+          "subcategoryId": 407,
+          "description": "Сессии спонтанного рисования. Работаем с эмоциями, выплескиваем негатив на бумагу красками и мелками.",
+          "images": [
+            "https://i.pinimg.com/1200x/ac/13/89/ac1389d2d120d943910a812005aaa36c.jpg",
+            "https://i.pinimg.com/736x/9f/1f/d1/9f1fd1fcc19cb9bca4649ab6836530b6.jpg",
+            "https://i.pinimg.com/1200x/4e/74/aa/4e74aacf3cb1ac12175007418329a08c.jpg",
+            "https://i.pinimg.com/1200x/37/24/68/37246870a1bbdcb7e3c882388b18900d.jpg",
+            "https://i.pinimg.com/1200x/54/95/1f/54951fc4963a6b328d447cf86a45ff2c.jpg"
+          ]
+        }
+      ],
+      "skillsLearn": [405, 408, 501],
+      "likes": 182,
+      "createdAt": "2026-02-23"
+    },
+    {
+      "id": 36,
+      "name": "Антон",
+      "email": "anton.ads@gmail.com",
+      "password": "ant3618",
+      "userAvatar": "/src/assets/user-avatars/ivan.png",
+      "cityId": 9,
+      "gender": "male",
+      "birthday": "1994-08-18",
+      "about": "Digital-маркетолог. Знаю, как запустить рекламу, которая окупается.",
+      "skillsTeach": [
+        {
+          "id": 1036,
+          "customTitle": "Маркетинг и реклама",
+          "subcategoryId": 102,
+          "description": "Базовая настройка таргета и контекста. Разберем метрики CTR, CPC, CPA и научимся не сливать бюджет.",
+          "images": [
+            "https://i.pinimg.com/1200x/a7/4c/5c/a74c5c7fee1fba968793109a37e50759.jpg",
+            "https://i.pinimg.com/736x/1a/61/57/1a61578853e6f6829fa17f3d78b14ae6.jpg",
+            "https://i.pinimg.com/1200x/e5/cd/14/e5cd149a6aa577f882daccfbdf1c255c.jpg",
+            "https://i.pinimg.com/736x/c7/69/ce/c769ce28baeddbaee98b3ad24b2c9849.jpg"
+          ]
+        }
+      ],
+      "skillsLearn": [403, 401],
+      "likes": 76,
+      "createdAt": "2026-02-24"
+    },
+    {
+      "id": 37,
+      "name": "Маргарита",
+      "email": "margo.home@mail.ru",
+      "password": "mar3725",
+      "userAvatar": "/src/assets/user-avatars/maria.png",
+      "cityId": 4,
+      "gender": "female",
+      "birthday": "2002-01-25",
+      "about": "Минималист. Верю, что порядок в доме — порядок в голове.",
+      "skillsTeach": [
+        {
+          "id": 1037,
+          "customTitle": "Уборка и организация",
+          "subcategoryId": 301,
+          "description": "Метод КонМари на практике. Помогу разобрать гардероб, организовать хранение на кухне и избавиться от хлама.",
+          "images": [
+            "https://i.pinimg.com/736x/a9/41/80/a94180e2943428aa6ea04cf00f61a34b.jpg",
+            "https://i.pinimg.com/1200x/28/ab/d6/28abd6fbc367a468f3189c2b93935690.jpg",
+            "https://i.pinimg.com/736x/91/63/36/9163368bfcfbf3a41bb00db092ae2aa4.jpg",
+            "https://i.pinimg.com/736x/00/95/d2/0095d28577d7df944adab2f7e17bc36a.jpg"
+          ]
+        }
+      ],
+      "skillsLearn": [106, 302],
+      "likes": 94,
+      "createdAt": "2026-02-25"
+    },
+    {
+      "id": 38,
+      "name": "Руслан",
+      "email": "ruslan.read@yandex.ru",
+      "password": "rus3810",
+      "userAvatar": "/src/assets/user-avatars/konstantin.png",
+      "cityId": 3,
+      "gender": "male",
+      "birthday": "1991-10-10",
+      "about": "Преподаватель скорочтения. Читаю по 3 книги в неделю.",
+      "skillsTeach": [
+        {
+          "id": 1038,
+          "customTitle": "Скорочтение",
+          "subcategoryId": 504,
+          "description": "Избавляемся от субвокализации (проговаривания в голове). Тренировки на расширение угла зрения.",
+          "images": [
+            "https://i.pinimg.com/736x/52/5d/9a/525d9acc9d85c17f79a3003ec81c418c.jpg",
+            "https://i.pinimg.com/736x/be/11/14/be111434ed4659ead579bc94cc16c42c.jpg",
+            "https://i.pinimg.com/736x/52/3d/4a/523d4a99d304c87717b4f7d8383e16ce.jpg",
+            "https://i.pinimg.com/736x/8d/ca/92/8dca927c01d0fe131d98d03e05d89e02.jpg"
+          ]
+        }
+      ],
+      "skillsLearn": [202, 601],
+      "likes": 133,
+      "createdAt": "2026-02-26"
+    },
+    {
+      "id": 39,
+      "name": "Лилия",
+      "email": "liliya.sleep@bk.ru",
+      "password": "lil3919",
+      "userAvatar": "/src/assets/user-avatars/anna.png",
+      "cityId": 24,
+      "gender": "female",
+      "birthday": "1998-04-19",
+      "about": "Психолог. Изучаю вопросы сна и циркадных ритмов.",
+      "skillsTeach": [
+        {
+          "id": 1039,
+          "customTitle": "Сон и восстановление",
+          "subcategoryId": 606,
+          "description": "Налаживаем режим. Расскажу про фазы сна, гигиену спальни и привычки, которые помогут высыпаться за 7 часов.",
+          "images": [
+            "https://i.pinimg.com/736x/d8/ff/e3/d8ffe300b5ca2b4d5dfaeee1211a0cd2.jpg",
+            "https://i.pinimg.com/736x/a2/7f/75/a27f75e74e5cb46003f6bf3c129bc25d.jpg",
+            "https://i.pinimg.com/1200x/e1/8a/35/e18a352a8c0b305e2e80fec76d8d48f1.jpg",
+            "https://i.pinimg.com/736x/21/bb/36/21bb36b978b7b76d6f9ad3470ebddc32.jpg"
+          ]
+        }
+      ],
+      "skillsLearn": [402, 104],
+      "likes": 160,
+      "createdAt": "2026-02-27"
+    },
+    {
+      "id": 40,
+      "name": "Оксана",
+      "email": "oksana.fit@icloud.com",
+      "password": "oks4012",
+      "userAvatar": "/src/assets/user-avatars/ekaterina.png",
+      "cityId": 1,
+      "gender": "female",
+      "birthday": "2000-12-01",
+      "about": "Фанат фитнеса и силовых тренировок. Тренируюсь сама и помогаю друзьям.",
+      "skillsTeach": [
+        {
+          "id": 1040,
+          "customTitle": "Физические тренировки",
+          "subcategoryId": 605,
+          "description": "Программа тренировок для дома без инвентаря. Ставим технику базовых упражнений (отжимания, приседания, планка).",
+          "images": [
+            "https://i.pinimg.com/1200x/a0/f9/de/a0f9de444e3bb0f72de6b8c56953aa06.jpg",
+            "https://i.pinimg.com/736x/15/14/0c/15140cd4c9a7bddbd9e5580f911c0ff6.jpg",
+            "https://i.pinimg.com/736x/b9/03/6a/b9036a61e391fec551410f4062bf3f54.jpg",
+            "https://i.pinimg.com/1200x/c4/f0/e8/c4f0e89333cb0122ccbce400920cde49.jpg"
+          ]
+        }
+      ],
+      "skillsLearn": [201, 102],
+      "likes": 215,
+      "createdAt": "2026-02-28"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+.input {
+  flex: 1 1 auto;
+  width: 100%;
+  border: none;
+  outline: none;
+  color: var(--color-text-primary);
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-body);
+  background: transparent;
+  caret-color: var(--color-accent-pressed);
+
+  &::placeholder {
+    color: var(--color-text-secondary);
+  }
+}

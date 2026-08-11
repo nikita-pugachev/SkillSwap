@@ -1,0 +1,40 @@
+.iconWrapper {
+  display: flex;
+  flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-circle);
+}
+
+.icon {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  color: var(--color-icon);
+}
+
+.business {
+  background-color: var(--color-tag-business);
+}
+
+.languages {
+  background-color: var(--color-tag-languages);
+}
+
+.home {
+  background-color: var(--color-tag-home);
+}
+
+.art {
+  background-color: var(--color-tag-art);
+}
+
+.education {
+  background-color: var(--color-tag-education);
+}
+
+.health {
+  background-color: var(--color-tag-health);
+}

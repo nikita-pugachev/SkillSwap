@@ -1,0 +1,1 @@
+export { SkillCategory } from './SkillCategory';

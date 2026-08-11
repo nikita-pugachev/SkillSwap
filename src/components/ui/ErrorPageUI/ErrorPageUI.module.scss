@@ -1,0 +1,21 @@
+.errorContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+  width: 100%;
+  max-width: 460px;
+}
+
+.errorIllustration {
+  width: 460px;
+  height: 304px;
+}
+
+.errorTextContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  text-align: center;
+}

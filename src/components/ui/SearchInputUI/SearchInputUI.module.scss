@@ -1,0 +1,22 @@
+.searchInput {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+}
+
+.searchInput__icon {
+  display: block;
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+}
+
+.searchInput__icon {
+  color: var(--color-text-secondary);
+}
+
+.searchInput__clear {
+  flex-shrink: 0;
+  border: none;
+  background-color: transparent;
+}

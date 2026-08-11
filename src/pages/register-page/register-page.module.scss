@@ -1,0 +1,193 @@
+.steps {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  width: 212px;
+  margin: 0 auto;
+}
+
+.progressBar {
+  display: flex;
+  gap: 16px;
+}
+
+.segment {
+  display: block;
+  width: 60px;
+  height: 4px;
+  border-radius: 8px;
+  background: var(--color-disabled);
+}
+
+.segmentActive {
+  background: var(--color-accent);
+}
+
+.actions {
+  display: flex;
+  gap: 20px;
+
+  > * {
+    flex: 1;
+  }
+}
+
+.formSectionStepOne {
+  gap: 24px;
+  padding: 121px 60px;
+}
+
+.formSectionStepTwo {
+  gap: 16px;
+  padding: 50px 60px;
+}
+
+.avatarBlock {
+  display: flex;
+  justify-content: center;
+}
+
+.avatarButton {
+  border: none;
+  padding: 0;
+  background: transparent;
+}
+
+.avatarAddIcon {
+  display: block;
+  width: 72px;
+  height: 72px;
+}
+
+.row {
+  display: flex;
+  gap: 24px;
+}
+
+.rowItem {
+  flex: 1;
+}
+
+.selectField {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  border: none;
+  padding: 0;
+  color: inherit;
+  font: inherit;
+  background: transparent;
+  appearance: none;
+}
+
+.selectText {
+  color: var(--color-text-secondary);
+  font-family: var(--font-family-base);
+  font-weight: var(--font-weight-regular);
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-body);
+  letter-spacing: 0.02em;
+}
+
+.formSectionStepThree {
+  gap: 32px;
+  padding: 50px 60px;
+}
+
+.textareaBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+}
+
+.textareaLabel {
+  color: var(--color-text-primary);
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-body);
+}
+
+.textarea {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 96px;
+  border: 1px solid var(--color-input-border);
+  border-radius: var(--radius-primary);
+  padding: 12px;
+  outline: none;
+  color: var(--color-text-primary);
+  font-family: var(--font-family-base);
+  font-weight: var(--font-weight-regular);
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-body);
+  letter-spacing: 0.02em;
+  background-color: var(--color-surface);
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease,
+    background-color 0.15s ease;
+  resize: none;
+}
+
+.textarea:hover {
+  background-color: var(--color-input-hover);
+}
+
+.textarea:focus {
+  border: 1px solid var(--color-focus);
+}
+
+.textarea::placeholder {
+  color: var(--color-text-secondary);
+}
+
+.uploadBlock {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 96px;
+  border: 1px dashed var(--color-input-border);
+  border-radius: var(--radius-primary);
+  padding: 20px;
+  opacity: 0.8;
+}
+
+.uploadText {
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-family: var(--font-family-base);
+  font-weight: var(--font-weight-regular);
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-body);
+  letter-spacing: 0.02em;
+  text-align: center;
+}
+
+.uploadButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  border: none;
+  background: transparent;
+}
+
+.uploadButtonText {
+  color: var(--color-accent-pressed);
+  font-family: var(--font-family-base);
+  font-weight: var(--font-weight-regular);
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-body);
+  letter-spacing: 0.02em;
+}
+
+.uploadIcon {
+  color: var(--color-accent-pressed);
+}

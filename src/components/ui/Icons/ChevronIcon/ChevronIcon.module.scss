@@ -1,0 +1,10 @@
+.chevron {
+  width: 24px;
+  height: 24px;
+  color: inherit;
+  transition: transform 0.2s ease;
+}
+
+.chevronOpen {
+  transform: rotate(180deg);
+}

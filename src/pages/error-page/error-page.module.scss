@@ -1,0 +1,22 @@
+.errorPage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+  padding: 100px 0 84px;
+}
+
+.buttonContainer {
+  display: flex;
+  gap: 24px;
+  width: 100%;
+  max-width: 460px;
+}
+
+.buttonErrorPage {
+  width: 218px;
+}
+
+svg {
+  color: var(--color-icon);
+}
