@@ -6,6 +6,7 @@ import {
   removeToken,
   setStoredUser,
 } from '@/utils/auth';
+import { updateRegisteredUser } from '@/utils/mock-users';
 
 export type AuthUserGender = 'Мужской' | 'Женский' | 'Не указан';
 
@@ -50,6 +51,7 @@ const authSlice = createSlice({
 
       state.user = { ...state.user, ...action.payload };
       setStoredUser(state.user);
+      updateRegisteredUser(state.user);
     },
     logout: (state) => {
       state.user = null;

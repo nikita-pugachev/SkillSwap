@@ -165,7 +165,7 @@ export default function ProfilePage() {
 
   useEffect(() => {
     const hydrateUserProfile = async () => {
-      if (!user?.id || user.email) {
+      if (!user?.id) {
         return;
       }
 
@@ -176,14 +176,32 @@ export default function ProfilePage() {
           return;
         }
 
-        dispatch(userEdit(toAuthUser(fullUser)));
+        const fullAuthUser = toAuthUser(fullUser);
+        const mergedUser = {
+          ...fullAuthUser,
+          ...user,
+          // Use DB value if current state value is missing
+          birthday: user.birthday || fullAuthUser.birthday,
+          email: user.email || fullAuthUser.email,
+          city: user.city || fullAuthUser.city,
+          gender: user.gender || fullAuthUser.gender,
+        };
+
+        if (
+          mergedUser.birthday !== user.birthday ||
+          mergedUser.email !== user.email ||
+          mergedUser.city !== user.city ||
+          mergedUser.gender !== user.gender
+        ) {
+          dispatch(userEdit(mergedUser));
+        }
       } catch (error) {
         console.error(error);
       }
     };
 
     void hydrateUserProfile();
-  }, [dispatch, user?.email, user?.id]);
+  }, [dispatch, user]);
 
   useEffect(() => {
     if (!user) {

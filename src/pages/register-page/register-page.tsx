@@ -305,6 +305,15 @@ export default function RegisterPage() {
       email: values.email.trim(),
       password: values.password,
       userAvatar: defaultAvatar,
+      birthday: values.birthDate || undefined,
+      gender:
+        values.gender?.name === 'Мужской'
+          ? 'male'
+          : values.gender?.name === 'Женский'
+            ? 'female'
+            : undefined,
+      city: values.city?.name,
+      cityId: values.city?.id,
     };
 
     saveRegisteredUser(newUser);
