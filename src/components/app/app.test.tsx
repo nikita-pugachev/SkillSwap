@@ -16,7 +16,7 @@ jest.mock('@/pages/login-page', () => ({ default: () => <div>Login Page</div> })
 jest.mock('@/pages/profile-page', () => ({ default: () => <div>Profile Page</div> }));
 
 const renderAt = (path: string) => {
-  const { Route, Routes } = jest.requireActual('react-router-dom');
+  const { Route, Routes, Navigate } = jest.requireActual('react-router-dom');
   const { ProtectedRoute } = jest.requireActual('@/components/protected-route');
 
   const CatalogPage = jest.requireMock('@/pages/catalog-page').default;
@@ -33,7 +33,8 @@ const renderAt = (path: string) => {
             <Route path="/login" element={<LoginPage />} />
             <Route path="/error/:type" element={<ErrorPage />} />
             <Route element={<ProtectedRoute />}>
-              <Route path="/profile" element={<ProfilePage />} />
+              <Route path="/profile" element={<Navigate to="/profile/personal" replace />} />
+              <Route path="/profile/:tab" element={<ProfilePage />} />
             </Route>
             <Route path="*" element={<ErrorPage defaultType="notFoundError" />} />
           </Routes>

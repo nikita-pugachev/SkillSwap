@@ -3,7 +3,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Provider } from 'react-redux';
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import authReducer, { login } from '@/services/slices/authSlice';
 import favoritesReducer from '@/services/slices/favoritesSlice';
 import profileSkillsReducer from '@/services/slices/profileSkillsSlice';
@@ -168,7 +168,7 @@ function createStore() {
   });
 }
 
-function renderPage() {
+function renderPage(initialPath = '/profile/personal') {
   const store = createStore();
 
   store.dispatch(
@@ -182,8 +182,11 @@ function renderPage() {
 
   render(
     <Provider store={store}>
-      <MemoryRouter>
-        <ProfilePage />
+      <MemoryRouter initialEntries={[initialPath]}>
+        <Routes>
+          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/profile/:tab" element={<ProfilePage />} />
+        </Routes>
       </MemoryRouter>
     </Provider>
   );

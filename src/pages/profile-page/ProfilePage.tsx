@@ -7,12 +7,13 @@ import {
   type FormEvent,
   type ReactNode,
 } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 
 import { DateInput } from '@/components/DateInput';
 import { SelectInput } from '@/components/SelectInput/SelectInput';
 import { Avatar, Button, IconButton, InputBaseContainerUI, InputUI } from '@/components/ui';
 import { CategoryIcon } from '@/components/ui/Icons/CategoryIcon';
+import { FavoritesPage } from '@/pages/favorites-page/FavoritesPage';
 import { useAppDispatch, useAppSelector } from '@/services/hooks';
 import {
   selectIncomingRequests,
@@ -32,8 +33,8 @@ import type { TSelectOption, UserFromDb } from '@/utils/types';
 import styles from './ProfilePage.module.scss';
 
 import IconEdit from '@/assets/icons/edit.svg?react';
-import eyeIcon from '@/assets/icons/eye.svg';
-import eyeSlashIcon from '@/assets/icons/eye-slash.svg';
+import eyeIcon from '@/assets/icons/eye.svg?react';
+import eyeSlashIcon from '@/assets/icons/eye-slash.svg?react';
 import IconGalleryEdit from '@/assets/icons/gallery-edit.svg?react';
 import IconIdea from '@/assets/icons/idea.svg?react';
 import IconLike from '@/assets/icons/like-outline.svg?react';
@@ -41,7 +42,7 @@ import IconMail from '@/assets/icons/request.svg?react';
 import IconMessage from '@/assets/icons/message-text.svg?react';
 import IconUser from '@/assets/icons/user.svg?react';
 
-type ProfileNavId = 'personal' | 'requests' | 'skills';
+type ProfileNavId = 'personal' | 'requests' | 'skills' | 'exchanges' | 'favorites';
 type RequestsTabId = 'inbox' | 'outbox';
 
 const REQUEST_STATUS_LABELS: Record<RequestStatus, string> = {
@@ -85,6 +86,7 @@ function RequestCard({ user, skillId, statusLabel, actions }: RequestCardProps) 
 
 export default function ProfilePage() {
   const navigate = useNavigate();
+  const { tab } = useParams<{ tab?: string }>();
   const dispatch = useAppDispatch();
   const user = useAppSelector(selectUser);
   const skillsLoaded = useAppSelector((state) => state.profileSkills.loaded);
@@ -97,9 +99,13 @@ export default function ProfilePage() {
   const outbox = useAppSelector(selectOutbox);
   const myTeachSkills = useAppSelector(selectMyTeachSkills);
 
+  const activeNav: ProfileNavId =
+    tab === 'requests' || tab === 'exchanges' || tab === 'favorites' || tab === 'skills'
+      ? tab
+      : 'personal';
+
   const [dbUsers, setDbUsers] = useState<UserFromDb[]>([]);
   const [requestsTab, setRequestsTab] = useState<RequestsTabId>('inbox');
-  const [activeNav, setActiveNav] = useState<ProfileNavId>('personal');
   const [cities, setCities] = useState<TSelectOption[]>([]);
   const [genders, setGenders] = useState<TSelectOption[]>([]);
   const [isOpen, setOpen] = useState(false);
@@ -128,37 +134,37 @@ export default function ProfilePage() {
     return map;
   }, [dbUsers]);
 
+  const fetchCities = async () => {
+    try {
+      const response = await fetch('/db/cities.json');
+
+      if (!response.ok) {
+        throw new Error('Ошибка загрузки городов');
+      }
+
+      const data: TSelectOption[] = await response.json();
+      setCities(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const fetchGenders = async () => {
+    try {
+      const response = await fetch('/db/gender.json');
+
+      if (!response.ok) {
+        throw new Error('Ошибка загрузки пола');
+      }
+
+      const data: TSelectOption[] = await response.json();
+      setGenders(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
-    const fetchCities = async () => {
-      try {
-        const response = await fetch('/db/cities.json');
-
-        if (!response.ok) {
-          throw new Error('Ошибка загрузки городов');
-        }
-
-        const data: TSelectOption[] = await response.json();
-        setCities(data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    const fetchGenders = async () => {
-      try {
-        const response = await fetch('/db/gender.json');
-
-        if (!response.ok) {
-          throw new Error('Ошибка загрузки пола');
-        }
-
-        const data: TSelectOption[] = await response.json();
-        setGenders(data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
     void fetchCities();
     void fetchGenders();
   }, []);
@@ -180,7 +186,6 @@ export default function ProfilePage() {
         const mergedUser = {
           ...fullAuthUser,
           ...user,
-          // Use DB value if current state value is missing
           birthday: user.birthday || fullAuthUser.birthday,
           email: user.email || fullAuthUser.email,
           city: user.city || fullAuthUser.city,
@@ -312,10 +317,6 @@ export default function ProfilePage() {
     setShowPassword((prev) => !prev);
   };
 
-  const handleFavorite = () => {
-    navigate('/favorites');
-  };
-
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -363,20 +364,28 @@ export default function ProfilePage() {
               <Button
                 variant={activeNav === 'requests' ? 'primary' : 'tertiary'}
                 type="button"
-                onClick={() => setActiveNav('requests')}
+                onClick={() => navigate('/profile/requests')}
               >
                 <IconMail />
                 Заявки
               </Button>
             </li>
             <li className={styles.navigationListLink}>
-              <Button variant="tertiary" type="button">
+              <Button
+                variant={activeNav === 'exchanges' ? 'primary' : 'tertiary'}
+                type="button"
+                onClick={() => navigate('/profile/exchanges')}
+              >
                 <IconMessage />
                 Мои обмены
               </Button>
             </li>
             <li className={styles.navigationListLink}>
-              <Button variant="tertiary" type="button" onClick={handleFavorite}>
+              <Button
+                variant={activeNav === 'favorites' ? 'primary' : 'tertiary'}
+                type="button"
+                onClick={() => navigate('/profile/favorites')}
+              >
                 <IconLike />
                 Избранное
               </Button>
@@ -385,7 +394,7 @@ export default function ProfilePage() {
               <Button
                 variant={activeNav === 'skills' ? 'primary' : 'tertiary'}
                 type="button"
-                onClick={() => setActiveNav('skills')}
+                onClick={() => navigate('/profile/skills')}
               >
                 <IconIdea />
                 Мои навыки
@@ -395,7 +404,7 @@ export default function ProfilePage() {
               <Button
                 variant={activeNav === 'personal' ? 'primary' : 'tertiary'}
                 type="button"
-                onClick={() => setActiveNav('personal')}
+                onClick={() => navigate('/profile/personal')}
               >
                 <IconUser />
                 Личные данные
@@ -405,7 +414,7 @@ export default function ProfilePage() {
         </nav>
 
         <div className={styles.profileInfo}>
-          {activeNav === 'requests' ? (
+          {activeNav === 'requests' && (
             <div className={styles.requestsPanel}>
               <div className={styles.requestTabs} role="tablist" aria-label="Тип заявок">
                 <Button
@@ -492,7 +501,17 @@ export default function ProfilePage() {
                 </section>
               )}
             </div>
-          ) : activeNav === 'skills' ? (
+          )}
+
+          {activeNav === 'exchanges' && (
+            <div className={styles.requestsPanel}>
+              <p className={styles.requestEmpty}>У вас пока нет активных обменов.</p>
+            </div>
+          )}
+
+          {activeNav === 'favorites' && <FavoritesPage />}
+
+          {activeNav === 'skills' && (
             <div className={styles.skillsPanel}>
               {myTeachSkills.length === 0 ? (
                 <div className={styles.skillsEmpty}>
@@ -545,7 +564,9 @@ export default function ProfilePage() {
                 </>
               )}
             </div>
-          ) : (
+          )}
+
+          {activeNav === 'personal' && (
             <>
               <div>
                 <form className={styles.form} onSubmit={handleSubmit}>
@@ -580,7 +601,8 @@ export default function ProfilePage() {
                           onChange={(event) => setPassword(event.target.value)}
                         />
                         <IconButton
-                          iconSrc={showPassword ? eyeSlashIcon : eyeIcon}
+                          icon={showPassword ? eyeSlashIcon : eyeIcon}
+                          type="button"
                           ariaLabel={showPassword ? 'Скрыть пароль' : 'Показать пароль'}
                           onClick={togglePassword}
                         />
@@ -588,7 +610,7 @@ export default function ProfilePage() {
                     </InputBaseContainerUI>
                   </div>
 
-                  <InputBaseContainerUI label="Имя" id="name">
+                  <InputBaseContainerUI className={styles.field} label="Имя" id="name">
                     <div className={styles.inputEdit}>
                       <InputUI
                         id="name"

@@ -1,5 +1,5 @@
 import { lazy, Suspense, useEffect } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { Provider, useDispatch } from 'react-redux';
 
 import { store } from '@/services/store';
@@ -17,7 +17,6 @@ const SkillPage = lazy(() => import('@/pages/skill-page'));
 const LoginPage = lazy(() => import('@/pages/login-page'));
 const RegisterPage = lazy(() => import('@/pages/register-page'));
 const ProfilePage = lazy(() => import('@/pages/profile-page'));
-const FavoritesPage = lazy(() => import('@/pages/favorites-page'));
 const CreatePage = lazy(() => import('@/pages/create-page'));
 const ErrorPage = lazy(() => import('@/pages/error-page'));
 
@@ -44,8 +43,9 @@ function AppContent() {
             <Route path="*" element={<ErrorPage defaultType="notFoundError" />} />
 
             <Route element={<ProtectedRoute />}>
-              <Route path="/profile" element={<ProfilePage />} />
-              <Route path="/favorites" element={<FavoritesPage />} />
+              <Route path="/profile" element={<Navigate to="/profile/personal" replace />} />
+              <Route path="/profile/:tab" element={<ProfilePage />} />
+              <Route path="/favorites" element={<Navigate to="/profile/favorites" replace />} />
               <Route path="/create" element={<CreatePage />} />
             </Route>
           </Route>
